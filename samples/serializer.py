@@ -3,6 +3,6 @@ from .models import Sample
 
 class SampleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = 'Sample'
+        model = Sample
         fields = '__all__'
     
