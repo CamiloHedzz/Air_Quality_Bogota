@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "ELEPHNT";   /*Can be any text*/
+    src: local("ELEPHNT"),
+      url("./assets/fonts/ELEPHNT.TTF") format("truetype");
+}
+
+body{
+    background-color: black;
+    color: white;
+    font-family: 'ELEPHNT';
+}
