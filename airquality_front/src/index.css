@@ -4,8 +4,63 @@
       url("./assets/fonts/ELEPHNT.TTF") format("truetype");
 }
 
-body{
-    background-color: black;
-    color: white;
-    font-family: 'ELEPHNT';
+@font-face {
+    font-family: "OSWALD-LIGHT";   /*Can be any text*/
+    src: local("OSWALD-LIGHT"),
+      url("./assets/fonts/OSWALD-LIGHT.TTF") format("truetype");
 }
+
+body{
+    margin:0;
+    padding: 0 3rem;
+    color: #2D2D2D;
+    background-color: #F2F2F2;
+    font-family: 'OSWALD-LIGHT';
+}
+
+.nav{
+    padding: 2rem 0;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title_nav{
+    display: flex;
+}
+
+.title_nav h1{
+    font-size: 30px;
+    font-family: 'ELEPHNT';
+    margin-bottom: auto;
+    margin: 0 1rem;
+}
+
+.title_nav h2{
+    font-size: 20;
+    margin: 0 1rem;
+}
+
+.items_nav > ul{
+    display: flex;
+}
+
+li a {
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    color: #2D2D2D;
+}
+
+li{
+    list-style: none;
+    margin-left: 1.2rem; 
+    font-size: 18px;
+}
+
+a:hover{
+    color: #8e892c;
+    transition: 500ms;
+    border-bottom: 2px solid #8e892c;
+    cursor: pointer;
+}
+

@@ -1,15 +1,24 @@
 import React from "react";
+import square from "../assets/figures/square.jpg"
+import { NavLink } from 'react-router-dom';
+import '../index.css' // mejorar css
 
 export function Navegation() {
     return(
-        <div>
-            <div>Air Quality Bogotá</div>
-            <div>
+        <div class="nav">
+            <div class="title_nav">
+                <div><img src={square}/></div>
+                <div>
+                    <h1>Air Quality Bogotá</h1>
+                    <h2>Calidad del Aire</h2>
+                </div>
+            </div>
+            <div class="items_nav">
                 <ul>
-                    <li>Inicio</li>
-                    <li>Nosotros</li>
-                    <li>Datos</li>
-                    <li>Has tus Predicciones</li>
+                    <li><NavLink to="" >Inicio</NavLink></li>
+                    <li><NavLink to="/About" >Nosotros</NavLink></li>
+                    <li><NavLink to="/Data" >Datos</NavLink></li>
+                    <li><NavLink to="/Predictions" >Has tus Predicciones</NavLink></li>
                 </ul>
             </div>
         </div>
