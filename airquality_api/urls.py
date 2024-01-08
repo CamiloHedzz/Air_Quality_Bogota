@@ -15,13 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from dash2.views import dash_view
 from django.urls import path, include
+from dash2 import dash_app
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
+    path('django_plotly_dash/', include('django_plotly_dash.urls')),
     path('admin/', admin.site.urls),
     path('docs/', include_docs_urls(title='api')),
     path('users/', include('users.urls')),
     path('samples/', include('samples.urls')),
     path('locations/', include('locations.urls')),
+    path('dash/', dash_view, name='dash_view'),
 ]
