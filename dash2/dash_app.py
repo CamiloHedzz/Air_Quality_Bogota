@@ -41,6 +41,10 @@ def update_figure(selected_year):
 
     return fig
 
+@app.server.route('/get_dash_layout')
+def get_dash_layout():
+    return jsonify(app.layout)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

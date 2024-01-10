@@ -2,6 +2,6 @@ import axios from 'axios'
  
 export const getDash = () => {
 
-    axios.get('http://localhost:8000')
+    axios.get('http://localhost:8000/dash/')
 
 }

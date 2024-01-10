@@ -5,15 +5,15 @@ import '../index.css' // mejorar css
 
 export function Navegation() {
     return(
-        <div class="nav">
-            <div class="title_nav">
+        <div className="nav">
+            <div className="title_nav">
                 <div><img src={square}/></div>
                 <div>
                     <h1>Air Quality Bogotá</h1>
                     <h2>Calidad del Aire</h2>
                 </div>
             </div>
-            <div class="items_nav">
+            <div className="items_nav">
                 <ul>
                     <li><NavLink to="" >Inicio</NavLink></li>
                     <li><NavLink to="/About" >Nosotros</NavLink></li>
