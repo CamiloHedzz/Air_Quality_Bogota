@@ -7,9 +7,7 @@ export function Index() {
   const iframeSrc = "http://127.0.0.1:8000/django_plotly_dash/app/SimpleExample/"
     return(
      <div>
-      
       <iframe
-        
         width="50%"
         height="600px"
         src={iframeSrc}
