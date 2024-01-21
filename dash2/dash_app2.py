@@ -1,144 +1,204 @@
-from dash import Dash, html, dcc, Input, Output, callback
+import json
 import pandas as pd
-import plotly.express as px
+import plotly.graph_objs as go
+from urllib.request import urlopen
 from django_plotly_dash import DjangoDash
+from dash import html, dcc, Output, Input, Patch
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = DjangoDash('SimpleExample')
 
+with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550d62614f4978f3/raw/b1d556c39f3d7b6e495bf26b7fda815765ac110a/bogota_cadastral.json') as response:
+    counties = json.load(response)
 
-app = DjangoDash('SimpleExample2', external_stylesheets=external_stylesheets)
+df = pd.read_csv("https://raw.githubusercontent.com/CamiloHedzz/Procesamiento-de-imagenes/main/bogota_cadastral2.csv",
+                   dtype={"code": str})
 
-df = pd.read_csv('https://plotly.github.io/datasets/country_indicators.csv')
+# Initialize a list to keep track of selected areas
+selected_areas = []
 
+fig = go.Figure
+(
+    '''
+    go.Choroplethmapbox(
+        geojson=counties,
+        locations=df.code,
+        z=df.sampl,
+        featureidkey='properties.DISPLAY_NAME',
+        colorscale="Viridis",
+        zmin=df.sampl.min(),
+        zmax=df.sampl.max(),
+        marker_opacity=0.5,
+    
+    )
+    '''
+    )
+'''
+fig.update_layout(
+    mapbox_zoom=10,
+    width=800, height=600,
+    mapbox_style="open-street-map",
+    margin={"r": 0, "t": 0, "l": 0, "b": 0},
+    mapbox_center={"lat": 4.60971, "lon": -74.08175}
+)
+
+'''
 
 app.layout = html.Div([
-    html.Div([
-
-        html.Div([
-            dcc.Dropdown(
-                df['Indicator Name'].unique(),
-                'Fertility rate, total (births per woman)',
-                id='crossfilter-xaxis-column',
-            ),
-            dcc.RadioItems(
-                ['Linear', 'Log'],
-                'Linear',
-                id='crossfilter-xaxis-type',
-                labelStyle={'display': 'inline-block', 'marginTop': '5px'}
-            )
-        ],
-        style={'width': '49%', 'display': 'inline-block'}),
-
-        html.Div([
-            dcc.Dropdown(
-                df['Indicator Name'].unique(),
-                'Life expectancy at birth, total (years)',
-                id='crossfilter-yaxis-column'
-            ),
-            dcc.RadioItems(
-                ['Linear', 'Log'],
-                'Linear',
-                id='crossfilter-yaxis-type',
-                labelStyle={'display': 'inline-block', 'marginTop': '5px'}
-            )
-        ], style={'width': '49%', 'float': 'right', 'display': 'inline-block'})
-    ], style={
-        'padding': '10px 5px'
-    }),
-
-    html.Div([
-        dcc.Graph(
-            id='crossfilter-indicator-scatter',
-            hoverData={'points': [{'customdata': 'Japan'}]}
-        )
-    ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
-    html.Div([
-        dcc.Graph(id='x-time-series'),
-        dcc.Graph(id='y-time-series'),
-    ], style={'display': 'inline-block', 'width': '49%'}),
-
-    html.Div(dcc.Slider(
-        df['Year'].min(),
-        df['Year'].max(),
-        step=None,
-        id='crossfilter-year--slider',
-        value=df['Year'].max(),
-        marks={str(year): str(year) for year in df['Year'].unique()}
-    ), style={'width': '49%', 'padding': '0px 20px 20px 20px'})
+    dcc.Graph(
+        id='basic-interactions',
+       # figure=fig
+    )
 ])
 
+# Callback to handle click events on the map
+@app.callback(
+    Output('basic-interactions', 'figure'),
+    [Input('basic-interactions', 'clickData')]
+)
+
+def update_map_on_click(clickData):
+    global selected_areas
+
+    # Check if there is click data
+    if clickData is not None:
+        selected_area = clickData['points'][0]['location']
+        # Toggle selection status of the clicked area
+        if selected_area in selected_areas:
+            selected_areas.remove(selected_area)
+        else:
+            selected_areas.append(selected_area)
+
+    # Update the map style to highlight selected areas
+    for i, feature in enumerate(counties['features']):
+        display_name = feature['properties']['DISPLAY_NAME']
+        if display_name in selected_areas:
+            counties['features'][i]['properties']['selected'] = True
+        else:
+            counties['features'][i]['properties']['selected'] = False
+
+    # Update the map figure
+    updated_fig = go.Figure(go.Choroplethmapbox(
+        geojson=counties,
+        locations=df.code,
+        z=df.sampl,
+        featureidkey='properties.DISPLAY_NAME',
+        colorscale="Viridis",
+        zmin=df.sampl.min(),
+        zmax=df.sampl.max(),
+        marker_opacity=[1 if feature['properties']['selected'] else 0.50 for feature in counties['features']],
+        marker_line_width=[3 if feature['properties']['selected'] else 1 for feature in counties['features']],  # Adjust border width based on selection
+        marker_line_color=['red' if feature['properties']['selected'] else 'black' for feature in counties['features']]  # Adjust border color based on selection
+    ))
+    
+    
+    
+    updated_fig.update_layout(
+        mapbox_zoom=10,
+        width=800, height=600,
+        mapbox_style="open-street-map",
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+        mapbox_center={"lat": 4.60971, "lon": -74.08175}
+    )
+
+
+    return updated_fig
+
+
+    
+    
+
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
+
+
+#***************** CONTROLLERS *****************
+
+
+
+'''
 
 @app.callback(
-    Output('crossfilter-indicator-scatter', 'figure'),
-    Input('crossfilter-xaxis-column', 'value'),
-    Input('crossfilter-yaxis-column', 'value'),
-    Input('crossfilter-xaxis-type', 'value'),
-    Input('crossfilter-yaxis-type', 'value'),
-    Input('crossfilter-year--slider', 'value'))
-def update_graph(xaxis_column_name, yaxis_column_name,
-                 xaxis_type, yaxis_type,
-                 year_value):
-    dff = df[df['Year'] == year_value]
+    Output('basic-interactions', 'figure'),
+    Input('basic-interactions', 'clickData'))
+def update_graph(clickData):
+    
+    if geo_sectors is not None and len(school)==0:
+        fig = get_Choropleth(df, geo_sectors, arg, marker_opacity=1.0,
+                             marker_line_width=3, marker_line_color='aqua', fig=fig)
 
-    fig = px.scatter(x=dff[dff['Indicator Name'] == xaxis_column_name]['Value'],
-            y=dff[dff['Indicator Name'] == yaxis_column_name]['Value'],
-            hover_name=dff[dff['Indicator Name'] == yaxis_column_name]['Country Name']
-            )
-
-    fig.update_traces(customdata=dff[dff['Indicator Name'] == yaxis_column_name]['Country Name'])
-
-    fig.update_xaxes(title=xaxis_column_name, type='linear' if xaxis_type == 'Linear' else 'log')
-
-    fig.update_yaxes(title=yaxis_column_name, type='linear' if yaxis_type == 'Linear' else 'log')
-
-    fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
-
-    print("entraa")
+    return fig
+    
+    if clickData is not None and "location" in clickData["points"][0]:
+        sector = clickData["points"][0]["location"]
+        if sector in postcodes:
+            postcodes.remove(sector)
+        elif len(postcodes) < cfg["topN"]:
+            postcodes.append(sector)
+    print(changed_id)
+    if clickData:
+        location = str(clickData['points'][0]['location'])
+        print(country_count = list(df[df.code.isin(location)].index))
+    #fig.data[1].locations = [location]
+    #fig.data[1].marker_line_width = 5
+    #fig.data[1].marker_line_color = 'aqua'
+        
     return fig
 
 
-def create_time_series(dff, axis_type, title):
 
-    fig = px.scatter(dff, x='Year', y='Value')
 
-    fig.update_traces(mode='lines+markers')
 
-    fig.update_xaxes(showgrid=False)
+@app.callback(Output('output-state', 'children'),
+              Input('submit-button-state', 'n_clicks'))
+def update_output(n_clicks):
+    print("Entra")
+    return f'The Button has been pressed {n_clicks} times'
 
-    fig.update_yaxes(type='linear' if axis_type == 'Linear' else 'log')
 
-    fig.add_annotation(x=0, y=0.85, xanchor='left', yanchor='bottom',
-                       xref='paper', yref='paper', showarrow=False, align='left',
-                       text=title)
 
-    fig.update_layout(height=225, margin={'l': 20, 'b': 30, 'r': 10, 't': 10})
+@app.callback(
+    Output('click-data', 'children'),
+    Input('basic-interactions', 'clickData'))
+
+def display_click_data(clickData):
+    if clickData is not None:
+        print(clickData['points'][0]['location'])
+        id = clickData['points'][0]['location']
+        for i in df['code']:
+            if i==id:
+                print("Entraa")
+    
+    #return json.dumps(clickData, indent=2)
+app.layout = html.Div([
+    dcc.Graph(id='graph-with-slider'),
+    dcc.Slider(
+        df['year'].min(),
+        df['year'].max(),
+        step=None,
+        value=df['year'].min(),
+        marks={str(year): str(year) for year in df['year'].unique()},
+        id='year-slider'
+    )
+])
+
+@app.callback(
+    Output('graph-with-slider', 'figure'),
+    Input('year-slider', 'value'))
+
+def update_figure(selected_year):
+    filtered_df = df[df.year == selected_year]
+
+    fig = px.scatter(filtered_df, x="gdpPercap", y="lifeExp",
+                     size="pop", color="continent", hover_name="country",
+                     log_x=True, size_max=55)
+
+    fig.update_layout(transition_duration=500)
 
     return fig
-
-
-@app.callback(
-    Output('x-time-series', 'figure'),
-    Input('crossfilter-indicator-scatter', 'hoverData'),
-    Input('crossfilter-xaxis-column', 'value'),
-    Input('crossfilter-xaxis-type', 'value'))
-def update_x_timeseries(hoverData, xaxis_column_name, axis_type):
-    country_name = hoverData['points'][0]['customdata']
-    dff = df[df['Country Name'] == country_name]
-    dff = dff[dff['Indicator Name'] == xaxis_column_name]
-    title = '<b>{}</b><br>{}'.format(country_name, xaxis_column_name)
-    return create_time_series(dff, axis_type, title)
-
-
-@app.callback(
-    Output('y-time-series', 'figure'),
-    Input('crossfilter-indicator-scatter', 'hoverData'),
-    Input('crossfilter-yaxis-column', 'value'),
-    Input('crossfilter-yaxis-type', 'value'))
-def update_y_timeseries(hoverData, yaxis_column_name, axis_type):
-    dff = df[df['Country Name'] == hoverData['points'][0]['customdata']]
-    dff = dff[dff['Indicator Name'] == yaxis_column_name]
-    return create_time_series(dff, axis_type, yaxis_column_name)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+'''
+

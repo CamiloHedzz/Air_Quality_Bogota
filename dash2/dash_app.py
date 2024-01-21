@@ -13,13 +13,19 @@ with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550
 df = pd.read_csv("https://raw.githubusercontent.com/CamiloHedzz/Procesamiento-de-imagenes/main/bogota_cadastral2.csv",
                    dtype={"code": str})
 
-# Initialize a list to keep track of selected areas
 selected_areas = []
 
-fig = go.Figure
-(
-    '''
-    go.Choroplethmapbox(
+fig = go.Figure()
+
+app.layout = html.Div([
+    dcc.Graph(
+        id='basic-interactions',
+    )
+])
+
+
+def get_figure(markerlinewidth, markerlinecolor, markeropacity):
+    updated_fig = go.Figure(go.Choroplethmapbox(
         geojson=counties,
         locations=df.code,
         z=df.sampl,
@@ -27,48 +33,34 @@ fig = go.Figure
         colorscale="Viridis",
         zmin=df.sampl.min(),
         zmax=df.sampl.max(),
-        marker_opacity=0.5,
+        marker_opacity = markeropacity,
+        marker_line_width = markerlinewidth,  # Adjust border width based on selection
+        marker_line_color = markerlinecolor  # Adjust border color based on selection
+    ))
     
+    updated_fig.update_layout(
+        mapbox_zoom=10,
+        width=800, height=600,
+        mapbox_style="open-street-map",
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+        mapbox_center={"lat": 4.60971, "lon": -74.08175}
     )
-    '''
-    )
-'''
-fig.update_layout(
-    mapbox_zoom=10,
-    width=800, height=600,
-    mapbox_style="open-street-map",
-    margin={"r": 0, "t": 0, "l": 0, "b": 0},
-    mapbox_center={"lat": 4.60971, "lon": -74.08175}
-)
+    
+    return updated_fig
+    
 
-'''
-
-app.layout = html.Div([
-    dcc.Graph(
-        id='basic-interactions',
-       # figure=fig
-    )
-])
-
-# Callback to handle click events on the map
 @app.callback(
     Output('basic-interactions', 'figure'),
-    [Input('basic-interactions', 'clickData')]
-)
-
+    Input('basic-interactions', 'clickData'))
 def update_map_on_click(clickData):
     global selected_areas
-
-    # Check if there is click data
     if clickData is not None:
         selected_area = clickData['points'][0]['location']
-        # Toggle selection status of the clicked area
         if selected_area in selected_areas:
             selected_areas.remove(selected_area)
         else:
             selected_areas.append(selected_area)
-
-    # Update the map style to highlight selected areas
+            
     for i, feature in enumerate(counties['features']):
         display_name = feature['properties']['DISPLAY_NAME']
         if display_name in selected_areas:
@@ -76,7 +68,8 @@ def update_map_on_click(clickData):
         else:
             counties['features'][i]['properties']['selected'] = False
 
-    # Update the map figure
+    #aqui llamo a get figure y esos for puden ir en uno solo.
+    
     updated_fig = go.Figure(go.Choroplethmapbox(
         geojson=counties,
         locations=df.code,
@@ -90,8 +83,6 @@ def update_map_on_click(clickData):
         marker_line_color=['red' if feature['properties']['selected'] else 'black' for feature in counties['features']]  # Adjust border color based on selection
     ))
     
-    
-    
     updated_fig.update_layout(
         mapbox_zoom=10,
         width=800, height=600,
@@ -99,106 +90,8 @@ def update_map_on_click(clickData):
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         mapbox_center={"lat": 4.60971, "lon": -74.08175}
     )
-
-
+    
     return updated_fig
-
-
-    
-    
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-#***************** CONTROLLERS *****************
-
-
-
-'''
-
-@app.callback(
-    Output('basic-interactions', 'figure'),
-    Input('basic-interactions', 'clickData'))
-def update_graph(clickData):
-    
-    if geo_sectors is not None and len(school)==0:
-        fig = get_Choropleth(df, geo_sectors, arg, marker_opacity=1.0,
-                             marker_line_width=3, marker_line_color='aqua', fig=fig)
-
-    return fig
-    
-    if clickData is not None and "location" in clickData["points"][0]:
-        sector = clickData["points"][0]["location"]
-        if sector in postcodes:
-            postcodes.remove(sector)
-        elif len(postcodes) < cfg["topN"]:
-            postcodes.append(sector)
-    print(changed_id)
-    if clickData:
-        location = str(clickData['points'][0]['location'])
-        print(country_count = list(df[df.code.isin(location)].index))
-    #fig.data[1].locations = [location]
-    #fig.data[1].marker_line_width = 5
-    #fig.data[1].marker_line_color = 'aqua'
-        
-    return fig
-
-
-
-
-
-@app.callback(Output('output-state', 'children'),
-              Input('submit-button-state', 'n_clicks'))
-def update_output(n_clicks):
-    print("Entra")
-    return f'The Button has been pressed {n_clicks} times'
-
-
-
-@app.callback(
-    Output('click-data', 'children'),
-    Input('basic-interactions', 'clickData'))
-
-def display_click_data(clickData):
-    if clickData is not None:
-        print(clickData['points'][0]['location'])
-        id = clickData['points'][0]['location']
-        for i in df['code']:
-            if i==id:
-                print("Entraa")
-    
-    #return json.dumps(clickData, indent=2)
-app.layout = html.Div([
-    dcc.Graph(id='graph-with-slider'),
-    dcc.Slider(
-        df['year'].min(),
-        df['year'].max(),
-        step=None,
-        value=df['year'].min(),
-        marks={str(year): str(year) for year in df['year'].unique()},
-        id='year-slider'
-    )
-])
-
-@app.callback(
-    Output('graph-with-slider', 'figure'),
-    Input('year-slider', 'value'))
-
-def update_figure(selected_year):
-    filtered_df = df[df.year == selected_year]
-
-    fig = px.scatter(filtered_df, x="gdpPercap", y="lifeExp",
-                     size="pop", color="continent", hover_name="country",
-                     log_x=True, size_max=55)
-
-    fig.update_layout(transition_duration=500)
-
-    return fig
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
-'''
-
