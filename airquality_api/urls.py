@@ -15,9 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from dash2.views import dash_view
+from dash2.views import *
 from django.urls import path, include
-from dash2 import dash_app
+from dash2 import dash_app, dash_app2
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
@@ -27,5 +27,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('samples/', include('samples.urls')),
     path('locations/', include('locations.urls')),
-    path('dash/', dash_view, name='dash_view'),
+    path('dashv1/', dash_view, name='dash_view'),
+    path('dashv2/', dash_view2, name='dash_view2'),
 ]
