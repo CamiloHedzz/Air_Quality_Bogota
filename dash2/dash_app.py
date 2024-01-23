@@ -44,29 +44,56 @@ def get_figure(markerlinewidth, markerlinecolor, markeropacity):
     Input('basic-interactions', 'clickData'))
 def update_map_on_click(clickData):
     global selected_areas
-    markeropacity = 0.5
-    markerlinew = 1
-    markerlinec = 'black'
-    
+
+    # Check if there is click data
     if clickData is not None:
-        print("Mkaaaa")
         selected_area = clickData['points'][0]['location']
+        # Toggle selection status of the clicked area
         if selected_area in selected_areas:
             selected_areas.remove(selected_area)
-            updated_fig = get_figure(markerlinew, markerlinec, markeropacity)
-            for i, feature in enumerate(counties['features']):
-                display_name = feature['properties']['DISPLAY_NAME']
-                if display_name in selected_areas:
-                    counties['features'][i]['properties']['selected'] = True
-                    markeropacity = 1
-                    markerlinew = 3
-                    markerlinec = 'aqua'
-                else:
-                    counties['features'][i]['properties']['selected'] = False
         else:
             selected_areas.append(selected_area)
-            
-    updated_fig = get_figure(markerlinew, markerlinec, markeropacity)
+
+    # Update the map style to highlight selected areas
+    for i, feature in enumerate(counties['features']):
+        display_name = feature['properties']['DISPLAY_NAME']
+        if display_name in selected_areas:
+            counties['features'][i]['properties']['selected'] = True
+        else:
+            counties['features'][i]['properties']['selected'] = False
+
+    # Update the map figure
+    updated_fig.add_trace(
+            go.Choroplethmapbox(
+                geojson = counties,
+                locations = df.code,
+                featureidkey = "properties.name",
+                z = df.sampl,
+                zmin=df.sampl.min(),
+                zmax=df.sampl.max(),
+                marker_opacity = 1,
+                marker_line_width = 3,
+                marker_line_color = 'red',
+          )
+    )
+    '''
+    updated_fig = go.Figure(go.Choroplethmapbox(
+        geojson=counties,
+        locations=df.code,
+        z=df.sampl,
+        featureidkey='properties.DISPLAY_NAME',
+        colorscale="Viridis",
+        zmin=df.sampl.min(),
+        zmax=df.sampl.max(),
+        marker_opacity=[1 if feature['properties']['selected'] else 0.50 for feature in counties['features']],
+        marker_line_width=[3 if feature['properties']['selected'] else 1 for feature in counties['features']],  # Adjust border width based on selection
+        marker_line_color=['red' if feature['properties']['selected'] else 'black' for feature in counties['features']]  # Adjust border color based on selection
+    ))
+   ''' 
+    #return fig
+
+    
+    
     
     updated_fig.update_layout(
         mapbox_zoom=10,
@@ -75,7 +102,8 @@ def update_map_on_click(clickData):
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         mapbox_center={"lat": 4.60971, "lon": -74.08175}
     )
-    
+
+
     return updated_fig
 
 if __name__ == '__main__':
