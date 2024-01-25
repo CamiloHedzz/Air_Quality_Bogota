@@ -25,8 +25,9 @@ app.layout = html.Div([
     )
 ])
 
-def get_figure(markerlinewidth, markerlinecolor, markeropacity, fig=None): 
-    global current_zoom
+cont = 0
+
+def get_figure(markerlinewidth, markerlinecolor, markeropacity): 
     fig = go.Figure(go.Choroplethmapbox(
         geojson=counties,
         locations=df.code,
@@ -40,29 +41,24 @@ def get_figure(markerlinewidth, markerlinecolor, markeropacity, fig=None):
         marker_line_color=markerlinecolor,
     ))
     
-    return update_figure(fig, current_zoom)
+    return update_figure(fig)
 
-def update_figure(updated_fig, zoom):    
-   
-
-    updated_fig.update_layout(
-        mapbox_zoom=zoom,
-        width=800, height=600,
-        mapbox_style="open-street-map",
-        margin={"r": 0, "t": 0, "l": 0, "b": 0},
-        mapbox_center={"lat": 4.60971, "lon": -74.08175}
-    )
+def update_figure(updated_fig):
+    if cont is 0:    
+        updated_fig.update_layout(
+            mapbox_zoom=10,
+            width=800, height=600,
+            mapbox_style="open-street-map",
+            margin={"r": 0, "t": 0, "l": 0, "b": 0},
+            mapbox_center={"lat": 4.60971, "lon": -74.08175}
+        )
+    cont+=1
     return updated_fig
 
 @app.callback(
     Output('basic-interactions', 'figure'),
     Input('basic-interactions', 'clickData'))
 def select_location(clickData):
-    global current_zoom  # Agrega esta línea para usar la variable global
-
-    if clickData is None:
-        raise PreventUpdate  # Evita la actualización si no hay clic en datos
-    
     if clickData is not None:
         selected_area = clickData['points'][0]['location']
         if selected_area in selected_areas:
@@ -85,9 +81,6 @@ def select_location(clickData):
             feature_areas['wid'].append(1)
             feature_areas['col'].append('black')
             
-    if current_zoom is None:  # Agrega esta línea para establecer el zoom por primera vez
-        current_zoom = 10
-    
     if fig is None:
         updated_fig = get_figure(1,'black',0.5)
     else:
