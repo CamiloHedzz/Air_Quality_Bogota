@@ -100,13 +100,7 @@ def update_map_on_click(clickData):
         mapbox_center={"lat": 4.60971, "lon": -74.08175}
     )
 
-
     return updated_fig
-
-
-    
-    
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)
