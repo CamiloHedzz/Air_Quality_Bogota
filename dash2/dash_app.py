@@ -22,7 +22,6 @@ import os
 
 app = DjangoDash('SimpleExample')
 
-
 with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550d62614f4978f3/raw/b1d556c39f3d7b6e495bf26b7fda815765ac110a/bogota_cadastral.json') as response:
     counties = json.load(response)
     
@@ -51,7 +50,6 @@ app.layout = html.Div([
 def get_figure(markerlinewidth, markerlinecolor, markeropacity):
     
     #df_final = create_dataset()
-    
     fig = go.Figure(go.Choroplethmapbox(
         geojson=counties,
         locations=df_final.code,
@@ -65,8 +63,20 @@ def get_figure(markerlinewidth, markerlinecolor, markeropacity):
         marker_line_color=markerlinecolor,
     ))
     
-    return update_figure(fig)
+    fig = update_figure(fig)
+    
+    return fig
 
+def update_figure(updated_fig):
+    updated_fig.update_layout(
+        mapbox_zoom=10,
+        width=800, height=600,
+        mapbox_style="open-street-map",
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+        mapbox_center={"lat": 4.60971, "lon": -74.08175}
+    )
+   
+    return updated_fig
 
 def get_figure_rutes():
     for i in range(num_rute_files()): #Numero de archivos
@@ -111,16 +121,7 @@ fig = go.Figure(go.Choroplethmapbox(
 '''
 
 
-def update_figure(updated_fig):
-    updated_fig.update_layout(
-        mapbox_zoom=10,
-        width=800, height=600,
-        mapbox_style="open-street-map",
-        margin={"r": 0, "t": 0, "l": 0, "b": 0},
-        mapbox_center={"lat": 4.60971, "lon": -74.08175}
-    )
-   
-    return updated_fig
+
 
 
 # ******************* COLAB *******************
@@ -264,8 +265,9 @@ def select_location(clickData):
         else:
             selected_areas.append(selected_area)
     else:
-        ale = random.choice(counties['features'])['properties']['DISPLAY_NAME']
-        selected_areas.append(ale)
+        #ale = random.choice(counties['features'])['properties']['DISPLAY_NAME']        
+        ale = df_final.sample(n=1)
+        selected_areas.append(ale['code'].values[0])
     
     feature_areas = {'op': [], 'wid': [], 'col': []}
     for feature in counties['features']:
@@ -278,12 +280,14 @@ def select_location(clickData):
             feature_areas['op'].append(0.50)
             feature_areas['wid'].append(1)
             feature_areas['col'].append('black')
-            
+    
+    updated_fig = get_figure(feature_areas['wid'], feature_areas['col'], feature_areas['op'])
+    '''         
     if fig is None:
         updated_fig = get_figure(1,'black',0.5)
     else:
         updated_fig = get_figure(feature_areas['wid'], feature_areas['col'], feature_areas['op'])
-    
+    ''' 
     return updated_fig
 
 if __name__ == '__main__':
