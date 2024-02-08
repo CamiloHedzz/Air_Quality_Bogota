@@ -5,7 +5,7 @@ from urllib.request import urlopen
 from django_plotly_dash import DjangoDash
 from dash import html, dcc, Output, Input, Patch
 
-app = DjangoDash('SimpleExamplee')
+app = DjangoDash('SimpleExample2')
 
 with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550d62614f4978f3/raw/b1d556c39f3d7b6e495bf26b7fda815765ac110a/bogota_cadastral.json') as response:
     counties = json.load(response)
@@ -195,4 +195,128 @@ def update_figure(selected_year):
 if __name__ == '__main__':
     app.run(debug=True)
 '''
+
+#otro intento
+
+
+'''
+import json
+import random
+import pandas as pd
+import plotly.graph_objs as go
+from urllib.request import urlopen
+from django_plotly_dash import DjangoDash
+from dash import html, dcc, Output, Input
+from shapely.geometry import Point, Polygon
+
+
+# ******************* VISTA *******************
+
+app = DjangoDash('SimpleExample')
+feature_areas = {'op': [], 'wid': [], 'col': []}
+selected_areas = []
+
+with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550d62614f4978f3/raw/b1d556c39f3d7b6e495bf26b7fda815765ac110a/bogota_cadastral.json') as response:
+    counties = json.load(response)
+    
+    #coordinates = counties['features']
+    #zones = {zone['properties']['DISPLAY_NAME']: zone['geometry']['coordinates'][0][0] for zone in coordinates}
+    #zone_polygons = {zone_name: Polygon(zone_coords) for zone_name, zone_coords in zones.items()}
+
+df_final = pd.read_csv("dash2/datasets/finalData.csv", dtype={"code": str})
+
+
+app.layout = html.Div([
+    dcc.Graph(
+        id='basic-interactions',
+    )
+])
+
+# ******************* FUNCIONES *******************
+
+def get_figure(markerlinewidth, markerlinecolor, markeropacity):
+    print(3 in markerlinewidth)
+    #df_final = create_dataset()
+    updated_fig = go.Figure(go.Choroplethmapbox(
+        geojson=counties,
+        locations=df_final.code,
+        z=df_final.sampl,
+        featureidkey='properties.DISPLAY_NAME',
+        colorscale="Viridis",
+        zmin=df_final.sampl.min(),
+        zmax=df_final.sampl.max(),
+        marker_opacity=markeropacity,
+        marker_line_width=markerlinewidth,  
+        marker_line_color=markerlinecolor,
+    ))
+    
+    updated_fig = update_figure(updated_fig)
+    
+    return updated_fig
+
+def update_figure(updated_fig):
+    updated_fig.update_layout(
+        mapbox_zoom=10,
+        width=800, height=600,
+        mapbox_style="open-street-map",
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+        mapbox_center={"lat": 4.60971, "lon": -74.08175}
+    )
+   
+    return updated_fig
+
+
+# ******************* CALLBACKS *******************
+
+
+@app.callback(
+    Output('basic-interactions', 'figure'),
+    Input('basic-interactions', 'clickData'))
+def select_location(clickData):
+    global selected_areas
+    
+    if clickData is not None:
+        selected_area = clickData['points'][0]['location']
+        if selected_area in selected_areas:
+            selected_areas.remove(selected_area)
+        else:
+            selected_areas.append(selected_area)
+    else:
+        #ale = random.choice(counties['features'])['properties']['DISPLAY_NAME']        
+        ale = df_final.sample(n=1)
+        selected_areas.append(ale['code'].values[0])
+        print("barrio random:", ale['code'].values[0])
+    
+    for feature in counties['features']:
+        display_name = feature['properties']['DISPLAY_NAME']
+        if display_name in selected_areas:
+            feature_areas['op'].append(1)
+            feature_areas['wid'].append(3)
+            feature_areas['col'].append('red')
+            print(display_name, "entra a cambio")
+        else:
+            feature_areas['op'].append(0.50)
+            feature_areas['wid'].append(1)
+            feature_areas['col'].append('black')
+    
+    updated_fig = get_figure(feature_areas['wid'], feature_areas['col'], feature_areas['op'])
+    
+    return updated_fig
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
 
