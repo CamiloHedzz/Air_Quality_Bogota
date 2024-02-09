@@ -1,82 +1,64 @@
 import json
+import random
 import pandas as pd
 import plotly.graph_objs as go
 from urllib.request import urlopen
 from django_plotly_dash import DjangoDash
 from dash import html, dcc, Output, Input, Patch
 
-app = DjangoDash('SimpleExample2')
+import plotly.express as px
+
+app = DjangoDash('SimpleExamplee')
 
 with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550d62614f4978f3/raw/b1d556c39f3d7b6e495bf26b7fda815765ac110a/bogota_cadastral.json') as response:
     counties = json.load(response)
 
-df = pd.read_csv("https://raw.githubusercontent.com/CamiloHedzz/Procesamiento-de-imagenes/main/bogota_cadastral2.csv",
+df = pd.read_csv("dash2/datasets/finalData.csv",
                    dtype={"code": str})
 
-# Initialize a list to keep track of selected areas
+df2 = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
+
+
 selected_areas = []
 
-fig = go.Figure
-(
-    '''
-    go.Choroplethmapbox(
-        geojson=counties,
-        locations=df.code,
-        z=df.sampl,
-        featureidkey='properties.DISPLAY_NAME',
-        colorscale="Viridis",
-        zmin=df.sampl.min(),
-        zmax=df.sampl.max(),
-        marker_opacity=0.5,
-    
-    )
-    '''
-    )
-'''
-fig.update_layout(
-    mapbox_zoom=10,
-    width=800, height=600,
-    mapbox_style="open-street-map",
-    margin={"r": 0, "t": 0, "l": 0, "b": 0},
-    mapbox_center={"lat": 4.60971, "lon": -74.08175}
-)
-
-'''
-
 app.layout = html.Div([
-    dcc.Graph(
-        id='basic-interactions',
-       # figure=fig
-    )
+    html.Div([
+        dcc.Graph(id='bogota-map',)
+    ], style={ 'display': 'inline-block'}),
+    
+    html.Div([
+        dcc.Dropdown(df2.country.unique(), 'Canada', id='dropdown-selection'),
+        dcc.Graph(id='regression'),
+    ], style={'display': 'inline-block', 'width': '49%'}),
 ])
 
-# Callback to handle click events on the map
 @app.callback(
-    Output('basic-interactions', 'figure'),
-    [Input('basic-interactions', 'clickData')]
+    Output('bogota-map', 'figure'),
+    [Input('bogota-map', 'clickData')]
 )
-
 def update_map_on_click(clickData):
+    print("df")
     global selected_areas
-
-    # Check if there is click data
+    feature_areas = {'op': [], 'wid': [], 'col': []}
     if clickData is not None:
         selected_area = clickData['points'][0]['location']
-        # Toggle selection status of the clicked area
         if selected_area in selected_areas:
             selected_areas.remove(selected_area)
         else:
             selected_areas.append(selected_area)
-
-    # Update the map style to highlight selected areas
-    for i, feature in enumerate(counties['features']):
-        display_name = feature['properties']['DISPLAY_NAME']
-        if display_name in selected_areas:
-            counties['features'][i]['properties']['selected'] = True
+    elif len(selected_areas)==0:
+        selected_areas.append(df.sample(n=1)['code'].values[0])
+        
+    for display_name in df.code.items():
+        if display_name[1] in selected_areas:
+            feature_areas['op'].append(1)
+            feature_areas['wid'].append(3)
+            feature_areas['col'].append('red')
         else:
-            counties['features'][i]['properties']['selected'] = False
-
-    # Update the map figure
+            feature_areas['op'].append(0.50)
+            feature_areas['wid'].append(1)
+            feature_areas['col'].append('black')
+    
     updated_fig = go.Figure(go.Choroplethmapbox(
         geojson=counties,
         locations=df.code,
@@ -85,22 +67,29 @@ def update_map_on_click(clickData):
         colorscale="Viridis",
         zmin=df.sampl.min(),
         zmax=df.sampl.max(),
-        marker_opacity=[1 if feature['properties']['selected'] else 0.50 for feature in counties['features']],
-        marker_line_width=[3 if feature['properties']['selected'] else 1 for feature in counties['features']],  # Adjust border width based on selection
-        marker_line_color=['red' if feature['properties']['selected'] else 'black' for feature in counties['features']]  # Adjust border color based on selection
+        marker_opacity=feature_areas['op'],
+        marker_line_width=feature_areas['wid'],
+        marker_line_color=feature_areas['col'],
+        colorbar_title = "Particulas"
     ))
-    
-    
-    
+ 
     updated_fig.update_layout(
-        mapbox_zoom=10,
-        width=800, height=600,
+        autosize=True,
+        mapbox_zoom=11,
+        width=700, height=500,
         mapbox_style="open-street-map",
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
-        mapbox_center={"lat": 4.60971, "lon": -74.08175}
+        mapbox_center={"lat": 4.60971, "lon": -74.08175},
     )
-
+    
     return updated_fig
+
+@app.callback(
+    Output('regression', 'figure'),
+    Input('dropdown-selection', 'value'))
+def update_regression(value):
+    dff = df2[df2.country==value]
+    return px.line(dff, x='year', y='pop')
 
 if __name__ == '__main__':
     app.run_server(debug=True)

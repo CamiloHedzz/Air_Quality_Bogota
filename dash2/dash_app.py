@@ -6,6 +6,9 @@ from urllib.request import urlopen
 from django_plotly_dash import DjangoDash
 from dash import html, dcc, Output, Input, Patch
 
+
+from .rute_utils import *
+
 import plotly.express as px
 
 app = DjangoDash('SimpleExample')
@@ -37,7 +40,6 @@ app.layout = html.Div([
     [Input('bogota-map', 'clickData')]
 )
 def update_map_on_click(clickData):
-    print("entra")
     global selected_areas
     feature_areas = {'op': [], 'wid': [], 'col': []}
     if clickData is not None:
@@ -88,12 +90,24 @@ def update_map_on_click(clickData):
     Output('regression', 'figure'),
     Input('dropdown-selection', 'value'))
 def update_regression(value):
+    print("HPAA")
     dff = df2[df2.country==value]
+    create_regression()
     return px.line(dff, x='year', y='pop')
 
 if __name__ == '__main__':
     app.run_server(debug=True)
 
+
+def create_regression():
+    nfiles = num_rute_files()
+    print(nfiles)
+    for i in range (nfiles):
+        df_rute = pd.read_csv(f"dash2/rutes_csv/rute{i}.csv")
+        for clave, valores in df_rute.items():
+            print(valores)
+        
+    
 
 '''
 
