@@ -99,6 +99,8 @@ def update_regression():
     
     dff = create_time_series()
     
+    print(dff)
+    
     fig = px.line(dff, x='date', y='sampl', title='Time Series with Rangeslider')
 
     fig.update_xaxes(rangeslider_visible=True)
@@ -118,7 +120,8 @@ def create_time_series():
                 'code': value['code'],
                 'sampl': value['sampl']
             }
-            dff = dff.append(new_row, ignore_index=True)
+            #dff = dff.append(new_row, ignore_index=True)
+            dff.loc[len(dff)] = new_row 
     
     return dff
 
