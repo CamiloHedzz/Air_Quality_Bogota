@@ -5,6 +5,15 @@ import numpy as np
 import random
 from shapely.geometry import Point, Polygon
 from datetime import datetime, timedelta
+import json
+from urllib.request import urlopen
+
+with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550d62614f4978f3/raw/b1d556c39f3d7b6e495bf26b7fda815765ac110a/bogota_cadastral.json') as response:
+    counties = json.load(response)
+
+    coordinates = counties['features']
+
+    zones = {zone['properties']['DISPLAY_NAME']: zone['geometry']['coordinates'][0][0] for zone in coordinates}
 
 #crear rutas
 num_rutes = 25
@@ -66,6 +75,7 @@ Cuando se lleva a cabo una toma de muestra, ésta está asociada con una coorden
 Por esta razón, resulta crucial identificar a qué zona (en este contexto, un barrio)
 corresponde la muestra recogida.
 '''
+zone_polygons = {zone_name: Polygon(zone_coords) for zone_name, zone_coords in zones.items()}
 
 def get_zone(lat, lon):
     point = Point(lon, lat)
@@ -151,3 +161,31 @@ def get_figure_rutes(fig):
         mapbox_center={"lat": 4.60971, "lon": -74.08175},
         showlegend=False  # opcional
     )
+    
+#Convertir todos los rutes.csv en uno solo    
+def create_finaldata_rutes():
+    directorio = 'dash2/rutes_csv'
+    
+    dataframes = []
+
+    for archivo in os.listdir(directorio):
+        if archivo.endswith('.csv'):
+            ruta_completa = os.path.join(directorio, archivo)
+            df = pd.read_csv(ruta_completa)
+            dataframes.append(df)
+
+    df_final = pd.concat(dataframes, ignore_index=True)
+
+    df_final.to_csv('dash2/datasets/final_rutes.csv', index=False)
+    
+#identificar la zona a la que corresponde la muestra del final_rutes
+def identify_final_rute_location():
+    df2 = pd.read_csv("dash2/datasets/final_rutes.csv", dtype={"code": str})
+    df['code'] = None
+    for i, value in df2.iterrows():
+        lat = value['latitude']
+        lon = value['longitude']
+        zone = str(get_zone(lat, lon))
+        df2.at[i, 'code'] = zone
+    
+    df2.to_csv('dash2/datasets/final_rutes.csv', index=False)

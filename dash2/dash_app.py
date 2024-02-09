@@ -19,8 +19,9 @@ with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550
 df = pd.read_csv("dash2/datasets/finalData.csv",
                    dtype={"code": str})
 
-df2 = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
+#df2 = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
 
+df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
 
 selected_areas = []
 
@@ -30,7 +31,7 @@ app.layout = html.Div([
     ], style={ 'display': 'inline-block'}),
     
     html.Div([
-        dcc.Dropdown(df2.country.unique(), 'Canada', id='dropdown-selection'),
+        #dcc.Dropdown(df2.country.unique(), 'Canada', id='dropdown-selection'),
         dcc.Graph(id='regression'),
     ], style={'display': 'inline-block', 'width': '49%'}),
 ])
@@ -88,28 +89,49 @@ def update_map_on_click(clickData):
 
 @app.callback(
     Output('regression', 'figure'),
-    Input('dropdown-selection', 'value'))
-def update_regression(value):
-    print("HPAA")
-    dff = df2[df2.country==value]
-    create_regression()
-    return px.line(dff, x='year', y='pop')
+    [Input('bogota-map', 'clickData')]
+)
+def update_regression_figure(clickData):
+    return update_regression()
+        
+
+def update_regression():
+    
+    dff = create_time_series()
+    
+    fig = px.line(dff, x='date', y='sampl', title='Time Series with Rangeslider')
+
+    fig.update_xaxes(rangeslider_visible=True)
+    
+    return fig
+
+def create_time_series():
+    
+    global selected_areas, df2
+    
+    dff = pd.DataFrame(columns=['date', 'sampl', 'code'])
+    
+    for i, value in df2.iterrows():
+        if value['code'] in selected_areas:
+            new_row = {
+                'date': pd.to_datetime(value['date'] + ' ' + value['hour']),
+                'code': value['code'],
+                'sampl': value['sampl']
+            }
+            dff = dff.append(new_row, ignore_index=True)
+    
+    return dff
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-def create_regression():
-    nfiles = num_rute_files()
-    print(nfiles)
-    for i in range (nfiles):
-        df_rute = pd.read_csv(f"dash2/rutes_csv/rute{i}.csv")
-        for clave, valores in df_rute.items():
-            print(valores)
-        
     
-
 '''
+
+def update_regression(value):
+    dff = df2[df2.country==value]
+    create_finaldata_rutes()
+    return px.line(dff, x='year', y='pop')
+
 
 #def create_regression(dff):
     
