@@ -23,7 +23,7 @@ df = pd.read_csv("dash2/datasets/finalData.csv",
 
 df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
 
-selected_areas = []
+selected_areas = {}
 
 app.layout = html.Div([
     html.Div([
@@ -31,7 +31,6 @@ app.layout = html.Div([
     ], style={ 'display': 'inline-block'}),
     
     html.Div([
-        #dcc.Dropdown(df2.country.unique(), 'Canada', id='dropdown-selection'),
         dcc.Graph(id='regression'),
     ], style={'display': 'inline-block', 'width': '49%'}),
 ])
@@ -45,12 +44,12 @@ def update_map_on_click(clickData):
     feature_areas = {'op': [], 'wid': [], 'col': []}
     if clickData is not None:
         selected_area = clickData['points'][0]['location']
-        if selected_area in selected_areas:
-            selected_areas.remove(selected_area)
+        if selected_area in selected_areas.keys():
+            del selected_areas[selected_area]
         else:
-            selected_areas.append(selected_area)
-    elif len(selected_areas)==0:
-        selected_areas.append(df.sample(n=1)['code'].values[0])
+            selected_areas[selected_area] = None
+    elif len(selected_areas.keys())==0:
+        selected_areas[df.sample(n=1)['code'].values[0]]= None
         
     for display_name in df.code.items():
         if display_name[1] in selected_areas:
@@ -92,83 +91,65 @@ def update_map_on_click(clickData):
     [Input('bogota-map', 'clickData')]
 )
 def update_regression_figure(clickData):
-    return update_regression()
+    selected_area = ''
+    if clickData is not None:
+        selected_area = clickData['points'][0]['location']
+    return update_regression(selected_area)
         
-
-def update_regression():
+        
+def update_regression(selected_area):
+    global selected_areas
+    fig = go.Figure()
     
+    if selected_area == '' and len(selected_areas.keys())>0:       
+        pass
     dff = create_time_series()
-    
-    print(dff)
-    
-    fig = px.line(dff, x='date', y='sampl', title='Time Series with Rangeslider')
+    fig = px.line(dff, x='datetime', y='sampl', color='neig', markers=True)
 
+    '''    else:
+        if selected_area not in selected_areas.keys():
+            print("entraaa")
+        else:
+            print("se pinta nuevo")
+            a = list(selected_areas.keys())
+            dff = selected_areas[a[0]]
+            x = dff['date']
+            y = dff['sampl']
+      
+            fig = px.line(dff, x='date', y='sampl', color='neig', markers=True)
+    '''
+             
+    fig.update_layout(title='Muestra de particulas PM2.5 por barrio',
+                        xaxis_title="Time",
+                        yaxis_title="PM 2.5 µg/m³",
+                        legend_title="Barrios",
+        )
+            
     fig.update_xaxes(rangeslider_visible=True)
-    
     return fig
 
 def create_time_series():
     
     global selected_areas, df2
     
-    dff = pd.DataFrame(columns=['date', 'sampl', 'code'])
+    dff = pd.DataFrame(columns=['datetime', 'code', 'neig', 'sampl'])
     
     for i, value in df2.iterrows():
         if value['code'] in selected_areas:
+            name = value['code'].split(',')[0]
             new_row = {
-                'date': pd.to_datetime(value['date'] + ' ' + value['hour']),
+                'datetime': value['datetime'],
                 'code': value['code'],
-                'sampl': value['sampl']
+                'neig': name,
+                'sampl': value['sampl'],
+                
             }
-            #dff = dff.append(new_row, ignore_index=True)
-            dff.loc[len(dff)] = new_row 
-    
-    return dff
+            dff.loc[len(dff)] = new_row            
+    selected_areas[dff['code'].iloc[0]] = dff
+    dataframe_combinado = pd.concat(selected_areas.values())
+
+    return dataframe_combinado
 
 if __name__ == '__main__':
     app.run_server(debug=True)
     
-'''
-
-def update_regression(value):
-    dff = df2[df2.country==value]
-    create_finaldata_rutes()
-    return px.line(dff, x='year', y='pop')
-
-
-#def create_regression(dff):
-    
- #   pass
-
-
-def create_time_series(dff, axis_type, title):
-
-    fig = px.scatter(dff, x='Year', y='Value')
-
-    fig.update_traces(mode='lines+markers')
-
-    fig.update_xaxes(showgrid=False)
-
-    fig.update_yaxes(type='linear' if axis_type == 'Linear' else 'log')
-
-    fig.add_annotation(x=0, y=0.85, xanchor='left', yanchor='bottom',
-                       xref='paper', yref='paper', showarrow=False, align='left',
-                       text=title)
-
-    fig.update_layout(height=225, margin={'l': 20, 'b': 30, 'r': 10, 't': 10})
-
-    return fig
-
-
-@callback(
-    Output('x-time-series', 'figure'),
-    Input('crossfilter-indicator-scatter', 'hoverData'),
-    Input('crossfilter-xaxis-column', 'value'),
-    Input('crossfilter-xaxis-type', 'value'))
-def update_x_timeseries(hoverData, xaxis_column_name, axis_type):
-    country_name = hoverData['points'][0]['customdata']
-    dff = df[df['Country Name'] == country_name]
-    dff = dff[dff['Indicator Name'] == xaxis_column_name]
-    title = '<b>{}</b><br>{}'.format(country_name, xaxis_column_name)
-    return create_time_series(dff, axis_type, title)
-'''

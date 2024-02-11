@@ -7,6 +7,8 @@ from shapely.geometry import Point, Polygon
 from datetime import datetime, timedelta
 import json
 from urllib.request import urlopen
+import pandas as pd
+
 
 with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550d62614f4978f3/raw/b1d556c39f3d7b6e495bf26b7fda815765ac110a/bogota_cadastral.json') as response:
     counties = json.load(response)
@@ -175,13 +177,19 @@ def create_finaldata_rutes():
             dataframes.append(df)
 
     df_final = pd.concat(dataframes, ignore_index=True)
+    
+    df_final['datetime'] = pd.to_datetime(df_final['date'] + ' ' + df_final['hour'])
+    
+    df_final.drop(['date', 'hour'], axis=1, inplace=True)
+
+    df_final.sort_values(by='datetime', inplace=True)
 
     df_final.to_csv('dash2/datasets/final_rutes.csv', index=False)
     
 #identificar la zona a la que corresponde la muestra del final_rutes
 def identify_final_rute_location():
     df2 = pd.read_csv("dash2/datasets/final_rutes.csv", dtype={"code": str})
-    df['code'] = None
+    df2['code'] = None
     for i, value in df2.iterrows():
         lat = value['latitude']
         lon = value['longitude']
