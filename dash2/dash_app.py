@@ -19,8 +19,6 @@ with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550
 df = pd.read_csv("dash2/datasets/finalData.csv",
                    dtype={"code": str})
 
-#df2 = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
-
 df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
 
 selected_areas = {}
@@ -105,19 +103,6 @@ def update_regression(selected_area):
         pass
     dff = create_time_series()
     fig = px.line(dff, x='datetime', y='sampl', color='neig', markers=True)
-
-    '''    else:
-        if selected_area not in selected_areas.keys():
-            print("entraaa")
-        else:
-            print("se pinta nuevo")
-            a = list(selected_areas.keys())
-            dff = selected_areas[a[0]]
-            x = dff['date']
-            y = dff['sampl']
-      
-            fig = px.line(dff, x='date', y='sampl', color='neig', markers=True)
-    '''
              
     fig.update_layout(title='Muestra de particulas PM2.5 por barrio',
                         xaxis_title="Time",
