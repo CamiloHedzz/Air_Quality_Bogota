@@ -11,7 +11,7 @@ from .rute_utils import *
 
 import plotly.express as px
 
-app = DjangoDash('SimpleExample')
+app = DjangoDash('SimpleExample2', external_stylesheets=['dash2\static\dash_style.css'])
 
 with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550d62614f4978f3/raw/b1d556c39f3d7b6e495bf26b7fda815765ac110a/bogota_cadastral.json') as response:
     counties = json.load(response)

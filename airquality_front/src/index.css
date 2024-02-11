@@ -23,6 +23,10 @@ body{
     align-items: center;
     display: flex;
     justify-content: space-between;
+    position: sticky;
+    top: 0; 
+    background-color: #F2F2F2;
+    
 }
 
 .title_nav{
@@ -64,3 +68,80 @@ a:hover{
     cursor: pointer;
 }
 
+
+/************************ABOUT*********************/
+
+#about{
+    width: 100%;
+    height: 2700px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#leftContent {
+    width: 50%;
+    height: 80vh;
+    float: left;
+    display: flex;
+    position: sticky;
+    flex-direction: column;
+}
+
+.about_subtitle{
+    font-size: 13px;
+    margin-bottom: 15px;
+    font-family: 'ELEPHNT';
+    border-bottom: #DBD22A   solid 2px;
+}
+
+.about_subtitle h1{
+    margin: 0 10px;
+}
+
+/*****/
+#authors {
+    display: flex;
+    flex-direction: column; /* Esto hace que los elementos hijos se apilen verticalmente */
+    gap: 20px; /* Esto añade un espacio entre los elementos */
+}
+
+.author1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.author1 img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; 
+    margin-right: 10px;
+}
+
+.right_auth_content {
+    flex-grow: 1;
+}
+
+.auth_name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.description_auth, .description_motive {
+    font-size: 14px;
+    color: #3a3a3a;
+    font-size: 18px;
+}
+
+
+
+#rightContent {
+    width: 48%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

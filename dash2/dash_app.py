@@ -25,12 +25,12 @@ selected_areas = {}
 
 app.layout = html.Div([
     html.Div([
-        dcc.Graph(id='bogota-map',)
+        dcc.Graph(id='bogota-map')
     ], style={ 'display': 'inline-block'}),
     
     html.Div([
-        dcc.Graph(id='regression'),
-    ], style={'display': 'inline-block', 'width': '49%'}),
+        dcc.Graph(id='regression', className='regression-container'),
+    ],style={'display': 'inline-block', 'width': '49%', 'margin-left': '3%'}),
 ])
 
 @app.callback(
@@ -70,16 +70,18 @@ def update_map_on_click(clickData):
         marker_opacity=feature_areas['op'],
         marker_line_width=feature_areas['wid'],
         marker_line_color=feature_areas['col'],
-        colorbar_title = "Particulas"
+        colorbar_title = "Rango Particulas<br>PM2.5"
     ))
  
     updated_fig.update_layout(
         autosize=True,
         mapbox_zoom=11,
-        width=700, height=500,
+        width=600, height=400,
         mapbox_style="open-street-map",
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         mapbox_center={"lat": 4.60971, "lon": -74.08175},
+        paper_bgcolor="#F2F2F2",
+        plot_bgcolor="#F2F2F2"
     )
     
     return updated_fig
@@ -97,6 +99,7 @@ def update_regression_figure(clickData):
         
 def update_regression(selected_area):
     global selected_areas
+   
     fig = go.Figure()
     
     if selected_area == '' and len(selected_areas.keys())>0:       
@@ -108,6 +111,10 @@ def update_regression(selected_area):
                         xaxis_title="Time",
                         yaxis_title="PM 2.5 µg/m³",
                         legend_title="Barrios",
+                        width=600,  
+                        height=400,
+                        paper_bgcolor="#F2F2F2",
+                        plot_bgcolor="#F2F2F2"
         )
             
     fig.update_xaxes(rangeslider_visible=True)

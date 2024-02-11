@@ -8,7 +8,7 @@ export function Index() {
     return(
      <div>
       <iframe
-        width="50%"
+        width="100%"
         height="600px"
         src={iframeSrc}
         frameBorder="0"
