@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { Dash, dash_table } from "dash";
+
 
 export function About() {
     
@@ -29,7 +31,11 @@ export function About() {
                         <div class ="right_auth_content">
                             <div class="auth_name">
                             <a href="https://github.com/Juanariasp">Juan Esteban Arias</a></div>
-                            <div class="description_auth">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi dolorem fugiat, quaerat doloribus sed voluptates ipsa aut aliquam. Deleniti culpa ipsam perspiciatis aperiam natus, excepturi voluptas inventore repudiandae sint neque?</div>
+                            <div class="description_auth">
+                            Juan Esteban Arias, profesional con formación en Ingeniería en Ciencias de la Computación
+                            e Inteligencia Artificial. Mi participación destacada en competiciones
+                            de programación a nivel nacional y regional subraya mi habilidad para abordar desafíos complejos. 
+                             </div>
                         </div>
                     </div>
 
@@ -38,7 +44,11 @@ export function About() {
                         <div class ="right_auth_content">
                             <div class="auth_name">
                             <a href="https://github.com/CamiloHedzz">Camilo Hernandez</a></div>
-                            <div class="description_auth">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi dolorem fugiat, quaerat doloribus sed voluptates ipsa aut aliquam. Deleniti culpa ipsam perspiciatis aperiam natus, excepturi voluptas inventore repudiandae sint neque?</div>
+                            <div class="description_auth">
+                                Ingeniero en Ciencias de la Computación e Inteligencia Artificial, 
+                                interasado en siempre aprender nuevas tecnologias y practicas 
+                                para procesamiento de datos y creación de modelos de Machine Learning.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -60,43 +70,43 @@ export function About() {
                     <h1>¿Como recopilamos los datos?</h1>
                 </div>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                    Quo esse explicabo saepe harum quos qui necessitatibus illum 
-                    atque perferendis! Earum quam ad ducimus deleniti ratione 
-                    vero doloremque, est repellendus voluptates.
+                    Mediante un sistema de rutas ya definido, se circulan las 
+                    calles de Bogotá con sensores PM2.5 con el fin de determinar
+                    la calidad del aire. Posteriormente, esta información se 
+                    somete a un procesamiento de datos utilizando herramientas 
+                    y métodos como el análisis estadístico y algoritmos de 
+                    Machine Learning, con el objetivo de obtener mejores 
+                    predicciones sobre las zonas con mayores impactos 
+                    ambientales. 
+
+
+                    
+
                     <br></br>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                    Quo esse explicabo saepe harum quos qui necessitatibus illum 
-                    atque perferendis! Earum quam ad ducimus deleniti ratione 
-                    vero doloremque, est repellendus voluptates.
+                    Estos datos procesados no solo permiten 
+                    identificar áreas con problemas de calidad del aire, sino
+                    que también pueden ser utilizados para implementar medidas
+                    de mitigación más efectivas y políticas públicas orientadas
+                    a mejorar la salud pública y reducir los efectos negativos
+                    en el medio ambiente.
+
+                    AQUI VA LA TABLA DE DASH
                 </p>
                 <div class="about_subtitle">
                     <h1>rutas</h1>
                 </div>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                    Quo esse explicabo saepe harum quos qui necessitatibus illum 
-                    atque perferendis! Earum quam ad ducimus deleniti ratione 
-                    vero doloremque, est repellendus voluptates.
+                    
                     <br></br>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                    Quo esse explicabo saepe harum quos qui necessitatibus illum 
-                    atque perferendis! Earum quam ad ducimus deleniti ratione 
-                    vero doloremque, est repellendus voluptates.
+                    
                 </p>
                 <div class="about_subtitle">
                     <h1>Mas informacion</h1>
                 </div>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                    Quo esse explicabo saepe harum quos qui necessitatibus illum 
-                    atque perferendis! Earum quam ad ducimus deleniti ratione 
-                    vero doloremque, est repellendus voluptates.
+                    
                     <br></br>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                    Quo esse explicabo saepe harum quos qui necessitatibus illum 
-                    atque perferendis! Earum quam ad ducimus deleniti ratione 
-                    vero doloremque, est repellendus voluptates.
+                    
                 </p>
             </div>
         </div>

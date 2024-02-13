@@ -80,7 +80,7 @@ ul a:hover{
 }
 
 #leftContent {
-    width: 50%;
+    width: 45%;
     height: 80vh;
     float: left;
     display: flex;
@@ -92,7 +92,8 @@ ul a:hover{
     font-size: 13px;
     margin-bottom: 15px;
     font-family: 'ELEPHNT';
-    border-bottom: #DBD22A   solid 2px;
+    border-bottom: #DBD22A solid 2px;
+    max-width: 400px;
 }
 
 .about_subtitle h1{
@@ -133,6 +134,7 @@ ul a:hover{
     font-size: 14px;
     color: #3a3a3a;
     font-size: 18px;
+    text-align: justify;
 }
 
 .auth_name a{
@@ -143,7 +145,7 @@ ul a:hover{
 
 
 #rightContent {
-    width: 40%;
+    width: 45%;
     height: 100%;
     overflow: hidden;
     display: flex;
