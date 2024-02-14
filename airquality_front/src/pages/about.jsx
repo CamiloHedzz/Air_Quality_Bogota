@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
-import { Dash, dash_table } from "dash";
+//import { Dash, dash_table } from "dash";
+import {DashTable} from "../components/table"
+
 
 
 export function About() {
@@ -80,6 +82,7 @@ export function About() {
                     ambientales. 
 
 
+                    <DashTable/>
                     
 
                     <br></br>

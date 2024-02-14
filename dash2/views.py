@@ -6,4 +6,7 @@ def dash_view(request):
     return render(request, 'dash_app.html') 
 
 def dash_view2(request):
-    return render(request, 'dash_app2.html') 
+    return render(request, 'dash_app2.html')
+
+def dash_table(request):
+    return render(request, 'dash_table.html')
