@@ -55,6 +55,7 @@ Una vez que haya completado los pasos anteriores, puede acceder a la aplicación
 Este proyecto fue desarrollado con ❤️ por :
 
 Camilo Hernández 
+
 Juan Arias 
 
 ¡Gracias por su interés en nuestro proyecto! Si tiene alguna pregunta o sugerencia, no dude en contactarnos.
