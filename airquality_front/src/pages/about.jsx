@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 //import { Dash, dash_table } from "dash";
 import {Table} from "../components/simple_table"
+import ContactForm from '../components/form';
 
 
 
@@ -87,23 +88,23 @@ export function About() {
                     de mitigación más efectivas y políticas públicas orientadas
                     a mejorar la salud pública y reducir los efectos negativos
                     en el medio ambiente.
-                </p>
-                <div class="about_subtitle">
-                    <h1>rutas</h1>
-                </div>
-                <p>
-                    
                     <br></br>
-                    
+                    Recuerda que puedes encontrar mas informacion sobre este proyecto
+                    a través de nuestro <a href="https://github.com/CamiloHedzz/Air_Quality_Bogota">repositorio en GitHub!</a>
                 </p>
                 <div class="about_subtitle">
                     <h1>Mas informacion</h1>
                 </div>
                 <p>
-                    
-                    <br></br>
-                    
+                    ¿Quieres explorar más sobre cómo nuestros servicios pueden 
+                    beneficiarte? ¿Estás buscando oportunidades de colaboración 
+                    o deseas brindar soporte a nuestra causa? ¡Nos encantaría saber
+                    de ti! Estamos comprometidos a responder con prontitud a tus
+                    consultas e intereses, así que no dudes en ponerte en contacto
+                    con nosotros. Tu participación es fundamental para impulsar
+                    nuestro crecimiento y éxito compartido.
                 </p>
+                <ContactForm/>
             </div>
         </div>
     );
