@@ -33,3 +33,29 @@ Asegúrese de tener instalado lo siguiente en su sistema:
 
    ```bash
    git clone https://github.com/tu_usuario/proyecto-contaminacion-bogota.git
+2. **Instalar Dependencias**
+
+cd proyecto-contaminacion-bogota/backend
+pip install -r requirements.txt
+
+3. **Ejecutar la aplicación en Django**
+   python manage.py runserver
+
+4. **Ejecutar la aplicación React**
+   cd airquality_front/
+   npm run dev
+   
+5. **Acceder a la Aplicación**
+
+Una vez que haya completado los pasos anteriores, puede acceder a la aplicación a través de su navegador web visitando la URL proporcionada por los servidores Django, React y Dash.
+
+## Autores
+Este proyecto fue desarrollado con ❤️ por :
+
+Camilo Hernández 
+Juan Arias 
+
+¡Gracias por su interés en nuestro proyecto! Si tiene alguna pregunta o sugerencia, no dude en contactarnos.
+
+¡Feliz exploración y aprendizaje sobre la contaminación atmosférica en Bogotá! 🌎🍃
+
