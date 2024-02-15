@@ -7,6 +7,3 @@ def dash_view(request):
 
 def dash_view2(request):
     return render(request, 'dash_app2.html')
-
-def dash_table(request):
-    return render(request, 'dash_table.html')

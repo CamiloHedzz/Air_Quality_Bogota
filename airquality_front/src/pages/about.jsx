@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 //import { Dash, dash_table } from "dash";
-import {DashTable} from "../components/table"
+import {Table} from "../components/simple_table"
 
 
 
@@ -65,7 +65,6 @@ export function About() {
                 en diferentes áreas, se puede educar a la población sobre la importancia de tomar medidas 
                 para reducir la contaminación.
                 </div>
-
             </div>
             <div id="rightContent">
                 <div class="about_subtitle">
@@ -80,11 +79,7 @@ export function About() {
                     Machine Learning, con el objetivo de obtener mejores 
                     predicciones sobre las zonas con mayores impactos 
                     ambientales. 
-
-
-                    <DashTable/>
-                    
-
+                    <Table/>
                     <br></br>
                     Estos datos procesados no solo permiten 
                     identificar áreas con problemas de calidad del aire, sino
@@ -92,8 +87,6 @@ export function About() {
                     de mitigación más efectivas y políticas públicas orientadas
                     a mejorar la salud pública y reducir los efectos negativos
                     en el medio ambiente.
-
-                    AQUI VA LA TABLA DE DASH
                 </p>
                 <div class="about_subtitle">
                     <h1>rutas</h1>
