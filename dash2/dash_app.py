@@ -102,10 +102,23 @@ def update_regression(selected_area):
    
     fig = go.Figure()
     
-    if selected_area == '' and len(selected_areas.keys())>0:       
-        pass
+    #if selected_area == '' and len(selected_areas.keys())>0:       
+    #    pass
     dff = create_time_series()
-    fig = px.line(dff, x='datetime', y='sampl', color='neig', markers=True)
+    dff['datetime'] = pd.to_datetime(dff['datetime'])
+    window_size = 10
+    dff['tendencia'] = dff['sampl'].rolling(window=window_size, min_periods=1).mean()
+    
+    #fig = px.line(dff, x='datetime', y=['sampl', 'tendencia'], color='neig', markers=True)
+    
+    
+    #fig = px.scatter(dff, x="datetime", y="sampl", color='neig',
+    #            title="Rolling Median")
+    
+    fig = px.scatter(dff, x="datetime", y="sampl", color='neig', trendline="rolling", trendline_options=dict(function="median", window=2),
+                title="Rolling Median")
+    
+   # fig.update_traces(mode='lines', line=dict(color='red', dash='dash'), selector=dict(name='tendencia'), markers=False)
              
     fig.update_layout(title='Muestra de particulas PM2.5 por barrio',
                         xaxis_title="Time",
@@ -137,11 +150,18 @@ def create_time_series():
                 
             }
             dff.loc[len(dff)] = new_row            
-    selected_areas[dff['code'].iloc[0]] = dff
+    selected_areas[dff['code'].iloc[0]] = dff #Se agrega todo al dataset
     dataframe_combinado = pd.concat(selected_areas.values())
 
     return dataframe_combinado
 
+def get_regression(dff):
+    #dff = pd.DataFrame(columns=['datetime', 'code', 'neig', 'sampl']
+    ventana = 2 
+    tendencia = dff['sampl'].rolling(window=ventana).mean()
+    return tendencia
+
+    
 if __name__ == '__main__':
     app.run_server(debug=True)
     
