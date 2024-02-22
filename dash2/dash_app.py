@@ -5,6 +5,7 @@ import plotly.graph_objs as go
 from urllib.request import urlopen
 from django_plotly_dash import DjangoDash
 from dash import html, dcc, Output, Input, Patch
+from scipy.interpolate import griddata
 
 
 from .rute_utils import *
@@ -23,15 +24,56 @@ df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
 
 selected_areas = {}
 
+x = np.array(df2.longitude)
+y = np.array(df2.latitude)
+z = np.array(df2.sampl)
+
+# Definir la grilla de interpolación
+xi = np.linspace(x.min(), x.max(), 50)
+yi = np.linspace(y.min(), y.max(), 50)
+X, Y = np.meshgrid(xi, yi)
+
+# Interpolar los datos para obtener la superficie
+Z = griddata((x, y), z, (X, Y), method='cubic')
+
+# Crear la figura de Plotly con la superficie
+fig_3d = go.Figure(go.Surface(x=xi, y=yi, z=Z))
+
+fig_3d.update_layout(scene=dict(xaxis_title='Longitud',
+                             yaxis_title='Latitud',
+                             zaxis_title='Muestra'),
+                     paper_bgcolor="#F2F2F2",
+                     plot_bgcolor="#F2F2F2",
+                             margin={"r": 0, "t": 0, "l": 0, "b": 0},
+                             width=600, height=400,template='simple_white'
+)
+
+'''
+    html.Div([
+            dcc.Dropdown(
+                df2['datetime'].unique(),
+                'Date',
+                id='crossfilter-xaxis-column',
+            )]),
+'''
 app.layout = html.Div([
+    
     html.Div([
         dcc.Graph(id='bogota-map')
     ], style={ 'display': 'inline-block'}),
     
     html.Div([
-        dcc.Graph(id='regression', className='regression-container'),
-    ],style={'display': 'inline-block', 'width': '49%', 'margin-left': '3%'}),
+        dcc.Graph(id='regression'),
+    ],style={'display': 'inline-block', 'width': '40%', 'margin-left': '3%'}),
+
+    html.Div([
+            dcc.Graph(figure=fig_3d),
+    ],style={ 'width': '49%', 'height': '500px', 'display': 'inline-block'}),
+    
 ])
+
+'''
+'''
 
 @app.callback(
     Output('bogota-map', 'figure'),
@@ -105,21 +147,18 @@ def update_regression(selected_area):
     #if selected_area == '' and len(selected_areas.keys())>0:       
     #    pass
     dff = create_time_series()
-    dff['datetime'] = pd.to_datetime(dff['datetime'])
-    window_size = 10
-    dff['tendencia'] = dff['sampl'].rolling(window=window_size, min_periods=1).mean()
     
-    #fig = px.line(dff, x='datetime', y=['sampl', 'tendencia'], color='neig', markers=True)
+    fig = px.line(dff, x='datetime', y=['sampl'], color='neig', markers=True, line_shape='spline')
     
-    
-    #fig = px.scatter(dff, x="datetime", y="sampl", color='neig',
-    #            title="Rolling Median")
-    
-    fig = px.scatter(dff, x="datetime", y="sampl", color='neig', trendline="rolling", trendline_options=dict(function="median", window=2),
-                title="Rolling Median")
-    
-   # fig.update_traces(mode='lines', line=dict(color='red', dash='dash'), selector=dict(name='tendencia'), markers=False)
-             
+    '''
+    fig = px.scatter(dff, x="datetime", y="sampl", color='neig', trendline="rolling", 
+                 trendline_options=dict(window=2, win_type="gaussian", function_args=dict(std=2)),
+                title="Rolling Mean with Gaussian Window")
+   
+    fig.add_trace(go.Scatter(x=dff['datetime'], y=dff['sampl'],
+                         line=dict(color='royalblue', width=1)))
+    '''
+                 
     fig.update_layout(title='Muestra de particulas PM2.5 por barrio',
                         xaxis_title="Time",
                         yaxis_title="PM 2.5 µg/m³",
@@ -130,7 +169,7 @@ def update_regression(selected_area):
                         plot_bgcolor="#F2F2F2"
         )
             
-    fig.update_xaxes(rangeslider_visible=True)
+    #fig.update_xaxes(rangeslider_visible=True)
     return fig
 
 def create_time_series():
@@ -154,12 +193,6 @@ def create_time_series():
     dataframe_combinado = pd.concat(selected_areas.values())
 
     return dataframe_combinado
-
-def get_regression(dff):
-    #dff = pd.DataFrame(columns=['datetime', 'code', 'neig', 'sampl']
-    ventana = 2 
-    tendencia = dff['sampl'].rolling(window=ventana).mean()
-    return tendencia
 
     
 if __name__ == '__main__':
