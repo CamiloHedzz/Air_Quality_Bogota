@@ -1,0 +1,24 @@
+.container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    font-family: 'OSWALD-LIGHT';
+    font-size: 18px;
+  }
+  
+  .graph-container {
+    flex: 1;
+    margin-right: 10px;
+    text-align: justify; /* Alinea el texto a la derecha */
+}
+
+.simpleExample_graph{
+    padding-right: 6%;
+}
+
+.regression-graph {
+    flex: 1;
+    
+
+  }
+

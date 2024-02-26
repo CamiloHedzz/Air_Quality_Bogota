@@ -24,7 +24,7 @@ df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
 
 selected_areas = {}
 
-x = np.array(df2.longitude)
+'''x = np.array(df2.longitude)
 y = np.array(df2.latitude)
 z = np.array(df2.sampl)
 
@@ -46,7 +46,7 @@ fig_3d.update_layout(scene=dict(xaxis_title='Longitud',
                      plot_bgcolor="#F2F2F2",
                              margin={"r": 0, "t": 0, "l": 0, "b": 0},
                              width=600, height=400,template='simple_white'
-)
+)'''
 
 '''
     html.Div([
@@ -59,20 +59,24 @@ fig_3d.update_layout(scene=dict(xaxis_title='Longitud',
 app.layout = html.Div([
     
     html.Div([
+        html.Div("Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM2.5. Puedes hacer zoom, moverte por el mapa e incluso seleccionar un barrio para ver las mediciones detalladas y obtener más información.",
+                         style={'fontFamily': 'Oswald', 'textAlign': 'justify', 'fontStyle': 'light', 'fontSize': '18px'}
+),
         dcc.Graph(id='bogota-map')
-    ], style={ 'display': 'inline-block'}),
+    ], style={ 'display': 'inline-block', 'width': '50%'}),
     
     html.Div([
+        html.Div("Aquí puedes examinar con detalle la información de las zonas seleccionadas en el mapa. Realiza comparaciones y obtén información precisa. Las unidades en el eje Y son microgramos por metro cúbico, con cada muestra tomada en una hora específica del día."),
         dcc.Graph(id='regression'),
     ],style={'display': 'inline-block', 'width': '40%', 'margin-left': '3%'}),
 
-    html.Div([
-            dcc.Graph(figure=fig_3d),
-    ],style={ 'width': '49%', 'height': '500px', 'display': 'inline-block'}),
     
 ])
 
 '''
+    html.Div([
+            dcc.Graph(figure=fig_3d),
+    ],style={ 'width': '49%', 'height': '500px', 'display': 'inline-block'}),
 '''
 
 @app.callback(
