@@ -1,4 +1,12 @@
-/*I leave this here for future reference
-
-camilo:)
-*/
+@media only screen and (max-width: 1200px) {
+    .graph-container {
+        display: block;
+    }
+    #bogota-map {
+        width: 100%;
+        display: block;
+    }
+    #regression {
+        width: 100%;
+    }
+}

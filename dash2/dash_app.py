@@ -14,8 +14,10 @@ import plotly.express as px
 
 app = DjangoDash('SimpleExample')
 
-with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550d62614f4978f3/raw/b1d556c39f3d7b6e495bf26b7fda815765ac110a/bogota_cadastral.json') as response:
-    counties = json.load(response)
+external_stylesheets = ['dash2/static/dash_style.css']
+
+with open('dash2/datasets/bogota_cadastral.json', 'r') as file:
+    counties = json.load(file)
 
 df = pd.read_csv("dash2/datasets/finalData.csv",
                    dtype={"code": str})
@@ -56,20 +58,19 @@ fig_3d.update_layout(scene=dict(xaxis_title='Longitud',
                 id='crossfilter-xaxis-column',
             )]),
 '''
-app.layout = html.Div([
-    
+app.layout = html.Div([ 
     html.Div([
         html.Div("Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM2.5. Puedes hacer zoom, moverte por el mapa e incluso seleccionar un barrio para ver las mediciones detalladas y obtener más información.",
-                         style={'fontFamily': 'Oswald', 'textAlign': 'justify', 'fontStyle': 'light', 'fontSize': '18px'}
-),
+                style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontStyle': 'light', 'fontSize': '18px', 'marginBottom': '20px'}
+                ),
         dcc.Graph(id='bogota-map')
-    ], style={ 'display': 'inline-block', 'width': '50%'}),
+    ], style={ 'display': 'inline-block', 'width': '45%'}),
     
     html.Div([
-        html.Div("Aquí puedes examinar con detalle la información de las zonas seleccionadas en el mapa. Realiza comparaciones y obtén información precisa. Las unidades en el eje Y son microgramos por metro cúbico, con cada muestra tomada en una hora específica del día."),
+        html.Div("Aquí puedes examinar con detalle la información de las zonas seleccionadas en el mapa. Realiza comparaciones y obtén información precisa. Las unidades en el eje Y son microgramos por metro cúbico, con cada muestra tomada en una hora específica del día.",
+                 style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontStyle': 'light', 'fontSize': '18px', 'marginBottom': '20px'}),
         dcc.Graph(id='regression'),
-    ],style={'display': 'inline-block', 'width': '40%', 'margin-left': '3%'}),
-
+    ],style={'display': 'inline-block', 'width': '45%', 'margin-left': '3%'})
     
 ])
 
@@ -116,7 +117,7 @@ def update_map_on_click(clickData):
         marker_opacity=feature_areas['op'],
         marker_line_width=feature_areas['wid'],
         marker_line_color=feature_areas['col'],
-        colorbar_title = "Rango Particulas<br>PM2.5"
+        colorbar_title = "PM 2.5<br>µg/m³"
     ))
  
     updated_fig.update_layout(

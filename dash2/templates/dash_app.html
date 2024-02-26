@@ -2,5 +2,39 @@
 <link rel="stylesheet" href="{% static 'dash_style.css' %}">
 {%load plotly_dash%}
 <div class="{%plotly_class name="SimpleExample"%}" id="grafico">
-    {%plotly_app name="SimpleExample" ratio=0.5 %}
+    {%plotly_app name="SimpleExample" ratio=0.42 %}
 </div>
+
+AQUI TENEMOS QUE PONER EL DIV
+
+<p>
+    Las partículas PM2.5, son un tipo de contaminante 
+    atmosférico
+    compuesto por partículas sólidas o líquidas de
+    diámetro aerodinámico igual o menor a 2.5 micrómetros
+    (µm). Para tener una mejor comprensión de su tamaño,
+    una partícula PM2.5 es aproximadamente 30 veces más
+    pequeña que el ancho de un cabello humano.
+</p>
+
+<p>
+    Debido a su tamaño diminuto, pueden penetrar profundamente
+    en los pulmones y llegar incluso al torrente sanguíneo.
+    La exposición a largo plazo a altos niveles de PM2.5 
+    está relacionada con una serie de problemas de salud,
+    como enfermedades respiratorias (asma, bronquitis, etc.),
+    enfermedades cardiovasculares, e incluso cáncer de pulmón.
+    Por lo tanto, medir y monitorear los niveles de PM2.5 en 
+    el aire es fundamental para comprender 
+    y mitigar los riesgos para la salud humana
+</p>
+
+<ul>
+    <li>0-12 µg/m³: Bueno - La calidad del aire se considera satisfactoria y no se espera que represente un riesgo para la salud.</li>
+    <li>12.1-35.4 µg/m³: Moderado - La calidad del aire es aceptable; sin embargo, puede haber ciertos riesgos para la salud para un número muy pequeño de personas que son especialmente sensibles a la contaminación del aire.</li>
+    <li>35.5-55.4 µg/m³: Poco saludable para grupos sensibles - Las personas con enfermedades respiratorias o cardíacas, niños y ancianos pueden experimentar efectos adversos para la salud. La población en general no se verá afectada.</li>
+    <li>55.5-150.4 µg/m³: Poco saludable - Todos pueden comenzar a experimentar efectos adversos para la salud; las personas con enfermedades respiratorias o cardíacas, niños y ancianos pueden experimentar efectos más graves.</li>
+    <li>150.5-250.4 µg/m³: Muy poco saludable - Las alertas de salud aumentan, ya que la población en general puede experimentar efectos más graves en la salud.</li>
+    <li>Más de 250.5 µg/m³: Peligroso: Se activan alertas de salud de emergencia. La población general puede experimentar efectos graves para la salud.</li>
+</ul>
+

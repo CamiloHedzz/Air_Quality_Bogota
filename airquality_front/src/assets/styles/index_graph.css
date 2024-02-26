@@ -4,6 +4,7 @@
     display: flex;
     font-family: 'OSWALD-LIGHT';
     font-size: 18px;
+    font-style: light;
   }
   
   .graph-container {
