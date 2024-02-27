@@ -14,10 +14,6 @@ export function Navegation() {
                 setTitle("Nosotros");
                 setSubtitle("Conoce nuestro modus operandi");
                 break;
-            case "/Data":
-                setTitle("Datos");
-                setSubtitle("Consulta nuestros datos");
-                break;
             case "/Predictions":
                 setTitle("Haz tus Predicciones");
                 setSubtitle("Predice la calidad del aire");
@@ -46,7 +42,6 @@ export function Navegation() {
                 <ul>
                     <li><NavLink to="" onClick={updateTitleAndSubtitle}>Inicio</NavLink></li>
                     <li><NavLink to="/About" onClick={updateTitleAndSubtitle}>Nosotros</NavLink></li>
-                    <li><NavLink to="/Data" onClick={updateTitleAndSubtitle}>Datos</NavLink></li>
                     <li><NavLink to="/Predictions" onClick={updateTitleAndSubtitle}>Haz tus Predicciones</NavLink></li>
                 </ul>
             </div>

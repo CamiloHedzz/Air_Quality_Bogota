@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from dash2.views import *
 from django.urls import path, include
-from dash2 import dash_app, dash_app2
+from dash2 import dash_app, dash_app2 
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
@@ -29,4 +29,6 @@ urlpatterns = [
     path('locations/', include('locations.urls')),
     path('dashv1/', dash_view, name='dash_view'),
     path('dashv2/', dash_view2, name='dash_view2'),
+    path('api/dash_data/', dash_data, name='dash_data'),
+
 ]

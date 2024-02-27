@@ -26,38 +26,7 @@ df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
 
 selected_areas = {}
 
-'''x = np.array(df2.longitude)
-y = np.array(df2.latitude)
-z = np.array(df2.sampl)
 
-# Definir la grilla de interpolación
-xi = np.linspace(x.min(), x.max(), 50)
-yi = np.linspace(y.min(), y.max(), 50)
-X, Y = np.meshgrid(xi, yi)
-
-# Interpolar los datos para obtener la superficie
-Z = griddata((x, y), z, (X, Y), method='cubic')
-
-# Crear la figura de Plotly con la superficie
-fig_3d = go.Figure(go.Surface(x=xi, y=yi, z=Z))
-
-fig_3d.update_layout(scene=dict(xaxis_title='Longitud',
-                             yaxis_title='Latitud',
-                             zaxis_title='Muestra'),
-                     paper_bgcolor="#F2F2F2",
-                     plot_bgcolor="#F2F2F2",
-                             margin={"r": 0, "t": 0, "l": 0, "b": 0},
-                             width=600, height=400,template='simple_white'
-)'''
-
-'''
-    html.Div([
-            dcc.Dropdown(
-                df2['datetime'].unique(),
-                'Date',
-                id='crossfilter-xaxis-column',
-            )]),
-'''
 app.layout = html.Div([ 
     html.Div([
         html.Div("Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM2.5. Puedes hacer zoom, moverte por el mapa e incluso seleccionar un barrio para ver las mediciones detalladas y obtener más información.",
@@ -72,7 +41,7 @@ app.layout = html.Div([
         dcc.Graph(id='regression'),
     ],style={'display': 'inline-block', 'width': '45%', 'margin-left': '3%'})
     
-])
+],style={'overflow': 'hidden', 'display': 'flex', 'flexWrap': 'wrap'})
 
 '''
     html.Div([
@@ -92,6 +61,7 @@ def update_map_on_click(clickData):
         if selected_area in selected_areas.keys():
             del selected_areas[selected_area]
         else:
+            print(selected_area)
             selected_areas[selected_area] = None
     elif len(selected_areas.keys())==0:
         selected_areas[df.sample(n=1)['code'].values[0]]= None
@@ -193,12 +163,19 @@ def create_time_series():
                 'sampl': value['sampl'],
                 
             }
+            #dff = dff.append(new_row, ignore_index=True)  # Añadir fila al DataFrame
+
             dff.loc[len(dff)] = new_row            
     selected_areas[dff['code'].iloc[0]] = dff #Se agrega todo al dataset
     dataframe_combinado = pd.concat(selected_areas.values())
 
     return dataframe_combinado
 
+def get_figures():
+    regression = update_regression_figure(None)
+    bogotamap = update_map_on_click(None)
+    return bogotamap, regression
+    
     
 if __name__ == '__main__':
     app.run_server(debug=True)
