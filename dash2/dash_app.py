@@ -6,13 +6,14 @@ from urllib.request import urlopen
 from django_plotly_dash import DjangoDash
 from dash import html, dcc, Output, Input, Patch
 from scipy.interpolate import griddata
+import dash_bootstrap_components as dbc
 
 
 from .rute_utils import *
 
 import plotly.express as px
 
-app = DjangoDash('SimpleExample')
+app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 external_stylesheets = ['dash2/static/dash_style.css']
 
@@ -27,21 +28,36 @@ df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
 selected_areas = {}
 
 
-app.layout = html.Div([ 
-    html.Div([
+bogota_map_div = html.Div([
         html.Div("Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM2.5. Puedes hacer zoom, moverte por el mapa e incluso seleccionar un barrio para ver las mediciones detalladas y obtener más información.",
-                style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontStyle': 'light', 'fontSize': '18px', 'marginBottom': '20px'}
-                ),
+                style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontSize': '18px', 'marginBottom': '20px'}),
         dcc.Graph(id='bogota-map')
-    ], style={ 'display': 'inline-block', 'width': '45%'}),
+], style={ })
     
-    html.Div([
+regression_map_dib = html.Div([
         html.Div("Aquí puedes examinar con detalle la información de las zonas seleccionadas en el mapa. Realiza comparaciones y obtén información precisa. Las unidades en el eje Y son microgramos por metro cúbico, con cada muestra tomada en una hora específica del día.",
-                 style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontStyle': 'light', 'fontSize': '18px', 'marginBottom': '20px'}),
+                 style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontSize': '18px', 'marginBottom': '20px'}),
         dcc.Graph(id='regression'),
-    ],style={'display': 'inline-block', 'width': '45%', 'margin-left': '3%'})
+    ],style={})
     
-],style={'overflow': 'hidden', 'display': 'flex', 'flexWrap': 'wrap'})
+
+
+
+app.layout = dbc.Container(
+    [
+        dbc.Row(
+            [
+                dbc.Col(bogota_map_div, md=5,),
+                dbc.Col(regression_map_dib, md=5),
+            ],
+            #justify="between",
+            align="center",
+            style={"background-color": "#F2F2F2"}
+        ),
+    ],
+    fluid=True,
+    style={"overflow": "hidden","background-color": "#F2F2F2"}
+)
 
 '''
     html.Div([
@@ -93,7 +109,7 @@ def update_map_on_click(clickData):
     updated_fig.update_layout(
         autosize=True,
         mapbox_zoom=11,
-        width=600, height=400,
+        width=500, height=400,
         mapbox_style="open-street-map",
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         mapbox_center={"lat": 4.60971, "lon": -74.08175},

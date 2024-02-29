@@ -11,6 +11,7 @@ export function Index() {
         height="2600px"
         src={iframeSrc}
         frameBorder="0"
+        style={{backgroundColor: "#F2F2F2"}}
       />        
     );
 }

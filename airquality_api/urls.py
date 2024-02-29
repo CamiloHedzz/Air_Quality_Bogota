@@ -29,6 +29,4 @@ urlpatterns = [
     path('locations/', include('locations.urls')),
     path('dashv1/', dash_view, name='dash_view'),
     path('dashv2/', dash_view2, name='dash_view2'),
-    path('api/dash_data/', dash_data, name='dash_data'),
-
 ]
