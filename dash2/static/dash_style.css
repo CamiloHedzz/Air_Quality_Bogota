@@ -77,6 +77,10 @@ body{
 }
 
 /*
-
+<div class="scroll-container">
+    <div class="{%plotly_class name="SimpleExample"%}" style="background-color: #f2f2f2;">
+        {%plotly_app name="SimpleExample" ratio=0.6%}
+    </div> 
+</div> 
 
 */

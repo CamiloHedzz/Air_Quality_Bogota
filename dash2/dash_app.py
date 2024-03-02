@@ -59,12 +59,6 @@ app.layout = dbc.Container(
     style={"overflow": "hidden","background-color": "#F2F2F2"}
 )
 
-'''
-    html.Div([
-            dcc.Graph(figure=fig_3d),
-    ],style={ 'width': '49%', 'height': '500px', 'display': 'inline-block'}),
-'''
-
 @app.callback(
     Output('bogota-map', 'figure'),
     [Input('bogota-map', 'clickData')]
@@ -186,12 +180,36 @@ def create_time_series():
     dataframe_combinado = pd.concat(selected_areas.values())
 
     return dataframe_combinado
-
-def get_figures():
-    regression = update_regression_figure(None)
-    bogotamap = update_map_on_click(None)
-    return bogotamap, regression
     
+
+def get_stadictic():
+    #Los dejo comentados porque el csv del mapa no cuenta con informacion respecto
+    #a las fechas y horas, toca revisar estructura de datos con Darwin
+    
+    #aux_map = df
+    #aux_map['datetime'] = pd.to_datetime(aux_map['datetime'])
+    #aux_map['hour'] = aux_map['datetime'].dt.strftime('%Y-%m-%d %H')
+    #hourly_avg_map = aux_map.groupby(aux_map['datetime'].dt.time)['sampl'].mean()
+    
+    aux_rutes = df2
+    aux_rutes['datetime'] = pd.to_datetime(aux_rutes['datetime'])
+    aux_rutes['hour'] = aux_rutes['datetime'].dt.strftime('%Y-%m-%d %H')
+    hourly_avg_rutes = aux_rutes.groupby(aux_rutes['datetime'].dt.time)['sampl'].mean()
+
+    
+    std_dash_figures = [
+        {"max_pm" : df.loc[df['sampl'] == df['sampl'].max()], #La maxima muestra de PM2.5 a nivel de barrios
+        "min_pm" : df.loc[df['sampl'] == df['sampl'].min()],
+        "min_hour": hourly_avg_rutes.idxmin(), #La maxima hora promedio con mas contaminacion
+        "max_hour": hourly_avg_rutes.idxmax()}
+        ,
+        {"max_pm" : df2.loc[df2['sampl'] == df2['sampl'].max()], #La maxima muestra de PM2.5 a nivel de rutas
+        "min_pm" : df2.loc[df2['sampl'] == df2['sampl'].min()],
+        "min_hour": hourly_avg_rutes.idxmin(), #La maxima hora promedio con mas contaminacion
+        "max_hour": hourly_avg_rutes.idxmax(),}                    
+    ]
+    
+    return std_dash_figures
     
 if __name__ == '__main__':
     app.run_server(debug=True)

@@ -5,16 +5,8 @@
 
 <iframe id="mi-iframe" style="background: #F2F2F2; " 
     src="http://localhost:8000/django_plotly_dash/app/SimpleExample/" 
-    frameborder="0" width="100%">
+    frameborder="0" height="528" width="100%">
 </iframe>
-
-
-
-<div class="scroll-container">
-    <div class="{%plotly_class name="SimpleExample"%}" style="background-color: #f2f2f2;">
-        {%plotly_app name="SimpleExample" ratio=0.6%}
-    </div> 
-</div> 
 
 <div class="container">
     <div class="container-left">
@@ -42,6 +34,74 @@
     
     <div class="container-right">
         <h2>Datos a tener en cuenta</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adip</p>
+        <p>          
+            A continuación se destacan los aspectos más relevantes de las muestras recopiladas
+            en las rutas que usted elija. Podrá visualizar específicamente las horas
+            del día y los barrios donde se registra una mayor concentración de
+            contaminación por partículas PM 2.5.
+        </p>
+        <h3>Max PM en barrios:</h3>
+    <table border="1">
+        <tr>
+            <th>Código</th>
+            <th>Barrio</th>
+            <th>Muestra</th>
+            <th>Valor PM</th>
+        </tr>
+        <tr>
+            <td>{{ dash_info.0.max_pm.iloc.0.code }}            </td>
+            <td>{{ dash_info.0.max_pm.sampl }}</td>
+            <td>{{ dash_info.0.max_pm.neighborhood }}</td>
+            <td>{{ dash_info.0.max_pm.value }}</td>
+        </tr>
+    </table>
+
+    <h3>Min PM en barrios:</h3>
+    <table border="1">
+        <tr>
+            <th>Código</th>
+            <th>Barrio</th>
+            <th>Muestra</th>
+            <th>Valor PM</th>
+        </tr>
+        <tr>
+            <td>{{ dash_info.0.min_pm.code }}</td>
+            <td>{{ dash_info.0.min_pm.sampl }}</td>
+            <td>{{ dash_info.0.min_pm.neighborhood }}</td>
+            <td>{{ dash_info.0.min_pm.value }}</td>
+        </tr>
+    </table>
+
+    <h3>Max PM en rutas:</h3>
+    <table border="1">
+        <tr>
+            <th>Código</th>
+            <th>Barrio</th>
+            <th>Muestra</th>
+            <th>Valor PM</th>
+        </tr>
+        <tr>
+            <td>{{ dash_info.1.max_pm.code }}</td>
+            <td>{{ dash_info.1.max_pm.sampl }}</td>
+            <td>{{ dash_info.1.max_pm.neighborhood }}</td>
+            <td>{{ dash_info.1.max_pm.value }}</td>
+        </tr>
+    </table>
+
+    <h3>Min PM en rutas:</h3>
+    <table border="1">
+        <tr>
+            <th>Código</th>
+            <th>Barrio</th>
+            <th>Muestra</th>
+            <th>Valor PM</th>
+        </tr>
+        <tr>
+            <td>{{ dash_info.1.min_pm.code }}</td>
+            <td>{{ dash_info.1.min_pm.sampl }}</td>
+            <td>{{ dash_info.1.min_pm.neighborhood }}</td>
+            <td>{{ dash_info.1.min_pm.value }}</td>
+        </tr>
+    </table>
     </div>
 </div>
