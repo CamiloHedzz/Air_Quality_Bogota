@@ -48,7 +48,7 @@ app.layout = dbc.Container(
         dbc.Row(
             [
                 dbc.Col(bogota_map_div, md=5,),
-                dbc.Col(regression_map_dib, md=5),
+                dbc.Col(regression_map_dib, md=5,style={"margin-left": "90px"}),
             ],
             #justify="between",
             align="center",
@@ -71,7 +71,6 @@ def update_map_on_click(clickData):
         if selected_area in selected_areas.keys():
             del selected_areas[selected_area]
         else:
-            print(selected_area)
             selected_areas[selected_area] = None
     elif len(selected_areas.keys())==0:
         selected_areas[df.sample(n=1)['code'].values[0]]= None

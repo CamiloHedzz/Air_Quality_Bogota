@@ -40,35 +40,43 @@
             del día y los barrios donde se registra una mayor concentración de
             contaminación por partículas PM 2.5.
         </p>
-        <h3>Max PM en barrios:</h3>
+        <h3>Maximo valor de particulas PM 2.5 en Barrios</h3>
     <table border="1">
         <tr>
-            <th>Código</th>
-            <th>Barrio</th>
-            <th>Muestra</th>
-            <th>Valor PM</th>
+            <th>Identificacion Barrio</th>
+            <th>Valor PM 2.5 µg/m³</th>
+            <th>Hora</th>
+            
         </tr>
         <tr>
-            <td>{{ dash_info.0.max_pm.iloc.0.code }}            </td>
-            <td>{{ dash_info.0.max_pm.sampl }}</td>
-            <td>{{ dash_info.0.max_pm.neighborhood }}</td>
-            <td>{{ dash_info.0.max_pm.value }}</td>
+            <td>{{ dash_info.0.max_pm.iloc.0.code }} </td>
+            <td>{{ dash_info.0.max_pm.iloc.0.sampl }}</td>
+            <td>{{ dash_info.0.max_hour }}</td>
+        </tr>
+        <tr>
+            <td>{{ dash_info.0.max_pm.iloc.1.code }} </td>
+            <td>{{ dash_info.0.max_pm.iloc.1.sampl }}</td>
+            <td>{{ dash_info.0.min_hour }}</td>
+            
         </tr>
     </table>
 
-    <h3>Min PM en barrios:</h3>
+    <h3>Minimo valor de particulas PM 2.5 en Barrios</h3>
     <table border="1">
         <tr>
-            <th>Código</th>
-            <th>Barrio</th>
-            <th>Muestra</th>
-            <th>Valor PM</th>
+            <th>Identificacion Barrio</th>
+            <th>Valor PM 2.5 µg/m³</th>
+            <th>Hora</th>
         </tr>
         <tr>
-            <td>{{ dash_info.0.min_pm.code }}</td>
-            <td>{{ dash_info.0.min_pm.sampl }}</td>
-            <td>{{ dash_info.0.min_pm.neighborhood }}</td>
-            <td>{{ dash_info.0.min_pm.value }}</td>
+            <td>{{ dash_info.0.min_pm.iloc.0.code }}</td>
+            <td>{{ dash_info.0.min_pm.iloc.0.sampl }}</td>
+            <td>{{ dash_info.1.max_hour }}</td>
+        </tr>
+        <tr>
+            <td>{{ dash_info.0.min_pm.iloc.1.code }}</td>
+            <td>{{ dash_info.0.min_pm.iloc.1.sampl }}</td>
+            <td>{{ dash_info.1.min_hour }}</td>
         </tr>
     </table>
 
