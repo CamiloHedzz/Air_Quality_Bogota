@@ -26,7 +26,7 @@ df = pd.read_csv("dash2/datasets/finalData.csv",
 df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
 
 selected_areas = {}
-
+t_recovered = "hola"
 
 bogota_map_div = html.Div([
         html.Div("Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM2.5. Puedes hacer zoom, moverte por el mapa e incluso seleccionar un barrio para ver las mediciones detalladas y obtener más información.",
@@ -54,6 +54,7 @@ app.layout = dbc.Container(
             align="center",
             style={"background-color": "#F2F2F2"}
         ),
+         html.H2(t_recovered)
     ],
     fluid=True,
     style={"overflow": "hidden","background-color": "#F2F2F2"}
@@ -132,6 +133,8 @@ def update_regression(selected_area):
     #    pass
     dff = create_time_series()
     
+    get_stadictic(dff)
+    
     fig = px.line(dff, x='datetime', y=['sampl'], color='neig', markers=True, line_shape='spline')
     
     '''
@@ -181,7 +184,9 @@ def create_time_series():
     return dataframe_combinado
     
 
-def get_stadictic():
+def get_stadictic(dff):
+    
+    print("entraa")
     #Los dejo comentados porque el csv del mapa no cuenta con informacion respecto
     #a las fechas y horas, toca revisar estructura de datos con Darwin
     
@@ -189,25 +194,26 @@ def get_stadictic():
     #aux_map['datetime'] = pd.to_datetime(aux_map['datetime'])
     #aux_map['hour'] = aux_map['datetime'].dt.strftime('%Y-%m-%d %H')
     #hourly_avg_map = aux_map.groupby(aux_map['datetime'].dt.time)['sampl'].mean()
-    
-    aux_rutes = df2
-    aux_rutes['datetime'] = pd.to_datetime(aux_rutes['datetime'])
-    aux_rutes['hour'] = aux_rutes['datetime'].dt.strftime('%Y-%m-%d %H')
-    hourly_avg_rutes = aux_rutes.groupby(aux_rutes['datetime'].dt.time)['sampl'].mean()
+    std_dash_figures = []
+    if dff is not None:
+        aux_rutes = df2
+        aux_rutes['datetime'] = pd.to_datetime(aux_rutes['datetime'])
+        aux_rutes['hour'] = aux_rutes['datetime'].dt.strftime('%Y-%m-%d %H')
+        hourly_avg_rutes = aux_rutes.groupby(aux_rutes['datetime'].dt.time)['sampl'].mean()
 
-    
-    std_dash_figures = [
-        {"max_pm" : df.loc[df['sampl'] == df['sampl'].max()], #La maxima muestra de PM2.5 a nivel de barrios
-        "min_pm" : df.loc[df['sampl'] == df['sampl'].min()],
-        "min_hour": hourly_avg_rutes.idxmin(), #La maxima hora promedio con mas contaminacion
-        "max_hour": hourly_avg_rutes.idxmax()}
-        ,
-        {"max_pm" : df2.loc[df2['sampl'] == df2['sampl'].max()], #La maxima muestra de PM2.5 a nivel de rutas
-        "min_pm" : df2.loc[df2['sampl'] == df2['sampl'].min()],
-        "min_hour": hourly_avg_rutes.idxmin(), #La maxima hora promedio con mas contaminacion
-        "max_hour": hourly_avg_rutes.idxmax(),}                    
-    ]
-    
+        
+        std_dash_figures = [
+            {"max_pm" : df.loc[df['sampl'] == df['sampl'].max()], #La maxima muestra de PM2.5 a nivel de barrios
+            "min_pm" : df.loc[df['sampl'] == df['sampl'].min()],
+            "min_hour": hourly_avg_rutes.idxmin(), #La maxima hora promedio con mas contaminacion
+            "max_hour": hourly_avg_rutes.idxmax()}
+            ,
+            {"max_pm" : dff.loc[dff['sampl'] == dff['sampl'].max()], #La maxima muestra de PM2.5 a nivel de rutas
+            "min_pm" : dff.loc[dff['sampl'] == dff['sampl'].min()],
+            "min_hour": hourly_avg_rutes.idxmin(), #La maxima hora promedio con mas contaminacion
+            "max_hour": hourly_avg_rutes.idxmax(),}                    
+        ]
+        
     return std_dash_figures
     
 if __name__ == '__main__':

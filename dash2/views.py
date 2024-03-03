@@ -5,7 +5,7 @@ from dash2.dash_app import get_stadictic
 # Create your views here.
 
 def dash_view(request):    
-    return render(request, 'dash_app.html', {'dash_info': get_stadictic()})  
+    return render(request, 'dash_app.html', {'dash_info': get_stadictic(None)})  
 
 def dash_view2(request):
     return render(request, 'dash_app2.html')
