@@ -26,7 +26,7 @@
             <th>Identificacion Barrio</th>
             <th>Valor PM 2.5 µg/m³</th>
         </tr>
-        {% for row in dash_info.0.max_pm.values %}
+        {% for row in dash_info.max_pm.values %}
         <tr>    
             <td>{{ row.0 }}</td>
             <td class="td_result">{{ row.1 }}</td>
@@ -40,7 +40,7 @@
             <th>Identificacion Barrio</th>
             <th>Valor PM 2.5 µg/m³</th>
         </tr>
-        {% for row in dash_info.0.min_pm.values %}
+        {% for row in dash_info.min_pm.values %}
         <tr>    
             <td>{{ row.0 }}</td>
             <td class="td_result">{{ row.1 }}</td>
@@ -54,8 +54,8 @@
             <th>Hora con Menor Promedio de Partículas (PM 2.5 µg/m³)</th>
         </tr>
         <tr>
-            <td  class="td_result">{{ dash_info.0.min_hour }}</td>
-            <td  class="td_result">{{ dash_info.0.max_hour }}</td>
+            <td  class="td_result">{{ dash_info.min_hour }}</td>
+            <td  class="td_result">{{ dash_info.max_hour }}</td>
         </tr>
     </table>
     </div>
@@ -67,39 +67,12 @@
             los barrios de interes, pulsa en el boton <b>Obtener Resultados</b> 
             y la informacion se desplegara agui abajo :)
         </p>
-
-        <button class="cssbuttons-io" >
-            <span><a href="http://localhost:8000/dashv1/">Obtener Resultados</a></span>
-        </button>
-    <h3>Maximo valor de particulas PM 2.5 en barrios seleccionados</h3>
-    <table class = "table_stats" border="1">
-        <tr>
-            <th>Identificacion Barrio</th>
-            <th>Valor PM 2.5 µg/m³</th>
-            <th>Hora</th>
-        </tr>
-        <tr>
-            <td>{{ dash_info.1.max_pm.code }}</td>
-            <td>{{ dash_info.1.max_pm.sampl }}</td>
-            <td>{{ dash_info.1.max_pm.value }}</td>
-        </tr>
-    </table>
-
-    <h3>Minimo valor de particulas PM 2.5 en barrios seleccionados</h3>
-    <table border="1">
-        <tr>
-            <th>Identificacion Barrio</th>
-            <th>Valor PM 2.5 µg/m³</th>
-            <th>Hora</th>
-        </tr>
-        <tr>
-            <td>{{ dash_info.1.max_pm.code }}</td>
-            <td>{{ dash_info.1.max_pm.sampl }}</td>
-            <td>{{ dash_info.1.max_pm.value }}</td>
-        </tr>
-    </table>
-
-    
+        
+        <iframe id="mi-iframe" style="background: #F2F2F2; " 
+            src="http://localhost:8000/django_plotly_dash/app/SimpleExample2/" 
+            frameborder="0" height="528" width="100%">
+        </iframe>
+   
     </div>
 </div>
 
