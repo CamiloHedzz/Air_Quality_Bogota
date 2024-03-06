@@ -1,3 +1,12 @@
+::-webkit-scrollbar {
+    width: 0px; /* Ancho del scroll */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color del thumb */
+    border-radius: 0px; /* Bordes redondeados */
+}
+
 .container {
     font-family: 'Oswald Light';
     display: flex;
@@ -44,31 +53,6 @@ body{
     background-color: #F2F2F2 ;
 }
 
-/* Estilo del scroll */
-::-webkit-scrollbar {
-    width: 10px; /* Ancho del scroll */
-}
-
-/* Estilo del thumb (barra de desplazamiento) */
-::-webkit-scrollbar-thumb {
-    background-color: #888; /* Color del thumb */
-    border-radius: 5px; /* Bordes redondeados */
-}
-
-/* Estilo del thumb al estar hover */
-::-webkit-scrollbar-thumb:hover {
-    background-color: #555; /* Color del thumb al pasar el mouse sobre él */
-}
-
-/* Estilo de la barra de track (fondo del scroll) */
-::-webkit-scrollbar-track {
-    background-color: #f1f1f1; /* Color del track */
-}
-
-/* Estilo de la esquina del scroll */
-::-webkit-scrollbar-corner {
-    background-color: transparent; /* Color de la esquina */
-}
 
 
 #mi-iframe{
@@ -108,7 +92,7 @@ body{
     font-family: 'Oswald Light';
     text-align: justify;
     font-size: 18px;
-    margin-top: 5%;
+    margin-top: 2%;
 }
 
 .td_result{
