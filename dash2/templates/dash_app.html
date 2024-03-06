@@ -19,52 +19,60 @@
             del día y los barrios donde se registra una mayor concentración de
             contaminación por partículas PM 2.5.
         </p>
-        <h3>Maximo valor de particulas PM 2.5</h3>
-    <table border="1">
+        <h3 class ="stats_title">Maximo valor de particulas PM 2.5</h3>
+        
+        <table class = "table_stats">
         <tr>
             <th>Identificacion Barrio</th>
             <th>Valor PM 2.5 µg/m³</th>
-            <th>Hora</th>
-                
         </tr>
+        {% for row in dash_info.0.max_pm.values %}
+        <tr>    
+            <td>{{ row.0 }}</td>
+            <td class="td_result">{{ row.1 }}</td>
         <tr>
-            <td>{{ dash_info.0.max_pm.iloc.0.code }} </td>
-            <td>{{ dash_info.0.max_pm.iloc.0.sampl }}</td>
-            <td>{{ dash_info.0.max_hour }}</td>
-        </tr>
-        <tr>
-            <td>{{ dash_info.0.max_pm.iloc.1.code }} </td>
-            <td>{{ dash_info.0.max_pm.iloc.1.sampl }}</td>
-            <td>{{ dash_info.0.min_hour }}</td>
-            
-        </tr>
+        {% endfor %}
     </table>
 
-    <h3>Minimo valor de particulas PM 2.5</h3>
-    <table border="1">
+    <h3 class ="stats_title">Minimo valor de particulas PM 2.5</h3>
+    <table class = "table_stats" >
         <tr>
             <th>Identificacion Barrio</th>
             <th>Valor PM 2.5 µg/m³</th>
-            <th>Hora</th>
+        </tr>
+        {% for row in dash_info.0.min_pm.values %}
+        <tr>    
+            <td>{{ row.0 }}</td>
+            <td class="td_result">{{ row.1 }}</td>
+        <tr>
+        {% endfor %}
+    </table>
+    <h3 class="stats_title">Horas con Mayor y Menor Contaminación de Partículas</h3>
+    <table class = "table_stats" >
+        <tr>
+            <th>Hora con Mayor Promedio de Partículas (PM 2.5 µg/m³)</th>
+            <th>Hora con Menor Promedio de Partículas (PM 2.5 µg/m³)</th>
         </tr>
         <tr>
-            <td>{{ dash_info.0.min_pm.iloc.0.code }}</td>
-            <td>{{ dash_info.0.min_pm.iloc.0.sampl }}</td>
-            <td>{{ dash_info.1.max_hour }}</td>
-        </tr>
-        <tr>
-            <td>{{ dash_info.0.min_pm.iloc.1.code }}</td>
-            <td>{{ dash_info.0.min_pm.iloc.1.sampl }}</td>
-            <td>{{ dash_info.1.min_hour }}</td>
+            <td  class="td_result">{{ dash_info.0.min_hour }}</td>
+            <td  class="td_result">{{ dash_info.0.max_hour }}</td>
         </tr>
     </table>
-       
     </div>
-    
     <div class="container-right">      
+        <p>          
+            En este apartado puedes tener informacion mas precisa de los barrios 
+            que selecciones, nosotros nos encargaremos de mostrarte los puntos mas
+            importantes y de mayor relevancia, una vez que termines de seleccionar 
+            los barrios de interes, pulsa en el boton <b>Obtener Resultados</b> 
+            y la informacion se desplegara agui abajo :)
+        </p>
 
+        <button class="cssbuttons-io" >
+            <span><a href="http://localhost:8000/dashv1/">Obtener Resultados</a></span>
+        </button>
     <h3>Maximo valor de particulas PM 2.5 en barrios seleccionados</h3>
-    <table border="1">
+    <table class = "table_stats" border="1">
         <tr>
             <th>Identificacion Barrio</th>
             <th>Valor PM 2.5 µg/m³</th>
@@ -90,27 +98,30 @@
             <td>{{ dash_info.1.max_pm.value }}</td>
         </tr>
     </table>
+
+    
     </div>
 </div>
 
-
-<h2>¿Que son las particulas PM 2.5?</h2>
-<p>
-    Las partículas PM2.5, son un tipo de contaminante 
-    atmosférico
-    compuesto por partículas sólidas o líquidas de
-    diámetro aerodinámico igual o menor a 2.5 micrómetros
-    (µm).La exposición a largo plazo a altos niveles de PM2.5 
-    está relacionada con una serie de problemas de salud,
-    como enfermedades respiratorias (asma, bronquitis, etc.),
-    enfermedades cardiovasculares, e incluso cáncer de pulmón.
-</p>
-<h2>Aqui te damos un rango</h2>
-<ul>
-    <li><b>0-12 µg/m³:</b> Bueno - La calidad del aire se considera satisfactoria y no se espera que represente un riesgo para la salud.</li>
-    <li><b>12.1-35.4 µg/m³:</b> Moderado - La calidad del aire es aceptable; sin embargo, puede haber ciertos riesgos para la salud para un número muy pequeño de personas que son especialmente sensibles a la contaminación del aire.</li>
-    <li><b>35.5-55.4 µg/m³:</b> Poco saludable para grupos sensibles - Las personas con enfermedades respiratorias o cardíacas, niños y ancianos pueden experimentar efectos adversos para la salud. La población en general no se verá afectada.</li>
-    <li><b>55.5-150.4 µg/m³:</b> Poco saludable - Todos pueden comenzar a experimentar efectos adversos para la salud; las personas con enfermedades respiratorias o cardíacas, niños y ancianos pueden experimentar efectos más graves.</li>
-    <li><b>150.5-250.4 µg/m³:</b> Muy poco saludable - Las alertas de salud aumentan, ya que la población en general puede experimentar efectos más graves en la salud.</li>
-    <li><b>Más de 250.5 µg/m³:</b> Peligroso: Se activan alertas de salud de emergencia. La población general puede experimentar efectos graves para la salud.</li>
-</ul>
+<div class="pm_info">
+    <h2>¿Que son las particulas PM 2.5?</h2>
+    <p>
+        Las partículas PM2.5, son un tipo de contaminante 
+        atmosférico
+        compuesto por partículas sólidas o líquidas de
+        diámetro aerodinámico igual o menor a 2.5 micrómetros
+        (µm).La exposición a largo plazo a altos niveles de PM2.5 
+        está relacionada con una serie de problemas de salud,
+        como enfermedades respiratorias (asma, bronquitis, etc.),
+        enfermedades cardiovasculares, e incluso cáncer de pulmón.
+    </p>
+    <h2>Aqui te damos un rango</h2>
+    <ul>
+        <li><b>0-12 µg/m³:</b> Bueno - La calidad del aire se considera satisfactoria y no se espera que represente un riesgo para la salud.</li>
+        <li><b>12.1-35.4 µg/m³:</b> Moderado - La calidad del aire es aceptable; sin embargo, puede haber ciertos riesgos para la salud para un número muy pequeño de personas que son especialmente sensibles a la contaminación del aire.</li>
+        <li><b>35.5-55.4 µg/m³:</b> Poco saludable para grupos sensibles - Las personas con enfermedades respiratorias o cardíacas, niños y ancianos pueden experimentar efectos adversos para la salud. La población en general no se verá afectada.</li>
+        <li><b>55.5-150.4 µg/m³:</b> Poco saludable - Todos pueden comenzar a experimentar efectos adversos para la salud; las personas con enfermedades respiratorias o cardíacas, niños y ancianos pueden experimentar efectos más graves.</li>
+        <li><b>150.5-250.4 µg/m³:</b> Muy poco saludable - Las alertas de salud aumentan, ya que la población en general puede experimentar efectos más graves en la salud.</li>
+        <li><b>Más de 250.5 µg/m³:</b> Peligroso: Se activan alertas de salud de emergencia. La población general puede experimentar efectos graves para la salud.</li>
+    </ul>
+</div>
