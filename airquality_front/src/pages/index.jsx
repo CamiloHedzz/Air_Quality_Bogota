@@ -9,7 +9,7 @@ export function Index() {
     <div>
       <iframe
         width="100%"
-        height="2000px"
+        height="1900px"
         src={iframeSrc}
         frameBorder="0"
         style={{backgroundColor: "#F2F2F2"}}

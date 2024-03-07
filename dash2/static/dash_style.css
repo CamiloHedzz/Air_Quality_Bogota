@@ -40,6 +40,14 @@ ul li{
     }
 }
 
+
+@media  (max-width: 768px) {
+    /* Ajusta los estilos aquí para pantallas pequeñas */
+    .pm_info {
+     margin-top: 0px;
+    }
+  }
+
 h2{
     font-family: 'Oswald';
     font-weight:500;
@@ -92,7 +100,7 @@ body{
     font-family: 'Oswald Light';
     text-align: justify;
     font-size: 18px;
-    margin-top: 2%;
+    margin-top: 5%;
 }
 
 .td_result{
@@ -169,3 +177,4 @@ table td:hover {
   .cssbuttons-io:active {
     transform: scale(0.95);
   }
+

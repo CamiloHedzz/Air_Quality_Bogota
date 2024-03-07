@@ -278,7 +278,6 @@ form {
     background-size: var(--s) calc(var(--s) * 0.577);
   }
   
-  
   .footer-content {
     display: flex;
     justify-content: space-between;
@@ -286,39 +285,46 @@ form {
     
   }
 
+  .container_img {
+    width: 400px;
+    padding: 20px;
+    text-align: center;
+  }
+
   #footer_img{
-    width: 100px;
+      width: 100px;
+      margin: 0;
   }
   
   .contact-info {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
   }
   
   .contact-info img {
     width: 10px;
     height: 120px;
-    
     margin-right: 10px;
   }
   
   .contact-info p {
-    font-size: 16px;
+    font-size: 18px;
   }
   
   .social-icons {
-    margin-top: 10px;
+    display: flex;
+    justify-content: center; /* Cambia space-around por center o flex-start */
+    max-width: 400px; /* Ajusta el ancho máximo según sea necesario */
+    width: 100%;
   }
   
-  .social-icons a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 24px;
-    margin-right: 10px;
-    transition: transform 0.3s ease;
-  }
-  
-  .social-icons a:hover {
-    transform: translateY(-3px);
+  .social-icons img {
+    width: 40px; /* Ajusta el tamaño de los iconos según sea necesario */
+    height: auto;
+    margin: 0 15px;
   }
   
   .resources {
@@ -328,22 +334,15 @@ form {
   .resources h3 {
     margin-bottom: 15px;
     font-size: 20px;
+    
   }
-  
-  .resources ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .resources li {
-    margin-bottom: 10px;
-  }
-  
+
   .resources a {
     text-decoration: none;
     color: #fff;
-    font-size: 16px;
+    font-size: 18px;
     transition: color 0.3s ease;
+    margin: 0 15px;
   }
   
   .resources a:hover {
