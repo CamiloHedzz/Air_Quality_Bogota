@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'users',
     'coreapi',
     'samples',
-    'locations',
+    'event',
+    'sample_rute',
+    'rutes',
     'corsheaders',
     'rest_framework',
 ]

@@ -8,7 +8,7 @@ class User(models.Model):
     identification = models.IntegerField()
     name = models.CharField(max_length=500)
     last_name = models.CharField(max_length=500)
-    sample = models.ForeignKey(Sample,on_delete=models.SET_NULL,null=True )
+    #sample = models.ForeignKey(Sample,on_delete=models.SET_NULL,null=True )
 
     def __str__(self):
         return f'User {self.identification}: {self.name}'
