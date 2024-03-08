@@ -7,3 +7,5 @@ from .models import Sample
 class SampleView(viewsets.ModelViewSet): 
     serializer_class = SampleSerializer
     queryset = Sample.objects.all()
+    print("entra")
+    print(queryset)

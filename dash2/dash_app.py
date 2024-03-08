@@ -14,7 +14,7 @@ import plotly.express as px
 
 app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-external_stylesheets = ['dash2/static/dash_style.css']
+#external_stylesheets = ['/assets/stylesheet.css']
 
 with open('dash2/datasets/bogota_cadastral.json', 'r') as file:
     counties = json.load(file)
@@ -49,9 +49,9 @@ app.layout = dbc.Container(
         dbc.Row(
             [
                 dbc.Col(bogota_map_div, md=5,),
-                dbc.Col(regression_map_dib, md=5,style={"margin-left": "90px"}),
+                dbc.Col(regression_map_dib, md=5, style={"margin-left": "90px"}),
             ],
-            #justify="between",
+            #justify="between", 
             align="center",
             style={"background-color": "#F2F2F2"}
         ),  
