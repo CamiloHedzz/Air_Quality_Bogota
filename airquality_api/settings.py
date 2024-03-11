@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'coreapi',
     'samples',
     'event',
-    'sample_rute',
     'rutes',
     'corsheaders',
     'rest_framework',

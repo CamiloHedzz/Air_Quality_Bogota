@@ -13,7 +13,6 @@ class Sample(models.Model):
     temperature = models.DecimalField(max_digits=6, decimal_places=6)
     humidity = models.DecimalField(max_digits=6, decimal_places=6)   
     neighbourhood = models.CharField(max_length=100)
-    #id_evet = models.ForeignKey(Event , on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self):
         return f'Sample {self.id_sample}: {self.name}'
