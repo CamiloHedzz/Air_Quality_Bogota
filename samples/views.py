@@ -3,22 +3,21 @@ from rest_framework import status
 from rest_framework import viewsets
 from .serializer import SampleSerializer
 from rest_framework.response import Response
-
+from dash2.rute_utils import get_zone
 # Create your views here.
 
 class SampleView(viewsets.ModelViewSet): 
     serializer_class = SampleSerializer
     queryset = Sample.objects.all()
     
-    
     def create(self, request, *args, **kwargs):
         
         data = request.data
 
-        print(data)
+        print(get_zone(data['latitude'], data['longitude']))
 
         # Supongamos que determinamos el barrio y lo almacenamos en la variable neighbourhood
-        neighbourhood = "Barrio determinado"
+        neighbourhood = get_zone(data['latitude'], data['longitude'])
 
         # Agregar el barrio al diccionario de datos
         data['neighbourhood'] = neighbourhood

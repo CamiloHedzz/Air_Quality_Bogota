@@ -17,6 +17,13 @@ with urlopen('https://gist.githubusercontent.com/john-guerra/ee93225ca2c671b3550
 
     zones = {zone['properties']['DISPLAY_NAME']: zone['geometry']['coordinates'][0][0] for zone in coordinates}
 
+with open('dash2/datasets/bogota_cadastral.json', 'r') as file:
+    counties = json.load(file)
+    
+    coordinates = counties['features']
+
+    zones = {zone['properties']['DISPLAY_NAME']: zone['geometry']['coordinates'][0][0] for zone in coordinates}
+
 #crear rutas
 num_rutes = 25
 num_points = 50

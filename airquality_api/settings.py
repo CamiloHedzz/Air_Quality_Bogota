@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'airquality_api.wsgi.application'
 DATABASES ={
  'default':{
     'ENGINE': 'django.db.backends.postgresql_psycopg2', #manejador de base de datos que voy a utilizar
-    'NAME': 'Air_Quality_Bogota',
+    'NAME': 'AirQuality_DB',
     'USER': 'postgres',
     'PASSWORD': 'admin',
     'HOST': 'localhost',
