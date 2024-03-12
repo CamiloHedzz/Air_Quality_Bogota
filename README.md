@@ -6,6 +6,10 @@ En este proyecto, nos hemos propuesto abordar los desafíos relacionados con la 
 
 La polución y contaminación atmosférica representan desafíos significativos en las grandes ciudades, y Bogotá no es una excepción. El objetivo principal de este proyecto de investigación es identificar las zonas con mayor contaminación en la ciudad y desarrollar un modelo que estime la concentración de partículas contaminantes en función de la hora y la ubicación. Además, se busca determinar el impacto en la salud asociado con la exposición prolongada a estas zonas.
 
+![Pagina principal](https://raw.githubusercontent.com/CamiloHedzz/Air_Quality_Bogota/master/airquality_front/src/assets/images/front1.png)
+
+![Recopilacion de datos](https://raw.githubusercontent.com/CamiloHedzz/Air_Quality_Bogota/master/airquality_front/src/assets/images/Datos2.png)
+
 ## Tecnologías Utilizadas
 
 Este proyecto se desarrolló utilizando las siguientes tecnologías:
