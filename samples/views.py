@@ -14,18 +14,12 @@ class SampleView(viewsets.ModelViewSet):
         
         data = request.data
 
-        print(get_zone(data['latitude'], data['longitude']))
-
-        # Supongamos que determinamos el barrio y lo almacenamos en la variable neighbourhood
         neighbourhood = get_zone(data['latitude'], data['longitude'])
-
-        # Agregar el barrio al diccionario de datos
+        
         data['neighbourhood'] = neighbourhood
 
-        # Crear una instancia del serializador con los datos procesados
         serializer = self.get_serializer(data=data)
 
-        # Validar los datos
         if serializer.is_valid():
             # Guardar la instancia
             serializer.save()
