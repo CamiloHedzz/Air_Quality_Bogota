@@ -9,3 +9,4 @@ class Event(models.Model):
     festividad = models.BooleanField(default=False)
     protesta = models.BooleanField(default=False)
     volumen_trafico = models.DecimalField(max_digits=6, decimal_places=2)
+    #zonas verdes

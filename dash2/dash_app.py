@@ -20,8 +20,8 @@ with open('dash2/datasets/bogota_cadastral.json', 'r') as file:
     counties = json.load(file)
 
 #Dataset que representa el mapa de bogota
-df = pd.read_csv("dash2/datasets/finalData.csv",
-                   dtype={"code": str})
+df = pd.read_csv("dash2/datasets/final_geodata.csv",
+                   dtype={"neighborhood": str})
 
 
 #Dataset que representa las muestras
@@ -33,10 +33,35 @@ df3 = None
 selected_areas = {}
 
 bogota_map_div = html.Div([
-        html.Div("Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM2.5. Puedes hacer zoom, moverte por el mapa e incluso seleccionar un barrio para ver las mediciones detalladas y obtener más información.",
-                style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontSize': '18px', 'marginBottom': '20px'}),
-        dcc.Graph(id='bogota-map')
-], style={})
+    html.Div(
+        "Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM2.5. Puedes hacer zoom, moverte por el mapa e incluso seleccionar un barrio para ver las mediciones detalladas y obtener más información.",
+        style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontSize': '18px', 'marginBottom': '20px'}),
+    dbc.Row([
+        dbc.Col(
+            dcc.Dropdown(
+                options=[{'label': 'Population', 'value': 'pop'},
+                         {'label': 'Life Expectancy', 'value': 'lifeExp'},
+                         {'label': 'GDP per Capita', 'value': 'gdpPercap'}],
+                value='pop',
+                id='clientside-graph-indicator-px'
+            ),
+            width=3
+        ),
+        dbc.Col(
+            dcc.Dropdown(
+                options=[{'label': 'Population', 'value': 'pop'},
+                         {'label': 'Life Expectancy', 'value': 'lifeExp'},
+                         {'label': 'GDP per Capita', 'value': 'gdpPercap'}],
+                value='Canada',
+                id='clientside-graph-country-px'
+            ),
+            width=3
+        ),
+        dbc.Col(
+            dcc.Graph(id='bogota-map')
+        )
+    ])
+])
     
 regression_map_dib = html.Div([
         html.Div("Aquí puedes examinar con detalle la información de las zonas seleccionadas en el mapa. Realiza comparaciones y obtén información precisa. Las unidades en el eje Y son microgramos por metro cúbico, con cada muestra tomada en una hora específica del día.",
@@ -74,9 +99,9 @@ def update_map_on_click(clickData):
         else:
             selected_areas[selected_area] = None
     elif len(selected_areas.keys())==0:
-        selected_areas[df.sample(n=1)['code'].values[0]]= None
+        selected_areas[df.sample(n=1)['neighborhood'].values[0]]= None
         
-    for display_name in df.code.items():
+    for display_name in df.neighborhood.items():
         if display_name[1] in selected_areas:
             feature_areas['op'].append(1)
             feature_areas['wid'].append(3)
@@ -88,12 +113,12 @@ def update_map_on_click(clickData):
     
     updated_fig = go.Figure(go.Choroplethmapbox(
         geojson=counties,
-        locations=df.code,
-        z=df.sampl,
+        locations=df.neighborhood,
+        z=df.pm_25_mean,
         featureidkey='properties.DISPLAY_NAME',
         colorscale="Viridis",
-        zmin=df.sampl.min(),
-        zmax=df.sampl.max(),
+        zmin=df.pm_25_mean.min(),
+        zmax=df.pm_25_mean.max(),
         marker_opacity=feature_areas['op'],
         marker_line_width=feature_areas['wid'],
         marker_line_color=feature_areas['col'],
@@ -136,7 +161,7 @@ def update_regression(selected_area):
     
     df3 = dff
     
-    fig = px.line(dff, x='datetime', y=['sampl'], color='neig', markers=True, line_shape='spline')
+    fig = px.line(dff, x='datetime', y=['pm_25'], color='neig', markers=True) # , line_shape='spline'
     
     '''
     fig = px.scatter(dff, x="datetime", y="sampl", color='neig', trendline="rolling", 
@@ -164,25 +189,29 @@ def create_time_series():
     
     global selected_areas, df2
     
-    df3 = pd.DataFrame(columns=['datetime', 'code', 'neig', 'sampl'])
+    df3 = pd.DataFrame(columns=['datetime', 'neighborhood', 'neig', 'pm_25'])
     
     for j in selected_areas.keys():
         if selected_areas[j] is None:
             for i, value in df2.iterrows():
-                if value['code'] in selected_areas:
-                    name = value['code'].split(',')[0]
+                if value['neighborhood'] in selected_areas:
+                    name = value['neighborhood'].split(',')[0]
                     new_row = {
                         'datetime': value['datetime'],
-                        'code': value['code'],
+                        'neighborhood': value['neighborhood'],
                         'neig': name,
-                        'sampl': value['sampl'],
+                        'pm_25': value['pm_25'],
                     }
-                    if j == value['code']:                
+                    if j == value['neighborhood']:                
                         df3 = pd.concat([df3, pd.DataFrame([new_row])], ignore_index=True)
         
             selected_areas[j] = df3 #Se agrega todo al dataset
     
     dataframe_combinado = pd.concat(selected_areas.values(), ignore_index=True)
+   
+    dataframe_combinado.sort_values(by='datetime', inplace=True)
+
+    print(dataframe_combinado)
    
     return dataframe_combinado
 
@@ -192,11 +221,11 @@ def get_stadictic():
     
     aux_rutes['datetime'] = pd.to_datetime(aux_rutes['datetime'])
     aux_rutes['hour'] = aux_rutes['datetime'].dt.strftime('%Y-%m-%d %H')
-    hourly_avg_rutes = aux_rutes.groupby(aux_rutes['datetime'].dt.time)['sampl'].mean()
+    hourly_avg_rutes = aux_rutes.groupby(aux_rutes['datetime'].dt.time)['pm_25'].mean()
 
     
-    std_dash_figures = {"max_pm" : df.loc[df['sampl'] == df['sampl'].max()], #La maxima muestra de PM2.5 a nivel de barrios
-        "min_pm" : df.loc[df['sampl'] == df['sampl'].min()],
+    std_dash_figures = {"max_pm" : df.loc[df['pm_25_mean'] == df['pm_25_mean'].max()], #La maxima muestra de PM2.5 a nivel de barrios
+        "min_pm" : df.loc[df['pm_25_mean'] == df['pm_25_mean'].min()],
         "min_hour": hourly_avg_rutes.idxmin(), #La maxima hora promedio con mas contaminacion
         "max_hour": hourly_avg_rutes.idxmax()}
       
