@@ -37,35 +37,61 @@ bogota_map_div = html.Div([
         "Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM2.5. Puedes hacer zoom, moverte por el mapa e incluso seleccionar un barrio para ver las mediciones detalladas y obtener más información.",
         style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontSize': '18px', 'marginBottom': '20px'}),
     dbc.Row([
+        
+
         dbc.Col(
             dcc.Dropdown(
-                options=[{'label': 'Population', 'value': 'pop'},
-                         {'label': 'Life Expectancy', 'value': 'lifeExp'},
-                         {'label': 'GDP per Capita', 'value': 'gdpPercap'}],
-                value='pop',
-                id='clientside-graph-indicator-px'
+                id="datetime",
+                options=pd.to_datetime(df2['datetime']).dt.strftime('%B').unique().tolist(),
+                value="",
+                clearable=False,
+                placeholder="Fecha",
             ),
-            width=3
+            width=4
         ),
         dbc.Col(
             dcc.Dropdown(
-                options=[{'label': 'Population', 'value': 'pop'},
-                         {'label': 'Life Expectancy', 'value': 'lifeExp'},
-                         {'label': 'GDP per Capita', 'value': 'gdpPercap'}],
-                value='Canada',
-                id='clientside-graph-country-px'
+                id="variable",
+                options=["PM 2.5","PM 10","Temperatura", "Humedad"],
+                placeholder="Variable",
+                value="",
+                clearable=False,
             ),
             width=3
         ),
-        dbc.Col(
-            dcc.Graph(id='bogota-map')
-        )
-    ])
+        
+    ],style={'marginBottom': '10px'}),
+    
+    dbc.Col(dcc.Graph(id='bogota-map'))
 ])
     
 regression_map_dib = html.Div([
         html.Div("Aquí puedes examinar con detalle la información de las zonas seleccionadas en el mapa. Realiza comparaciones y obtén información precisa. Las unidades en el eje Y son microgramos por metro cúbico, con cada muestra tomada en una hora específica del día.",
                  style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontSize': '18px', 'marginBottom': '20px'}),
+        dbc.Row([
+            dbc.Col(
+                dcc.Dropdown(
+                    id="frecuency",
+                    options=["Diaria", "Semanal", "Mensual"],
+                    value="",
+                    clearable=False,
+                    placeholder="Frecuencia",
+                ),width=3
+            ),
+            dbc.Col(
+                dcc.Dropdown(
+                    options={
+                        'PM25': 'PM 2.5',
+                        'PM10': 'PM 10',
+                        'TEMP': 'Temperatura',
+                        'HUM': 'Humedad'
+                    },
+                    value='PM25',
+                    multi=True,
+                    clearable=False
+                ),width=9
+            ),
+        ],style={'marginBottom': '10px'}),
         dcc.Graph(id='regression'),
 ],style={})
     
@@ -92,6 +118,7 @@ app.layout = dbc.Container(
 def update_map_on_click(clickData):
     global selected_areas
     feature_areas = {'op': [], 'wid': [], 'col': []}
+    
     if clickData is not None:
         selected_area = clickData['points'][0]['location']
         if selected_area in selected_areas.keys():
@@ -211,7 +238,7 @@ def create_time_series():
    
     dataframe_combinado.sort_values(by='datetime', inplace=True)
 
-    print(dataframe_combinado)
+    #print(dataframe_combinado)
    
     return dataframe_combinado
 
@@ -232,5 +259,6 @@ def get_stadictic():
     return std_dash_figures
     
 if __name__ == '__main__':
+    
     app.run_server(debug=True)
     
