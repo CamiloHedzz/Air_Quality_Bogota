@@ -9,6 +9,7 @@ import dash_bootstrap_components as dbc
 from dash2 import dash_app2
 
 from .rute_utils import *
+from .dash_figures import *
 
 import plotly.express as px
 
@@ -16,50 +17,48 @@ app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 #external_stylesheets = ['/assets/stylesheet.css']
 
-with open('dash2/datasets/bogota_cadastral.json', 'r') as file:
-    counties = json.load(file)
-
-#Dataset que representa el mapa de bogota
-df = pd.read_csv("dash2/datasets/final_geodata.csv",
-                   dtype={"neighborhood": str})
-
-
-#Dataset que representa las muestras
-df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
-
 #Rutas seleccionadas
 df3 = None
 
 selected_areas = {}
+
+geo_fig = update_figure(geo_fig_general)
+
+month_filter = pd.to_datetime(df2['datetime']).dt.strftime('%B').unique().tolist()
+month_filter.append("Diario")    
+actual_val = "pm_25_mean"
+actual_month = "Diario"
 
 bogota_map_div = html.Div([
     html.Div(
         "Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM2.5. Puedes hacer zoom, moverte por el mapa e incluso seleccionar un barrio para ver las mediciones detalladas y obtener más información.",
         style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontSize': '18px', 'marginBottom': '20px'}),
     dbc.Row([
-        
-
         dbc.Col(
             dcc.Dropdown(
-                id="datetime",
-                options=pd.to_datetime(df2['datetime']).dt.strftime('%B').unique().tolist(),
-                value="",
-                clearable=False,
-                placeholder="Fecha",
-            ),
-            width=4
-        ),
-        dbc.Col(
-            dcc.Dropdown(
-                id="variable",
-                options=["PM 2.5","PM 10","Temperatura", "Humedad"],
+                id="variable_map",
+                options={
+                        'pm_25_mean': 'PM 2.5',
+                        'pm_10_mean': 'PM 10',
+                        'temperature_mean': 'Temperatura',
+                        'humidity_mean': 'Humedad'
+                    },
                 placeholder="Variable",
-                value="",
+                value="pm_25_mean",
                 clearable=False,
             ),
             width=3
         ),
-        
+        dbc.Col(
+            dcc.Dropdown(
+                id="datetime",
+                options= month_filter,
+                value="Diario",
+                clearable=False,
+                placeholder="Mes",
+            ),
+            width=4
+        ),   
     ],style={'marginBottom': '10px'}),
     
     dbc.Col(dcc.Graph(id='bogota-map'))
@@ -73,20 +72,21 @@ regression_map_dib = html.Div([
                 dcc.Dropdown(
                     id="frecuency",
                     options=["Diaria", "Semanal", "Mensual"],
-                    value="",
+                    value="Diaria",
                     clearable=False,
                     placeholder="Frecuencia",
                 ),width=3
             ),
             dbc.Col(
                 dcc.Dropdown(
+                    id="varible_regression",
                     options={
-                        'PM25': 'PM 2.5',
-                        'PM10': 'PM 10',
-                        'TEMP': 'Temperatura',
-                        'HUM': 'Humedad'
+                        'pm_25_mean': 'PM 2.5',
+                        'pm_10_mean': 'PM 10',
+                        'temperature_mean': 'Temperatura',
+                        'humidity_mean': 'Humedad'
                     },
-                    value='PM25',
+                    value='pm_25_mean',
                     multi=True,
                     clearable=False
                 ),width=9
@@ -113,18 +113,20 @@ app.layout = dbc.Container(
 
 @app.callback(
     Output('bogota-map', 'figure'),
-    [Input('bogota-map', 'clickData')]
+    [Input('bogota-map', 'clickData'),
+     Input('variable_map', 'value'),
+     Input('datetime', 'value')]
 )
-def update_map_on_click(clickData):
-    global selected_areas
+def update_map_on_click(clickData, variable_map, datetime):
+    global selected_areas, geo_fig, actual_val, actual_month
     feature_areas = {'op': [], 'wid': [], 'col': []}
-    
     if clickData is not None:
         selected_area = clickData['points'][0]['location']
         if selected_area in selected_areas.keys():
             del selected_areas[selected_area]
         else:
             selected_areas[selected_area] = None
+            
     elif len(selected_areas.keys())==0:
         selected_areas[df.sample(n=1)['neighborhood'].values[0]]= None
         
@@ -137,33 +139,33 @@ def update_map_on_click(clickData):
             feature_areas['op'].append(0.50)
             feature_areas['wid'].append(1)
             feature_areas['col'].append('black')
+    #if clickData is
     
-    updated_fig = go.Figure(go.Choroplethmapbox(
-        geojson=counties,
-        locations=df.neighborhood,
-        z=df.pm_25_mean,
-        featureidkey='properties.DISPLAY_NAME',
-        colorscale="Viridis",
-        zmin=df.pm_25_mean.min(),
-        zmax=df.pm_25_mean.max(),
-        marker_opacity=feature_areas['op'],
-        marker_line_width=feature_areas['wid'],
-        marker_line_color=feature_areas['col'],
-        colorbar_title = "PM 2.5<br>µg/m³"
-    ))
- 
-    updated_fig.update_layout(
-        autosize=True,
-        mapbox_zoom=11,
-        width=500, height=400,
-        mapbox_style="open-street-map",
-        margin={"r": 0, "t": 0, "l": 0, "b": 0},
-        mapbox_center={"lat": 4.60971, "lon": -74.08175},
-        paper_bgcolor="#F2F2F2",
-        plot_bgcolor="#F2F2F2"
-    )
+    if actual_val != variable_map:
+        actual_val = variable_map
+        fig_data = properties_figures[variable_map]
+        geo_fig = get_figure(variable_map, fig_data[0], fig_data[1])
     
-    return updated_fig
+    
+    if actual_month != datetime:
+        actual_month = datetime
+        
+        df2['datetime'] = pd.to_datetime(df2['datetime'])
+
+        selected_month_data = df2[(df2['datetime'].dt.strftime('%B') == datetime) & (df2['neighborhood'] != 'Unknown Zone')]
+
+#este es el error
+        avg_by_neighborhood = selected_month_data.groupby('neighborhood').mean()[['pm_25', 'pm_10', 'temperature', 'humidity']]
+
+        avg_by_neighborhood = avg_by_neighborhood.reset_index()
+
+        print(avg_by_neighborhood)
+        
+    geo_fig.update_traces(marker_opacity=feature_areas['op'],
+                       marker_line_width=feature_areas['wid'],
+                       marker_line_color=feature_areas['col'])
+    return geo_fig
+
 
 @app.callback(
     Output('regression', 'figure'),
