@@ -12,10 +12,10 @@ df = pd.read_csv("dash2/datasets/final_geodata.csv",
 df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
 
 properties_figures = {
-    'pm_25_mean': ['PM 2.5 <br> µg/m³', "Viridis"],
-    'pm_10_mean': ['PM 10 <br> µg/m³', "Cividis "],
-    'temperature_mean': ['Temperatura <br> Celcius', "Jet"],
-    'humidity_mean': ['% Humedad', 'ice']
+    'pm_25_mean': ['PM 2.5 <br> µg/m³', "Viridis", "pm_25", 'Particulas PM 2.5 µg/m³ por Barrio'],
+    'pm_10_mean': ['PM 10 <br> µg/m³', "Cividis", "pm_10", 'Particulas PM 10 µg/m³ por Barrio'],
+    'temperature_mean': ['Temperatura <br> Celcius', "Jet", 'temperature', 'Temperatura en C° por Barrio'],
+    'humidity_mean': ['% Humedad', 'ice', 'humidity', 'Porcentaje de humedad por Barrio']
 }
 
 geo_fig_general = go.Figure(go.Choroplethmapbox(
@@ -29,14 +29,16 @@ geo_fig_general = go.Figure(go.Choroplethmapbox(
     colorbar_title = 'PM 2.5<br>µg/m³'
 ))
 
-def get_figure(dff, variable, title_bar, color_scale):
-    global geo_fig_general
+def get_figure(dff, variable):
+    global geo_fig_general, properties_figures
+    fig_data = properties_figures[variable]
+    
     geo_fig_general.update_traces(
         z=dff[variable],
-        colorscale= color_scale,
+        colorscale= fig_data[1],
         zmin=dff[variable].min(),
         zmax=dff[variable].max(),
-        colorbar_title = title_bar
+        colorbar_title = fig_data[0]
     )
 
     return geo_fig_general

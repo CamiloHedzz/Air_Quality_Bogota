@@ -19,7 +19,8 @@ app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 #external_stylesheets = ['/assets/stylesheet.css']
 
 #Rutas seleccionadas
-df3 = None
+df3 = pd.DataFrame(columns=['id_rute','datetime','pm_25','pm_10','temperature','humidity','neighborhood'])
+
 
 df_map_volatile = df
 
@@ -31,7 +32,7 @@ month_filter = pd.to_datetime(df2['datetime']).dt.strftime('%B').unique().tolist
 month_filter.append("Diario")    
 actual_val = "pm_25_mean"
 actual_month = "Diario"
-
+actual_month_reg = "Diario"
 bogota_map_div = html.Div([
     html.Div(
         "Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM2.5. Puedes hacer zoom, moverte por el mapa e incluso seleccionar un barrio para ver las mediciones detalladas y obtener más información.",
@@ -122,7 +123,6 @@ app.layout = dbc.Container(
 )
 def update_map_on_click(clickData, variable_map, datetime):
     global selected_areas, geo_fig, actual_val, actual_month,df_map_volatile
-    fig_data = properties_figures[variable_map]
     
     if clickData is not None:
         selected_area = clickData['points'][0]['location']
@@ -133,8 +133,6 @@ def update_map_on_click(clickData, variable_map, datetime):
     elif len(selected_areas.keys())==0:
         selected_areas[df.sample(n=1)['neighborhood'].values[0]] = None
         
-    feature_areas = get_areas_border(df_map_volatile, selected_areas)
-    
     if actual_val != variable_map:
         actual_val = variable_map
     
@@ -142,36 +140,37 @@ def update_map_on_click(clickData, variable_map, datetime):
         actual_month = datetime
         df_map_volatile = get_month_data(df, df2, datetime)
     
-    geo_fig = get_figure(df_map_volatile, variable_map, fig_data[0], fig_data[1])  
+    feature_areas = get_areas_border(df, selected_areas)
+    
+    geo_fig = get_figure(df_map_volatile, variable_map)  
         
-    geo_fig.update_traces(marker_opacity=feature_areas['op'],
+    geo_fig.update_traces(marker_opacity=feature_areas['op'], 
                        marker_line_width=feature_areas['wid'],
                        marker_line_color=feature_areas['col']) 
     return geo_fig
 
-
-#@app.callback(
-#    Output('regression', 'figure'),
-#    [Input('bogota-map', 'clickData')]
-#)
-def update_regression_figure(clickData):
+@app.callback(
+    Output('regression', 'figure'),
+    [Input('bogota-map', 'clickData'),
+     Input('variable_map', 'value'),
+     Input('datetime', 'value'),
+     Input('varible_regression', 'value'),
+     Input('frecuency', 'value')]
+)
+def update_regression_figure(clickData, variable_map, datetime, varible_regression, frecuency):
     selected_area = ''
     if clickData is not None:
         selected_area = clickData['points'][0]['location']
-    return update_regression(selected_area)
+    
+    return update_regression(selected_area, variable_map, datetime, varible_regression, frecuency)
         
         
-def update_regression(selected_area):
+def update_regression(selected_area, variable_map, datetime, varible_regression, frecuency):
     global selected_areas, df3
-   
-    fig = go.Figure()
     
+    dff = create_time_series(datetime) 
     
-    dff = create_time_series()
-    
-    df3 = dff
-    
-    fig = px.line(dff, x='datetime', y=['pm_25'], color='neig', markers=True) # , line_shape='spline'
+    fig = px.line(dff, x='datetime', y=dff[properties_figures[variable_map][2]], color='name', markers=True) # , line_shape='spline'
     
     '''
     fig = px.scatter(dff, x="datetime", y="sampl", color='neig', trendline="rolling", 
@@ -182,48 +181,50 @@ def update_regression(selected_area):
                          line=dict(color='royalblue', width=1)))
     '''
                  
-    fig.update_layout(title='Muestra de particulas PM2.5 por barrio',
+    fig.update_layout(title=properties_figures[variable_map][3],
                         xaxis_title="Time",
-                        yaxis_title="PM 2.5 µg/m³",
+                        yaxis_title=properties_figures[variable_map][0],
                         legend_title="Barrios",
                         width=600,  
                         height=400,
                         paper_bgcolor="#F2F2F2",
                         plot_bgcolor="#F2F2F2"
-        )
+    )
             
     #fig.update_xaxes(rangeslider_visible=True)
     return fig
 
-def create_time_series():
+def create_time_series(datetime):
     
-    global selected_areas, df2
-    
-    df3 = pd.DataFrame(columns=['datetime', 'neighborhood', 'neig', 'pm_25'])
+    global selected_areas, df2, df_map_volatile, df3, actual_month_reg
     
     for j in selected_areas.keys():
         if selected_areas[j] is None:
-            for i, value in df2.iterrows():
-                if value['neighborhood'] in selected_areas:
-                    name = value['neighborhood'].split(',')[0]
-                    new_row = {
-                        'datetime': value['datetime'],
-                        'neighborhood': value['neighborhood'],
-                        'neig': name,
-                        'pm_25': value['pm_25'],
-                    }
-                    if j == value['neighborhood']:                
-                        df3 = pd.concat([df3, pd.DataFrame([new_row])], ignore_index=True)
-        
-            selected_areas[j] = df3 #Se agrega todo al dataset
+            
+            filter_neigh = df2.loc[df2['neighborhood'] == j]
+            
+            filter_neigh['name'] = filter_neigh['neighborhood'].apply(lambda x: x.split(',')[0])
+            
+            selected_areas[j] = filter_neigh
+             
+            df3 = pd.concat([df3, filter_neigh], ignore_index=True)
+                      
+    df3 = df3.sort_values(by='datetime', inplace=True)
     
-    dataframe_combinado = pd.concat(selected_areas.values(), ignore_index=True)
+    if actual_month_reg != datetime:
+        if datetime != "Diario":
+            actual_month_reg = datetime
+            df_aux = df3
+            df_aux['datetime'] = pd.to_datetime(df_aux['datetime'])
+            df_aux = df_aux[(df3['datetime'].dt.strftime('%B') == datetime) & (df3['neighborhood'] != 'Unknown Zone')]
+        else:
+            return df3
+            
+    return df3 
+    #dataframe_combinado = pd.concat(selected_areas.values(), ignore_index=True)
+    #dataframe_combinado.sort_values(by='datetime', inplace=True)
    
-    dataframe_combinado.sort_values(by='datetime', inplace=True)
-
-    #print(dataframe_combinado)
-   
-    return dataframe_combinado
+    
 
 def get_stadictic():
     

@@ -3,16 +3,17 @@ import pandas as pd
 def get_areas_border(df, selected_areas):
     
     feature_areas = {'op': [], 'wid': [], 'col': []}
-    
+
     for display_name in df.neighborhood.items():
-            if display_name[1] in selected_areas:
-                feature_areas['op'].append(1)
-                feature_areas['wid'].append(3)
-                feature_areas['col'].append('red')
-            else:
-                feature_areas['op'].append(0.50)
-                feature_areas['wid'].append(1)
-                feature_areas['col'].append('black')
+        if display_name[1] in selected_areas:
+            feature_areas['op'].append(1)
+            feature_areas['wid'].append(3)
+            feature_areas['col'].append('red')
+        else:
+            feature_areas['op'].append(0.50)
+            feature_areas['wid'].append(1)
+            feature_areas['col'].append('black')
+
     
     return feature_areas
 
@@ -31,3 +32,7 @@ def get_month_data(df, df2, datetime):
     else:
         df_map_volatile = df  
     return df_map_volatile
+
+# ******************** Regression Map ******************
+
+
