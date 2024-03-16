@@ -10,6 +10,7 @@ from dash2 import dash_app2
 
 from .rute_utils import *
 from .dash_figures import *
+from .dash_logic import *
 
 import plotly.express as px
 
@@ -19,6 +20,8 @@ app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 #Rutas seleccionadas
 df3 = None
+
+df_map_volatile = df
 
 selected_areas = {}
 
@@ -118,59 +121,39 @@ app.layout = dbc.Container(
      Input('datetime', 'value')]
 )
 def update_map_on_click(clickData, variable_map, datetime):
-    global selected_areas, geo_fig, actual_val, actual_month
-    feature_areas = {'op': [], 'wid': [], 'col': []}
+    global selected_areas, geo_fig, actual_val, actual_month,df_map_volatile
+    fig_data = properties_figures[variable_map]
+    
     if clickData is not None:
         selected_area = clickData['points'][0]['location']
         if selected_area in selected_areas.keys():
             del selected_areas[selected_area]
         else:
             selected_areas[selected_area] = None
-            
     elif len(selected_areas.keys())==0:
-        selected_areas[df.sample(n=1)['neighborhood'].values[0]]= None
+        selected_areas[df.sample(n=1)['neighborhood'].values[0]] = None
         
-    for display_name in df.neighborhood.items():
-        if display_name[1] in selected_areas:
-            feature_areas['op'].append(1)
-            feature_areas['wid'].append(3)
-            feature_areas['col'].append('red')
-        else:
-            feature_areas['op'].append(0.50)
-            feature_areas['wid'].append(1)
-            feature_areas['col'].append('black')
-    #if clickData is
+    feature_areas = get_areas_border(df_map_volatile, selected_areas)
     
     if actual_val != variable_map:
         actual_val = variable_map
-        fig_data = properties_figures[variable_map]
-        geo_fig = get_figure(variable_map, fig_data[0], fig_data[1])
-    
     
     if actual_month != datetime:
         actual_month = datetime
-        
-        df2['datetime'] = pd.to_datetime(df2['datetime'])
-
-        selected_month_data = df2[(df2['datetime'].dt.strftime('%B') == datetime) & (df2['neighborhood'] != 'Unknown Zone')]
-
-#este es el error
-        avg_by_neighborhood = selected_month_data.groupby('neighborhood').mean()[['pm_25', 'pm_10', 'temperature', 'humidity']]
-
-        avg_by_neighborhood = avg_by_neighborhood.reset_index()
-
-        print(avg_by_neighborhood)
+        df_map_volatile = get_month_data(df, df2, datetime)
+    
+    geo_fig = get_figure(df_map_volatile, variable_map, fig_data[0], fig_data[1])  
         
     geo_fig.update_traces(marker_opacity=feature_areas['op'],
                        marker_line_width=feature_areas['wid'],
-                       marker_line_color=feature_areas['col'])
+                       marker_line_color=feature_areas['col']) 
     return geo_fig
 
 
-@app.callback(
-    Output('regression', 'figure'),
-    [Input('bogota-map', 'clickData')]
-)
+#@app.callback(
+#    Output('regression', 'figure'),
+#    [Input('bogota-map', 'clickData')]
+#)
 def update_regression_figure(clickData):
     selected_area = ''
     if clickData is not None:
@@ -183,8 +166,6 @@ def update_regression(selected_area):
    
     fig = go.Figure()
     
-    #if selected_area == '' and len(selected_areas.keys())>0:       
-    #    pass
     
     dff = create_time_series()
     

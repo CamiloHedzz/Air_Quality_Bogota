@@ -29,14 +29,13 @@ geo_fig_general = go.Figure(go.Choroplethmapbox(
     colorbar_title = 'PM 2.5<br>µg/m³'
 ))
 
-def get_figure(variable, title_bar, color_scale):
+def get_figure(dff, variable, title_bar, color_scale):
     global geo_fig_general
-    print(df[variable])
     geo_fig_general.update_traces(
-        z=df[variable],
+        z=dff[variable],
         colorscale= color_scale,
-        zmin=df[variable].min(),
-        zmax=df[variable].max(),
+        zmin=dff[variable].min(),
+        zmax=dff[variable].max(),
         colorbar_title = title_bar
     )
 
@@ -46,14 +45,17 @@ def update_figure(geo_fig):
     global geo_fig_general
     
     geo_fig.update_layout(
-        autosize=True, 
+        autosize=False, 
         mapbox_zoom=11,
         width=500, height=400,
         mapbox_style="open-street-map",
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         mapbox_center={"lat": 4.60971, "lon": -74.08175},
         paper_bgcolor="#F2F2F2",
-        plot_bgcolor="#F2F2F2"
+        plot_bgcolor="#F2F2F2",
+        
     )
+    
     geo_fig_general = geo_fig
-    return geo_fig
+    
+    return geo_fig_general
