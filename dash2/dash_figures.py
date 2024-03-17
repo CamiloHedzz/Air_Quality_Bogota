@@ -48,7 +48,7 @@ def update_figure(geo_fig):
     
     geo_fig.update_layout(
         autosize=False, 
-        mapbox_zoom=11,
+        mapbox_zoom=10,
         width=500, height=400,
         mapbox_style="open-street-map",
         margin={"r": 0, "t": 0, "l": 0, "b": 0},

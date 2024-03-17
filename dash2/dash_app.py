@@ -30,9 +30,12 @@ geo_fig = update_figure(geo_fig_general)
 
 month_filter = pd.to_datetime(df2['datetime']).dt.strftime('%B').unique().tolist()
 month_filter.append("Diario")    
+
 actual_val = "pm_25_mean"
 actual_month = "Diario"
+
 actual_month_reg = "Diario"
+
 bogota_map_div = html.Div([
     html.Div(
         "Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM2.5. Puedes hacer zoom, moverte por el mapa e incluso seleccionar un barrio para ver las mediciones detalladas y obtener más información.",
@@ -65,7 +68,7 @@ bogota_map_div = html.Div([
         ),   
     ],style={'marginBottom': '10px'}),
     
-    dbc.Col(dcc.Graph(id='bogota-map'))
+    dbc.Col(dcc.Graph(id='bogota_map'))
 ])
     
 regression_map_dib = html.Div([
@@ -116,8 +119,8 @@ app.layout = dbc.Container(
 )
 
 @app.callback(
-    Output('bogota-map', 'figure'),
-    [Input('bogota-map', 'clickData'),
+    Output('bogota_map', 'figure'),
+    [Input('bogota_map', 'clickData'),
      Input('variable_map', 'value'),
      Input('datetime', 'value')]
 )
@@ -126,19 +129,14 @@ def update_map_on_click(clickData, variable_map, datetime):
     
     if clickData is not None:
         selected_neigh = clickData['points'][0]['location']
-        if selected_neigh not in selected_areas:  # Modificar la condición aquí
+        if selected_neigh not in selected_areas:
             selected_areas.append(selected_neigh)
         else:
-            if actual_val == variable_map:
+            if actual_val == variable_map and actual_month==datetime:
                 selected_areas.remove(selected_neigh)    
     elif len(selected_areas)==0:
         selected_areas.append(df.sample(n=1)['neighborhood'].values[0])
     
-    print("********")
-    print(selected_areas)
-    print("********")
-    
-    #Al cambiar de variable la ultima zona seleccionada se elimnina
     if actual_val != variable_map:
         actual_val = variable_map
         
@@ -157,7 +155,7 @@ def update_map_on_click(clickData, variable_map, datetime):
 
 @app.callback(
     Output('regression', 'figure'),
-    [Input('bogota-map', 'clickData'),
+    [Input('bogota_map', 'clickData'),
      Input('variable_map', 'value'),
      Input('datetime', 'value'),
      Input('varible_regression', 'value'),
@@ -167,20 +165,22 @@ def update_regression_figure(clickData, variable_map, datetime, varible_regressi
 
     global selected_areas, df3
     
-    dff = create_time_series(datetime, clickData) 
-    
-    print(dff)
+    dff = create_time_series(datetime) 
+
+    columnas_numericas = dff.select_dtypes(include=[np.number])
+
+    columnas_numericas['datetime'] = pd.to_datetime(dff['datetime'])
+
+    columnas_numericas.set_index('datetime', inplace=True)
+
+    if frecuency == "Semanal":
+        dff = columnas_numericas.resample('W').mean()
+    elif frecuency == "Mensual":
+        dff = columnas_numericas.resample('M').mean()
+        
+    print(dff)    
     
     fig = px.line(dff, x='datetime', y=dff[properties_figures[variable_map][2]], color='name', markers=True) # , line_shape='spline'
-    
-    '''
-    fig = px.scatter(dff, x="datetime", y="sampl", color='neig', trendline="rolling", 
-                 trendline_options=dict(window=2, win_type="gaussian", function_args=dict(std=2)),
-                title="Rolling Mean with Gaussian Window")
-   
-    fig.add_trace(go.Scatter(x=dff['datetime'], y=dff['sampl'],
-                         line=dict(color='royalblue', width=1)))
-    '''
                  
     fig.update_layout(title=properties_figures[variable_map][3],
                         xaxis_title="Time",
@@ -195,29 +195,20 @@ def update_regression_figure(clickData, variable_map, datetime, varible_regressi
     #fig.update_xaxes(rangeslider_visible=True)
     return fig
 
-def create_time_series(datetime, clickData):
+def create_time_series(datetime):
     
-    global selected_areas, df2, df3, actual_month_reg
-    selected_neigh = ""
-    if clickData is not None:
+    global selected_areas, df2, df3, actual_month_reg, actual_val, actual_month
+
+    for selected_neigh in selected_areas:
+             
+    #if selected_neigh not in df3['neighborhood'].values:
         
-        selected_neigh = clickData['points'][0]['location']
+        filter_neigh = df2.loc[df2['neighborhood'] == selected_neigh]
         
-        if selected_neigh not in df3['neighborhood'].values:
-            
-            filter_neigh = df2.loc[df2['neighborhood'] == selected_neigh]
-            
-            filter_neigh['name'] = filter_neigh['neighborhood'].str.split(',').str[0]
-                            
-            df3 = pd.concat([df3, filter_neigh], ignore_index=True)
-        else:
-            print("ntlasjdlfk")
-            
-            #Aca siempre va a entrar debido a que ya no esta el for
-            #Como se elimino el for de selected areas pues 
-            #ya no se sabe cuales son las zonas permanentes
-            df3 = df3[df3['neighborhood'] != selected_neigh]
-    
+        filter_neigh['name'] = filter_neigh['neighborhood'].str.split(',').str[0]
+                                
+        df3 = pd.concat([df3, filter_neigh], ignore_index=True)
+
     df3.sort_values(by='datetime', inplace=True) 
     
     if actual_month_reg != datetime:
@@ -229,12 +220,8 @@ def create_time_series(datetime, clickData):
             return df_aux
         else:
             return df3
-            
-    return df3 
-    #dataframe_combinado = pd.concat(selected_areas.values(), ignore_index=True)
-    #dataframe_combinado.sort_values(by='datetime', inplace=True)
-   
-    
+        
+    return df3    
 
 def get_stadictic():
     
