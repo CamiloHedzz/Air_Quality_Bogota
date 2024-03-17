@@ -19,12 +19,12 @@ app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 #external_stylesheets = ['/assets/stylesheet.css']
 
 #Rutas seleccionadas
-df3 = pd.DataFrame(columns=['id_rute','datetime','pm_25','pm_10','temperature','humidity','neighborhood'])
+df3 = pd.DataFrame(columns=['id_rute','datetime','pm_25','pm_10','temperature','humidity','neighborhood', 'name'])
 
 
 df_map_volatile = df
 
-selected_areas = {}
+selected_areas = []
 
 geo_fig = update_figure(geo_fig_general)
 
@@ -125,17 +125,23 @@ def update_map_on_click(clickData, variable_map, datetime):
     global selected_areas, geo_fig, actual_val, actual_month,df_map_volatile
     
     if clickData is not None:
-        selected_area = clickData['points'][0]['location']
-        if selected_area in selected_areas.keys():
-            del selected_areas[selected_area]
+        selected_neigh = clickData['points'][0]['location']
+        if selected_neigh not in selected_areas:  # Modificar la condición aquí
+            selected_areas.append(selected_neigh)
         else:
-            selected_areas[selected_area] = None
-    elif len(selected_areas.keys())==0:
-        selected_areas[df.sample(n=1)['neighborhood'].values[0]] = None
-        
+            if actual_val == variable_map:
+                selected_areas.remove(selected_neigh)    
+    elif len(selected_areas)==0:
+        selected_areas.append(df.sample(n=1)['neighborhood'].values[0])
+    
+    print("********")
+    print(selected_areas)
+    print("********")
+    
+    #Al cambiar de variable la ultima zona seleccionada se elimnina
     if actual_val != variable_map:
         actual_val = variable_map
-    
+        
     if actual_month != datetime:
         actual_month = datetime
         df_map_volatile = get_month_data(df, df2, datetime)
@@ -158,17 +164,12 @@ def update_map_on_click(clickData, variable_map, datetime):
      Input('frecuency', 'value')]
 )
 def update_regression_figure(clickData, variable_map, datetime, varible_regression, frecuency):
-    selected_area = ''
-    if clickData is not None:
-        selected_area = clickData['points'][0]['location']
-    
-    return update_regression(selected_area, variable_map, datetime, varible_regression, frecuency)
-        
-        
-def update_regression(selected_area, variable_map, datetime, varible_regression, frecuency):
+
     global selected_areas, df3
     
-    dff = create_time_series(datetime) 
+    dff = create_time_series(datetime, clickData) 
+    
+    print(dff)
     
     fig = px.line(dff, x='datetime', y=dff[properties_figures[variable_map][2]], color='name', markers=True) # , line_shape='spline'
     
@@ -194,29 +195,38 @@ def update_regression(selected_area, variable_map, datetime, varible_regression,
     #fig.update_xaxes(rangeslider_visible=True)
     return fig
 
-def create_time_series(datetime):
+def create_time_series(datetime, clickData):
     
-    global selected_areas, df2, df_map_volatile, df3, actual_month_reg
-    
-    for j in selected_areas.keys():
-        if selected_areas[j] is None:
+    global selected_areas, df2, df3, actual_month_reg
+    selected_neigh = ""
+    if clickData is not None:
+        
+        selected_neigh = clickData['points'][0]['location']
+        
+        if selected_neigh not in df3['neighborhood'].values:
             
-            filter_neigh = df2.loc[df2['neighborhood'] == j]
+            filter_neigh = df2.loc[df2['neighborhood'] == selected_neigh]
             
-            filter_neigh['name'] = filter_neigh['neighborhood'].apply(lambda x: x.split(',')[0])
-            
-            selected_areas[j] = filter_neigh
-             
+            filter_neigh['name'] = filter_neigh['neighborhood'].str.split(',').str[0]
+                            
             df3 = pd.concat([df3, filter_neigh], ignore_index=True)
-                      
-    df3 = df3.sort_values(by='datetime', inplace=True)
+        else:
+            print("ntlasjdlfk")
+            
+            #Aca siempre va a entrar debido a que ya no esta el for
+            #Como se elimino el for de selected areas pues 
+            #ya no se sabe cuales son las zonas permanentes
+            df3 = df3[df3['neighborhood'] != selected_neigh]
+    
+    df3.sort_values(by='datetime', inplace=True) 
     
     if actual_month_reg != datetime:
         if datetime != "Diario":
             actual_month_reg = datetime
-            df_aux = df3
+            df_aux = df3.copy()
             df_aux['datetime'] = pd.to_datetime(df_aux['datetime'])
             df_aux = df_aux[(df3['datetime'].dt.strftime('%B') == datetime) & (df3['neighborhood'] != 'Unknown Zone')]
+            return df_aux
         else:
             return df3
             
@@ -243,6 +253,6 @@ def get_stadictic():
     return std_dash_figures
     
 if __name__ == '__main__':
-    
+
     app.run_server(debug=True)
     
