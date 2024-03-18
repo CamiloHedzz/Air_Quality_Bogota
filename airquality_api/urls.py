@@ -28,6 +28,8 @@ urlpatterns = [
     path('rutes/', include('rutes.urls')),
     path('event/', include('event.urls')),
     path('samples/', include('samples.urls')),
+    #path('dashv1/', dash_view, name='dash_view'),
     path('dashv1/', dash_view, name='dash_view'),
+    
     path('dashv2/', dash_view2, name='dash_view2'),
 ]

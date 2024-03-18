@@ -4,7 +4,6 @@ from dash import Output, Input, State
 from dash import html, dash_table
 
 app = DjangoDash('SimpleExample2', external_stylesheets=['dash2\static\dash_style.css'])
-
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 df3 = []
@@ -13,7 +12,9 @@ app.layout = html.Div([
     
     html.Button('Obtener Resultados', id='add-row-button', n_clicks=0,
                 style={'backgroundColor': '#DBD22A', 'border': 'none', 'color': 'white', 'padding': '15px 32px', 'text-align': 'center', 'text-decoration': 'none', 'display': 'inline-block', 'font-size': '16px', 'margin': '4px 2px', 'cursor': 'pointer', 'border-radius': '10px'}),
-    
+    ])
+
+'''
     html.H3("Máximo valor de partículas PM 2.5 en barrios seleccionados",
             style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontSize': '18px', 'marginBottom': '20px', 'borderBottom':'solid 2px #DBD22A'}),
     dash_table.DataTable(
@@ -81,6 +82,6 @@ def update_tables(n_clicks, max_pm_data, min_pm_data):
 def get_data_df3():
     from .dash_app import df3
     return df3
-
+'''
 if __name__ == '__main__':
     app.run_server(debug=True)

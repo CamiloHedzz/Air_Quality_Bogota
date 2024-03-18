@@ -17,9 +17,7 @@ import plotly.express as px
 app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 #external_stylesheets = ['/assets/stylesheet.css']
-
-#Rutas seleccionadas
-df3 = pd.DataFrame(columns=['id_rute','datetime','pm_25','pm_10','temperature','humidity','neighborhood', 'name'])
+    
 
 
 df_map_volatile = df
@@ -88,12 +86,12 @@ regression_map_dib = html.Div([
                 dcc.Dropdown(
                     id="varible_regression",
                     options={
-                        'pm_25_mean': 'PM 2.5',
-                        'pm_10_mean': 'PM 10',
-                        'temperature_mean': 'Temperatura',
-                        'humidity_mean': 'Humedad'
+                        'pm_25': 'PM 2.5',
+                        'pm_10': 'PM 10',
+                        'temperature': 'Temperatura',
+                        'humidity': 'Humedad'
                     },
-                    value='pm_25_mean',
+                    value='pm_25',
                     multi=True,
                     clearable=False
                 ),width=9
@@ -106,8 +104,8 @@ app.layout = dbc.Container(
     [
         dbc.Row(
             [
-                dbc.Col(bogota_map_div, md=5,),
-                dbc.Col(regression_map_dib, md=5, style={"margin-left": "90px"}),
+                dbc.Col(bogota_map_div, md=5,style={"margin-right": "90px"}),
+                dbc.Col(regression_map_dib, md=5, ),
             ],
             #justify="between", 
             align="center",
@@ -133,7 +131,7 @@ def update_map_on_click(clickData, variable_map, datetime):
             selected_areas.append(selected_neigh)
         else:
             if actual_val == variable_map and actual_month==datetime:
-                selected_areas.remove(selected_neigh)    
+                selected_areas.remove(selected_neigh)
     elif len(selected_areas)==0:
         selected_areas.append(df.sample(n=1)['neighborhood'].values[0])
     
@@ -165,22 +163,36 @@ def update_regression_figure(clickData, variable_map, datetime, varible_regressi
 
     global selected_areas, df3
     
-    dff = create_time_series(datetime) 
-
-    columnas_numericas = dff.select_dtypes(include=[np.number])
-
-    columnas_numericas['datetime'] = pd.to_datetime(dff['datetime'])
-
-    columnas_numericas.set_index('datetime', inplace=True)
+    dff = create_time_series(datetime)
+    
+    dff['datetime'] = pd.to_datetime(dff['datetime'])
 
     if frecuency == "Semanal":
-        dff = columnas_numericas.resample('W').mean()
-    elif frecuency == "Mensual":
-        dff = columnas_numericas.resample('M').mean()
+        dff = dff.groupby([dff['neighborhood'], dff['name'], dff['datetime'].dt.strftime('%Y-%U')]).agg({
+            'pm_25': 'mean',
+            'pm_10': 'mean',
+            'temperature': 'mean',
+            'humidity': 'mean',
+        }).reset_index()
         
-    print(dff)    
+    elif frecuency == "Mensual":
+        dff = dff.groupby([dff['neighborhood'], dff['name'], dff['datetime'].dt.strftime('%Y-%m')]).agg({
+            'pm_25': 'mean',
+            'pm_10': 'mean',
+            'temperature': 'mean',
+            'humidity': 'mean',
+        }).reset_index()
+    
+    dff.reset_index(inplace=True) 
+    
+    fig = go.Figure()
     
     fig = px.line(dff, x='datetime', y=dff[properties_figures[variable_map][2]], color='name', markers=True) # , line_shape='spline'
+
+    if isinstance(varible_regression, list):
+        for i in varible_regression:
+            if i != properties_figures[variable_map][2]:
+                fig.add_trace(go.Scatter(x=dff['datetime'], y=dff[i], mode='lines+markers', name=i.capitalize()))
                  
     fig.update_layout(title=properties_figures[variable_map][3],
                         xaxis_title="Time",
@@ -198,11 +210,11 @@ def update_regression_figure(clickData, variable_map, datetime, varible_regressi
 def create_time_series(datetime):
     
     global selected_areas, df2, df3, actual_month_reg, actual_val, actual_month
-
+    
+    df3 = pd.DataFrame(columns=['id_rute','datetime','pm_25','pm_10','temperature','humidity','neighborhood', 'name'])
+ 
     for selected_neigh in selected_areas:
              
-    #if selected_neigh not in df3['neighborhood'].values:
-        
         filter_neigh = df2.loc[df2['neighborhood'] == selected_neigh]
         
         filter_neigh['name'] = filter_neigh['neighborhood'].str.split(',').str[0]
