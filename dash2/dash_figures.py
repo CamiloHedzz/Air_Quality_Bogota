@@ -26,7 +26,7 @@ geo_fig_general = go.Figure(go.Choroplethmapbox(
     colorscale= "Viridis",
     zmin=df['pm_25_mean'].min(),
     zmax=df['pm_25_mean'].max(),
-    colorbar_title = 'PM 2.5<br>µg/m³'
+    colorbar_title = 'PM 2.5<br>µg/m³',
 ))
 
 def get_figure(dff, variable):
@@ -51,12 +51,15 @@ def update_figure(geo_fig):
         mapbox_zoom=10,
         width=500, height=400,
         mapbox_style="open-street-map",
+        #mapbox_style="dark",
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         mapbox_center={"lat": 4.60971, "lon": -74.08175},
         paper_bgcolor="#F2F2F2",
         plot_bgcolor="#F2F2F2",
         
     )
+    
+    #geo_fig.update_geos(projection_type='mercator')
     
     geo_fig_general = geo_fig
     

@@ -7,6 +7,10 @@ from django_plotly_dash import DjangoDash
 from dash import html, dcc, Output, Input, Patch
 import dash_bootstrap_components as dbc
 from dash2 import dash_app2
+import dash_mantine_components as dmc
+from dash import html, dcc, callback, Input, Output, ctx, Dash, clientside_callback, State
+
+
 
 from .rute_utils import *
 from .dash_figures import *
@@ -14,10 +18,10 @@ from .dash_logic import *
 
 import plotly.express as px
 
-app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 #external_stylesheets = ['/assets/stylesheet.css']
-    
+
+app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
 df_map_volatile = df
@@ -33,6 +37,17 @@ actual_val = "pm_25_mean"
 actual_month = "Diario"
 
 actual_month_reg = "Diario"
+
+def add_loading_overlay(elements):
+    return dmc.LoadingOverlay(
+            children=elements,
+            loaderProps={'color': '#DBD22A', 'variant': 'oval'},
+            overlayColor='#F2F2F2',
+            overlayOpacity=1,
+            radius=8,
+        )
+        
+    
 
 bogota_map_div = html.Div([
     html.Div(
@@ -66,10 +81,10 @@ bogota_map_div = html.Div([
         ),   
     ],style={'marginBottom': '10px'}),
     
-    dbc.Col(dcc.Graph(id='bogota_map'))
-])
+    add_loading_overlay(dcc.Graph(id='bogota_map'))
+],)
     
-regression_map_dib = html.Div([
+regression_map_div = html.Div([
         html.Div("Aquí puedes examinar con detalle la información de las zonas seleccionadas en el mapa. Realiza comparaciones y obtén información precisa. Las unidades en el eje Y son microgramos por metro cúbico, con cada muestra tomada en una hora específica del día.",
                  style={'fontFamily': 'Oswald Light', 'textAlign': 'justify', 'fontSize': '18px', 'marginBottom': '20px'}),
         dbc.Row([
@@ -97,23 +112,23 @@ regression_map_dib = html.Div([
                 ),width=9
             ),
         ],style={'marginBottom': '10px'}),
-        dcc.Graph(id='regression'),
+        add_loading_overlay(dcc.Graph(id='regression')),
 ],style={})
     
 app.layout = dbc.Container(
     [
         dbc.Row(
             [
-                dbc.Col(bogota_map_div, md=5,style={"margin-right": "90px"}),
-                dbc.Col(regression_map_dib, md=5, ),
+                dbc.Col(bogota_map_div, md=5, style={"margin-right": "90px"}),
+                dbc.Col(regression_map_div, md=5),
             ],
-            #justify="between", 
+            className="g-0",
             align="center",
             style={"background-color": "#F2F2F2"}
-        ),  
+        ) 
     ],
     fluid=True,
-    style={"overflow": "hidden","background-color": "#F2F2F2"}
+    style={"overflow": "hidden", "background-color": "#F2F2F2"}
 )
 
 @app.callback(
