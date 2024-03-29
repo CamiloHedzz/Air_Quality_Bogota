@@ -1,15 +1,12 @@
 {% load static %}
 {%load plotly_dash%}
 
-<link rel="stylesheet" href="{% static 'dash_style.css' %}">
-
 <iframe id="mi-iframe" style="background: #F2F2F2; " 
     src="http://localhost:8000/django_plotly_dash/app/SimpleExample/" 
-    frameborder="0" height="574" width="100%">
+    frameborder="0" height="100%" width="100%">
 </iframe>
 
 
-{% plotly_footer %}
 
 <div class="container">
     <div class="container-left">
@@ -70,10 +67,7 @@
             y la informacion se desplegara agui abajo :)
         </p>
         
-        <iframe id="mi-iframe" style="background: #F2F2F2; " 
-            src="http://localhost:8000/django_plotly_dash/app/SimpleExample2/" 
-            frameborder="0" height="528" width="100%">
-        </iframe>
+        
    
     </div>
 </div>

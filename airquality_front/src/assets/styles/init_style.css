@@ -1,0 +1,86 @@
+.content {
+    padding: 20px;
+    justify-content: center; 
+  }
+  
+  #aboutinit {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    height: 80vh;
+    
+  }
+  
+  #leftContentinit {
+    flex-basis: 100%;
+  }
+  
+  #leftContentinit h1, h2{
+    margin: 0;
+  }
+  
+  #leftContentinit p{
+      text-align: justify;
+      font-size: 18px;
+    }
+    #leftContentinit h1{
+        font-family: 'ELEPHNT';
+    }
+    
+  
+  #rightContentinit {
+    flex-basis: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra verticalmente el contenido */
+    background-image: radial-gradient(circle, black 10%, transparent 10%);
+    background-size: 30px 30px;  
+}
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .discoverButton {
+    padding: 10px 20px;
+    background-color: #DBD22A;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 1s;
+    width: 200px;
+  }
+  
+  /* Estilo adicional para el botón cuando se pasa el mouse sobre él */
+  .discoverButton:hover {
+    transition: 1s;
+    background-color: #8e892c;
+  }
+  
+  @media screen and (min-width: 768px) {
+    #leftContentinit {
+      flex-basis: calc(50% - 20px);
+    }
+  
+    #rightContentinit {
+      flex-basis: calc(40% - 20px);
+    }
+  }
+  
+  @media screen and (max-width: 767px) {
+    #aboutinit {
+      height: auto;
+      flex-direction: column;
+    }
+  
+    #leftContentinit, #rightContentinit {
+      flex-basis: 100%;
+    }
+  }
+  

@@ -6,10 +6,10 @@ from urllib.request import urlopen
 from django_plotly_dash import DjangoDash
 from dash import html, dcc, Output, Input, Patch
 import dash_bootstrap_components as dbc
-from dash2 import dash_app2
+
 import dash_mantine_components as dmc
 from dash import html, dcc, callback, Input, Output, ctx, Dash, clientside_callback, State
-
+from .pages.home import layout
 
 
 from .rute_utils import *
@@ -23,6 +23,7 @@ import plotly.express as px
 
 app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
+app.css.append_css({ "external_url" : "/static/dash_app.css" })
 
 df_map_volatile = df
 
@@ -47,7 +48,23 @@ def add_loading_overlay(elements):
             radius=8,
         )
         
-    
+        
+navbar_style = {
+    'backgroundColor': '#333',
+    'color': '#fff',
+    'padding': '10px',
+    'marginBottom': '20px'
+}
+
+# Estilos para los enlaces
+link_style = {'marginRight': '10px', 'color': '#fff', 'textDecoration': 'none'}
+
+# Layout del navbar
+navbar = html.Div([
+    html.A('Inicio', href='/inicio', style=link_style),
+    html.A('Página 1', href='/pagina1', style=link_style),
+    html.A('Página 2', href='/pagina2', style=link_style)
+], style=navbar_style)        
 
 bogota_map_div = html.Div([
     html.Div(
@@ -116,9 +133,20 @@ regression_map_div = html.Div([
 ],style={})
     
 app.layout = dbc.Container(
-    [
+    [   
         dbc.Row(
             [
+            layout
+            ],className="teste",
+        ),
+        dbc.Row(
+            [
+                dbc.Col(navbar, width=12),  # El sidebar ocupa todo el ancho de la fila
+            ],
+        ),
+        dbc.Row(
+            [
+                
                 dbc.Col(bogota_map_div, md=5, style={"margin-right": "90px"}),
                 dbc.Col(regression_map_div, md=5),
             ],
@@ -215,8 +243,8 @@ def update_regression_figure(clickData, variable_map, datetime, varible_regressi
                         legend_title="Barrios",
                         width=600,  
                         height=400,
-                        paper_bgcolor="#F2F2F2",
-                        plot_bgcolor="#F2F2F2"
+                        paper_bgcolor="rgba(0,0,0,0)",  # Fondo del área del gráfico transparente
+                        plot_bgcolor="rgba(0,0,0,0)" 
     )
             
     #fig.update_xaxes(rangeslider_visible=True)
@@ -265,6 +293,28 @@ def get_stadictic():
         "max_hour": hourly_avg_rutes.idxmax()}
       
     return std_dash_figures
+
+@app.callback(Output("page-content", "children"), [Input("url", "pathname")])
+def render_page_content(pathname):
+    if pathname == "/":
+        return html.P("This is the content of the home page!")
+    elif pathname == "/page-1":
+        return html.P("This is the content of page 1. Yay!")
+    elif pathname == "/page-2":
+        return html.P("Oh cool, this is page 2!")
+    # If the user tries to reach a different page, return a 404 message
+    return html.Div(
+        [
+            html.H1("404: Not found", className="text-danger"),
+            html.Hr(),
+            html.P(f"The pathname {pathname} was not recognised..."),
+        ],
+        className="p-3 bg-light rounded-3",
+    )
+
+
+
+
     
 if __name__ == '__main__':
 

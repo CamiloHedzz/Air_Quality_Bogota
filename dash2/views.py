@@ -6,6 +6,3 @@ from dash2.dash_app import get_stadictic, app
 
 def dash_view(request):    
     return render(request, 'dash_app.html', {'dash_info': get_stadictic(), "app": app})  
-
-def dash_view2(request):
-    return render(request, 'dash_app2.html')

@@ -1,6 +1,7 @@
 import plotly.graph_objs as go
 import pandas as pd
 import json
+
 with open('dash2/datasets/bogota_cadastral.json', 'r') as file:
     counties = json.load(file)
 
@@ -54,8 +55,8 @@ def update_figure(geo_fig):
         #mapbox_style="dark",
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         mapbox_center={"lat": 4.60971, "lon": -74.08175},
-        paper_bgcolor="#F2F2F2",
-        plot_bgcolor="#F2F2F2",
+        paper_bgcolor="#171717",
+        plot_bgcolor="#171717",
         
     )
     
