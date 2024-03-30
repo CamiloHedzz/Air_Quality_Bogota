@@ -9,8 +9,10 @@ import dash_bootstrap_components as dbc
 
 import dash_mantine_components as dmc
 from dash import html, dcc, callback, Input, Output, ctx, Dash, clientside_callback, State
-from .pages.home import layout
 
+#Components and pages
+from .static.pages.home import layout
+from .static.components.navegator import navbar
 
 from .rute_utils import *
 from .dash_figures import *
@@ -18,12 +20,9 @@ from .dash_logic import *
 
 import plotly.express as px
 
-
-#external_stylesheets = ['/assets/stylesheet.css']
-
 app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-app.css.append_css({ "external_url" : "/static/dash_app.css" })
+app.css.append_css({ "external_url" : "/static/css/dash_app.css" })
 
 df_map_volatile = df
 
@@ -46,25 +45,7 @@ def add_loading_overlay(elements):
             overlayColor='#F2F2F2',
             overlayOpacity=1,
             radius=8,
-        )
-        
-        
-navbar_style = {
-    'backgroundColor': '#333',
-    'color': '#fff',
-    'padding': '10px',
-    'marginBottom': '20px'
-}
-
-# Estilos para los enlaces
-link_style = {'marginRight': '10px', 'color': '#fff', 'textDecoration': 'none'}
-
-# Layout del navbar
-navbar = html.Div([
-    html.A('Inicio', href='/inicio', style=link_style),
-    html.A('Página 1', href='/pagina1', style=link_style),
-    html.A('Página 2', href='/pagina2', style=link_style)
-], style=navbar_style)        
+        )     
 
 bogota_map_div = html.Div([
     html.Div(
@@ -128,35 +109,25 @@ regression_map_div = html.Div([
                     clearable=False
                 ),width=9
             ),
-        ],style={'marginBottom': '10px'}),
+        ],style={'marginBottom': '10px', "overflow-x": "hidden"}),
         add_loading_overlay(dcc.Graph(id='regression')),
 ],style={})
     
 app.layout = dbc.Container(
-    [   
+    [
+        navbar,
+        layout,
         dbc.Row(
             [
-            layout
-            ],className="teste",
-        ),
-        dbc.Row(
-            [
-                dbc.Col(navbar, width=12),  # El sidebar ocupa todo el ancho de la fila
-            ],
-        ),
-        dbc.Row(
-            [
-                
                 dbc.Col(bogota_map_div, md=5, style={"margin-right": "90px"}),
                 dbc.Col(regression_map_div, md=5),
             ],
             className="g-0",
             align="center",
-            style={"background-color": "#F2F2F2"}
         ) 
     ],
     fluid=True,
-    style={"overflow": "hidden", "background-color": "#F2F2F2"}
+    
 )
 
 @app.callback(

@@ -35,6 +35,8 @@ def get_figure(dff, variable):
     fig_data = properties_figures[variable]
     
     geo_fig_general.update_traces(
+        #template='plotly_dark',
+        #mapbox_style='carto-positron',    
         z=dff[variable],
         colorscale= fig_data[1],
         zmin=dff[variable].min(),
@@ -51,8 +53,9 @@ def update_figure(geo_fig):
         autosize=False, 
         mapbox_zoom=10,
         width=500, height=400,
-        mapbox_style="open-street-map",
-        #mapbox_style="dark",
+        #mapbox_style="open-street-map",
+        mapbox_style='carto-positron', 
+        mapbox_pitch=45,
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         mapbox_center={"lat": 4.60971, "lon": -74.08175},
         paper_bgcolor="#171717",
