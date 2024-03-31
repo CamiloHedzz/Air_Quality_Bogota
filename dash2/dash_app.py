@@ -13,6 +13,7 @@ from dash import html, dcc, callback, Input, Output, ctx, Dash, clientside_callb
 #Components and pages
 from .static.pages.home import layout
 from .static.components.navegator import navbar
+from .static.components.switch import switch
 
 from .rute_utils import *
 from .dash_figures import *
@@ -116,6 +117,7 @@ regression_map_div = html.Div([
 app.layout = dbc.Container(
     [
         navbar,
+        switch,
         layout,
         dbc.Row(
             [
@@ -215,7 +217,8 @@ def update_regression_figure(clickData, variable_map, datetime, varible_regressi
                         width=600,  
                         height=400,
                         paper_bgcolor="rgba(0,0,0,0)",  # Fondo del área del gráfico transparente
-                        plot_bgcolor="rgba(0,0,0,0)" 
+                        plot_bgcolor="rgba(0,0,0,0)",
+                        font=dict(color="white") 
     )
             
     #fig.update_xaxes(rangeslider_visible=True)

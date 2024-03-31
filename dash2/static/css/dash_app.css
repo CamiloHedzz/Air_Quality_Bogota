@@ -94,6 +94,30 @@ body{
 }
 
 /******************************************/
+                  /*SWITCH*/
+/******************************************/
+
+.switch-custom {
+  position: absolute;
+    bottom: 100px;
+    right: 10px;
+    transform: translateY(-10px) rotateX(15deg) rotateY(-20deg);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Añade una sombra luminosa */
+    border-radius: 50px; /* Ajusta el radio del borde según tu preferencia */
+    border: 5px solid rgba(255, 255, 255, 0.3); /* Añade un borde luminoso */
+    animation: moveUpDownToggle 2s ease infinite alternate; /* Define la animación */
+  }
+  
+  @keyframes moveUpDownToggle {
+    0% {
+      bottom: 100px; /* Posición inicial */
+    }
+    100% {
+      bottom: 90px; /* Posición hacia abajo */
+    }
+  }
+
+/******************************************/
                   /*INICIO*/
 /******************************************/
 .teste {

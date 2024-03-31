@@ -12,6 +12,9 @@ df = pd.read_csv("dash2/datasets/final_geodata.csv",
 #Dataset que representa las muestras
 df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
 
+#token = open("pk.eyJ1IjoiY2FtaWxvaGVkenoiLCJhIjoiY2x1ZXd6eTIxMWpzajJ2cXRlZ3lldnJ1eiJ9.HvNdBrg8ybOjYOoqlaMANw").read().strip()
+
+
 properties_figures = {
     'pm_25_mean': ['PM 2.5 <br> µg/m³', "Viridis", "pm_25", 'Particulas PM 2.5 µg/m³ por Barrio'],
     'pm_10_mean': ['PM 10 <br> µg/m³', "Cividis", "pm_10", 'Particulas PM 10 µg/m³ por Barrio'],
@@ -36,7 +39,7 @@ def get_figure(dff, variable):
     
     geo_fig_general.update_traces(
         #template='plotly_dark',
-        #mapbox_style='carto-positron',    
+        #  mapbox_style='carto-positron',    
         z=dff[variable],
         colorscale= fig_data[1],
         zmin=dff[variable].min(),
@@ -53,14 +56,16 @@ def update_figure(geo_fig):
         autosize=False, 
         mapbox_zoom=10,
         width=500, height=400,
+        mapbox_style="carto-darkmatter",
+        #mapbox_style="dark", mapbox_accesstoken=token,
         #mapbox_style="open-street-map",
-        mapbox_style='carto-positron', 
-        mapbox_pitch=45,
+        #mapbox_style='carto-positron', 
+        mapbox_pitch=50,
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
-        mapbox_center={"lat": 4.60971, "lon": -74.08175},
-        paper_bgcolor="#171717",
-        plot_bgcolor="#171717",
-        
+        mapbox_center={"lat": 4.67071, "lon": -74.08175},
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white")
     )
     
     #geo_fig.update_geos(projection_type='mercator')
