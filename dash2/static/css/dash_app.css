@@ -124,8 +124,6 @@ body{
     width: 100%;
 }
 
-
-
 .teste {
     background-color:#171717;
     display: flex;
@@ -171,3 +169,48 @@ body{
       top: 20px; /* Posición hacia abajo */
     }
   }
+
+/******************************************/
+              /*DASHBOARD MAPA*/
+/******************************************/
+
+.titles_section_2{
+  margin: 3% 0;
+}
+
+.title_section_2{
+  margin: 0;
+  font-size: 30px;
+  font-family: 'OSWALD';
+}
+
+.sub_title_section_2{
+  font-size: 20px;
+  font-family: 'OSWALD';
+  border-bottom: #DBD22A solid 2px;
+  width: max-content;
+}
+
+/* Target */
+
+.target_explication{
+  background-color: #212121;
+  padding: 15px;
+  border-radius: 10px;
+ width:90%
+
+}
+
+.target_explication h2{
+  margin: 0;
+  font-size: 25px;
+  font-family: 'OSWALD';
+  margin-bottom: 5px;
+}
+
+.target_explication p{
+  margin: 0;
+  font-size: 18px;
+  font-family: 'OSWALD-LIGHT';
+  margin-bottom: 10px;
+}

@@ -1,10 +1,10 @@
 {% load static %}
 {%load plotly_dash%}
 
-<iframe id="mi-iframe" style="background: #F2F2F2; " 
-    src="http://localhost:8000/django_plotly_dash/app/SimpleExample/" 
-    frameborder="0" height="100%" width="100%">
-</iframe>
+{%load plotly_dash%}
+<div class="{%plotly_class name="SimpleExamplee"%}" id="grafico">
+    {%plotly_app name="SimpleExamplee" ratio=0.5 %}
+</div>
 
 
 

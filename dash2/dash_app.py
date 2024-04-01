@@ -14,6 +14,7 @@ from dash import html, dcc, callback, Input, Output, ctx, Dash, clientside_callb
 from .static.pages.home import layout
 from .static.components.navegator import navbar
 from .static.components.switch import switch
+from .static.pages.dashboard import *
 
 from .rute_utils import *
 from .dash_figures import *
@@ -21,9 +22,10 @@ from .dash_logic import *
 
 import plotly.express as px
 
-app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = DjangoDash('SimpleExample2', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 app.css.append_css({ "external_url" : "/static/css/dash_app.css" })
+
 
 df_map_volatile = df
 
@@ -80,7 +82,7 @@ bogota_map_div = html.Div([
         ),   
     ],style={'marginBottom': '10px'}),
     
-    add_loading_overlay(dcc.Graph(id='bogota_map'))
+    dcc.Graph(id='bogota_map')
 ],)
     
 regression_map_div = html.Div([
@@ -117,8 +119,9 @@ regression_map_div = html.Div([
 app.layout = dbc.Container(
     [
         navbar,
-        switch,
         layout,
+        dashboard,
+        #switch,
         dbc.Row(
             [
                 dbc.Col(bogota_map_div, md=5, style={"margin-right": "90px"}),
@@ -132,6 +135,9 @@ app.layout = dbc.Container(
     
 )
 
+
+
+
 @app.callback(
     Output('bogota_map', 'figure'),
     [Input('bogota_map', 'clickData'),
@@ -140,7 +146,6 @@ app.layout = dbc.Container(
 )
 def update_map_on_click(clickData, variable_map, datetime):
     global selected_areas, geo_fig, actual_val, actual_month,df_map_volatile
-    
     if clickData is not None:
         selected_neigh = clickData['points'][0]['location']
         if selected_neigh not in selected_areas:
@@ -268,28 +273,8 @@ def get_stadictic():
       
     return std_dash_figures
 
-@app.callback(Output("page-content", "children"), [Input("url", "pathname")])
-def render_page_content(pathname):
-    if pathname == "/":
-        return html.P("This is the content of the home page!")
-    elif pathname == "/page-1":
-        return html.P("This is the content of page 1. Yay!")
-    elif pathname == "/page-2":
-        return html.P("Oh cool, this is page 2!")
-    # If the user tries to reach a different page, return a 404 message
-    return html.Div(
-        [
-            html.H1("404: Not found", className="text-danger"),
-            html.Hr(),
-            html.P(f"The pathname {pathname} was not recognised..."),
-        ],
-        className="p-3 bg-light rounded-3",
-    )
 
 
-
-
-    
 if __name__ == '__main__':
 
     app.run_server(debug=True)

@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from dash2.views import *
 from django.urls import path, include
-from dash2 import dash_app, dash_figures 
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [

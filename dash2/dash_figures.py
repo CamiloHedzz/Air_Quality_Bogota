@@ -55,7 +55,7 @@ def update_figure(geo_fig):
     geo_fig.update_layout(
         autosize=False, 
         mapbox_zoom=10,
-        width=500, height=400,
+        width=750, height=400,
         mapbox_style="carto-darkmatter",
         #mapbox_style="dark", mapbox_accesstoken=token,
         #mapbox_style="open-street-map",
