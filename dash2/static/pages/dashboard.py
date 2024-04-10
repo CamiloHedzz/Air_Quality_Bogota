@@ -1,6 +1,8 @@
 import pandas as pd
 import dash_bootstrap_components as dbc
+import dash_mantine_components as dmc
 from dash import html, dcc, Input, Output
+import plotly.express as px
 
 #Clases y componentes
 from ..components.switch import switch
@@ -10,19 +12,18 @@ from ...dash_figures import *
 from ...dash_logic import *
 from ...maindash import app
 
-df_map_volatile = df
-
-selected_areas = []
 
 geo_fig = update_figure(geo_fig_general)
 
-month_filter = pd.to_datetime(df2['datetime']).dt.strftime('%B').unique().tolist()
-month_filter.append("Diario")    
 
-actual_val = "pm_25_mean"
-actual_month = "Diario"
-
-actual_month_reg = "Diario"
+def add_loading_overlay(elements):
+    return dmc.LoadingOverlay(
+            children=elements,
+            loaderProps={'color': '#DBD22A', 'variant': 'oval'},
+            overlayColor='rgba(0,0,0,0)',
+            overlayOpacity=1,
+            radius=8,
+        )
 
 bogota_map_div = html.Div([
     dbc.Row([
@@ -62,11 +63,78 @@ left_map_content = html.Div([
     html.H2("Explora"),
     html.P("Este mapa interactivo te permite explorar los barrios de Bogotá con mayores niveles de contaminación por partículas PM 1, PM2.5 y PM.10, a demas puedes chequear los barrios con mayor humedad o temperatura. "),
     html.H2("¿Qué información puedes obtener?"),
-    html.P("Puedes explorar el mapa haciendo zoom, moviéndote con el clic izquierdo, y cambiando la perspectiva con el clic derecho. Además, puedes seleccionar un barrio para acceder a mediciones detalladas y obtener información adicional en la sección inferior del dashboard. "),
+    html.Div([
+        "Puedes explorar el mapa haciendo zoom, ",
+        html.Span("moviéndote con el clic izquierdo,", className="highlight"),
+        " y cambiando ",
+        html.Span("la perspectiva con el clic derecho.", className="highlight"),
+        " Además, puedes ",
+        html.Span("seleccionar un barrio",className="highlight"),
+        " para acceder a mediciones detalladas y obtener información adicional en la sección inferior del dashboard."
+    ]),
     html.Br(),
-    html.P("También puedes aplicar filtros según la variable de tu interés y las muestras recolectadas en meses anteriores para un análisis más específico y detallado."),
+    html.Div(["También puedes ",
+           html.Span("aplicar filtros según la variable de tu interés", className="highlight"),
+           " y las muestras recolectadas en meses anteriores para un análisis más específico y detallado."]),
     
     ], className="target_explication")
+
+regression_map_div = html.Div([
+        dbc.Row([
+            dbc.Col(
+                dcc.Dropdown(
+                    id="frecuency",
+                    options=["Diaria", "Semanal", "Mensual"],
+                    value="Diaria",
+                    clearable=False,
+                    placeholder="Frecuencia",
+                ),width=3
+            ),
+            dbc.Col(
+                dcc.Dropdown(
+                    id="varible_regression",
+                    options={
+                        'pm_25': 'PM 2.5',
+                        'pm_10': 'PM 10',
+                        'temperature': 'Temperatura',
+                        'humidity': 'Humedad'
+                    },
+                    value='pm_25',
+                    multi=True,
+                    clearable=False
+                ),width=9
+            ),
+        ],), #style={'marginBottom': '10px', "overflow-x": "hidden"}
+        add_loading_overlay(dcc.Graph(id='regression')),
+],style={})
+
+
+bar_figure = html.Div([
+    add_loading_overlay(dcc.Graph(id='bar_figure')),
+],style={})
+
+SIDEBAR_STYLE = {
+    "width": "16rem",
+    "padding": "2rem 1rem",
+    "background-color": "rgba(0,0,0,0)",
+}
+
+sidebar = html.Div(
+    [
+        dbc.Nav(
+            [
+                dbc.NavLink("Home", href="", active="exact"),
+                dbc.NavLink("Page 1", href="/page-1", active="exact"),
+                dbc.NavLink("Page 2", href="/page-2", active="exact"),
+            ],
+            vertical=True,
+            pills=True,
+            className="nav_info"
+        ),
+    ],
+    #style=SIDEBAR_STYLE,
+    className="nav_info"
+)
 
 dashboard = dbc.Container(
     [
@@ -82,14 +150,44 @@ dashboard = dbc.Container(
         ),
         dbc.Row(
             [
-                dbc.Col(left_map_content, className="g-0 align-items-center",),
+                dbc.Col(left_map_content),
                 dbc.Col(bogota_map_div),
             ],
             className="g-0 align-items-center",
             align="center",
         ), 
         
-        html.P("Aquí puedes examinar con detalle la información de las zonas seleccionadas en el mapa. Realiza comparaciones y obtén información precisa. Las unidades en el eje Y son microgramos por metro cúbico, con cada muestra tomada en una hora específica del día.")
+        html.Div(["Aquí puedes examinar con detalle la información de las zonas seleccionadas en el mapa. ", 
+                html.Span("Realiza comparaciones y obtén información precisa.", className="highlight"),
+                " Las unidades en el eje Y son microgramos por metro cúbico, con cada muestra tomada en una hora específica del día."]
+                , className="paragraph_separator"),
+        
+        dbc.Row(
+            [
+                dbc.Col(bar_figure),
+                dbc.Col(regression_map_div),
+            ],
+            className="g-0 align-items-center",
+            align="center",
+        ), 
+        html.Div(
+            [
+                html.Div([
+                    html.H1("Una guia para tener en cuenta", className="title_section_2"),
+                    html.H2("Informacion que te puede ser util", className="sub_title_section_2"),
+                    ], className="titles_section_2"
+                )
+            ],
+            className="my-4",  # Agrega clases de margen para espaciar los elementos
+        ),
+        dbc.Row(
+            [  
+                dbc.Col(sidebar),
+                dbc.Col("regression_map_div"),
+            ],
+            className="g-0 align-items-center",
+            align="center",
+        ), 
     ],
     fluid=True,
 )
@@ -102,7 +200,6 @@ dashboard = dbc.Container(
      Input('datetime', 'value')]
 )
 def update_map_on_click(clickData, variable_map, datetime):
-    print("entraaa")
     global selected_areas, geo_fig, actual_val, actual_month,df_map_volatile
     
     if clickData is not None:
@@ -130,4 +227,58 @@ def update_map_on_click(clickData, variable_map, datetime):
                        marker_line_width=feature_areas['wid'],
                        marker_line_color=feature_areas['col']) 
     return geo_fig
+
+
+
+@app.callback(
+    [Output('regression', 'figure'),
+     Output('bar_figure', 'figure')],
+    [Input('bogota_map', 'clickData'),
+     Input('variable_map', 'value'),
+     Input('datetime', 'value'),
+     Input('varible_regression', 'value'),
+     Input('frecuency', 'value')]
+)
+def update_regression_figure(clickData, variable_map, datetime, varible_regression, frecuency):
+
+    global selected_areas, df3
+    
+    dff = create_time_series(datetime)
+    
+    dff['datetime'] = pd.to_datetime(dff['datetime'])
+    
+    if frecuency == "Semanal":
+        dff = dff.groupby([dff['neighborhood'], dff['name'], dff['datetime'].dt.strftime('%Y-%U')]).agg({
+            'pm_25': 'mean',
+            'pm_10': 'mean',
+            'temperature': 'mean',
+            'humidity': 'mean',
+        }).reset_index()
+        
+    elif frecuency == "Mensual":
+        dff = dff.groupby([dff['neighborhood'], dff['name'], dff['datetime'].dt.strftime('%Y-%m')]).agg({
+            'pm_25': 'mean',
+            'pm_10': 'mean',
+            'temperature': 'mean',
+            'humidity': 'mean',
+        }).reset_index()
+    
+    dff.reset_index(inplace=True) 
+    
+    fig = go.Figure()
+    
+    fig = px.line(dff, x='datetime', y=dff[properties_figures[variable_map][2]], color='name', markers=True) # , line_shape='spline'
+
+    if isinstance(varible_regression, list):
+        for i in varible_regression:
+            if i != properties_figures[variable_map][2]:
+                fig.add_trace(go.Scatter(x=dff['datetime'], y=dff[i], mode='lines+markers', name=i.capitalize()))
+                 
+    dfe = create_bar_graph()
+    
+    figg = px.bar(dfe, x="variable", y="value", color="neighborhood", text_auto=True)
+
+    return update_style_regression_figure(fig, variable_map), update_style_bar_figure(figg)
+
+
 

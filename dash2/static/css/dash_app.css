@@ -33,7 +33,7 @@ body{
 .nav {
     position: sticky;
     top: 0;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(33, 33, 33, 0.2);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -197,7 +197,7 @@ body{
   background-color: #212121;
   padding: 15px;
   border-radius: 10px;
- width:90%
+  width:90%
 
 }
 
@@ -213,4 +213,20 @@ body{
   font-size: 18px;
   font-family: 'OSWALD-LIGHT';
   margin-bottom: 10px;
+}
+
+.highlight{
+  color: #DBD22A;
+}
+
+.paragraph_separator{
+  margin: 50px 0px;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Panel de navegacion inferior*/
+
+.nav_info{
+  background-color: red;
 }
