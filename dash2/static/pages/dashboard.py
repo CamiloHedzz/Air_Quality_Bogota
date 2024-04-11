@@ -6,7 +6,7 @@ import plotly.express as px
 
 #Clases y componentes
 from ..components.switch import switch
-
+from ..components.footer import footer_content
 
 from ...dash_figures import *
 from ...dash_logic import *
@@ -123,9 +123,10 @@ sidebar = html.Div(
     [
         dbc.Nav(
             [
-                dbc.NavLink("Home", href="", active="exact"),
-                dbc.NavLink("Page 1", href="/page-1", active="exact"),
-                dbc.NavLink("Page 2", href="/page-2", active="exact"),
+                dbc.NavLink("PM 1", href="PM_1", active="exact", className="nav_link_info"),
+                dbc.NavLink("PM 2.5", href="PM_2.5", active="exact", className="nav_link_info"),
+                dbc.NavLink("PM 10", href="PM_10", active="exact", className="nav_link_info"),
+                dbc.NavLink("Indice de Calidad del Aire", href="ICA", active="exact", className="nav_link_info"),
             ],
             vertical=True,
             pills=True,
@@ -133,8 +134,10 @@ sidebar = html.Div(
         ),
     ],
     #style=SIDEBAR_STYLE,
-    className="nav_info"
+    className="nav_info_container"
 )
+
+content = html.Div(id="page-content")
 
 dashboard = dbc.Container(
     [
@@ -180,18 +183,23 @@ dashboard = dbc.Container(
             ],
             className="my-4",  # Agrega clases de margen para espaciar los elementos
         ),
-        dbc.Row(
-            [  
-                dbc.Col(sidebar),
-                dbc.Col("regression_map_div"),
-            ],
-            className="g-0 align-items-center",
-            align="center",
-        ), 
+        
+       html.Div([dcc.Location(id="url"), sidebar, content]),
+       
+       footer_content
+        
     ],
     fluid=True,
 )
 
+'''dbc.Row(
+    [
+        dcc.Location(id="url"),
+        dbc.Col(sidebar, width=3),
+        dbc.Col(content),
+    ],
+
+), '''
 
 @app.callback(
     Output('bogota_map', 'figure'),
@@ -281,4 +289,14 @@ def update_regression_figure(clickData, variable_map, datetime, varible_regressi
     return update_style_regression_figure(fig, variable_map), update_style_bar_figure(figg)
 
 
+#Aqui voy, hay un scroll automotico, mka termina esta mierda yaaa
 
+@app.callback(Output("page-content", "children"), [Input("url", "pathname")])
+def update_url(pathname):
+    print(pathname)
+    if pathname == "/django_plotly_dash/app/SimpleExamplee/PM_1":
+        return html.P("This is the content of the home page!")
+    elif pathname == "/django_plotly_dash/app/SimpleExamplee/PM_2.5":
+        return html.P("This is the content of page 1. Yay!")
+    elif pathname == "/django_plotly_dash/app/SimpleExamplee/PM_10":
+        return html.P("Oh cool, this is page 2!")

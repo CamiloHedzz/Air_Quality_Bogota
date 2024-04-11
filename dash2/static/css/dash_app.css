@@ -227,6 +227,133 @@ body{
 
 /* Panel de navegacion inferior*/
 
-.nav_info{
-  background-color: red;
+.nav_info_container{
+  background-color: #171717;
 }
+
+.nav_info{
+  background-color: #171717;
+}
+
+.nav_link_info{
+  color: #E5E5E5;
+  background-color: #171717;
+  margin: 5px;
+  width: 100%;
+  text-align: center;
+  border-style: none;
+}
+
+.nav_link_info:hover{
+  color: #E5E5E5;
+  background-color: #212121;
+
+}
+
+.nav-pills .nav-link.active{
+  background-color: #373636;
+}
+
+
+
+
+  /*********/
+
+  footer {
+    width: 100%;
+    height: 100%;
+    padding: 50px 0;
+    color: #fff;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+    --s: 350px; /* control the size */
+    --c1: #1d1d1d;
+    --c2: #4e4f51;
+    --c3: #3c3c3c;
+  
+    background: repeating-conic-gradient(
+          from 30deg,
+          #0000 0 120deg,
+          var(--c3) 0 180deg
+        )
+        calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
+      repeating-conic-gradient(
+        from 30deg,
+        var(--c1) 0 60deg,
+        var(--c2) 0 120deg,
+        var(--c3) 0 180deg
+      );
+    background-size: var(--s) calc(var(--s) * 0.577);
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    
+  }
+
+  .container_img {
+    width: 400px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  #footer_img{
+      width: 100px;
+      margin: 0;
+  }
+  
+  .contact-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .contact-info img {
+    width: 10px;
+    height: 120px;
+    margin-right: 10px;
+  }
+  
+  .contact-info p {
+    font-size: 18px;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: center; /* Cambia space-around por center o flex-start */
+    max-width: 400px; /* Ajusta el ancho máximo según sea necesario */
+    width: 100%;
+  }
+  
+  .social-icons img {
+    width: 40px; /* Ajusta el tamaño de los iconos según sea necesario */
+    height: auto;
+    margin: 0 15px;
+  }
+  
+  .resources {
+    flex: 1;
+  }
+  
+  .resources h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    
+  }
+
+  .resources a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    transition: color 0.3s ease;
+    margin: 0 15px;
+  }
+  
+  .resources a:hover {
+    color: #f4c20d;
+  }
