@@ -3,6 +3,7 @@ import dash_bootstrap_components as dbc
 import dash_mantine_components as dmc
 from dash import html, dcc, Input, Output
 import plotly.express as px
+import dash
 
 #Clases y componentes
 from ..components.switch import switch
@@ -39,6 +40,7 @@ bogota_map_div = html.Div([
                 placeholder="Variable",
                 value="pm_25_mean",
                 clearable=False,
+                style={'color': 'black'}
             ),
             width=3
         ),
@@ -49,6 +51,7 @@ bogota_map_div = html.Div([
                 value="Diario",
                 clearable=False,
                 placeholder="Mes",
+                style={'color': 'black'}
             ),
             width=4
         ),   
@@ -88,6 +91,7 @@ regression_map_div = html.Div([
                     value="Diaria",
                     clearable=False,
                     placeholder="Frecuencia",
+                    style={'color': 'black'}
                 ),width=3
             ),
             dbc.Col(
@@ -100,6 +104,7 @@ regression_map_div = html.Div([
                         'humidity': 'Humedad'
                     },
                     value='pm_25',
+                    style={'color': 'black'},
                     multi=True,
                     clearable=False
                 ),width=9
@@ -113,31 +118,17 @@ bar_figure = html.Div([
     add_loading_overlay(dcc.Graph(id='bar_figure')),
 ],style={})
 
-SIDEBAR_STYLE = {
-    "width": "16rem",
-    "padding": "2rem 1rem",
-    "background-color": "rgba(0,0,0,0)",
-}
 
 sidebar = html.Div(
     [
-        dbc.Nav(
-            [
-                dbc.NavLink("PM 1", href="PM_1", active="exact", className="nav_link_info"),
-                dbc.NavLink("PM 2.5", href="PM_2.5", active="exact", className="nav_link_info"),
-                dbc.NavLink("PM 10", href="PM_10", active="exact", className="nav_link_info"),
-                dbc.NavLink("Indice de Calidad del Aire", href="ICA", active="exact", className="nav_link_info"),
-            ],
-            vertical=True,
-            pills=True,
-            className="nav_info"
-        ),
+        dbc.Button("PM 1", id="btn_PM1", n_clicks=0, className="nav_link_info btn btn-primary btn-block"),
+        dbc.Button("PM 2.5", id="btn_PM25", n_clicks=0, className="nav_link_info btn btn-primary btn-block"),
+        dbc.Button("PM 10", id="btn_PM10", n_clicks=0, className="nav_link_info btn btn-primary btn-block"),
     ],
-    #style=SIDEBAR_STYLE,
     className="nav_info_container"
 )
 
-content = html.Div(id="page-content")
+content = html.Div(id="page-content", className="container_content")
 
 dashboard = dbc.Container(
     [
@@ -184,22 +175,20 @@ dashboard = dbc.Container(
             className="my-4",  # Agrega clases de margen para espaciar los elementos
         ),
         
-       html.Div([dcc.Location(id="url"), sidebar, content]),
-       
+        dbc.Row(
+            [
+                dbc.Col(sidebar, width=3),
+                dbc.Col(content),
+            ],
+            className="g-0 align-items-center",
+            align="center",
+        ), 
+        
        footer_content
         
     ],
     fluid=True,
 )
-
-'''dbc.Row(
-    [
-        dcc.Location(id="url"),
-        dbc.Col(sidebar, width=3),
-        dbc.Col(content),
-    ],
-
-), '''
 
 @app.callback(
     Output('bogota_map', 'figure'),
@@ -287,16 +276,37 @@ def update_regression_figure(clickData, variable_map, datetime, varible_regressi
     figg = px.bar(dfe, x="variable", y="value", color="neighborhood", text_auto=True)
 
     return update_style_regression_figure(fig, variable_map), update_style_bar_figure(figg)
+    
 
-
-#Aqui voy, hay un scroll automotico, mka termina esta mierda yaaa
-
-@app.callback(Output("page-content", "children"), [Input("url", "pathname")])
-def update_url(pathname):
-    print(pathname)
-    if pathname == "/django_plotly_dash/app/SimpleExamplee/PM_1":
-        return html.P("This is the content of the home page!")
-    elif pathname == "/django_plotly_dash/app/SimpleExamplee/PM_2.5":
-        return html.P("This is the content of page 1. Yay!")
-    elif pathname == "/django_plotly_dash/app/SimpleExamplee/PM_10":
-        return html.P("Oh cool, this is page 2!")
+@app.callback(
+    Output("page-content", "children"),
+    [Input("btn_PM1", "n_clicks"),
+     Input("btn_PM25", "n_clicks"),
+     Input("btn_PM10", "n_clicks")]
+)
+def update_output(btn_PM1, btn_PM25, btn_PM10):
+    
+    button_id = dash.callback_context.triggered[0]["prop_id"].split(".")[0]
+    
+    message = html.Div([            
+            html.H1("PM 1"),
+            html.P(
+                "Las partículas (PM) de tamaño inferior a 1 micra se denominan PM1 (a veces PM1.0). Las PM1 se consideran especialmente peligrosas debido a su tamaño extremadamente pequeño. Cuanto menor es el diámetro de una partícula, mayor es el daño que puede causar. Las partículas diminutas transportadas por el aire, como las PM1, son lo suficientemente pequeñas como para penetrar en el tejido pulmonar y llegar al torrente sanguíneo. Las PM1 pueden entonces circular por todo el cuerpo y causar efectos sistémicos sobre la salud.",
+            )             
+        ],className="des_message_card")                         
+    if button_id == "btn_PM10":
+        message = html.Div([
+                html.H1("PM 10"),   
+                html.P(
+                    "Son aquellas partículas sólidas o líquidas de polvo, cenizas, hollín, partículas metálicas, cemento o polen, dispersas en la atmósfera, y cuyo diámetro varía entre 2,5 y 10 µm (1 micrómetro corresponde la milésima parte de 1 milímetro). Están formadas principalmente por compuestos inorgánicos como silicatos y aluminatos, metales pesados entre otros, y material orgánico asociado a partículas de carbono (hollín). Se caracterizan por poseer un pH básico debido a la combustión no controlada de materiales.",
+                )
+            ],className="des_message_card") 
+    elif button_id == "btn_PM25":
+        message = html.Div([
+            html.H1("PM 2.5"),   
+                html.P(
+                "La materia particulada o PM (por sus siglas en inglés) 2.5, son partículas muy pequeñas en el aire que tiene un diámetro de 2.5 micrómetros (aproximadamente 1 diezmilésimo de pulgada) o menos de diámetro. Esto es menos que el grosor de un cabello humano. La materia particulada, uno de los seis  criterios de contaminantes del aire de la U.S. EPA, es una mezcla que puede incluir sustancias químicas orgánicas, polvo, hollín y metales. Estas partículas pueden provenir de los automóviles, camiones, fábricas, quema de madera y otras actividades.",
+                )
+            ],className="des_message_card") 
+        
+    return message

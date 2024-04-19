@@ -357,3 +357,23 @@ body{
   .resources a:hover {
     color: #f4c20d;
   }
+
+  .des_message_card{
+    padding: 5%;
+  }
+
+  .des_message_card h1{
+    font-size: 40px;
+    font-family: 'OSWALD';
+    color: #DBD22A;
+  }
+
+  .des_message_card p{
+    font-size: 18px;
+    text-align: justify;
+  }
+  
+  .container_content{
+    margin-top: 20px;
+    
+}
