@@ -285,9 +285,11 @@ def update_regression_figure(clickData, variable_map, datetime, varible_regressi
      Input("btn_PM10", "n_clicks")]
 )
 def update_output(btn_PM1, btn_PM25, btn_PM10):
+    button_id = ""
     
-    button_id = dash.callback_context.triggered[0]["prop_id"].split(".")[0]
-    
+    if len(dash.callback_context.triggered) > 0:
+        button_id = dash.callback_context.triggered[0]["prop_id"].split(".")[0]
+        
     message = html.Div([            
             html.H1("PM 1"),
             html.P(
@@ -308,5 +310,4 @@ def update_output(btn_PM1, btn_PM25, btn_PM10):
                 "La materia particulada o PM (por sus siglas en inglés) 2.5, son partículas muy pequeñas en el aire que tiene un diámetro de 2.5 micrómetros (aproximadamente 1 diezmilésimo de pulgada) o menos de diámetro. Esto es menos que el grosor de un cabello humano. La materia particulada, uno de los seis  criterios de contaminantes del aire de la U.S. EPA, es una mezcla que puede incluir sustancias químicas orgánicas, polvo, hollín y metales. Estas partículas pueden provenir de los automóviles, camiones, fábricas, quema de madera y otras actividades.",
                 )
             ],className="des_message_card") 
-        
     return message

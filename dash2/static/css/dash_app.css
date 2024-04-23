@@ -254,126 +254,112 @@ body{
   background-color: #373636;
 }
 
+.des_message_card{
+  padding: 5%;
+}
 
+.des_message_card h1{
+  font-size: 40px;
+  font-family: 'OSWALD';
+  color: #DBD22A;
+}
 
+.des_message_card p{
+  font-size: 18px;
+  text-align: justify;
+}
+  
+.container_content{
+  margin-top: 20px;
+}
 
   /*********/
 
-  footer {
-    width: 100%;
-    height: 100%;
-    padding: 50px 0;
-    color: #fff;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+.footer-content {
+  width: 100%;
+  height: 20%;
+  padding: 50px 0;
+  color: #fff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 
-    --s: 350px; /* control the size */
-    --c1: #1d1d1d;
-    --c2: #4e4f51;
-    --c3: #3c3c3c;
-  
-    background: repeating-conic-gradient(
-          from 30deg,
-          #0000 0 120deg,
-          var(--c3) 0 180deg
-        )
-        calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
-      repeating-conic-gradient(
+  --s: 350px; /* control the size */
+  --c1: #1d1d1d;
+  --c2: #4e4f51;
+  --c3: #3c3c3c;
+
+  background: repeating-conic-gradient(
         from 30deg,
-        var(--c1) 0 60deg,
-        var(--c2) 0 120deg,
+        #0000 0 120deg,
         var(--c3) 0 180deg
-      );
-    background-size: var(--s) calc(var(--s) * 0.577);
-  }
-  
-  .footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    
-  }
+      )
+      calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
+    repeating-conic-gradient(
+      from 30deg,
+      var(--c1) 0 60deg,
+      var(--c2) 0 120deg,
+      var(--c3) 0 180deg
+    );
+  background-size: var(--s) calc(var(--s) * 0.577);
+}
 
-  .container_img {
-    width: 400px;
-    padding: 20px;
-    text-align: center;
-  }
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  #footer_img{
-      width: 100px;
-      margin: 0;
-  }
+/* Estilo para la primera fila del contenedor */
+.container_first_row {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  font-size: 18px;
   
-  .contact-info {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-  
-  .contact-info img {
-    width: 10px;
-    height: 120px;
-    margin-right: 10px;
-  }
-  
-  .contact-info p {
-    font-size: 18px;
-  }
-  
-  .social-icons {
-    display: flex;
-    justify-content: center; /* Cambia space-around por center o flex-start */
-    max-width: 400px; /* Ajusta el ancho máximo según sea necesario */
-    width: 100%;
-  }
-  
-  .social-icons img {
-    width: 40px; /* Ajusta el tamaño de los iconos según sea necesario */
-    height: auto;
-    margin: 0 15px;
-  }
-  
-  .resources {
-    flex: 1;
-  }
-  
-  .resources h3 {
-    margin-bottom: 15px;
-    font-size: 20px;
-    
-  }
+}
 
-  .resources a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 18px;
-    transition: color 0.3s ease;
-    margin: 0 15px;
-  }
+.right_contact_col{
+  width: 20%;
+  margin-left: 20px;
+}
+
+.left_contact_col{
+  width: 30%;
+  text-align: center;
   
-  .resources a:hover {
-    color: #f4c20d;
-  }
+  padding-right: 20px;
+  border-right: #DBD22A solid 5px;
+}
 
-  .des_message_card{
-    padding: 5%;
-  }
+.footer_image{
+  width: 30%; /* Modifica el ancho de la imagen según tus necesidades */
+  height: auto;
+}
 
-  .des_message_card h1{
-    font-size: 40px;
-    font-family: 'OSWALD';
-    color: #DBD22A;
-  }
+.right_contact_col h1{
+  font-family: oswald;
+  font-size: 20px;
+  margin-top: 20px;
+}
 
-  .des_message_card p{
-    font-size: 18px;
-    text-align: justify;
-  }
-  
-  .container_content{
-    margin-top: 20px;
-    
+.right_contact_col p{
+  margin: 0px;
+
+}
+
+.icon-container {
+  display: flex;
+  justify-content: space-around; /* Ajusta el espacio entre los iconos */
+  align-items: center; /* Centra verticalmente los iconos */
+}
+
+.icon-container img {
+  width: 40px; 
+  height: auto;
+}
+
+.bottom_contact_row{
+  text-align: center;
+  margin-top: 5%;
 }
