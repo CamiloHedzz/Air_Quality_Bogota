@@ -225,8 +225,6 @@ def update_map_on_click(clickData, variable_map, datetime):
                        marker_line_color=feature_areas['col']) 
     return geo_fig
 
-
-
 @app.callback(
     [Output('regression', 'figure'),
      Output('bar_figure', 'figure')],

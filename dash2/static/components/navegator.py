@@ -14,11 +14,13 @@ navbar = html.Nav(
             className="title_nav"),
         html.Div([
             html.Ul([
-                html.A('Inicio', href='/inicio', className="link_nav"),
-                html.A('Nosotros', href='/pagina1', className="link_nav"),
-                html.A('Haz tus predicciones', href='/pagina2', className="link_nav")
+                html.A('Inicio', href='', className="link_nav"),
+                html.A('Nosotros', href='us', className="link_nav"),
+                html.A('Haz tus predicciones', href='predictions', className="link_nav")
             ], className="items_list")
         ], className="items_nav"),
     ],
     className="nav"
 )
+
+
