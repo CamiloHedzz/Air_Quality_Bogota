@@ -78,44 +78,20 @@ body{
     padding: 0;
 }
 
-.link_nav {
-    margin-right: 15px;
-    text-decoration: none;
-    color: #E5E5E5;
-    font-size: 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0);
-    transition: 0.5s;
+.btn-nav{
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-radius: 0px;
+  transition: .5s;
 }
 
-.link_nav:hover {
-    border-bottom: 1px solid #DBD22A;
-    transition: 0.5s;
-
+.btn-nav:hover {
+  background-color: transparent;
+  color: #DBD22A;
+  border-bottom: 2px solid #DBD22A;
+  transition: .5s;
 }
-
-/******************************************/
-                  /*SWITCH*/
-/******************************************/
-
-.switch-custom {
-  position: absolute;
-    bottom: 100px;
-    right: 10px;
-    transform: translateY(-10px) rotateX(15deg) rotateY(-20deg);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Añade una sombra luminosa */
-    border-radius: 50px; /* Ajusta el radio del borde según tu preferencia */
-    border: 5px solid rgba(255, 255, 255, 0.3); /* Añade un borde luminoso */
-    animation: moveUpDownToggle 2s ease infinite alternate; /* Define la animación */
-  }
-  
-  @keyframes moveUpDownToggle {
-    0% {
-      bottom: 100px; /* Posición inicial */
-    }
-    100% {
-      bottom: 90px; /* Posición hacia abajo */
-    }
-  }
 
 /******************************************/
                   /*INICIO*/

@@ -2,6 +2,12 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, callback, Input, Output
 
+from ...maindash import app
+
+from ..pages.dashboard import dashboard
+from ..pages.about import about
+from ..pages.predictions import predictions
+
 navbar = html.Nav(
     [
         html.Div([
@@ -14,13 +20,30 @@ navbar = html.Nav(
             className="title_nav"),
         html.Div([
             html.Ul([
-                html.A('Inicio', href='', className="link_nav"),
-                html.A('Nosotros', href='us', className="link_nav"),
-                html.A('Haz tus predicciones', href='predictions', className="link_nav")
+                html.Button('Inicio', className="btn btn-transparent btn-nav", id='btn_inicio'),
+                html.Button('Nosotros', className="btn btn-transparent btn-nav", id='btn_nosotros'),
+                html.Button('Haz tus predicciones', className="btn btn-transparent btn-nav", id='btn_predicciones')
             ], className="items_list")
         ], className="items_nav"),
     ],
     className="nav"
 )
 
+@app.callback(
+    Output("general-content", "children"),
+    [Input('btn_inicio', 'n_clicks'),
+    Input('btn_nosotros', 'n_clicks'),
+    Input('btn_predicciones', 'n_clicks')]
+) 
+def update_navegation(btn_inicio, btn_nosotros, btn_predicciones):
+    button_id = ""
+    
+    if len(dash.callback_context.triggered) > 0:
+        button_id = dash.callback_context.triggered[0]["prop_id"].split(".")[0]
+    
+    if button_id == "btn_nosotros":    
+        return html.H1("About")
+    elif button_id == "btn_predicciones": 
+        return html.H1("predictions")
 
+    return dashboard

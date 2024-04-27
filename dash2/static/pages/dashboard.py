@@ -6,8 +6,8 @@ import plotly.express as px
 import dash
 
 #Clases y componentes
-from ..components.switch import switch
 from ..components.footer import footer_content
+from .home import layout
 
 from ...dash_figures import *
 from ...dash_logic import *
@@ -129,9 +129,10 @@ sidebar = html.Div(
 )
 
 content = html.Div(id="page-content", className="container_content")
-
+ 
 dashboard = dbc.Container(
     [
+        layout,
         html.Div(
             [
                 html.Div([
@@ -223,7 +224,7 @@ def update_map_on_click(clickData, variable_map, datetime):
     geo_fig.update_traces(marker_opacity=feature_areas['op'], 
                        marker_line_width=feature_areas['wid'],
                        marker_line_color=feature_areas['col']) 
-    return geo_fig
+    return geo_fig 
 
 @app.callback(
     [Output('regression', 'figure'),
@@ -309,3 +310,4 @@ def update_output(btn_PM1, btn_PM25, btn_PM10):
                 )
             ],className="des_message_card") 
     return message
+
