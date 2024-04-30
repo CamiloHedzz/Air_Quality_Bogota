@@ -12,9 +12,6 @@ df = pd.read_csv("dash2/datasets/final_geodata.csv",
 #Dataset que representa las muestras
 df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
 
-#token = open("pk.eyJ1IjoiY2FtaWxvaGVkenoiLCJhIjoiY2x1ZXd6eTIxMWpzajJ2cXRlZ3lldnJ1eiJ9.HvNdBrg8ybOjYOoqlaMANw").read().strip()
-
-
 properties_figures = {
     'pm_25_mean': ['PM 2.5 <br> µg/m³', "Viridis", "pm_25", 'Particulas PM 2.5 µg/m³ por Barrio'],
     'pm_10_mean': ['PM 10 <br> µg/m³', "Cividis", "pm_10", 'Particulas PM 10 µg/m³ por Barrio'],

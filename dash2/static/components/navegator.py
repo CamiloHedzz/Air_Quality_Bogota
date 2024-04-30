@@ -21,8 +21,8 @@ navbar = html.Nav(
         html.Div([
             html.Ul([
                 html.Button('Inicio', className="btn btn-transparent btn-nav", id='btn_inicio'),
-                html.Button('Nosotros', className="btn btn-transparent btn-nav", id='btn_nosotros'),
-                html.Button('Haz tus predicciones', className="btn btn-transparent btn-nav", id='btn_predicciones')
+                html.Button('Haz tus predicciones', className="btn btn-transparent btn-nav", id='btn_predicciones'),
+                html.Button('Nosotros', className="btn btn-transparent btn-nav", id='btn_nosotros')
             ], className="items_list")
         ], className="items_nav"),
     ],
@@ -42,8 +42,8 @@ def update_navegation(btn_inicio, btn_nosotros, btn_predicciones):
         button_id = dash.callback_context.triggered[0]["prop_id"].split(".")[0]
     
     if button_id == "btn_nosotros":    
-        return html.H1("About")
+        return about
     elif button_id == "btn_predicciones": 
-        return html.H1("predictions")
+        return predictions
 
     return dashboard

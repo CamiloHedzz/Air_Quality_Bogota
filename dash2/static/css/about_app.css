@@ -1,0 +1,74 @@
+#about{
+    padding: 0 40vh;
+    font-size: 15px;
+}
+
+.title_about{
+    font-size: 40px; 
+    font-family: 'OSWALD';
+    color: white;
+    font-weight: bold;
+    margin: 70px 0px;
+}
+
+.container_authors {
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.info_author {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-right: 20px; /* Espacio entre los autores */
+}
+
+.author_info {
+    margin-top: 10px; /* Espacio entre el nombre del autor y la descripción */
+}
+
+.info_author a{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    transition: 1s;
+}
+
+.info_author a:hover{
+    color: #DBD22A;
+    transition: 1s;
+}
+
+
+.info_author img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-top: 30px;
+}
+
+.paragraph_about{
+    text-align: justify;   
+}
+
+.last-one{
+    margin-bottom: 50px;
+}
+
+@media (max-width: 768px) {
+    .container_authors {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info_author {
+        margin-bottom: 20px; /* Espacio entre los autores cuando están uno debajo del otro */
+    }
+
+    #about{
+        padding: 0;
+    }
+}

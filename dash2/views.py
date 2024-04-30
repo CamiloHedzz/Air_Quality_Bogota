@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from dash2 import dash_app
 from dash2 import app
 
 # Create your views here.

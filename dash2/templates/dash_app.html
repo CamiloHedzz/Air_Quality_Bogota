@@ -2,95 +2,9 @@
 {%load plotly_dash%}
 
 {%load plotly_dash%}
-<div class="{%plotly_class name="SimpleExamplee"%}" id="grafico">
-    {%plotly_app name="SimpleExamplee" ratio=0.5 %}
-</div>
 
+<link rel="stylesheet" href="{% static 'dash_style.css' %}">
 
-
-<div class="container">
-    <div class="container-left">
-
-        <h2>Datos a tener en cuenta</h2>
-        <p>          
-            A continuación se destacan los aspectos más relevantes de las muestras recopiladas
-            en las rutas que usted elija. Podrá visualizar específicamente las horas
-            del día y los barrios donde se registra una mayor concentración de
-            contaminación por partículas PM 2.5.
-        </p>
-        <h3 class ="stats_title">Maximo valor de particulas PM 2.5</h3>
-        
-        <table class = "table_stats">
-        <tr>
-            <th>Identificacion Barrio</th>
-            <th>Valor PM 2.5 µg/m³</th>
-        </tr>
-        {% for row in dash_info.max_pm.values %}
-        <tr>    
-            <td>{{ row.0 }}</td>
-            <td class="td_result">{{ row.1 }}</td>
-        <tr>
-        {% endfor %}
-    </table>
-
-    <h3 class ="stats_title">Minimo valor de particulas PM 2.5</h3>
-    <table class = "table_stats" >
-        <tr>
-            <th>Identificacion Barrio</th>
-            <th>Valor PM 2.5 µg/m³</th>
-        </tr>
-        {% for row in dash_info.min_pm.values %}
-        <tr>    
-            <td>{{ row.0 }}</td>
-            <td class="td_result">{{ row.1 }}</td>
-        <tr>
-        {% endfor %}
-    </table>
-    <h3 class="stats_title">Horas con Mayor y Menor Contaminación de Partículas</h3>
-    <table class = "table_stats" >
-        <tr>
-            <th>Hora con Mayor Promedio de Partículas (PM 2.5 µg/m³)</th>
-            <th>Hora con Menor Promedio de Partículas (PM 2.5 µg/m³)</th>
-        </tr>
-        <tr>
-            <td  class="td_result">{{ dash_info.min_hour }}</td>
-            <td  class="td_result">{{ dash_info.max_hour }}</td>
-        </tr>
-    </table>
-    </div>
-    <div class="container-right">      
-        <p>          
-            En este apartado puedes tener informacion mas precisa de los barrios 
-            que selecciones, nosotros nos encargaremos de mostrarte los puntos mas
-            importantes y de mayor relevancia, una vez que termines de seleccionar 
-            los barrios de interes, pulsa en el boton <b>Obtener Resultados</b> 
-            y la informacion se desplegara agui abajo :)
-        </p>
-        
-        
-   
-    </div>
-</div>
-
-<div class="pm_info">
-    <h2>¿Que son las particulas PM 2.5?</h2>
-    <p>
-        Las partículas PM2.5, son un tipo de contaminante 
-        atmosférico
-        compuesto por partículas sólidas o líquidas de
-        diámetro aerodinámico igual o menor a 2.5 micrómetros
-        (µm).La exposición a largo plazo a altos niveles de PM2.5 
-        está relacionada con una serie de problemas de salud,
-        como enfermedades respiratorias (asma, bronquitis, etc.),
-        enfermedades cardiovasculares, e incluso cáncer de pulmón.
-    </p>
-    <h2>Aqui te damos un rango</h2>
-    <ul>
-        <li><b>0-12 µg/m³:</b> Bueno - La calidad del aire se considera satisfactoria y no se espera que represente un riesgo para la salud.</li>
-        <li><b>12.1-35.4 µg/m³:</b> Moderado - La calidad del aire es aceptable; sin embargo, puede haber ciertos riesgos para la salud para un número muy pequeño de personas que son especialmente sensibles a la contaminación del aire.</li>
-        <li><b>35.5-55.4 µg/m³:</b> Poco saludable para grupos sensibles - Las personas con enfermedades respiratorias o cardíacas, niños y ancianos pueden experimentar efectos adversos para la salud. La población en general no se verá afectada.</li>
-        <li><b>55.5-150.4 µg/m³:</b> Poco saludable - Todos pueden comenzar a experimentar efectos adversos para la salud; las personas con enfermedades respiratorias o cardíacas, niños y ancianos pueden experimentar efectos más graves.</li>
-        <li><b>150.5-250.4 µg/m³:</b> Muy poco saludable - Las alertas de salud aumentan, ya que la población en general puede experimentar efectos más graves en la salud.</li>
-        <li><b>Más de 250.5 µg/m³:</b> Peligroso: Se activan alertas de salud de emergencia. La población general puede experimentar efectos graves para la salud.</li>
-    </ul>
+<div id="grafico">
+    <iframe src="http://127.0.0.1:8000/django_plotly_dash/app/SimpleExamplee/" frameborder="0"></iframe>
 </div>
