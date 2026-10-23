@@ -56,7 +56,8 @@
 /* Map controls share one period across the map and the charts. */
 .airquality-dashboard .map-controls {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: end;
   gap: 12px 16px;
   padding: 16px;
   border: 1px solid #deded5;
@@ -72,28 +73,202 @@
   font-size: 0.95rem;
 }
 .airquality-dashboard .map-controls .Select-control { background: #fff; }
-.airquality-dashboard .map-theme-options {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 12px;
-  min-height: 36px;
-}
-.airquality-dashboard .map-theme-options label {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin: 0;
-  cursor: pointer;
-}
-.airquality-dashboard .map-theme-options input { accent-color: #6c650b; }
 .airquality-dashboard .map-period-summary {
-  min-height: 2.8rem;
-  padding: 9px 2px 4px;
+  padding: 12px 2px 10px;
   color: #53534a;
   font-size: 0.9rem;
   line-height: 1.5;
 }
-@media (max-width: 420px) {
+
+
+/* Explain first, then let the map use the full available width. */
+.airquality-dashboard .map-explorer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.airquality-dashboard .map-intro {
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+.airquality-dashboard .map-intro h2 {
+  margin: 0 0 8px;
+  font-size: 1.4rem;
+}
+
+.airquality-dashboard .map-intro h2:not(:first-child) { margin-top: 16px; }
+
+.airquality-dashboard .map-intro p {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.airquality-dashboard .map-intro p:last-child { margin-bottom: 0; }
+.airquality-dashboard .map-panel { width: 100%; min-width: 0; }
+.airquality-dashboard .airquality-map {
+  height: clamp(460px, 65vh, 660px);
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+@media (max-width: 840px) {
+  .airquality-dashboard .map-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
   .airquality-dashboard .map-controls { grid-template-columns: minmax(0, 1fr); }
+  .airquality-dashboard .map-explorer { gap: 20px; }
+  .airquality-dashboard .map-intro p { font-size: 1rem; }
+}
+
+
+/* A concise introduction tied to the period shown by the map. */
+.airquality-dashboard .dashboard-overview {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin: 32px 0 22px;
+  padding-bottom: 22px;
+  border-bottom: 2px solid #dbd22a;
+}
+.airquality-dashboard .overview-copy { min-width: 0; }
+.airquality-dashboard .overview-eyebrow {
+  margin: 0 0 10px;
+  color: #6c650b;
+  font: 600 0.7rem / 1.5 system-ui, sans-serif;
+  letter-spacing: 0.12em;
+}
+.airquality-dashboard .overview-title {
+  margin: 0 0 10px;
+  font: 400 clamp(1.85rem, 3.5vw, 2.65rem) / 1.18 "OSWALD-LIGHT", sans-serif;
+  color: #292d28;
+}
+.airquality-dashboard .overview-description {
+  max-width: 72ch;
+  margin: 0;
+  color: #596056;
+  font: 400 0.95rem / 1.65 system-ui, sans-serif;
+}
+.airquality-dashboard .overview-source-tag {
+  display: inline-block;
+  padding: 6px 11px;
+  border: 1px solid #e3e2b9;
+  border-radius: 999px;
+  background: #f4f3dd;
+  color: #68620e;
+  font: 500 0.75rem / 1.3 system-ui, sans-serif;
+}
+.airquality-dashboard .overview-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.airquality-dashboard .overview-stat {
+  min-width: 0;
+  padding: 20px 22px;
+  border: 1px solid #deded5;
+  border-radius: 12px;
+  background: #fafaf7;
+}
+.airquality-dashboard .overview-stat-label {
+  margin: 0 0 8px;
+  color: #596056;
+  font: 500 0.82rem / 1.4 system-ui, sans-serif;
+}
+.airquality-dashboard .overview-stat-value {
+  display: block;
+  color: #292d28;
+  font: 400 2.35rem / 1.15 "OSWALD-LIGHT", sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.airquality-dashboard .overview-stat-detail {
+  margin: 10px 0 0;
+  color: #687064;
+  font: 400 0.76rem / 1.5 system-ui, sans-serif;
+  overflow-wrap: anywhere;
+}
+.airquality-dashboard .overview-guidance { margin-top: 18px; }
+.airquality-dashboard .overview-map-reading {
+  margin: 0;
+  color: #596056;
+  font: 400 0.83rem / 1.65 system-ui, sans-serif;
+}
+.airquality-dashboard .overview-map-reading strong { color: #374132; }
+.airquality-dashboard .overview-help {
+  margin-top: 12px;
+  padding: 12px 16px;
+  border: 1px solid #deded5;
+  border-radius: 10px;
+  background: #fafaf7;
+  color: #596056;
+  font: 400 0.83rem / 1.6 system-ui, sans-serif;
+}
+.airquality-dashboard .overview-help summary {
+  color: #4d551d;
+  font-weight: 600;
+  cursor: pointer;
+}
+.airquality-dashboard .overview-help summary:focus-visible {
+  outline: 2px solid #6c650b;
+  outline-offset: 4px;
+}
+.airquality-dashboard .overview-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px 28px;
+  margin: 18px 0 0;
+  padding-left: 22px;
+}
+.airquality-dashboard .overview-steps strong { color: #374132; }
+.airquality-dashboard .overview-steps p {
+  margin: 5px 0 0;
+  font: inherit;
+}
+.airquality-dashboard .overview-source-note {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0;
+  color: #687064;
+  font: 400 0.73rem / 1.6 system-ui, sans-serif;
+}
+.airquality-dashboard .overview-source-tag {
+  padding: 4px 9px;
+  border-color: #deded5;
+  background: #eeeee6;
+  color: #596056;
+  font-size: 0.7rem;
+}
+.airquality-dashboard .overview-intro p { max-width: none; }
+.airquality-dashboard .overview-intro p.overview-stat-label { margin: 0 0 8px; font-size: 0.82rem; line-height: 1.4; }
+.airquality-dashboard .overview-intro p.overview-stat-detail { margin: 10px 0 0; font-size: 0.76rem; line-height: 1.5; }
+.airquality-dashboard .overview-intro p.overview-map-reading { margin: 0; font-size: 0.83rem; line-height: 1.65; }
+.airquality-dashboard .overview-intro p.overview-source-note { margin: 12px 0 0; font-size: 0.73rem; line-height: 1.6; }
+@media (max-width: 760px) {
+  .airquality-dashboard .dashboard-overview { flex-direction: column; gap: 16px; }
+  .airquality-dashboard .overview-stat { padding: 16px; }
+  .airquality-dashboard .overview-stat-value { font-size: 2rem; }
+  .airquality-dashboard .overview-steps { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .airquality-dashboard .overview-stats { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .airquality-dashboard .overview-stat {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 6px 16px;
+  }
+  .airquality-dashboard .overview-stat-value { grid-column: 2; grid-row: 1 / 3; }
+  .airquality-dashboard .overview-intro p.overview-stat-label,
+  .airquality-dashboard .overview-intro p.overview-stat-detail { margin: 0; }
 }

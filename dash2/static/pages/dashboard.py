@@ -17,7 +17,7 @@ from ...dash_figures import (
 )
 from ...dash_logic import (
     aggregate_neighborhoods, available_years, create_bar_graph,
-    create_time_series, filter_period, month_options, period_label, valid_samples,
+    create_time_series, filter_period, month_options, period_label, period_overview, valid_samples,
 )
 from ...maindash import app
 
@@ -55,14 +55,14 @@ bogota_map_div = html.Div([
             ),
         ], className="map-control"),
         html.Div([
-            html.Label("Fondo del mapa"),
-            dcc.RadioItems(
+            html.Label("Tema", htmlFor="map-basemap"),
+            dcc.Dropdown(
                 id="map-basemap",
                 options=[
-                    {"label": "Calles a color", "value": "color"},
-                    {"label": "Claro", "value": "light"},
+                    {"label": "Liberty", "value": "color"},
+                    {"label": "Positron", "value": "light"},
                 ],
-                value="color", className="map-theme-options",
+                value="color", clearable=False, searchable=False,
                 persistence=True, persistence_type="session",
             ),
         ], className="map-control"),
@@ -84,7 +84,10 @@ bogota_map_div = html.Div([
         ], className="map-control"),
     ], className="map-controls"),
     html.Div(id="map-period-summary", className="map-period-summary", role="status"),
-    dcc.Graph(id="bogota_map", config={"displaylogo": False, "scrollZoom": True}),
+    dcc.Graph(
+        id="bogota_map", className="airquality-map", responsive=True,
+        config={"displaylogo": False, "scrollZoom": True},
+    ),
     html.P([
         html.A("OpenFreeMap", href="https://openfreemap.org/", target="_blank", rel="noopener noreferrer"),
         " · ",
@@ -95,26 +98,53 @@ bogota_map_div = html.Div([
 ], className="map-panel")
 
 
-left_map_content = html.Div([
-    
-    html.H2("Explora"),
-    html.P("Explora PM2.5, PM10, temperatura y humedad en los barrios catastrales de Bogotá. Cambia el fondo para ver calles, parques y cuerpos de agua a color."),
-    html.H2("¿Qué información puedes obtener?"),
+def overview_stat(label, value_id, detail, detail_id=None):
+    detail_props = {"id": detail_id} if detail_id else {}
+    return html.Article([
+        html.P(label, className="overview-stat-label"),
+        html.Strong("—", id=value_id, className="overview-stat-value"),
+        html.P(detail, className="overview-stat-detail", **detail_props),
+    ], className="overview-stat")
+
+
+map_intro = html.Div([
     html.Div([
-        "Puedes explorar el mapa haciendo zoom, ",
-        html.Span("moviéndote con el clic izquierdo,", className="highlight"),
-        " y cambiando ",
-        html.Span("la perspectiva con el clic derecho.", className="highlight"),
-        " Además, puedes ",
-        html.Span("seleccionar un barrio",className="highlight"),
-        " para acceder a mediciones detalladas y obtener información adicional en la sección inferior del dashboard."
-    ]),
-    html.Br(),
-    html.Div(["También puedes ",
-           html.Span("aplicar filtros según la variable de tu interés", className="highlight"),
-           " y elegir un año y un mes. Todo el año muestra el promedio de los registros disponibles de ese año."]),
-    
-    ], className="target_explication")
+        overview_stat(
+            "Barrios con registros", "overview-neighborhoods",
+            f"De {len(neighborhoods):,} sectores del mapa".replace(",", "."),
+        ),
+        overview_stat(
+            "Registros del periodo", "overview-records",
+            "Según el año y el mes que elijas",
+        ),
+        overview_stat(
+            "Días con registros", "overview-days",
+            "Fechas disponibles", "overview-dates",
+        ),
+    ], className="overview-stats", role="group", **{"aria-label": "Resumen del periodo"}),
+    html.Div([
+        html.P([
+            html.Strong("Cómo leer el mapa. "),
+            "El color muestra el promedio por barrio de la variable seleccionada. "
+            "Las zonas sin registros permanecen sin color.",
+        ], className="overview-map-reading"),
+        html.Details([
+            html.Summary("Cómo explorar y comparar barrios"),
+            html.Ol([
+                html.Li([html.Strong("Elige qué observar"),
+                         html.P("Consulta PM2.5, PM10, temperatura o humedad y cambia el fondo del mapa.")]),
+                html.Li([html.Strong("Define el periodo"),
+                         html.P("Filtra por año y mes. Todo el año resume los registros disponibles de ese año.")]),
+                html.Li([html.Strong("Compara en el mapa"),
+                         html.P("Acércate con el zoom y selecciona barrios para ver sus promedios y su evolución abajo.")]),
+            ], className="overview-steps"),
+        ], className="overview-help"),
+    ], className="overview-guidance"),
+    html.P([
+        html.Span("Fuente en revisión", className="overview-source-tag"),
+        "Los datos pertenecen al conjunto de trabajo actual; su fuente y validación están pendientes de confirmar.",
+    ], className="overview-source-note"),
+], className="map-intro overview-intro")
 
 regression_map_div = html.Div([
         dbc.Row([
@@ -167,24 +197,22 @@ content = html.Div(id="page-content", className="container_content")
 dashboard = dbc.Container(
     [
         layout,
-        html.Div(
-            [
-                html.Div([
-                    html.H1("Dashboard Interactivo", className="title_section_2"),
-                    html.H2("Análisis de Contaminación y Clima en Barrios de Bogotá", className="sub_title_section_2"),
-                    ], className="titles_section_2"
-                )
-            ],
-            className="my-4",  # Agrega clases de margen para espaciar los elementos
+        html.Header([
+            html.Div([
+                html.P("EXPLORADOR AMBIENTAL · BOGOTÁ", className="overview-eyebrow"),
+                html.H1("Calidad del aire, barrio a barrio", className="overview-title"),
+                html.P(
+                    "Explora PM2.5, PM10, temperatura y humedad. "
+                    "Elige un periodo y descubre cómo cambian los registros entre barrios.",
+                    className="overview-description",
+                ),
+            ], className="overview-copy"),
+        ], className="dashboard-overview"),
+        html.Section(
+            [map_intro, bogota_map_div],
+            className="map-explorer",
+            **{"aria-label": "Explora la calidad del aire"},
         ),
-        dbc.Row(
-            [
-                dbc.Col(left_map_content),
-                dbc.Col(bogota_map_div),
-            ],
-            className="g-0 align-items-center",
-            align="center",
-        ), 
         
         html.Div(["Aquí puedes examinar con detalle la información de las zonas seleccionadas en el mapa. ", 
                 html.Span("Realiza comparaciones y obtén información precisa.", className="highlight"),
@@ -239,7 +267,11 @@ def update_month_options(year, current_month):
 @app.callback(
     [Output("bogota_map", "figure"),
      Output("selected-neighborhoods", "data"),
-     Output("map-period-summary", "children")],
+     Output("map-period-summary", "children"),
+     Output("overview-neighborhoods", "children"),
+     Output("overview-records", "children"),
+     Output("overview-days", "children"),
+     Output("overview-dates", "children")],
     [Input("bogota_map", "clickData"), Input("variable_map", "value"),
      Input("map-year", "value"), Input("datetime", "value"),
      Input("map-basemap", "value")],
@@ -276,7 +308,18 @@ def update_map_on_click(click_data, variable, year, month, basemap, selected_are
             f"{title} · {len(aggregates)} barrios · {count} registros. "
             f"Cobertura: {start} – {end}."
         )
-    return figure, selected, summary
+    overview = period_overview(period, year, month)
+    dates = (
+        f"{overview['start']:%d/%m/%Y} – {overview['end']:%d/%m/%Y}"
+        if overview["start"] is not None else "Sin fechas disponibles"
+    )
+    return (
+        figure, selected, summary,
+        f"{overview['neighborhoods']:,}".replace(",", "."),
+        f"{overview['records']:,}".replace(",", "."),
+        f"{overview['days']} / {overview['calendar_days']}",
+        dates,
+    )
 
 
 @app.callback(

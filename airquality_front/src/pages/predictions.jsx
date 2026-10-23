@@ -11,7 +11,7 @@ const variables = [
 const views = [
   { value: "evolution", label: "Evolución", question: "¿Cómo podría cambiar esta variable en las próximas horas?", description: "Explora el histórico y la proyección, junto con su rango estimado." },
   { value: "comparison", label: "Comparar zonas", question: "¿Cómo se comporta la misma variable en dos barrios?", description: "Compara ambas zonas en el mismo periodo y con la misma unidad." },
-  { value: "relationship", label: "Relación entre variables", question: "¿Las partículas y el clima cambian juntos?", description: "Explora cómo se distribuyen dos variables. Una relación no implica que una cause la otra." },
+  { value: "relationship", label: "Relación entre variables", question: "¿Cómo se relacionan estas dos variables?", description: "Explora cómo se distribuyen dos variables. Una relación no implica que una cause la otra." },
   { value: "hourly", label: "Por día y hora", question: "¿En qué días y horas se concentran los cambios?", description: "Busca patrones semanales a partir de los registros históricos." },
 ];
 const statistics = { mean: "Promedio", median: "Mediana", max: "Máximo" };
@@ -134,7 +134,7 @@ export function Predictions() {
   const statisticLabel = `${statistics[preview.statistic]} ${preview.aggregation === "hour" ? "por hora" : "por día"}`;
   const metricLabels = activeView === "relationship"
     ? [{ label: "Correlación", unit: "" }, { label: "Mediciones emparejadas", unit: "" }, { label: "Cobertura de datos", unit: "%" }]
-    : [{ label: `${statistics[preview.statistic]} de ${variable.label}`, unit: variable.unit }, { label: activeView === "comparison" ? "Diferencia entre zonas" : "Máximo esperado", unit: variable.unit }, { label: "Cobertura de datos", unit: "%" }];
+    : [{ label: `${statistics[preview.statistic]} de ${variable.label}`, unit: variable.unit }, { label: activeView === "comparison" ? "Diferencia entre zonas" : activeView === "hourly" ? "Máximo histórico" : "Máximo esperado", unit: variable.unit }, { label: "Cobertura de datos", unit: "%" }];
 
   function updateSettings(event) {
     const { name, value } = event.target;
@@ -268,7 +268,7 @@ export function Predictions() {
               </div>
               <div className="prediction-filter-tags" aria-label="Configuración de la vista">
                 <span>Histórico: {preview.history} días</span>
-                <span>{activeView === "hourly" ? "Bloques de 3 horas" : statisticLabel}</span>
+                <span>{activeView === "hourly" ? `${statistics[preview.statistic]} por bloque de 3 h` : statisticLabel}</span>
                 {activeView === "relationship" && <span>Mediciones coincidentes</span>}
               </div>
               <div className="prediction-chart">

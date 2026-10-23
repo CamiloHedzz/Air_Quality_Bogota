@@ -686,6 +686,7 @@
 
 .prediction-heatmap-scroll,
 .prediction-data-scroll {
+  position: relative;
   max-width: 100%;
   overflow-x: auto;
   scrollbar-width: thin;

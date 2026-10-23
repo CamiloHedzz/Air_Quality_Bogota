@@ -1,5 +1,7 @@
 """Period filtering shared by the map, comparisons and time series."""
 
+import calendar
+
 import pandas as pd
 
 
@@ -88,3 +90,22 @@ def period_label(year, month="all"):
     if month in (None, "all"):
         return f"Todo el año {year}"
     return f"{MONTH_NAMES[int(month)]} de {year}"
+
+
+def period_overview(samples, year, month="all"):
+    """Count available records and dates, without implying continuous monitoring."""
+    data = filter_period(samples, year, month)
+    if year is None:
+        expected = 0
+    elif month in (None, "all"):
+        expected = 366 if calendar.isleap(int(year)) else 365
+    else:
+        expected = calendar.monthrange(int(year), int(month))[1]
+    return {
+        "neighborhoods": int(data["neighborhood"].nunique()),
+        "records": len(data),
+        "days": int(data["datetime"].dt.normalize().nunique()),
+        "calendar_days": expected,
+        "start": data["datetime"].min() if not data.empty else None,
+        "end": data["datetime"].max() if not data.empty else None,
+    }
