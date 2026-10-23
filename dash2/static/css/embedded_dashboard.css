@@ -1,0 +1,68 @@
+html[data-airquality-embedded] {
+  background: #f2f2f2;
+}
+
+html[data-airquality-embedded] body {
+  margin: 0;
+  background: #f2f2f2;
+  color: #2d2d2d;
+  font-family: "OSWALD-LIGHT", sans-serif;
+  line-height: 1.6;
+}
+
+html[data-airquality-embedded] .nav,
+html[data-airquality-embedded] .teste,
+html[data-airquality-embedded] .footer-content {
+  display: none !important;
+}
+
+html[data-airquality-embedded] .row > * {
+  min-width: 0;
+}
+
+html[data-airquality-embedded] .target_explication {
+  width: 100%;
+}
+
+html[data-airquality-embedded] .title_section_2 {
+  font-family: inherit;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+
+html[data-airquality-embedded] .sub_title_section_2 {
+  width: auto;
+  max-width: 100%;
+  font-family: inherit;
+  font-size: 1.2rem;
+  overflow-wrap: break-word;
+}
+
+html[data-airquality-embedded] .target_explication h2,
+html[data-airquality-embedded] .target_explication p {
+  font-family: inherit;
+}
+
+html[data-airquality-embedded] .nav_link_info {
+  margin: 0 0 0.5rem;
+  width: 100%;
+}
+
+@media (max-width: 760px) {
+  html[data-airquality-embedded] .row.g-0.align-items-center > .col,
+  html[data-airquality-embedded] .row > [class*="col-"] {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  html[data-airquality-embedded] .target_explication {
+    margin-bottom: 1rem;
+  }
+
+  html[data-airquality-embedded] .paragraph_separator,
+  html[data-airquality-embedded] .des_message_card p {
+    font-size: 1rem;
+    text-align: left;
+  }
+}

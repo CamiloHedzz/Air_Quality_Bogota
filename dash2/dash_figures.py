@@ -28,6 +28,9 @@ geo_fig_general = go.Figure(go.Choroplethmapbox(
     zmin=df['pm_25_mean'].min(),
     zmax=df['pm_25_mean'].max(),
     colorbar_title = 'PM 2.5<br>µg/m³',
+    marker_opacity=0.78,
+    marker_line_width=0.5,
+    marker_line_color="#454453",
 ))
 
 def get_figure(dff, variable):
@@ -36,7 +39,6 @@ def get_figure(dff, variable):
     
     geo_fig_general.update_traces(
         #template='plotly_dark',
-        #  mapbox_style='carto-positron',    
         z=dff[variable],
         colorscale= fig_data[1],
         zmin=dff[variable].min(),
@@ -50,20 +52,16 @@ def update_figure(geo_fig):
     global geo_fig_general
     
     geo_fig.update_layout(
-        #autosize=False, 
-        mapbox_zoom=10,
-        #width=750, height=400,
-        mapbox_style="carto-darkmatter",
-        #mapbox_style="dark", mapbox_accesstoken=token,
-        #mapbox_style="open-street-map",
-        #mapbox_style='carto-positron', 
+        mapbox_zoom=9.5,
+        # OpenFreeMap serves global vector tiles; attribution is supplied by the style.
+        mapbox_style="https://tiles.openfreemap.org/styles/positron",
         autosize=True,
-        mapbox_pitch=50,
+        mapbox_pitch=0,
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         mapbox_center={"lat": 4.67071, "lon": -74.08175},
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white")
+        font=dict(color="#2d2d2d", family="OSWALD-LIGHT, sans-serif")
     )
     
     #geo_fig.update_geos(projection_type='mercator')
@@ -84,9 +82,9 @@ def update_style_regression_figure(fig, variable_map):
                         autosize=True,
                         paper_bgcolor="rgba(0,0,0,0)",  # Fondo del área del gráfico transparente
                         plot_bgcolor="rgba(0,0,0,0)",
-                        font=dict(color="white"),
-                        yaxis_gridcolor="#212121",  # Color de la malla en el eje Y
-                        xaxis_gridcolor="#212121" 
+                        font=dict(color="#2d2d2d", family="OSWALD-LIGHT, sans-serif"),
+                        yaxis_gridcolor="#d8d8d8",  # Color de la malla en el eje Y
+                        xaxis_gridcolor="#d8d8d8"
     )
     
     return fig
@@ -102,9 +100,9 @@ def update_style_bar_figure(fig):
                         autosize=True,
                         paper_bgcolor="rgba(0,0,0,0)",  # Fondo del área del gráfico transparente
                         plot_bgcolor="rgba(0,0,0,0)",
-                        font=dict(color="white"),
-                        yaxis_gridcolor="#212121",  # Color de la malla en el eje Y
-                        xaxis_gridcolor="#212121"   # Color de la malla en el eje X 
+                        font=dict(color="#2d2d2d", family="OSWALD-LIGHT, sans-serif"),
+                        yaxis_gridcolor="#d8d8d8",  # Color de la malla en el eje Y
+                        xaxis_gridcolor="#d8d8d8"   # Color de la malla en el eje X
                         
     )
     

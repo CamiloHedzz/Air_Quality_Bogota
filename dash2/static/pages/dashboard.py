@@ -57,7 +57,14 @@ bogota_map_div = html.Div([
         ),   
     ],style={'marginBottom': '10px'}),
     
-    dcc.Graph(id='bogota_map')
+    dcc.Graph(id='bogota_map'),
+    html.P([
+        html.A("OpenFreeMap", href="https://openfreemap.org/", target="_blank", rel="noopener noreferrer"),
+        " · ",
+        html.A("© OpenMapTiles", href="https://www.openmaptiles.org/", target="_blank", rel="noopener noreferrer"),
+        " · Datos de ",
+        html.A("OpenStreetMap", href="https://www.openstreetmap.org/copyright", target="_blank", rel="noopener noreferrer"),
+    ], className="map-attribution"),
 ],)
 
 
@@ -189,6 +196,7 @@ dashboard = dbc.Container(
         
     ],
     fluid=True,
+    className="airquality-dashboard",
 )
 
 @app.callback(

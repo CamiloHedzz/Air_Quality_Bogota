@@ -1,0 +1,53 @@
+.airquality-dashboard {
+  --dashboard-surface: #f2f2f2;
+  --dashboard-ink: #2d2d2d;
+  --dashboard-accent-ink: #6c650b;
+  background: var(--dashboard-surface);
+  color: var(--dashboard-ink);
+  font-family: "OSWALD-LIGHT", sans-serif;
+  color-scheme: light;
+}
+
+.airquality-dashboard .target_explication,
+.airquality-dashboard .nav_info_container,
+.airquality-dashboard .nav_info,
+.airquality-dashboard .nav_link_info,
+.airquality-dashboard .Select-control {
+  background: var(--dashboard-surface);
+  color: var(--dashboard-ink);
+}
+
+.airquality-dashboard .title_section_2,
+.airquality-dashboard .sub_title_section_2,
+.airquality-dashboard .target_explication h2,
+.airquality-dashboard .target_explication p,
+.airquality-dashboard .des_message_card h1,
+.airquality-dashboard .Select,
+.airquality-dashboard button {
+  font-family: inherit;
+}
+
+.airquality-dashboard .highlight,
+.airquality-dashboard .des_message_card h1 {
+  color: var(--dashboard-accent-ink);
+}
+
+.airquality-dashboard .nav_link_info {
+  --bs-btn-color: var(--dashboard-ink);
+  --bs-btn-bg: var(--dashboard-surface);
+  --bs-btn-hover-color: var(--dashboard-ink);
+  --bs-btn-hover-bg: #e8e7d7;
+  --bs-btn-active-color: var(--dashboard-ink);
+  --bs-btn-active-bg: #dbd22a;
+}
+
+.airquality-dashboard .nav_link_info:hover,
+.airquality-dashboard .nav_link_info:focus-visible {
+  background: #e8e7d7;
+  color: var(--dashboard-ink);
+}
+
+.airquality-dashboard .map-attribution {
+  color: #53534a;
+  font: 0.85rem / 1.6 "OSWALD-LIGHT", sans-serif;
+}

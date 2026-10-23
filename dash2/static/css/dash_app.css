@@ -10,13 +10,13 @@
 @font-face {
     font-family: "ELEPHNT";   /*Can be any text*/
     src: local("ELEPHNT"),
-      url("./assets/fonts/ELEPHNT.TTF") format("truetype");
+      url("../fonts/ELEPHNT.TTF") format("truetype");
 }
 
 @font-face {
     font-family: "OSWALD-LIGHT";   /*Can be any text*/
     src: local("OSWALD-LIGHT"),
-      url("./assets/fonts/OSWALD-LIGHT.TTF") format("truetype");
+      url("../fonts/OSWALD-LIGHT.TTF") format("truetype");
 }
 
 body{
@@ -340,3 +340,17 @@ body{
   margin-top: 5%;
 }
 
+
+/* Keep basemap credits readable independently of the compact map control. */
+.map-attribution {
+    margin: 0.35rem 0 0;
+    color: #d6d6d6;
+    font: 11px / 1.6 system-ui, sans-serif;
+    text-align: right;
+    overflow-wrap: break-word;
+}
+
+.map-attribution a {
+    color: inherit;
+    text-underline-offset: 2px;
+}

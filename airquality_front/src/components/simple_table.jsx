@@ -1,13 +1,14 @@
 export function Table() {    
     return(
-        <table>
+        <table className="sample-table">
+        <caption>Ejemplo de muestras de calidad del aire</caption>
         <thead>
           <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Longitud</th>
-            <th>Latitud</th>
-            <th>PM2.5</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Longitud</th>
+            <th scope="col">Latitud</th>
+            <th scope="col">PM2.5</th>
           </tr>
         </thead>
         <tbody>

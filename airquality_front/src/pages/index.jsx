@@ -1,23 +1,45 @@
-import { useEffect , useState } from 'react';
-import {getDash} from '../api/dash_get'
-import {Footer} from "../components/foutter"
-import {Description} from "./init"
+import { useEffect, useRef, useState } from "react";
+import { Description } from "./init";
+
+const dashboardUrl = "http://127.0.0.1:8000/django_plotly_dash/app/SimpleExamplee/";
+const dashboardOrigin = new URL(dashboardUrl).origin;
 
 export function Index() {
-  //const iframeSrc = "http://127.0.0.1:8000/django_plotly_dash/app/SimpleExample/"
-  const iframeSrc = "http://127.0.0.1:8000/dashv1/"
-  return(
-    <div>
-      <Description />
-      <iframe
-        width="100%"
-        height="1900px"
-        src={iframeSrc}
-        frameBorder="0"
-        style={{backgroundColor: "#F2F2F2"}}
-      />   
-      <Footer />     
-    </div>
-  ); 
-}
+  const dashboardRef = useRef(null);
+  const [dashboardHeight, setDashboardHeight] = useState(720);
 
+  useEffect(() => {
+    function receiveHeight(event) {
+      if (event.origin !== dashboardOrigin || event.source !== dashboardRef.current?.contentWindow ||
+          event.data?.type !== "airquality:dashboard-height") return;
+      const height = event.data.height;
+      if (typeof height !== "number" || !Number.isFinite(height) || height <= 0 || height > 30000) return;
+      setDashboardHeight(Math.max(480, Math.ceil(height)));
+    }
+    window.addEventListener("message", receiveHeight);
+    return () => window.removeEventListener("message", receiveHeight);
+  }, []);
+
+  function requestHeight() {
+    dashboardRef.current?.contentWindow?.postMessage(
+      { type: "airquality:request-dashboard-height" }, dashboardOrigin,
+    );
+  }
+
+  return (
+    <main>
+      <Description />
+      <section id="dashboard" className="dashboard-section" aria-label="Dashboard interactivo de calidad del aire">
+        <iframe
+          ref={dashboardRef}
+          className="dashboard-frame"
+          title="Dashboard de calidad del aire en Bogotá"
+          src={dashboardUrl}
+          style={{ height: dashboardHeight }}
+          onLoad={requestHeight}
+          loading="lazy"
+        />
+      </section>
+    </main>
+  );
+}

@@ -1,111 +1,104 @@
-import React, { useEffect } from "react";
-//import { Dash, dash_table } from "dash";
-import {Table} from "../components/simple_table"
-import ContactForm from '../components/form';
-
-
+import { useEffect, useRef } from "react";
+import { Table } from "../components/simple_table";
+import ContactForm from "../components/form";
+import { Footer } from "../components/foutter";
+import camiloPhoto from "../assets/images/chi.jpg";
 
 export function About() {
-    
-    useEffect(() => {
-        const setLeftContentTop = () => {
-            const navHeight = document.querySelector('.nav').offsetHeight;
-            document.getElementById('leftContent').style.top = navHeight + 'px';
-        };
+  const detailsRef = useRef(null);
 
-        setLeftContentTop(); 
+  useEffect(() => {
+    function scrollDetails(event) {
+      const details = detailsRef.current;
+      if (!window.matchMedia("(min-width: 961px)").matches || event.ctrlKey ||
+          !event.deltaY || details.contains(event.target)) return;
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? details.clientHeight : 1;
+      event.preventDefault();
+      details.scrollTop += event.deltaY * unit;
+    }
 
-        window.addEventListener('resize', setLeftContentTop);
+    window.addEventListener("wheel", scrollDetails, { passive: false });
+    return () => window.removeEventListener("wheel", scrollDetails);
+  }, []);
 
-        return () => {
-            window.removeEventListener('resize', setLeftContentTop); 
-        };
-    }, []); 
 
-    return (
-        <div id="about">
-            <div id="leftContent">
-                <div class="about_subtitle">
-                    <h1 >Autores</h1>
-                </div>
-                <div id="authors">
-                    <div class="author1">
-                        <img src="../src/assets/images/jap.png" alt="developer" />
-                        <div class ="right_auth_content">
-                            <div class="auth_name">
-                            <a href="https://github.com/Juanariasp">Juan Esteban Arias</a></div>
-                            <div class="description_auth">
-                            Juan Esteban Arias, profesional con formación en Ingeniería en Ciencias de la Computación
-                            e Inteligencia Artificial. Mi participación destacada en competiciones
-                            de programación a nivel nacional y regional subraya mi habilidad para abordar desafíos complejos. 
-                             </div>
-                        </div>
-                    </div>
-
-                    <div class="author1">
-                        <img src="../src/assets/images/chi.jpg" alt="developer" />
-                        <div class ="right_auth_content">
-                            <div class="auth_name">
-                            <a href="https://github.com/CamiloHedzz">Camilo Hernandez</a></div>
-                            <div class="description_auth">
-                                Ingeniero en Ciencias de la Computación e Inteligencia Artificial, 
-                                interasado en siempre aprender nuevas tecnologias y practicas 
-                                para procesamiento de datos y creación de modelos de Machine Learning.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="about_subtitle">
-                    <h1>El motivo</h1>
-                </div>
-                <div class="description_motive">
-                La contaminación ambiental puede tener un impacto significativo en la salud de 
-                las personas que viven en áreas afectadas. Una aplicación web que identifique 
-                las zonas más contaminadas de Bogotá puede ayudar a los residentes a tomar medidas 
-                para proteger su salud, al mostrar de manera clara y accesible los niveles de contaminación
-                en diferentes áreas, se puede educar a la población sobre la importancia de tomar medidas 
-                para reducir la contaminación.
-                </div>
+  return (
+    <main id="about" className="about-layout">
+      <aside
+        id="leftContent"
+        className="about-column about-profile about-panel"
+        aria-labelledby="creator-heading"
+        tabIndex={0}
+      >
+        <section aria-labelledby="creator-heading">
+          <p className="about-eyebrow">Un proyecto personal</p>
+          <h2 id="creator-heading" className="section-heading">Detrás del proyecto</h2>
+          <article className="author-card">
+            <img className="author-photo" src={camiloPhoto} alt="Camilo Hernández" width="100" height="100" />
+            <div>
+              <h3 className="author-name">
+                <a href="https://github.com/CamiloHedzz">Camilo Hernández</a>
+              </h3>
+              <p className="author-role">Ingeniería · Datos · Inteligencia artificial</p>
             </div>
-            <div id="rightContent">
-                <div class="about_subtitle">
-                    <h1>¿Como recopilamos los datos?</h1>
-                </div>
-                <p>
-                    Mediante un sistema de rutas ya definido, se circulan las 
-                    calles de Bogotá con sensores PM2.5 con el fin de determinar
-                    la calidad del aire. Posteriormente, esta información se 
-                    somete a un procesamiento de datos utilizando herramientas 
-                    y métodos como el análisis estadístico y algoritmos de 
-                    Machine Learning, con el objetivo de obtener mejores 
-                    predicciones sobre las zonas con mayores impactos 
-                    ambientales. 
-                    <Table/>
-                    <br></br>
-                    Estos datos procesados no solo permiten 
-                    identificar áreas con problemas de calidad del aire, sino
-                    que también pueden ser utilizados para implementar medidas
-                    de mitigación más efectivas y políticas públicas orientadas
-                    a mejorar la salud pública y reducir los efectos negativos
-                    en el medio ambiente.
-                    <br></br>
-                    Recuerda que puedes encontrar mas informacion sobre este proyecto
-                    a través de nuestro <a href="https://github.com/CamiloHedzz/Air_Quality_Bogota">repositorio en GitHub!</a>
-                </p>
-                <div class="about_subtitle">
-                    <h1>Mas informacion</h1>
-                </div>
-                <p>
-                    ¿Quieres explorar más sobre cómo nuestros servicios pueden 
-                    beneficiarte? ¿Estás buscando oportunidades de colaboración 
-                    o deseas brindar soporte a nuestra causa? ¡Nos encantaría saber
-                    de ti! Estamos comprometidos a responder con prontitud a tus
-                    consultas e intereses, así que no dudes en ponerte en contacto
-                    con nosotros. Tu participación es fundamental para impulsar
-                    nuestro crecimiento y éxito compartido.
-                </p>
-                <ContactForm/>
-            </div>
-        </div>
-    );
+          </article>
+          <p className="author-bio">
+            Soy ingeniero en Ciencias de la Computación e Inteligencia Artificial.
+            Me interesa aprender nuevas tecnologías, explorar datos y crear modelos de
+            Machine Learning para entender mejor nuestro entorno.
+          </p>
+        </section>
+        <section aria-labelledby="purpose-heading">
+          <h2 id="purpose-heading" className="section-heading">Una ciudad que respira</h2>
+          <p>
+            La contaminación del aire afecta la salud y la vida diaria en Bogotá.
+            Este proyecto busca hacer visibles los niveles de contaminación por zona
+            y acercar los datos a las personas para que puedan tomar decisiones informadas.
+          </p>
+        </section>
+      </aside>
+      <div
+        id="rightContent"
+        ref={detailsRef}
+        className="about-column about-details"
+        role="region"
+        aria-label="Datos y contacto del proyecto"
+        tabIndex={0}
+      >
+        <section className="about-panel" aria-labelledby="data-heading">
+          <p className="about-eyebrow">Del recorrido al mapa</p>
+          <h2 id="data-heading" className="section-heading">¿Cómo recopilamos los datos?</h2>
+          <p>
+            Mediante un sistema de rutas ya definido, se circulan las calles de Bogotá con sensores PM2.5
+            con el fin de determinar la calidad del aire. Posteriormente, esta información se somete a un
+            procesamiento de datos utilizando herramientas y métodos como el análisis estadístico y
+            algoritmos de Machine Learning, con el objetivo de obtener mejores predicciones sobre las
+            zonas con mayores impactos ambientales.
+          </p>
+          <div className="table-scroll" role="region" aria-labelledby="data-heading" tabIndex={0}>
+            <Table />
+          </div>
+          <p>
+            Estos datos procesados no solo permiten identificar áreas con problemas de calidad del aire,
+            sino que también pueden ser utilizados para implementar medidas de mitigación más efectivas
+            y políticas públicas orientadas a mejorar la salud pública y reducir los efectos negativos
+            en el medio ambiente.
+          </p>
+          <a className="about-repository" href="https://github.com/CamiloHedzz/Air_Quality_Bogota">
+            Explora el proyecto en GitHub <span aria-hidden="true">↗</span>
+          </a>
+        </section>
+        <section className="about-panel" aria-labelledby="contact-heading">
+          <p className="about-eyebrow">Sigamos la conversación</p>
+          <h2 id="contact-heading" className="section-heading">Hablemos</h2>
+          <p>
+            ¿Tienes una idea, una pregunta sobre los datos o ganas de colaborar?
+            Cuéntame. Este espacio también se construye con nuevas conversaciones.
+          </p>
+          <ContactForm />
+        </section>
+        <Footer />
+      </div>
+    </main>
+  );
 }

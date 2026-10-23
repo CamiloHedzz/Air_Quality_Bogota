@@ -22,9 +22,9 @@ def get_areas_border(df, selected_areas):
             feature_areas['wid'].append(3)
             feature_areas['col'].append('red')
         else:
-            feature_areas['op'].append(0.50)
-            feature_areas['wid'].append(1)
-            feature_areas['col'].append('black')
+            feature_areas['op'].append(0.78)
+            feature_areas['wid'].append(0.5)
+            feature_areas['col'].append('#454453')
 
     
     return feature_areas
