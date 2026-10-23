@@ -51,3 +51,49 @@
   color: #53534a;
   font: 0.85rem / 1.6 "OSWALD-LIGHT", sans-serif;
 }
+
+
+/* Map controls share one period across the map and the charts. */
+.airquality-dashboard .map-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px 16px;
+  padding: 16px;
+  border: 1px solid #deded5;
+  border-radius: 10px;
+  background: #fafaf7;
+}
+
+.airquality-dashboard .map-control { min-width: 0; }
+.airquality-dashboard .map-control > label {
+  display: block;
+  margin-bottom: 5px;
+  color: #53534a;
+  font-size: 0.95rem;
+}
+.airquality-dashboard .map-controls .Select-control { background: #fff; }
+.airquality-dashboard .map-theme-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  min-height: 36px;
+}
+.airquality-dashboard .map-theme-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  cursor: pointer;
+}
+.airquality-dashboard .map-theme-options input { accent-color: #6c650b; }
+.airquality-dashboard .map-period-summary {
+  min-height: 2.8rem;
+  padding: 9px 2px 4px;
+  color: #53534a;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+@media (max-width: 420px) {
+  .airquality-dashboard .map-controls { grid-template-columns: minmax(0, 1fr); }
+}

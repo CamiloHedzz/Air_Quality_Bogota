@@ -28,7 +28,6 @@ export function About() {
         id="leftContent"
         className="about-column about-profile about-panel"
         aria-labelledby="creator-heading"
-        tabIndex={0}
       >
         <section aria-labelledby="creator-heading">
           <p className="about-eyebrow">Un proyecto personal</p>

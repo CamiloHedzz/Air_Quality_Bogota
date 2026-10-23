@@ -20,7 +20,7 @@
       scheduled = true;
       window.requestAnimationFrame(function () {
         scheduled = false;
-        const height = Math.ceil(root.getBoundingClientRect().bottom + window.scrollY + 8);
+        const height = Math.ceil(root.getBoundingClientRect().bottom + window.scrollY);
         if (height < 100 || height === previousHeight) return;
         previousHeight = height;
         window.parent.postMessage({ type: "airquality:dashboard-height", height }, parentOrigin);

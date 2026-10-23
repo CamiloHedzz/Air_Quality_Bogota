@@ -534,11 +534,10 @@ a {
   }
 
   .app-shell--about .about-profile {
-    min-height: 0;
+    min-height: min(100%, 34rem);
     max-height: 100%;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    overscroll-behavior-y: contain;
+    justify-content: space-between;
+    overflow: visible;
   }
 
   .app-shell--about .about-details {
@@ -584,6 +583,55 @@ a {
 
   .app-shell--about .about-profile .author-bio {
     margin-top: 0.75rem;
+  }
+
+  .app-shell--about .about-profile .about-eyebrow {
+    font-size: 0.7rem;
+  }
+
+  .app-shell--about .about-profile .author-role {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 961px) and (max-height: 600px) {
+  .app-shell--about .site-header {
+    padding-block: 0.75rem;
+  }
+
+  .app-shell--about .site-brand h1 {
+    font-size: 1.65rem;
+  }
+
+  .app-shell--about .site-brand p {
+    font-size: 1.05rem;
+  }
+
+  .app-shell--about .about-layout {
+    padding-block: 0.5rem 0.75rem;
+  }
+
+  .app-shell--about .about-profile {
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .app-shell--about .about-profile .author-card {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+
+  .app-shell--about .about-profile .author-photo {
+    width: 56px;
+    height: 56px;
+  }
+
+  .app-shell--about .about-profile .section-heading {
+    font-size: 1.1rem;
+  }
+
+  .app-shell--about .about-profile p {
+    font-size: 0.875rem;
+    line-height: 1.55;
   }
 
   .app-shell--about .about-profile .about-eyebrow {

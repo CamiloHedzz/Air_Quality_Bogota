@@ -1,109 +1,93 @@
+"""Independent figures; no shared mutable map or selection state."""
+
 import plotly.graph_objs as go
-import pandas as pd
-import json
 
-with open('dash2/datasets/bogota_cadastral.json', 'r') as file:
-    counties = json.load(file)
 
-#Dataset que representa el mapa de bogota
-df = pd.read_csv("dash2/datasets/final_geodata.csv",
-                   dtype={"neighborhood": str})
-
-#Dataset que representa las muestras
-df2 = pd.read_csv("dash2/datasets/final_rutes.csv")
-
+BASEMAPS = {
+    "color": "https://tiles.openfreemap.org/styles/liberty",
+    "light": "https://tiles.openfreemap.org/styles/positron",
+}
 properties_figures = {
-    'pm_25_mean': ['PM 2.5 <br> µg/m³', "Viridis", "pm_25", 'Particulas PM 2.5 µg/m³ por Barrio'],
-    'pm_10_mean': ['PM 10 <br> µg/m³', "Cividis", "pm_10", 'Particulas PM 10 µg/m³ por Barrio'],
-    'temperature_mean': ['Temperatura <br> Celcius', "Jet", 'temperature', 'Temperatura en C° por Barrio'],
-    'humidity_mean': ['% Humedad', 'ice', 'humidity', 'Porcentaje de humedad por Barrio']
+    "pm_25_mean": ["PM2.5 · µg/m³", "Viridis", "pm_25", "PM2.5 por barrio"],
+    "pm_10_mean": ["PM10 · µg/m³", "Cividis", "pm_10", "PM10 por barrio"],
+    "temperature_mean": ["Temperatura · °C", "Jet", "temperature", "Temperatura por barrio"],
+    "humidity_mean": ["Humedad relativa · %", "ice", "humidity", "Humedad por barrio"],
+}
+VARIABLE_LABELS = {
+    "pm_25_mean": "PM2.5 (µg/m³)", "pm_10_mean": "PM10 (µg/m³)",
+    "temperature_mean": "Temperatura (°C)", "humidity_mean": "Humedad (%)",
 }
 
-geo_fig_general = go.Figure(go.Choroplethmapbox(
-    geojson=counties,
-    locations=df['neighborhood'],
-    featureidkey='properties.DISPLAY_NAME',
-    z=df['pm_25_mean'],
-    colorscale= "Viridis",
-    zmin=df['pm_25_mean'].min(),
-    zmax=df['pm_25_mean'].max(),
-    colorbar_title = 'PM 2.5<br>µg/m³',
-    marker_opacity=0.78,
-    marker_line_width=0.5,
-    marker_line_color="#454453",
-))
 
-def get_figure(dff, variable):
-    global geo_fig_general, properties_figures
-    fig_data = properties_figures[variable]
-    
-    geo_fig_general.update_traces(
-        #template='plotly_dark',
-        z=dff[variable],
-        colorscale= fig_data[1],
-        zmin=dff[variable].min(),
-        zmax=dff[variable].max(),
-        colorbar_title = fig_data[0]
+def empty_figure(message):
+    fig = go.Figure()
+    fig.add_annotation(
+        text=message, x=0.5, y=0.5, xref="paper", yref="paper",
+        showarrow=False, font=dict(size=15, color="#53534a"),
     )
+    fig.update_layout(xaxis_visible=False, yaxis_visible=False)
+    return _chart_style(fig)
 
-    return geo_fig_general
-     
-def update_figure(geo_fig):
-    global geo_fig_general
-    
-    geo_fig.update_layout(
-        mapbox_zoom=9.5,
-        # OpenFreeMap serves global vector tiles; attribution is supplied by the style.
-        mapbox_style="https://tiles.openfreemap.org/styles/positron",
+
+def get_figure(data, variable, counties, selected_areas=None, basemap="color"):
+    label, scale, _, _ = properties_figures[variable]
+    selected = set(selected_areas or [])
+    # Locations, values and outlines must use the SAME filtered rows and order.
+    fig = go.Figure(go.Choroplethmapbox(
+        geojson=counties,
+        locations=data["neighborhood"].tolist(),
+        featureidkey="properties.DISPLAY_NAME",
+        z=data[variable].tolist(),
+        colorscale=scale,
+        colorbar=dict(title=label, thickness=15, len=0.86),
+        marker_opacity=[1 if name in selected else 0.72 for name in data["neighborhood"]],
+        marker_line_width=[2.5 if name in selected else 0.5 for name in data["neighborhood"]],
+        marker_line_color=["#bc3838" if name in selected else "#454453" for name in data["neighborhood"]],
+        customdata=data["neighborhood"].str.split(",").str[0].tolist(),
+        hovertemplate="%{customdata}<br>%{z:.2f} " + label + "<extra></extra>",
+    ))
+    fig.update_layout(
+        mapbox=dict(
+            style=BASEMAPS.get(basemap, BASEMAPS["color"]),
+            zoom=9.5, pitch=0, center=dict(lat=4.67071, lon=-74.08175),
+        ),
+        uirevision="bogota-map-view",
+        autosize=True, height=510,
+        margin=dict(r=0, t=8, l=0, b=0),
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#2d2d2d", family="OSWALD-LIGHT, sans-serif"),
+    )
+    if data.empty:
+        fig.add_annotation(
+            text="No hay datos para este periodo", x=0.5, y=0.5,
+            xref="paper", yref="paper", showarrow=False, bgcolor="white",
+        )
+    return fig
+
+
+def _chart_style(fig):
+    fig.update_layout(
         autosize=True,
-        mapbox_pitch=0,
-        margin={"r": 0, "t": 0, "l": 0, "b": 0},
-        mapbox_center={"lat": 4.67071, "lon": -74.08175},
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#2d2d2d", family="OSWALD-LIGHT, sans-serif")
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#2d2d2d", family="OSWALD-LIGHT, sans-serif"),
+        xaxis_gridcolor="#d8d8d8", yaxis_gridcolor="#d8d8d8",
     )
-    
-    #geo_fig.update_geos(projection_type='mercator')
-    
-    geo_fig_general = geo_fig
-    
-    return geo_fig_general
-
-
-#**************** Regression  ********************
-
-def update_style_regression_figure(fig, variable_map):
-    
-    fig.update_layout(title=properties_figures[variable_map][3],
-                        xaxis_title="Time",
-                        yaxis_title=properties_figures[variable_map][0],
-                        legend_title="Barrios",
-                        autosize=True,
-                        paper_bgcolor="rgba(0,0,0,0)",  # Fondo del área del gráfico transparente
-                        plot_bgcolor="rgba(0,0,0,0)",
-                        font=dict(color="#2d2d2d", family="OSWALD-LIGHT, sans-serif"),
-                        yaxis_gridcolor="#d8d8d8",  # Color de la malla en el eje Y
-                        xaxis_gridcolor="#d8d8d8"
-    )
-    
     return fig
 
-#**************** BarGraph  ********************
 
-def update_style_bar_figure(fig):
-    
-    fig.update_layout(title="Comparacion general",
-                        xaxis_title="Variable",
-                        yaxis_title="Promedio",
-                        legend_title="Barrios",
-                        autosize=True,
-                        paper_bgcolor="rgba(0,0,0,0)",  # Fondo del área del gráfico transparente
-                        plot_bgcolor="rgba(0,0,0,0)",
-                        font=dict(color="#2d2d2d", family="OSWALD-LIGHT, sans-serif"),
-                        yaxis_gridcolor="#d8d8d8",  # Color de la malla en el eje Y
-                        xaxis_gridcolor="#d8d8d8"   # Color de la malla en el eje X
-                        
+def update_style_regression_figure(fig, variable_map, period=""):
+    fig.update_layout(
+        title=f"{properties_figures[variable_map][3]} · {period}",
+        xaxis_title="Fecha", yaxis_title=properties_figures[variable_map][0],
+        legend_title="Barrios / variables",
     )
-    
-    return fig
+    return _chart_style(fig)
+
+
+def update_style_bar_figure(fig, period=""):
+    fig.update_layout(
+        title=f"Promedios del periodo · {period}",
+        xaxis_title="Variable y unidad", yaxis_title="Promedio", legend_title="Barrios",
+        barmode="group",
+    )
+    return _chart_style(fig)
