@@ -206,5 +206,91 @@ no cubre la variación anual, no valida estimación por barrios y no habilita un
 pronóstico para hoy sin nuevas entradas. No hay artefacto desplegado.
 
 El dataset original de barrios y el piloto 2015–2025 permanecen intactos. Dash
-continúa usando su dataset piloto; este nuevo lote alimenta la investigación y
-requiere una integración posterior si se decide incorporarlo a la aplicación.
+continúa usando su dataset piloto. El panel React de predicciones consulta la unión
+del piloto y el trimestre para análisis y el paquete evaluado para pronósticos históricos.
+
+
+## Paquete de resultados para Haz tus predicciones
+
+`data/forecasts/hgb_historical.csv.gz` conserva las estimaciones HGB y la referencia
+de persistencia de la semana final del notebook 03 a 24/48/72 h. No se generan
+nuevos valores de observación. `hgb_historical.json` contiene hash del paquete,
+hashes de entrada, versión del experimento, parámetros y errores por estación/horizonte.
+Ambos archivos deben actualizarse juntos con `python -B -m research.publish_predictions`.
+
+El servidor valida integridad, separación temporal y coincidencia de cada objetivo
+con las mediciones publicadas antes de exponer los resultados. No usa pickle,
+joblib ni scikit-learn al atender una consulta, ni entrena al hacer clic.
+Las fechas ofrecidas corresponden a resultados ya calculados. La observación
+posterior se etiqueta explícitamente y no es una entrada del pronóstico.
+
+La cobertura histórica de la ventana une ambos CSV de muestras, comprueba los
+duplicados y conserva una observación por estación/hora. Los análisis muestran
+datos ausentes como tales; no interpolan años ni estiman valores por barrio.
+Los CSV de observaciones solo contienen horas anteriores o iguales al origen.
+El CSV de pronóstico diferencia estimación, persistencia y observación posterior,
+e identifica corte de entrenamiento, versión y fuente.
+
+
+## Mapa por sectores · datos originales y datos con tratamiento
+
+El selector tiene dos opciones y abre por defecto en **Datos con tratamiento**:
+
+- **Datos originales**: utiliza únicamente las fechas con mediciones RMCAB,
+  sin rellenar huecos temporales. Si solo hay un mes disponible, la gráfica
+  mensual muestra un punto por sector.
+- **Datos con tratamiento**: conserva esas mediciones y completa el calendario
+  2015–2025. Primero interpola linealmente huecos internos de hasta tres días;
+  el resto usa una base KNN de cinco vecinos, ubicación, año y ciclo anual,
+  sin atributos de día de la semana. Los rellenos largos incluyen variación
+  sintética suave, reproducible y distinta por sector (amplitud fija 10 % del
+  rango P95–P5 observado). No hay que activar otro modo para ver las curvas completas.
+
+El tratamiento conserva la prioridad de las mediciones. Sus valores añadidos son
+estimaciones exploratorias; no son nuevas observaciones ni promedios anuales
+oficiales. Las fuentes descargadas tienen 100 fechas distintas: antes de 2025
+predomina un día por año; 2025 aporta el primer trimestre. Completar el calendario
+no demuestra cómo fue la variación real durante los periodos ausentes.
+
+La variación interna usa PCG64 con semilla 20251024 y SHA256 por sector/variable.
+Combina un componente común (peso 0,5) y uno local (sqrt(0,75)), con filtro AR(1)
+aproximado (coeficiente 0,65, ventana 21 días). No representa precisión ni
+incertidumbre calibrada, y no valida relaciones físicas entre variables ni la
+estacionalidad anual. PM se limita a valores no negativos y humedad a 0–100 %.
+No se aplica ruido a mediciones ni huecos cortos. El calendario absoluto conserva
+los resultados al cambiar mes, año, orden o selección de sectores.
+
+Se conservan los 1.160 polígonos y cada sector vuelve a tener una sola curva por
+variable. El hover identifica mediciones, rellenos cortos y rellenos con variación
+sintética; las agregaciones mensuales o semanales pueden mezclar orígenes. Mapa,
+barras, series y CSV comparten filtros y valores. Los CSV indican el modo,
+fuentes, días añadidos, semilla y variación, sin presentar los añadidos como medidos.
+
+IDW combina las cuatro estaciones disponibles más cercanas al centroide
+(haversine, potencia 2, piso 0,1 km). Ambos modos muestran estimaciones espaciales,
+no mediciones directas del barrio ni promedios de toda su área. Los límites
+permanecen en gris si no hay valor. Las ubicaciones provienen de la SDA; los
+traslados históricos de estaciones no están verificados.
+
+El paquete compacto está en `data/maps/`. Su calendario por estación conserva
+`*_hours`, `*_origin`, `*_neighbor_gap_days` y `*_short_gap`. La etiqueta interna
+`knn_scenario_baseline` identifica la base determinista de relleno; la variación
+por sector se genera al consultar y no modifica el archivo. El manifiesto
+documenta hashes, cobertura, las dos opciones y su opción inicial.
+
+El tratamiento es retrospectivo y puede usar fuentes posteriores a una fecha.
+No alimenta el HGB de pronósticos. Sus fuentes y artefactos, y los recorridos
+originales de 2024, permanecen conservados. La comprobación temporal limitada
+de KNN (25–31 de marzo de 2025) no valida meses/años ausentes ni precisión espacial.
+
+El procedimiento y las comprobaciones están ejecutados en
+`notebooks/04_mapa_historico_barrios.ipynb`. Reproducir con el entorno de investigación:
+
+```bash
+python -B -m research.neighborhood_history
+python -B -m unittest dash2.test_neighborhood_data dash2.test_map_scenarios -v
+```
+
+La primera referencia de estaciones se obtiene con `--network`; después funciona
+sin red. Reiniciar Django tras reconstruir. Descargas GET:
+`/api/maps/calendar/`, `/api/maps/methodology/` y `/api/maps/manifest/`.

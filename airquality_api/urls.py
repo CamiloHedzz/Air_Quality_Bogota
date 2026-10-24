@@ -14,12 +14,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from dash2 import neighborhood_views
+from dash2 import prediction_views, prediction_dash  # Registra la aplicación PredictionCharts.
 from django.contrib import admin
 from dash2.views import *
 from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
+    path('api/maps/geometry/', neighborhood_views.geometry),
+    path('api/maps/methodology/', neighborhood_views.methodology),
+    path('api/maps/calendar/', neighborhood_views.calendar),
+    path('api/maps/manifest/', neighborhood_views.manifest),
+    path('api/predictions/catalog/', prediction_views.catalog),
+    path('api/predictions/options/', prediction_views.options),
+    path('api/predictions/query/', prediction_views.query),
+    path('api/predictions/export/', prediction_views.export),
     path('django_plotly_dash/', include('django_plotly_dash.urls')),
     path('admin/', admin.site.urls),
     path('docs/', include_docs_urls(title='api')),

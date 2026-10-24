@@ -2,7 +2,8 @@ import { useEffect, useRef } from "react";
 import { Table } from "../components/simple_table";
 import ContactForm from "../components/form";
 import { Footer } from "../components/foutter";
-import camiloPhoto from "../assets/images/chi.jpg";
+import camiloPhoto from "../assets/images/camilo-hernandez.jpeg";
+import "../assets/styles/about_profile.css";
 
 export function About() {
   const detailsRef = useRef(null);
@@ -12,6 +13,8 @@ export function About() {
       const details = detailsRef.current;
       if (!window.matchMedia("(min-width: 961px)").matches || event.ctrlKey ||
           !event.deltaY || details.contains(event.target)) return;
+      const profile = event.target instanceof Element && event.target.closest(".about-profile-refresh");
+      if (profile && profile.scrollHeight > profile.clientHeight + 1) return;
       const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? details.clientHeight : 1;
       event.preventDefault();
       details.scrollTop += event.deltaY * unit;
@@ -26,33 +29,46 @@ export function About() {
     <main id="about" className="about-layout">
       <aside
         id="leftContent"
-        className="about-column about-profile about-panel"
+        className="about-column about-profile about-panel about-profile-refresh"
+        tabIndex={0}
         aria-labelledby="creator-heading"
       >
         <section aria-labelledby="creator-heading">
           <p className="about-eyebrow">Un proyecto personal</p>
           <h2 id="creator-heading" className="section-heading">Detrás del proyecto</h2>
           <article className="author-card">
-            <img className="author-photo" src={camiloPhoto} alt="Camilo Hernández" width="100" height="100" />
+            <div className="author-portrait">
+              <img className="author-photo" src={camiloPhoto} alt="Camilo Hernández" width="1200" height="1600" decoding="async" />
+            </div>
             <div>
               <h3 className="author-name">
                 <a href="https://github.com/CamiloHedzz">Camilo Hernández</a>
               </h3>
-              <p className="author-role">Ingeniería · Datos · Inteligencia artificial</p>
+              <p className="author-qualification"><strong>Graduado</strong> en Ciencias de la Computación e Inteligencia Artificial.</p>
+              <p className="author-role">Desarrollo de software · Ciencia de datos · IA</p>
             </div>
           </article>
-          <p className="author-bio">
-            Soy ingeniero en Ciencias de la Computación e Inteligencia Artificial.
-            Me interesa aprender nuevas tecnologías, explorar datos y crear modelos de
-            Machine Learning para entender mejor nuestro entorno.
-          </p>
+          <div className="author-bio">
+            <p>
+              Me interesa convertir datos en herramientas que ayuden a comprender problemas reales.
+              Combino desarrollo de software, análisis de información y aprendizaje automático.
+              Disfruto preparar los datos, explorar sus patrones y crear aplicaciones que otras
+              personas puedan usar. Air Quality Bogotá reúne ese interés con mi curiosidad por
+              aprender nuevas tecnologías y entender el entorno.
+            </p>
+          </div>
+          <div className="author-toolbox">
+            <p className="author-toolbox-label">Tecnologías de este proyecto</p>
+            <ul className="author-tools" aria-label="Tecnologías utilizadas en Air Quality Bogotá">
+              <li>Python</li><li>React</li><li>Django</li><li>Dash</li><li>Plotly</li>
+            </ul>
+          </div>
         </section>
-        <section aria-labelledby="purpose-heading">
+        <section className="author-purpose" aria-labelledby="purpose-heading">
           <h2 id="purpose-heading" className="section-heading">Una ciudad que respira</h2>
           <p>
-            La contaminación del aire afecta la salud y la vida diaria en Bogotá.
-            Este proyecto busca hacer visibles los niveles de contaminación por zona
-            y acercar los datos a las personas para que puedan tomar decisiones informadas.
+            Con Air Quality Bogotá busco acercar los registros ambientales a las personas,
+            facilitar comparaciones y hacer más comprensibles las visualizaciones y los modelos.
           </p>
         </section>
       </aside>

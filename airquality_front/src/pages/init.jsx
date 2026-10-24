@@ -9,7 +9,10 @@ export function Description() {
     <section id="aboutinit" aria-labelledby="intro-heading">
       <div id="leftContentinit" className="intro-copy">
         <p className="intro-eyebrow">BOGOTÁ · AIRE Y TERRITORIO</p>
-        <h2 id="intro-heading">Conoce el aire<br />de tu ciudad.</h2>
+        <h2 id="intro-heading" aria-label="Conoce el aire de tu ciudad.">
+          <span className="headline-line" aria-hidden="true"><span>Conoce el <em className="headline-accent">aire</em></span></span>
+          <span className="headline-line" aria-hidden="true"><span>de tu ciudad.</span></span>
+        </h2>
         <p className="intro-description">
           Explora cómo varían las partículas, la temperatura y la humedad entre los
           barrios de Bogotá. Conecta el territorio con los datos y encuentra preguntas

@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 import dash_bootstrap_components as dbc
 import dash_mantine_components as dmc
-from dash import html, dcc, Input, Output, State
+from dash import html, dcc, Input, Output, State, no_update
 import plotly.express as px
 import plotly.graph_objs as go
 import dash
@@ -17,10 +17,12 @@ from ...dash_figures import (
     update_style_bar_figure, update_style_regression_figure,
 )
 from ...dash_logic import (
-    aggregate_neighborhoods, available_years, create_bar_graph,
+    MONTH_NAMES, aggregate_neighborhoods, available_years, create_bar_graph,
     create_time_series, filter_period, month_options, period_label, period_overview, valid_samples,
 )
 from ...maindash import app
+from ... import neighborhood_data as history
+from ...rmcab_data import VARIABLES
 
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "datasets"
@@ -28,8 +30,8 @@ with (DATA_DIR / "bogota_cadastral.json").open(encoding="utf-8") as file:
     counties = json.load(file)
 neighborhoods = {feature["properties"]["DISPLAY_NAME"] for feature in counties["features"]}
 samples = valid_samples(pd.read_csv(DATA_DIR / "final_rutes.csv"), neighborhoods)
-years = available_years(samples)
-default_year = years[-1] if years else None
+years = list(range(2015, 2026))
+default_year = 2025
 
 
 def add_loading_overlay(elements):
@@ -43,6 +45,13 @@ def add_loading_overlay(elements):
 
 bogota_map_div = html.Div([
     dcc.Store(id="selected-neighborhoods", data=None),
+    dcc.Store(id="map-geometry-ready", data=None),
+    html.Div([
+        html.Label("Datos del mapa", htmlFor="map-data-mode"),
+        dcc.Dropdown(id="map-data-mode", options=[{"label": label, "value": value} for value, label in history.MODES.items()],
+                     value="estimated", clearable=False, searchable=False),
+        html.P(id="map-source-note", className="map-history-note", role="status"),
+    ], className="map-history-source"),
     html.Div([
         html.Div([
             html.Label("Variable", htmlFor="variable_map"),
@@ -79,11 +88,17 @@ bogota_map_div = html.Div([
         html.Div([
             html.Label("Mes", htmlFor="datetime"),
             dcc.Dropdown(
-                id="datetime", options=month_options(samples, default_year),
+                id="datetime", options=[{"label": "Todo el año", "value": "all"}]+[{"label": name, "value": number} for number, name in MONTH_NAMES.items()],
                 value="all", clearable=False, searchable=False,
             ),
         ], className="map-control"),
     ], className="map-controls"),
+    html.Div([
+        html.Button("Descargar promedios por sector CSV ↓", id="map-export", n_clicks=0, type="button", className="rmcab-export-button"),
+        html.A("Calendario por estación CSV.gz ↓", href="/api/maps/calendar/", className="rmcab-export-button"),
+        html.A("Procedimiento notebook ↓", href="/api/maps/methodology/", className="rmcab-export-button"),
+        dcc.Download(id="map-download"),
+    ], className="map-history-download"),
     html.Div(id="map-period-summary", className="map-period-summary", role="status"),
     dcc.Graph(
         id="bogota_map", className="airquality-map", responsive=True,
@@ -111,23 +126,23 @@ def overview_stat(label, value_id, detail, detail_id=None):
 map_intro = html.Div([
     html.Div([
         overview_stat(
-            "Barrios con registros", "overview-neighborhoods",
+            "Sectores con valor", "overview-neighborhoods",
             f"De {len(neighborhoods):,} sectores del mapa".replace(",", "."),
         ),
         overview_stat(
-            "Registros del periodo", "overview-records",
+            "Mediciones de origen", "overview-records",
             "Según el año y el mes que elijas",
         ),
         overview_stat(
-            "Días con registros", "overview-days",
+            "Días con fuentes / calendario", "overview-days",
             "Fechas disponibles", "overview-dates",
         ),
     ], className="overview-stats", role="group", **{"aria-label": "Resumen del periodo"}),
     html.Div([
         html.P([
             html.Strong("Cómo leer el mapa. "),
-            "El color muestra el promedio por barrio de la variable seleccionada. "
-            "Las zonas sin registros permanecen sin color.",
+            "El color muestra el promedio temporal estimado en el centro de cada sector. "
+            "La escala de color de cada variable se mantiene entre años. Los límites se conservan; las zonas sin valor aparecen en gris.",
         ], className="overview-map-reading"),
         html.Details([
             html.Summary("Cómo explorar y comparar barrios"),
@@ -135,16 +150,21 @@ map_intro = html.Div([
                 html.Li([html.Strong("Elige qué observar"),
                          html.P("Consulta PM2.5, PM10, temperatura o humedad y cambia el fondo del mapa.")]),
                 html.Li([html.Strong("Define el periodo"),
-                         html.P("Filtra por año y mes. Todo el año resume los registros disponibles de ese año.")]),
+                         html.P("Elige un año de 2015 a 2025 y un mes. Datos originales muestra las fechas disponibles; Datos con tratamiento completa el calendario y permite analizar la serie continua.")]),
                 html.Li([html.Strong("Compara en el mapa"),
                          html.P("Acércate con el zoom y selecciona barrios para ver sus promedios y su evolución abajo.")]),
             ], className="overview-steps"),
         ], className="overview-help"),
     ], className="overview-guidance"),
-    html.P([
-        html.Span("Fuente en revisión", className="overview-source-tag"),
-        "Los datos pertenecen al conjunto de trabajo actual; su fuente y validación están pendientes de confirmar.",
-    ], className="overview-source-note"),
+    html.Details([
+        html.Summary("Cómo se completaron los datos del mapa"),
+        html.P("Datos originales usa las mediciones RMCAB disponibles, promediadas por estación y día. Datos con tratamiento conserva esas mediciones y completa los huecos para mostrar series de 2015–2025."),
+        html.P("El tratamiento interpola primero los huecos cortos y usa KNN sin día de la semana para el resto. Los rellenos largos incluyen variación sintética suave por sector, con semilla fija y amplitud del 10 % del rango P5–P95 observado. Es una elección de tratamiento exploratorio, no incertidumbre calibrada. Las mediciones originales se conservan."),
+        html.P("IDW combina las cuatro estaciones disponibles más cercanas en el centroide de cada sector. Son estimaciones espaciales, no mediciones del barrio ni promedios del área completa. Las zonas a más de 10 km de una estación requieren especial cautela."),
+        html.P("La mayoría de años anteriores a 2025 tiene un solo día de fuente. Completar el calendario no recupera mediciones perdidas ni valida la estacionalidad anual. El tratamiento retrospectivo usa datos anteriores y posteriores; no alimenta el modelo HGB de pronósticos. Cada sector tiene una curva continua en Datos con tratamiento; al pasar el cursor se identifican las fechas de origen y los rellenos."),
+        html.P("Se usan ubicaciones de referencia de estaciones; no se han verificado sus traslados históricos. La validación final de las mediciones publicadas sigue pendiente."),
+        html.A("Ver procedimiento y comprobaciones en el notebook ↗", href="/api/maps/methodology/", target="_blank", rel="noopener noreferrer"),
+    ], className="overview-help map-history-help"),
 ], className="map-intro overview-intro")
 
 regression_map_div = html.Div([
@@ -175,12 +195,12 @@ regression_map_div = html.Div([
                 ),width=9
             ),
         ],), #style={'marginBottom': '10px', "overflow-x": "hidden"}
-        add_loading_overlay(dcc.Graph(id='regression')),
+        add_loading_overlay(dcc.Graph(id='regression', responsive=True, style={'width':'100%', 'height':'450px'}, config={'responsive':True, 'displaylogo':False})),
 ],style={})
 
 
 bar_figure = html.Div([
-    add_loading_overlay(dcc.Graph(id='bar_figure')),
+    add_loading_overlay(dcc.Graph(id='bar_figure', responsive=True, style={'width':'100%', 'height':'450px'}, config={'responsive':True, 'displaylogo':False})),
 ],style={})
 
 
@@ -204,19 +224,16 @@ dashboard = dbc.Container(
                 html.H1("Explora la calidad del aire de Bogotá", className="overview-title"),
                 html.P(
                     "Explora PM2.5, PM10, temperatura y humedad. "
-                    "Compara los históricos por estación o explora el conjunto de trabajo por barrios.",
+                    "Explora 2015–2025 por sectores y compara los datos originales con los datos con tratamiento y huecos rellenados.",
                     className="overview-description",
                 ),
             ], className="overview-copy"),
         ], className="dashboard-overview"),
         dcc.Tabs(
-            id="dashboard-source", value="rmcab",
+            id="dashboard-source", value="legacy",
             className="dashboard-source-tabs",
             children=[
-                dcc.Tab(label="Históricos RMCAB · estaciones", value="rmcab",
-                        className="dashboard-source-tab", selected_className="dashboard-source-tab--selected",
-                        children=rmcab_panel),
-                dcc.Tab(label="Mapa por barrios · conjunto de trabajo", value="legacy",
+                dcc.Tab(label="Mapa por sectores · 2015–2025", value="legacy",
                         className="dashboard-source-tab", selected_className="dashboard-source-tab--selected",
                         children=[
         html.Section(
@@ -226,8 +243,8 @@ dashboard = dbc.Container(
         ),
         
         html.Div(["Aquí puedes examinar con detalle la información de las zonas seleccionadas en el mapa. ", 
-                html.Span("Realiza comparaciones y obtén información precisa.", className="highlight"),
-                " Las gráficas usan el mismo año y mes del mapa. Puedes agrupar la serie por día, semana o mes; cada variable indica su unidad."]
+                html.Span("Compara sectores y revisa la cobertura de las fuentes.", className="highlight"),
+                " Las gráficas usan el mismo año, mes y modo del mapa. Los promedios se calculan sobre los días representados. Cada variable tiene su propia unidad y panel."]
                 , className="paragraph_separator"),
         
         dbc.Row(
@@ -239,6 +256,9 @@ dashboard = dbc.Container(
             align="center",
         )
                         ]),
+                dcc.Tab(label="Históricos RMCAB · estaciones", value="rmcab",
+                        className="dashboard-source-tab", selected_className="dashboard-source-tab--selected",
+                        children=rmcab_panel),
             ],
         ),
         html.Section([
@@ -261,107 +281,105 @@ dashboard = dbc.Container(
     className="airquality-dashboard",
 )
 
-@app.callback(
-    [Output("datetime", "options"), Output("datetime", "value")],
-    Input("map-year", "value"), State("datetime", "value"),
-)
-def update_month_options(year, current_month):
-    options = month_options(samples, year)
-    allowed = {option["value"] for option in options}
-    return options, current_month if current_month in allowed else "all"
+@app.callback([Output("map-year", "options"), Output("map-year", "value")],
+              Input("map-data-mode", "value"), State("map-year", "value"))
+def update_map_years(mode, current):
+    options = available_years(samples) if mode == "legacy" else list(range(2015, 2026))
+    return [{"label": str(year), "value": year} for year in options], no_update if current in options else options[-1]
+
+
+@app.callback([Output("datetime", "options"), Output("datetime", "value")],
+              [Input("map-year", "value"), Input("map-data-mode", "value")], State("datetime", "value"))
+def update_month_options(year, mode, current_month):
+    options = month_options(samples, year) if mode == "legacy" else [{"label": "Todo el año", "value": "all"}]+[{"label": label, "value": value} for value, label in MONTH_NAMES.items()]
+    return options, no_update if current_month in {item["value"] for item in options} else "all"
 
 
 @app.callback(
-    [Output("bogota_map", "figure"),
-     Output("selected-neighborhoods", "data"),
-     Output("map-period-summary", "children"),
-     Output("overview-neighborhoods", "children"),
-     Output("overview-records", "children"),
-     Output("overview-days", "children"),
-     Output("overview-dates", "children")],
-    [Input("bogota_map", "clickData"), Input("variable_map", "value"),
-     Input("map-year", "value"), Input("datetime", "value"),
-     Input("map-basemap", "value")],
-    State("selected-neighborhoods", "data"),
-)
-def update_map_on_click(click_data, variable, year, month, basemap, selected_areas):
-    period = filter_period(samples, year, month)
-    aggregates = aggregate_neighborhoods(period)
-    if selected_areas is None:
-        # Start with the best sampled sector, consistently across page loads.
-        selected = period["neighborhood"].value_counts().head(1).index.tolist()
+    [Output("bogota_map", "figure"), Output("selected-neighborhoods", "data"),
+     Output("map-period-summary", "children"), Output("overview-neighborhoods", "children"),
+     Output("overview-records", "children"), Output("overview-days", "children"),
+     Output("overview-dates", "children"), Output("map-source-note", "children"), Output("map-geometry-ready", "data")],
+    [Input("bogota_map", "clickData"), Input("variable_map", "value"), Input("map-year", "value"),
+     Input("datetime", "value"), Input("map-basemap", "value"), Input("map-data-mode", "value")],
+    [State("selected-neighborhoods", "data"), State("map-geometry-ready", "data")])
+def update_map_on_click(click_data, variable, year, month, basemap, mode, selected_areas, geometry_ready):
+    if mode == "legacy":
+        period = filter_period(samples, year, month)
+        aggregates = aggregate_neighborhoods(period)
+        initial = period.neighborhood.value_counts().head(1).index.tolist()
     else:
-        selected = list(selected_areas)
-
+        if year not in range(2015, 2026): year = 2025
+        aggregates, info = history.aggregates(year, month, mode)
+        initial = aggregates.sort_values("nearest_station_km").head(1).neighborhood.tolist()
+    selected = initial if selected_areas is None else list(selected_areas)
     triggered = dash.callback_context.triggered
-    is_map_click = bool(triggered and triggered[0]["prop_id"] == "bogota_map.clickData")
-    if is_map_click and click_data:
+    if triggered and triggered[0]["prop_id"] == "bogota_map.clickData" and click_data:
         name = click_data["points"][0].get("location")
         if name in neighborhoods:
-            if name in selected:
-                selected.remove(name)
-            else:
-                selected.append(name)
-
-    figure = get_figure(aggregates, variable, counties, selected, basemap)
+            selected.remove(name) if name in selected else selected.append(name)
+    if mode == "legacy":
+        figure = history.map_figure(aggregates, variable, counties, selected, basemap, 'legacy')
+        if geometry_ready and geometry_ready.get('loaded'):
+            figure = history.figure_update(figure)
+        overview = period_overview(period, year, month)
+        summary = f"{period_label(year, month)} · {len(aggregates)} sectores · {len(period):,} registros originales."
+        dates = f"{overview['start']:%d/%m/%Y} – {overview['end']:%d/%m/%Y}" if overview['start'] is not None else "Sin fechas disponibles"
+        return figure, selected, summary, str(overview['neighborhoods']), f"{overview['records']:,}", f"{overview['days']} / {overview['calendar_days']}", dates, "Recorridos originales de 2024. Fuente y unidades del conjunto de trabajo pendientes de confirmar.", {"loaded": True}
+    metric = properties_figures[variable][2]
+    counts = info[metric]
+    figure = history.map_figure(aggregates, variable, counties, selected, basemap, mode)
+    if geometry_ready and geometry_ready.get('loaded'):
+        figure = history.figure_update(figure)
     title = period_label(year, month)
-    if period.empty:
-        summary = f"{title} · Sin registros disponibles."
+    summary = (f"{title} · {len(aggregates):,} sectores conservados · {counts['represented_days']} días representados · "
+               f"{counts['source_days']} días con mediciones de origen · {counts['days_added']} días rellenados.")
+    if mode in {"estimated", "simulated"}:
+        note = ("Datos con tratamiento · calendario completo con huecos rellenados. "
+                "Conserva las mediciones e incluye estimaciones y variación sintética reproducible en los días añadidos.")
     else:
-        start = period["datetime"].min().strftime("%d/%m/%Y")
-        end = period["datetime"].max().strftime("%d/%m/%Y")
-        count = f"{len(period):,}".replace(",", ".")
-        summary = (
-            f"{title} · {len(aggregates)} barrios · {count} registros. "
-            f"Cobertura: {start} – {end}."
-        )
-    overview = period_overview(period, year, month)
-    dates = (
-        f"{overview['start']:%d/%m/%Y} – {overview['end']:%d/%m/%Y}"
-        if overview["start"] is not None else "Sin fechas disponibles"
-    )
-    return (
-        figure, selected, summary,
-        f"{overview['neighborhoods']:,}".replace(",", "."),
-        f"{overview['records']:,}".replace(",", "."),
-        f"{overview['days']} / {overview['calendar_days']}",
-        dates,
-    )
+        note = "Datos originales RMCAB · solo mediciones disponibles, sin relleno temporal. El mapa estima valores por sector a partir de estaciones."
+    source_dates = f"Fuentes: {counts['source_start']} – {counts['source_end']}" if counts['source_start'] else "Sin días de origen para esta variable"
+    return (figure, selected, summary, f"{aggregates[variable].notna().sum():,}", f"{counts['observed_hours']:,}",
+            f"{counts['source_days']} / {info['calendar_days']}", source_dates, note, {"loaded": True})
 
 
-@app.callback(
-    [Output("regression", "figure"), Output("bar_figure", "figure")],
-    [Input("selected-neighborhoods", "data"), Input("variable_map", "value"),
-     Input("map-year", "value"), Input("datetime", "value"),
-     Input("varible_regression", "value"), Input("frecuency", "value")],
-)
-def update_regression_figure(selected_areas, variable, year, month, variables, frequency):
+def chart_result(line, bars):
+    return line, bars, {"width":"100%", "height":f"{line.layout.height or 450}px"}, {"width":"100%", "height":f"{bars.layout.height or 450}px"}
+
+
+@app.callback([Output("regression", "figure"), Output("bar_figure", "figure"), Output("regression", "style"), Output("bar_figure", "style")],
+    [Input("selected-neighborhoods", "data"), Input("variable_map", "value"), Input("map-year", "value"),
+     Input("datetime", "value"), Input("varible_regression", "value"), Input("frecuency", "value"), Input("map-data-mode", "value")])
+def update_regression_figure(selected_areas, variable, year, month, variables, frequency, mode, variation=10):
+    if mode != "legacy":
+        if year not in range(2015, 2026): year = 2025
+        return chart_result(*history.charts(year, month, mode, selected_areas, variable, variables, frequency, variation))
     period = filter_period(samples, year, month)
     data = create_time_series(period, selected_areas, frequency)
-    title = period_label(year, month)
-    if data.empty:
-        message = "Selecciona un barrio con datos para este periodo"
-        return empty_figure(message), empty_figure(message)
-
+    if data.empty: return chart_result(empty_figure("Selecciona un sector con datos"), empty_figure("Selecciona un sector con datos"))
     value = properties_figures[variable][2]
     fig = px.line(data, x="datetime", y=value, color="name", markers=True)
-    if isinstance(variables, str):
-        variables = [variables]
+    if isinstance(variables, str): variables = [variables]
     for extra in variables or []:
-        if extra != value:
+        if extra in VARIABLES and extra != value:
             for name, group in data.groupby("name"):
-                fig.add_trace(go.Scatter(
-                    x=group["datetime"], y=group[extra], mode="lines+markers",
-                    name=f"{name} · {extra}",
-                ))
-
+                fig.add_trace(go.Scatter(x=group.datetime, y=group[extra], mode="lines+markers", name=f"{name} · {extra}"))
     bars = create_bar_graph(aggregate_neighborhoods(period), selected_areas)
     bars["variable"] = bars["variable"].map(VARIABLE_LABELS)
     bar = px.bar(bars, x="variable", y="value", color="neighborhood", text_auto=".2f")
-    return (
-        update_style_regression_figure(fig, variable, title),
-        update_style_bar_figure(bar, title),
-    )
+    return chart_result(update_style_regression_figure(fig, variable, period_label(year, month)), update_style_bar_figure(bar, period_label(year, month)))
+
+
+@app.callback(Output("map-download", "data"), Input("map-export", "n_clicks"),
+              [State("map-year", "value"), State("datetime", "value"), State("map-data-mode", "value")], prevent_initial_call=True)
+def download_map(n_clicks, year, month, mode, variation=10):
+    if mode == "legacy":
+        frame = aggregate_neighborhoods(filter_period(samples, year, month))
+    else:
+        frame = history.export_aggregates(year, month, mode, variation)
+    suffix = f"_v{history.variation_rate(variation):g}_seed{history.SIMULATION_SEED}" if mode in {"estimated", "simulated"} else ""
+    return dcc.send_data_frame(frame.to_csv, f"sectores_{year}_{month}_{mode}{suffix}.csv", index=False, encoding="utf-8-sig")
 
 
 @app.callback(
@@ -397,4 +415,3 @@ def update_output(btn_PM1, btn_PM25, btn_PM10):
                 )
             ],className="des_message_card") 
     return message
-

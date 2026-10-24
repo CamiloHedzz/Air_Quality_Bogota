@@ -18,10 +18,11 @@ app = DjangoDash(
     suppress_callback_exceptions=True,
     external_stylesheets=[
         dbc.themes.BOOTSTRAP,
+        _asset_url('css/frame_cursor.css'),
         _asset_url('css/embedded_dashboard.css'),
         _asset_url('css/dashboard_light.css'),
     ],
-    external_scripts=[_asset_url('js/embedded_dashboard.js')],
+    external_scripts=[_asset_url('js/frame_cursor.js'), _asset_url('js/embedded_dashboard.js')],
 )
 
 app.css.append_css({ "external_url" : _asset_url("css/dash_app.css") })

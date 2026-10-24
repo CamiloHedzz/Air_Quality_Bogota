@@ -555,3 +555,17 @@
   .airquality-dashboard .variables-guide-row > .col { flex: 0 0 100%; width: 100%; }
   .airquality-dashboard .variables-guide { margin-top: 16px; }
 }
+
+
+/* Selección explícita de datos observados y calendario reconstruido. */
+.airquality-dashboard .map-history-source { padding: 18px 20px; margin-bottom: 14px; border: 1px solid #dcdac2; border-radius: 12px; background: #f8f7eb; }
+.airquality-dashboard .map-history-source > label { display: block; margin-bottom: 8px; color: #615d17; }
+.airquality-dashboard .map-history-source .Select { max-width: 620px; }
+.airquality-dashboard .map-history-note { margin: 12px 0 0; font-size: 0.92rem; line-height: 1.65; color: #666448; }
+.airquality-dashboard .map-history-download { display: flex; justify-content: flex-end; margin: 14px 0; }
+.airquality-dashboard .map-history-help p { max-width: 95ch; line-height: 1.7; }
+.airquality-dashboard .map-history-help a { color: #746c0e; text-underline-offset: 3px; }
+@media(max-width: 540px) { .airquality-dashboard .map-history-source { padding: 14px; } }
+
+.airquality-dashboard .map-history-download { gap: 10px; flex-wrap: wrap; }
+.airquality-dashboard .map-history-download a { text-decoration: none; }

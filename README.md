@@ -215,7 +215,80 @@ El recolector admite hasta 92 días por lote. Con caché completa, omitir `--net
 El notebook funciona sin red con el CSV y su manifiesto. Las métricas y metadatos
 están en `data/reports/hgb_2025_q1/`; las predicciones detalladas son regenerables
 en `data/processed/`. Se conservan los CSV anteriores y el dataset de la web.
-El modelo aún no se exporta ni se conecta al panel de predicciones.
+Los resultados históricos evaluados se conectan a la web mediante el paquete descrito en la siguiente sección; no se despliega inferencia en tiempo real.
+
+## Predicciones históricas conectadas a la web
+
+En **Haz tus predicciones** se consultan 17.481 estimaciones históricas reales
+de HistGradientBoosting para PM2.5 y PM10 a 24, 48 y 72 horas. El usuario selecciona
+estación, fecha y hora entre los orígenes disponibles. Se muestran el histórico,
+la estimación puntual, persistencia, la observación posterior opcional y el MAE
+histórico por estación. No se dibuja una trayectoria ni un intervalo no calculados.
+
+Las otras vistas calculan comparación emparejada entre estaciones, correlación
+y dispersión de variables coincidentes, y agregados por día/hora. Humedad y
+temperatura tienen análisis histórico; no tienen un modelo de pronóstico activado.
+Los filtros de histórico, agrupación y estadística se aplican a los datos reales.
+La tabla y los CSV conservan ausencias, las cuatro variables, unidades y procedencia.
+
+El catálogo une el piloto y el trimestre sin duplicar observaciones: 100 reportes
+distribuidos entre 2015–2025, con fechas aisladas antes de 2025. La cobertura parcial
+y el entrenamiento actual de enero–marzo de 2025 están visibles en la pantalla.
+No equivale a once años completos ni a un pronóstico emitido para hoy.
+
+Flujo reproducible:
+
+`notebook 03 → research.publish_predictions → CSV.gz + manifiesto → API Django + DjangoDash → React`
+
+Después de ejecutar todas las celdas del notebook 03, desde la raíz del repositorio:
+
+```bash
+python -B -m research.publish_predictions
+python -B manage.py test dash2.test_predictions dash2.test_prediction_figures --settings=airquality_api.settings_local
+```
+
+El exportador usa las predicciones del test final en `data/processed/` y verifica
+los hashes de entrada y la separación temporal. El paquete pequeño de
+`data/forecasts/` se versiona para que un clon pueda consultar resultados sin
+Jupyter ni scikit-learn en el servidor web. Es una reproducción de backtests
+precalculados, no inferencia nueva ni entrenamiento por petición.
+Para actualizarlo hay que repetir el notebook y exportar el paquete junto con sus
+metadatos. Reiniciar Django tras reemplazarlo, porque se carga en memoria.
+
+API GET:
+
+- `/api/predictions/catalog/`: estaciones, variables, cobertura y alcance del modelo.
+- `/api/predictions/options/`: fechas/horas válidas para la selección.
+- `/api/predictions/query/`: series, análisis, métricas y resultado histórico.
+- `/api/predictions/export/`: CSV de observaciones o del pronóstico seleccionado.
+
+La página conserva los filtros y la tabla en React. Las figuras se renderizan con
+**Dash y Plotly** en la aplicación `PredictionCharts`, integrada mediante un iframe
+que ajusta su altura al contenido. Mantienen Oswald y el tema claro. Se puede usar
+zoom, consultar puntos, ocultar series con la leyenda y descargar PNG desde la
+barra de Plotly. El pie de página permanece fuera del iframe.
+
+La pestaña **Evaluar el modelo** añade cuatro perspectivas:
+
+- Real frente a estimado: la diagonal indica coincidencia y el rombo la consulta.
+- Histograma del error firmado: positivo significa sobreestimación.
+- MAE por horizonte: HGB frente a persistencia, con los mismos objetivos observados
+  disponibles a 24/48/72 h, para evitar comparar muestras distintas.
+- Cajas del error: mediana, cuartiles y valores alejados de errores pasados; no son
+  intervalos de predicción.
+
+Estos gráficos usan la estación y el contaminante seleccionados, en la semana de
+prueba del 25–31 de marzo de 2025; no cambian su periodo con la ventana del histórico.
+Las métricas de MAE y sesgo corresponden al horizonte seleccionado. La descarga
+`kind=evaluation` incluye los tres horizontes, objetivos, errores, cortes y fuentes.
+El panel «Así aprende el modelo» explica entradas, árboles sucesivos, MAE y la
+comparación temporal, con el alcance real del modelo visible.
+
+Vite reenvía `/api/predictions`, `/django_plotly_dash` y `/static` a
+`127.0.0.1:8000` durante desarrollo. En despliegue, servir las dos primeras rutas
+con Django bajo el mismo origen de React y los estáticos recogidos con
+`collectstatic`, o configurar el proxy correspondiente.
+No usar `vite preview` como sustituto del servidor de API.
 
 ## Autores
 Este proyecto fue desarrollado con ❤️ por :
@@ -228,3 +301,67 @@ Juan Arias
 
 ¡Feliz exploración! 🌎🍃
 
+
+
+## Mapa por sectores · datos originales y datos con tratamiento
+
+El selector tiene dos opciones y abre por defecto en **Datos con tratamiento**:
+
+- **Datos originales**: utiliza únicamente las fechas con mediciones RMCAB,
+  sin rellenar huecos temporales. Si solo hay un mes disponible, la gráfica
+  mensual muestra un punto por sector.
+- **Datos con tratamiento**: conserva esas mediciones y completa el calendario
+  2015–2025. Primero interpola linealmente huecos internos de hasta tres días;
+  el resto usa una base KNN de cinco vecinos, ubicación, año y ciclo anual,
+  sin atributos de día de la semana. Los rellenos largos incluyen variación
+  sintética suave, reproducible y distinta por sector (amplitud fija 10 % del
+  rango P95–P5 observado). No hay que activar otro modo para ver las curvas completas.
+
+El tratamiento conserva la prioridad de las mediciones. Sus valores añadidos son
+estimaciones exploratorias; no son nuevas observaciones ni promedios anuales
+oficiales. Las fuentes descargadas tienen 100 fechas distintas: antes de 2025
+predomina un día por año; 2025 aporta el primer trimestre. Completar el calendario
+no demuestra cómo fue la variación real durante los periodos ausentes.
+
+La variación interna usa PCG64 con semilla 20251024 y SHA256 por sector/variable.
+Combina un componente común (peso 0,5) y uno local (sqrt(0,75)), con filtro AR(1)
+aproximado (coeficiente 0,65, ventana 21 días). No representa precisión ni
+incertidumbre calibrada, y no valida relaciones físicas entre variables ni la
+estacionalidad anual. PM se limita a valores no negativos y humedad a 0–100 %.
+No se aplica ruido a mediciones ni huecos cortos. El calendario absoluto conserva
+los resultados al cambiar mes, año, orden o selección de sectores.
+
+Se conservan los 1.160 polígonos y cada sector vuelve a tener una sola curva por
+variable. El hover identifica mediciones, rellenos cortos y rellenos con variación
+sintética; las agregaciones mensuales o semanales pueden mezclar orígenes. Mapa,
+barras, series y CSV comparten filtros y valores. Los CSV indican el modo,
+fuentes, días añadidos, semilla y variación, sin presentar los añadidos como medidos.
+
+IDW combina las cuatro estaciones disponibles más cercanas al centroide
+(haversine, potencia 2, piso 0,1 km). Ambos modos muestran estimaciones espaciales,
+no mediciones directas del barrio ni promedios de toda su área. Los límites
+permanecen en gris si no hay valor. Las ubicaciones provienen de la SDA; los
+traslados históricos de estaciones no están verificados.
+
+El paquete compacto está en `data/maps/`. Su calendario por estación conserva
+`*_hours`, `*_origin`, `*_neighbor_gap_days` y `*_short_gap`. La etiqueta interna
+`knn_scenario_baseline` identifica la base determinista de relleno; la variación
+por sector se genera al consultar y no modifica el archivo. El manifiesto
+documenta hashes, cobertura, las dos opciones y su opción inicial.
+
+El tratamiento es retrospectivo y puede usar fuentes posteriores a una fecha.
+No alimenta el HGB de pronósticos. Sus fuentes y artefactos, y los recorridos
+originales de 2024, permanecen conservados. La comprobación temporal limitada
+de KNN (25–31 de marzo de 2025) no valida meses/años ausentes ni precisión espacial.
+
+El procedimiento y las comprobaciones están ejecutados en
+`notebooks/04_mapa_historico_barrios.ipynb`. Reproducir con el entorno de investigación:
+
+```bash
+python -B -m research.neighborhood_history
+python -B -m unittest dash2.test_neighborhood_data dash2.test_map_scenarios -v
+```
+
+La primera referencia de estaciones se obtiene con `--network`; después funciona
+sin red. Reiniciar Django tras reconstruir. Descargas GET:
+`/api/maps/calendar/`, `/api/maps/methodology/` y `/api/maps/manifest/`.

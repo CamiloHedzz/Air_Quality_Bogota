@@ -1,0 +1,468 @@
+{
+  "schema_version": 2,
+  "mode": "original_and_treated_calendar",
+  "calendar_start": "2015-01-01",
+  "calendar_end": "2025-12-31",
+  "neighborhoods": 1160,
+  "station_days": 60634,
+  "source_reports": 100,
+  "units": {
+    "pm_25": "µg/m³",
+    "pm_10": "µg/m³",
+    "temperature": "°C",
+    "humidity": "%"
+  },
+  "color_ranges": {
+    "pm_25": [
+      0,
+      80.0
+    ],
+    "pm_10": [
+      0,
+      140.0
+    ],
+    "temperature": [
+      11.0,
+      18.0
+    ],
+    "humidity": [
+      0,
+      100
+    ]
+  },
+  "temporal_method": "KNeighborsRegressor",
+  "neighbors": 5,
+  "weights": "distance",
+  "features": [
+    "latitude/0.06",
+    "longitude/0.06",
+    "year/3",
+    "annual_sin*0.5",
+    "annual_cos*0.5"
+  ],
+  "knn_scope": "baseline_for_treated_gaps_not_used_for_HGB",
+  "product_modes": {
+    "observed": "Datos originales",
+    "estimated": "Datos con tratamiento"
+  },
+  "default_mode": "estimated",
+  "short_gap_method": {
+    "method": "linear_between_observations",
+    "max_consecutive_days": 3,
+    "extrapolate": false
+  },
+  "simulation": {
+    "seed": 20251024,
+    "generator": "PCG64_SHA256_per_sector_variable",
+    "ar_coefficient": 0.65,
+    "kernel_days": 21,
+    "common_weight": 0.5,
+    "variation_percent_default": 10,
+    "variation_percent_max": 30,
+    "scale": "P95_minus_P5_observed_station_daily_means",
+    "scale_by_variable": {
+      "pm_25": 27.35541666666664,
+      "pm_10": 55.23840410685807,
+      "temperature": 3.4000000000000004,
+      "humidity": 31.95833333333333
+    },
+    "applies_to": "days_without_observed_or_short_gap_spatial_values",
+    "calibrated_uncertainty": false,
+    "cross_variable_physical_consistency_validated": false
+  },
+  "spatial_method": "centroid_IDW",
+  "spatial_neighbors": 4,
+  "idw_power": 2,
+  "spatial_distance_floor_km": 0.1,
+  "far_station_flag_km": 10,
+  "uses_future_observations_for_reconstruction": true,
+  "used_to_train_forecast_model": false,
+  "intervals_available": false,
+  "station_positions_scope": "fixed_reference_positions_historical_relocations_not_verified",
+  "limitations": [
+    "Most years have one source day; annual seasonality is not validated.",
+    "Original mode preserves gaps; treated mode includes estimated and synthetic gap values.",
+    "Random variation is a user-selected scenario amplitude, not calibrated uncertainty.",
+    "KNN has no weekday features; annual/calendar features remain an unvalidated simulation baseline.",
+    "Centroid IDW is not a measured neighborhood mean or area-weighted polygon average.",
+    "No terrain/emissions model or historical station relocation validation.",
+    "Days and sensors with few source hours remain partial daily aggregates."
+  ],
+  "coverage": [
+    {
+      "year": 2015,
+      "calendar_days": 365,
+      "reference_stations": 11,
+      "pm_25": {
+        "observed_hours": 203,
+        "source_days": 1,
+        "station_days_observed": 9,
+        "station_days_reconstructed": 4006
+      },
+      "pm_10": {
+        "observed_hours": 262,
+        "source_days": 1,
+        "station_days_observed": 11,
+        "station_days_reconstructed": 4004
+      },
+      "temperature": {
+        "observed_hours": 168,
+        "source_days": 1,
+        "station_days_observed": 7,
+        "station_days_reconstructed": 4008
+      },
+      "humidity": {
+        "observed_hours": 144,
+        "source_days": 1,
+        "station_days_observed": 6,
+        "station_days_reconstructed": 4009
+      }
+    },
+    {
+      "year": 2016,
+      "calendar_days": 366,
+      "reference_stations": 12,
+      "pm_25": {
+        "observed_hours": 260,
+        "source_days": 1,
+        "station_days_observed": 11,
+        "station_days_reconstructed": 4381
+      },
+      "pm_10": {
+        "observed_hours": 284,
+        "source_days": 1,
+        "station_days_observed": 12,
+        "station_days_reconstructed": 4380
+      },
+      "temperature": {
+        "observed_hours": 168,
+        "source_days": 1,
+        "station_days_observed": 7,
+        "station_days_reconstructed": 4385
+      },
+      "humidity": {
+        "observed_hours": 144,
+        "source_days": 1,
+        "station_days_observed": 6,
+        "station_days_reconstructed": 4386
+      }
+    },
+    {
+      "year": 2017,
+      "calendar_days": 365,
+      "reference_stations": 12,
+      "pm_25": {
+        "observed_hours": 286,
+        "source_days": 1,
+        "station_days_observed": 12,
+        "station_days_reconstructed": 4368
+      },
+      "pm_10": {
+        "observed_hours": 284,
+        "source_days": 1,
+        "station_days_observed": 12,
+        "station_days_reconstructed": 4368
+      },
+      "temperature": {
+        "observed_hours": 168,
+        "source_days": 1,
+        "station_days_observed": 7,
+        "station_days_reconstructed": 4373
+      },
+      "humidity": {
+        "observed_hours": 168,
+        "source_days": 1,
+        "station_days_observed": 7,
+        "station_days_reconstructed": 4373
+      }
+    },
+    {
+      "year": 2018,
+      "calendar_days": 365,
+      "reference_stations": 11,
+      "pm_25": {
+        "observed_hours": 262,
+        "source_days": 1,
+        "station_days_observed": 11,
+        "station_days_reconstructed": 4004
+      },
+      "pm_10": {
+        "observed_hours": 259,
+        "source_days": 1,
+        "station_days_observed": 11,
+        "station_days_reconstructed": 4004
+      },
+      "temperature": {
+        "observed_hours": 168,
+        "source_days": 1,
+        "station_days_observed": 7,
+        "station_days_reconstructed": 4008
+      },
+      "humidity": {
+        "observed_hours": 168,
+        "source_days": 1,
+        "station_days_observed": 7,
+        "station_days_reconstructed": 4008
+      }
+    },
+    {
+      "year": 2019,
+      "calendar_days": 365,
+      "reference_stations": 13,
+      "pm_25": {
+        "observed_hours": 285,
+        "source_days": 1,
+        "station_days_observed": 12,
+        "station_days_reconstructed": 4733
+      },
+      "pm_10": {
+        "observed_hours": 312,
+        "source_days": 1,
+        "station_days_observed": 13,
+        "station_days_reconstructed": 4732
+      },
+      "temperature": {
+        "observed_hours": 216,
+        "source_days": 1,
+        "station_days_observed": 9,
+        "station_days_reconstructed": 4736
+      },
+      "humidity": {
+        "observed_hours": 192,
+        "source_days": 1,
+        "station_days_observed": 8,
+        "station_days_reconstructed": 4737
+      }
+    },
+    {
+      "year": 2020,
+      "calendar_days": 366,
+      "reference_stations": 13,
+      "pm_25": {
+        "observed_hours": 306,
+        "source_days": 1,
+        "station_days_observed": 13,
+        "station_days_reconstructed": 4745
+      },
+      "pm_10": {
+        "observed_hours": 273,
+        "source_days": 1,
+        "station_days_observed": 12,
+        "station_days_reconstructed": 4746
+      },
+      "temperature": {
+        "observed_hours": 216,
+        "source_days": 1,
+        "station_days_observed": 9,
+        "station_days_reconstructed": 4749
+      },
+      "humidity": {
+        "observed_hours": 192,
+        "source_days": 1,
+        "station_days_observed": 8,
+        "station_days_reconstructed": 4750
+      }
+    },
+    {
+      "year": 2021,
+      "calendar_days": 365,
+      "reference_stations": 18,
+      "pm_25": {
+        "observed_hours": 400,
+        "source_days": 1,
+        "station_days_observed": 18,
+        "station_days_reconstructed": 6552
+      },
+      "pm_10": {
+        "observed_hours": 383,
+        "source_days": 1,
+        "station_days_observed": 18,
+        "station_days_reconstructed": 6552
+      },
+      "temperature": {
+        "observed_hours": 310,
+        "source_days": 1,
+        "station_days_observed": 13,
+        "station_days_reconstructed": 6557
+      },
+      "humidity": {
+        "observed_hours": 206,
+        "source_days": 1,
+        "station_days_observed": 9,
+        "station_days_reconstructed": 6561
+      }
+    },
+    {
+      "year": 2022,
+      "calendar_days": 365,
+      "reference_stations": 19,
+      "pm_25": {
+        "observed_hours": 417,
+        "source_days": 1,
+        "station_days_observed": 18,
+        "station_days_reconstructed": 6917
+      },
+      "pm_10": {
+        "observed_hours": 383,
+        "source_days": 1,
+        "station_days_observed": 17,
+        "station_days_reconstructed": 6918
+      },
+      "temperature": {
+        "observed_hours": 336,
+        "source_days": 1,
+        "station_days_observed": 14,
+        "station_days_reconstructed": 6921
+      },
+      "humidity": {
+        "observed_hours": 216,
+        "source_days": 1,
+        "station_days_observed": 9,
+        "station_days_reconstructed": 6926
+      }
+    },
+    {
+      "year": 2023,
+      "calendar_days": 365,
+      "reference_stations": 19,
+      "pm_25": {
+        "observed_hours": 378,
+        "source_days": 1,
+        "station_days_observed": 17,
+        "station_days_reconstructed": 6918
+      },
+      "pm_10": {
+        "observed_hours": 372,
+        "source_days": 1,
+        "station_days_observed": 17,
+        "station_days_reconstructed": 6918
+      },
+      "temperature": {
+        "observed_hours": 311,
+        "source_days": 1,
+        "station_days_observed": 13,
+        "station_days_reconstructed": 6922
+      },
+      "humidity": {
+        "observed_hours": 238,
+        "source_days": 1,
+        "station_days_observed": 10,
+        "station_days_reconstructed": 6925
+      }
+    },
+    {
+      "year": 2024,
+      "calendar_days": 366,
+      "reference_stations": 19,
+      "pm_25": {
+        "observed_hours": 432,
+        "source_days": 1,
+        "station_days_observed": 18,
+        "station_days_reconstructed": 6936
+      },
+      "pm_10": {
+        "observed_hours": 444,
+        "source_days": 1,
+        "station_days_observed": 19,
+        "station_days_reconstructed": 6935
+      },
+      "temperature": {
+        "observed_hours": 312,
+        "source_days": 1,
+        "station_days_observed": 13,
+        "station_days_reconstructed": 6941
+      },
+      "humidity": {
+        "observed_hours": 240,
+        "source_days": 1,
+        "station_days_observed": 10,
+        "station_days_reconstructed": 6944
+      }
+    },
+    {
+      "year": 2025,
+      "calendar_days": 365,
+      "reference_stations": 19,
+      "pm_25": {
+        "observed_hours": 30777,
+        "source_days": 86,
+        "station_days_observed": 1309,
+        "station_days_reconstructed": 5626
+      },
+      "pm_10": {
+        "observed_hours": 32275,
+        "source_days": 88,
+        "station_days_observed": 1380,
+        "station_days_reconstructed": 5555
+      },
+      "temperature": {
+        "observed_hours": 32137,
+        "source_days": 90,
+        "station_days_observed": 1341,
+        "station_days_reconstructed": 5594
+      },
+      "humidity": {
+        "observed_hours": 23489,
+        "source_days": 90,
+        "station_days_observed": 981,
+        "station_days_reconstructed": 5954
+      }
+    }
+  ],
+  "temporal_check": [
+    {
+      "variable": "pm_25",
+      "unit": "µg/m³",
+      "n": 119,
+      "mae": 11.503674822927351,
+      "rmse": 12.314433089636449,
+      "baseline_last_available_mae": 15.770186842853082,
+      "train_report_end": "2025-03-21",
+      "test_report_start": "2025-03-25",
+      "test_report_end": "2025-03-31"
+    },
+    {
+      "variable": "pm_10",
+      "unit": "µg/m³",
+      "n": 126,
+      "mae": 19.945882908998303,
+      "rmse": 22.752260975455023,
+      "baseline_last_available_mae": 23.348088554366345,
+      "train_report_end": "2025-03-21",
+      "test_report_start": "2025-03-25",
+      "test_report_end": "2025-03-31"
+    },
+    {
+      "variable": "temperature",
+      "unit": "°C",
+      "n": 105,
+      "mae": 0.5108796098562645,
+      "rmse": 0.6368853430501434,
+      "baseline_last_available_mae": 0.921825396825397,
+      "train_report_end": "2025-03-21",
+      "test_report_start": "2025-03-25",
+      "test_report_end": "2025-03-31"
+    },
+    {
+      "variable": "humidity",
+      "unit": "%",
+      "n": 77,
+      "mae": 5.7195162770401415,
+      "rmse": 6.775187598018031,
+      "baseline_last_available_mae": 8.060876623376624,
+      "train_report_end": "2025-03-21",
+      "test_report_start": "2025-03-25",
+      "test_report_end": "2025-03-31"
+    }
+  ],
+  "input_sha256": {
+    "data/samples/rmcab_pilot_2015_2025.csv": "c45e73c4d3d186e3b4d13b4abb07a30fd50e0fc1abd29ab0875e7ca7af7e5a5d",
+    "data/samples/rmcab_2025_q1.csv": "45445f32d0d4e95e661306986f80197104bc12a424171857b3c653fcd62b74a5",
+    "data/references/rmcab_station_locations.json": "4527b95727038eb1f7b97c8cc4e63d3c58805defe52d1ec07c46573cd8420b03",
+    "dash2/datasets/bogota_cadastral.json": "0e08b91f6c20b741255e6d926bb2414c9cb08aa343320a93fdd5b4827d884aec"
+  },
+  "output_sha256": {
+    "station_daily_2015_2025.csv.gz": "4147b96936f2ff3d6d380d239c432be647c99fa23ea191fcb1457f86cbf8e936",
+    "neighborhood_centroids.csv": "40bdd27233d7d9b4f5eb3f9a5263eb9b8333c143fdefbe5fd4e91d62aa40effa"
+  }
+}

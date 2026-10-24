@@ -1,0 +1,69 @@
+/* Personal profile: a larger portrait, a clear qualification and room to read. */
+.app-shell .about-layout .about-profile-refresh { justify-content: flex-start; gap: 1.25rem; }
+.app-shell .about-layout .about-profile-refresh .author-card { grid-template-columns: 128px minmax(0, 1fr); gap: 1.2rem; align-items: center; }
+.about-profile-refresh .author-portrait {
+  width: 128px;
+  height: 144px;
+  overflow: hidden;
+  border: 1px solid #dce2d2;
+  border-radius: 14px;
+  background: #dce8ed;
+}
+.app-shell .about-layout .about-profile-refresh .author-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  border-radius: 0;
+  object-fit: cover;
+  object-position: 50% 50%;
+  transform: scale(1.8);
+  transform-origin: 10% 66%;
+}
+.app-shell .about-profile-refresh .author-name { margin: 0 0 0.65rem; font: 550 clamp(1.15rem, 1.8vw, 1.5rem) / 1.25 system-ui, sans-serif; letter-spacing: -0.045em; }
+.app-shell .about-profile-refresh p.author-qualification { margin: 0 0 0.75rem; color: #43513b; font: 450 0.82rem / 1.65 system-ui, sans-serif; }
+.author-qualification strong { font-weight: 650; }
+.app-shell .about-profile-refresh p.author-role { margin: 0; color: #7c826b; font: 400 0.7rem / 1.6 system-ui, sans-serif; }
+.about-layout .about-profile-refresh .author-bio { margin-top: 1rem; }
+.app-shell .about-profile-refresh .author-bio p { margin: 0 0 0.75rem; font-size: 0.98rem; line-height: 1.7; color: #50594b; }
+.app-shell .about-profile-refresh .author-bio p:last-child { margin-bottom: 0; }
+.author-toolbox { margin-top: 0.8rem; }
+.app-shell .about-profile-refresh .author-toolbox-label { margin: 0 0 0.55rem; color: #7b826b; font: 500 0.62rem / 1.5 system-ui, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+.author-tools { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.author-tools li { padding: 5px 9px; border: 1px solid #e1e4d7; border-radius: 5px; background: #f7f8ef; color: #566147; font: 450 0.65rem / 1.4 system-ui, sans-serif; }
+.about-profile-refresh .author-purpose { padding-top: 0.9rem; border-top: 1px solid #e4e6dc; }
+.app-shell .about-profile-refresh .author-purpose .section-heading { margin-bottom: 0.7rem; }
+.app-shell .about-profile-refresh .author-purpose p { font-size: 0.98rem; line-height: 1.7; }
+
+@media (min-width: 961px) {
+  .app-shell--about .about-layout .about-profile-refresh {
+    min-height: 0;
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+  .about-profile-refresh > section { flex-shrink: 0; }
+}
+@media (min-width: 961px) and (max-width: 1180px) {
+  .app-shell .about-layout .about-profile-refresh .author-card { grid-template-columns: 108px minmax(0, 1fr); gap: 1rem; }
+  .about-profile-refresh .author-portrait { width: 108px; height: 136px; }
+}
+@media (max-width: 520px) {
+  .app-shell .about-layout .about-profile-refresh .author-card { grid-template-columns: 106px minmax(0, 1fr); gap: 1rem; }
+  .about-profile-refresh .author-portrait { width: 106px; height: 136px; border-radius: 10px; }
+  .app-shell .about-profile-refresh .author-name { font-size: 1.15rem; }
+  .app-shell .about-profile-refresh p.author-qualification { font-size: 0.72rem; line-height: 1.6; }
+  .app-shell .about-profile-refresh p.author-role { font-size: 0.62rem; }
+}
+
+/* Keep both About columns scrollable without displaying scrollbar tracks. */
+.app-shell--about .about-layout :is(.about-profile-refresh, .about-details) {
+  scrollbar-width: none;
+  scrollbar-gutter: auto;
+}
+.app-shell--about .about-layout :is(.about-profile-refresh, .about-details)::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}

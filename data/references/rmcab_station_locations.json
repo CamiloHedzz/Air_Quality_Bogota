@@ -1,0 +1,160 @@
+{
+  "source_url": "https://www.ambientebogota.gov.co/es/web/sda/estaciones-rmcab",
+  "retrieved_at_utc": "2026-10-24T15:59:32.706541+00:00",
+  "source_sha256": "694aeb50a964b3b40511b1aac4b51cc67bbd99344af5def292c4f333a382d5c8",
+  "position_scope": "fixed_reference_positions_historical_relocations_not_verified",
+  "stations": [
+    {
+      "station_id": "1",
+      "station_name": "Usaquén",
+      "latitude": 4.71035,
+      "longitude": -74.03041666666667,
+      "latitude_dms": "4°42'37.26\"N",
+      "longitude_dms": "74°1'49.50\"W"
+    },
+    {
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
+      "latitude": 4.595833333333333,
+      "longitude": -74.14850000000001,
+      "latitude_dms": "4°35'45.0\"N",
+      "longitude_dms": "74°08'54.6\"W"
+    },
+    {
+      "station_id": "4",
+      "station_name": "Tunal",
+      "latitude": 4.576225,
+      "longitude": -74.13095555555554,
+      "latitude_dms": "4°34'34.41\"N",
+      "longitude_dms": "74°7'51.44\"W"
+    },
+    {
+      "station_id": "5",
+      "station_name": "Centro de alto rendimiento",
+      "latitude": 4.658466666666667,
+      "longitude": -74.08396666666667,
+      "latitude_dms": "4°39'30.48\"N",
+      "longitude_dms": "74°5'2.28\"W"
+    },
+    {
+      "station_id": "6",
+      "station_name": "Las Ferias",
+      "latitude": 4.6907000000000005,
+      "longitude": -74.08248333333333,
+      "latitude_dms": "4°41'26.52\"N",
+      "longitude_dms": "74°4'56.94\"W"
+    },
+    {
+      "station_id": "8",
+      "station_name": "Guaymaral",
+      "latitude": 4.7837499999999995,
+      "longitude": -74.04413888888888,
+      "latitude_dms": "4°47'01.5\"N",
+      "longitude_dms": "74°02'38.9\"W"
+    },
+    {
+      "station_id": "9",
+      "station_name": "Kennedy",
+      "latitude": 4.625050000000001,
+      "longitude": -74.16133333333335,
+      "latitude_dms": "4°37'30.18\"N",
+      "longitude_dms": "74°9'40.80\"W"
+    },
+    {
+      "station_id": "11",
+      "station_name": "Suba",
+      "latitude": 4.761247222222222,
+      "longitude": -74.09346111111111,
+      "latitude_dms": "4°45'40.49\"N",
+      "longitude_dms": "74° 5'36.46\"W"
+    },
+    {
+      "station_id": "13",
+      "station_name": "Puente Aranda",
+      "latitude": 4.6317666666666675,
+      "longitude": -74.11748333333333,
+      "latitude_dms": "4°37'54.36\"N",
+      "longitude_dms": "74°7'2.94\"W"
+    },
+    {
+      "station_id": "17",
+      "station_name": "MinAmbiente",
+      "latitude": 4.625486111111112,
+      "longitude": -74.06698055555555,
+      "latitude_dms": "4°37'31.75\"N",
+      "longitude_dms": "74°4'1.13\"W"
+    },
+    {
+      "station_id": "24",
+      "station_name": "San Cristóbal",
+      "latitude": 4.572552777777777,
+      "longitude": -74.08381388888888,
+      "latitude_dms": "4°34'21.19\"N",
+      "longitude_dms": "74°5'1.73\"W"
+    },
+    {
+      "station_id": "26",
+      "station_name": "Estación móvil 7ma",
+      "latitude": 4.645194444444444,
+      "longitude": -74.06155555555556,
+      "latitude_dms": "4°38'42.7\"N",
+      "longitude_dms": "74°03'41.6\"W"
+    },
+    {
+      "station_id": "27",
+      "station_name": "Bolivia",
+      "latitude": 4.735805555555555,
+      "longitude": -74.12588888888888,
+      "latitude_dms": "4°44'08.9\"N",
+      "longitude_dms": "74°07'33.2\"W"
+    },
+    {
+      "station_id": "30",
+      "station_name": "Fontibón",
+      "latitude": 4.678241666666667,
+      "longitude": -74.14381944444445,
+      "latitude_dms": "4°40'41.67\"N",
+      "longitude_dms": "74°8'37.75\"W"
+    },
+    {
+      "station_id": "32",
+      "station_name": "Usme",
+      "latitude": 4.532055555555555,
+      "longitude": -74.11713888888889,
+      "latitude_dms": "4°31'55.4\"N",
+      "longitude_dms": "74°07'01.7\"W"
+    },
+    {
+      "station_id": "34",
+      "station_name": "El Jazmín",
+      "latitude": 4.608499999999999,
+      "longitude": -74.11494444444443,
+      "latitude_dms": "4°36'30.6\"N",
+      "longitude_dms": "74°06'53.8\"W"
+    },
+    {
+      "station_id": "37",
+      "station_name": "Ciudad Bolívar",
+      "latitude": 4.577805555555555,
+      "longitude": -74.16627777777778,
+      "latitude_dms": "4°34'40.1\"N",
+      "longitude_dms": "74°09'58.6\"W"
+    },
+    {
+      "station_id": "38",
+      "station_name": "Colina",
+      "latitude": 4.7371944444444445,
+      "longitude": -74.06947222222222,
+      "latitude_dms": "4°44'13.9\"N",
+      "longitude_dms": "74°04'10.1\"W"
+    },
+    {
+      "station_id": "39",
+      "station_name": "Móvil Fontibón",
+      "latitude": 4.668,
+      "longitude": -74.14850000000001,
+      "latitude_dms": "4°40'04.8\"N",
+      "longitude_dms": "74°08'54.6\"W"
+    }
+  ]
+}

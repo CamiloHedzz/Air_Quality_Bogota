@@ -1,0 +1,14 @@
+@font-face { font-family: Oswald; src: url('/static/fonts/OSWALD-LIGHT.TTF') format('truetype'); font-display: swap; font-weight: 300 500; }
+html, body { margin: 0; padding: 0; min-height: 0; background: #fff; font-family: Oswald, sans-serif; color: #50534d; }
+body { overflow-x: hidden; }
+* { box-sizing: border-box; }
+#prediction-plot-root { padding: 0; min-width: 0; }
+.plot-caption { margin: 0; padding: 0.25rem 0.4rem 0.9rem; font-size: 14px; line-height: 1.7; color: #73746b; }
+.plot-diagnostic-label { margin: 0 0 0.7rem; font-size: 15px; }
+.plot-diagnostic-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.plot-diagnostic-option { display: inline-flex; align-items: center; gap: 6px; padding: 9px 10px; border: 1px solid #dedccb; border-radius: 9px; cursor: pointer; font-size: 14px; }
+.plot-diagnostic-input { accent-color: #827b10; }
+.plot-diagnostic-option:has(input:checked) { background: #f5f3d9; border-color: #a8a021; color: #615c10; }
+.plot-diagnostic-option:focus-within { outline: 2px solid #827b10; outline-offset: 2px; }
+.modebar { background: #fff !important; }
+@media(max-width: 420px) { .plot-diagnostic-option { width: calc(50% - 4px); font-size: 13px; padding: 8px; } }

@@ -5,13 +5,22 @@ import { About } from "./pages/about";
 import { Navegation } from "./components/navegator";
 import { Footer } from "./components/foutter";
 import { Predictions } from "./pages/predictions";
+import { ContentMotion, EditorialScroll, SquareCursor } from "./components/EditorialMotion";
 import "./index.css";
+import "./assets/styles/editorial_motion.css";
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    const frame = requestAnimationFrame(() => {
+      let target;
+      try { target = hash && document.getElementById(decodeURIComponent(hash.slice(1))); }
+      catch { target = null; }
+      if (target) target.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+      else window.scrollTo({ top: 0, behavior: "instant" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, hash]);
   return null;
 }
 
@@ -21,6 +30,9 @@ function AppLayout() {
 
   return (
     <div className={`app-shell${isAbout ? " app-shell--about" : ""}`}>
+      <ContentMotion />
+      <EditorialScroll />
+      <SquareCursor />
       <Navegation />
       <Routes>
         <Route path="/" element={<Index />} />
