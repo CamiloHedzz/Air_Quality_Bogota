@@ -1,0 +1,87 @@
+{
+  "experiment": "historical_hgb_pilot_v1",
+  "dataset_sha256": "c45e73c4d3d186e3b4d13b4abb07a30fd50e0fc1abd29ab0875e7ca7af7e5a5d",
+  "source_manifest_sha256": "6fc3a8651c9fa001d2b087391f9c7f830d99854ad1c9403bb2315369441fc483",
+  "cohort_report_dates": [
+    "2025-02-03",
+    "2025-02-04",
+    "2025-02-05",
+    "2025-02-06",
+    "2025-02-07",
+    "2025-02-08",
+    "2025-02-09"
+  ],
+  "cohort_station_hours": 3192,
+  "versions": {
+    "numpy": "1.26.4",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "matplotlib": "3.10.7"
+  },
+  "configuration": {
+    "targets": [
+      "pm_25",
+      "pm_10"
+    ],
+    "horizons": [
+      1,
+      24,
+      48,
+      72
+    ],
+    "n_folds": 3,
+    "validation_hours": 24,
+    "min_train_hours": 48,
+    "min_train_rows": 200
+  },
+  "hgb_parameters": {
+    "max_iter": 80,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 20,
+    "learning_rate": 0.05,
+    "l2_regularization": 1.0,
+    "early_stopping": false,
+    "random_state": 42
+  },
+  "feature_columns": {
+    "pm_25": [
+      "station_id",
+      "pm_25",
+      "pm_10",
+      "temperature",
+      "humidity",
+      "pm_25_lag_1h",
+      "pm_25_lag_24h",
+      "hour_sin",
+      "hour_cos",
+      "month_sin",
+      "month_cos",
+      "weekday"
+    ],
+    "pm_10": [
+      "station_id",
+      "pm_25",
+      "pm_10",
+      "temperature",
+      "humidity",
+      "pm_10_lag_1h",
+      "pm_10_lag_24h",
+      "hour_sin",
+      "hour_cos",
+      "month_sin",
+      "month_cos",
+      "weekday"
+    ]
+  },
+  "forecast_models_trained": true,
+  "deployment_ready": false,
+  "artifact_exported": false,
+  "raw_dataset_modified": false,
+  "synthetic_observations_created": 0,
+  "target_imputation": false,
+  "predictor_imputation": "train-only median in comparator; native NaN in main HGB",
+  "evaluated_folds": 14,
+  "skipped_folds": 10,
+  "negative_hgb_predictions": 0,
+  "limitation": "One week; same-station retrospective point forecasts; published availability assumed; final source QC unverified; no annual/spatial/live validation."
+}

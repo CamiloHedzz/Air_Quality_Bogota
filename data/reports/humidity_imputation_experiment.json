@@ -1,0 +1,8 @@
+{
+  "status": "research_only",
+  "train_rows": 3672,
+  "validation_rows": 3192,
+  "cutoff": "2025-01-01T00:00:00-05:00",
+  "mask": "25% of station/day/3-hour blocks; seed 42",
+  "limitation": "Not station-held-out; historical pilot not a forecasting score or full-year representativeness test."
+}

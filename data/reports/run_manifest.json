@@ -1,0 +1,21 @@
+{
+  "legacy_sha256": "e543bf15d375f9b9605bdb5a4650db9ac9066ed63a0a4f9f250d8a8381b5d6fa",
+  "pilot_sha256": "c45e73c4d3d186e3b4d13b4abb07a30fd50e0fc1abd29ab0875e7ca7af7e5a5d",
+  "target_years": [
+    2015,
+    2025
+  ],
+  "downloaded_reports": 17,
+  "pilot_only": true,
+  "full_history_collected": false,
+  "versions": {
+    "numpy": "1.26.4",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "matplotlib": "3.10.7",
+    "nbformat": "5.10.4"
+  },
+  "random_seed": 42,
+  "forecast_model_trained": false,
+  "legacy_dataset_modified": false
+}

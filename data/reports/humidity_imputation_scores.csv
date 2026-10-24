@@ -1,0 +1,3 @@
+method,MAE_percentage_points,RMSE_percentage_points,masked_values
+Mediana,14.579046563192907,16.85730956615891,451
+KNN escalado,16.494245136631157,20.348505113415122,451

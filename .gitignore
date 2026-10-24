@@ -1,0 +1,6 @@
+# Investigación: entornos, caché y salidas regenerables
+.venv-research/
+.local/
+.ipynb_checkpoints/
+**/__pycache__/
+data/processed/

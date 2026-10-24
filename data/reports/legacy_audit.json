@@ -1,0 +1,26 @@
+{
+  "source_sha256": "e543bf15d375f9b9605bdb5a4650db9ac9066ed63a0a4f9f250d8a8381b5d6fa",
+  "rows": 25000,
+  "date_min": "2024-02-14 01:45:17",
+  "date_max": "2024-03-16 01:15:48",
+  "years": {
+    "2024": 25000
+  },
+  "distinct_days": 32,
+  "neighborhoods": 598,
+  "duplicates": 0,
+  "missing": {
+    "id_rute": 0,
+    "datetime": 0,
+    "longitud": 0,
+    "latitud": 0,
+    "pm_25": 0,
+    "pm_10": 0,
+    "temperature": 0,
+    "humidity": 0,
+    "neighborhood": 0
+  },
+  "negative_humidity": 10441,
+  "pm25_above_pm10": 4297,
+  "units_status": "unknown: no calibration or preprocessing metadata found"
+}

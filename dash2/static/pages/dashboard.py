@@ -11,6 +11,7 @@ import dash
 
 from ..components.footer import footer_content
 from .home import layout
+from .rmcab import panel as rmcab_panel
 from ...dash_figures import (
     VARIABLE_LABELS, empty_figure, get_figure, properties_figures,
     update_style_bar_figure, update_style_regression_figure,
@@ -200,14 +201,24 @@ dashboard = dbc.Container(
         html.Header([
             html.Div([
                 html.P("EXPLORADOR AMBIENTAL · BOGOTÁ", className="overview-eyebrow"),
-                html.H1("Calidad del aire, barrio a barrio", className="overview-title"),
+                html.H1("Explora la calidad del aire de Bogotá", className="overview-title"),
                 html.P(
                     "Explora PM2.5, PM10, temperatura y humedad. "
-                    "Elige un periodo y descubre cómo cambian los registros entre barrios.",
+                    "Compara los históricos por estación o explora el conjunto de trabajo por barrios.",
                     className="overview-description",
                 ),
             ], className="overview-copy"),
         ], className="dashboard-overview"),
+        dcc.Tabs(
+            id="dashboard-source", value="rmcab",
+            className="dashboard-source-tabs",
+            children=[
+                dcc.Tab(label="Históricos RMCAB · estaciones", value="rmcab",
+                        className="dashboard-source-tab", selected_className="dashboard-source-tab--selected",
+                        children=rmcab_panel),
+                dcc.Tab(label="Mapa por barrios · conjunto de trabajo", value="legacy",
+                        className="dashboard-source-tab", selected_className="dashboard-source-tab--selected",
+                        children=[
         html.Section(
             [map_intro, bogota_map_div],
             className="map-explorer",
@@ -226,26 +237,22 @@ dashboard = dbc.Container(
             ],
             className="g-0 align-items-center",
             align="center",
-        ), 
-        html.Div(
-            [
-                html.Div([
-                    html.H1("Una guia para tener en cuenta", className="title_section_2"),
-                    html.H2("Informacion que te puede ser util", className="sub_title_section_2"),
-                    ], className="titles_section_2"
-                )
+        )
+                        ]),
             ],
-            className="my-4",  # Agrega clases de margen para espaciar los elementos
         ),
-        
-        dbc.Row(
-            [
+        html.Section([
+            html.Header([
+                html.P("ENTIENDE LO QUE OBSERVAS", className="overview-eyebrow"),
+                html.H2("Una guía para leer las partículas", className="guide-title"),
+                html.P("Selecciona una categoría para conocer qué representa su tamaño.",
+                       className="guide-description"),
+            ], className="guide-heading"),
+            dbc.Row([
                 dbc.Col(sidebar, width=3),
                 dbc.Col(content),
-            ],
-            className="g-0 align-items-center",
-            align="center",
-        ), 
+            ], className="g-0 variables-guide-row", align="start"),
+        ], className="variables-guide", **{"aria-label": "Guía de partículas"}),
         
        footer_content
         
@@ -370,21 +377,21 @@ def update_output(btn_PM1, btn_PM25, btn_PM10):
         button_id = dash.callback_context.triggered[0]["prop_id"].split(".")[0]
         
     message = html.Div([            
-            html.H1("PM 1"),
+            html.H3("PM 1"),
             html.P(
                 "Las partículas (PM) de tamaño inferior a 1 micra se denominan PM1 (a veces PM1.0). Las PM1 se consideran especialmente peligrosas debido a su tamaño extremadamente pequeño. Cuanto menor es el diámetro de una partícula, mayor es el daño que puede causar. Las partículas diminutas transportadas por el aire, como las PM1, son lo suficientemente pequeñas como para penetrar en el tejido pulmonar y llegar al torrente sanguíneo. Las PM1 pueden entonces circular por todo el cuerpo y causar efectos sistémicos sobre la salud.",
             )             
         ],className="des_message_card")                         
     if button_id == "btn_PM10":
         message = html.Div([
-                html.H1("PM 10"),   
+                html.H3("PM 10"),
                 html.P(
                     "Son aquellas partículas sólidas o líquidas de polvo, cenizas, hollín, partículas metálicas, cemento o polen, dispersas en la atmósfera, y cuyo diámetro varía entre 2,5 y 10 µm (1 micrómetro corresponde la milésima parte de 1 milímetro). Están formadas principalmente por compuestos inorgánicos como silicatos y aluminatos, metales pesados entre otros, y material orgánico asociado a partículas de carbono (hollín). Se caracterizan por poseer un pH básico debido a la combustión no controlada de materiales.",
                 )
             ],className="des_message_card") 
     elif button_id == "btn_PM25":
         message = html.Div([
-            html.H1("PM 2.5"),   
+            html.H3("PM 2.5"),
                 html.P(
                 "La materia particulada o PM (por sus siglas en inglés) 2.5, son partículas muy pequeñas en el aire que tiene un diámetro de 2.5 micrómetros (aproximadamente 1 diezmilésimo de pulgada) o menos de diámetro. Esto es menos que el grosor de un cabello humano. La materia particulada, uno de los seis  criterios de contaminantes del aire de la U.S. EPA, es una mezcla que puede incluir sustancias químicas orgánicas, polvo, hollín y metales. Estas partículas pueden provenir de los automóviles, camiones, fábricas, quema de madera y otras actividades.",
                 )

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Description } from "./init";
+import { Description, WhyAirMatters } from "./init";
 
 const dashboardUrl = "http://127.0.0.1:8000/django_plotly_dash/app/SimpleExamplee/?embedded=1";
 const dashboardOrigin = new URL(dashboardUrl).origin;
@@ -29,6 +29,7 @@ export function Index() {
   return (
     <main>
       <Description />
+      <WhyAirMatters />
       <section id="dashboard" className="dashboard-section" aria-label="Dashboard interactivo de calidad del aire">
         <iframe
           ref={dashboardRef}

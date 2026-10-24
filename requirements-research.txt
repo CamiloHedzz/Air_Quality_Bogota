@@ -1,0 +1,9 @@
+# Entorno independiente del servidor web, Python 3.11.
+numpy==1.26.4
+pandas==2.3.3
+scikit-learn==1.7.2
+matplotlib==3.10.7
+jupyterlab==4.4.10
+nbformat==5.10.4
+nbclient==0.10.2
+ipykernel==6.30.1

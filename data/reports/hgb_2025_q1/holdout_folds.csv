@@ -1,0 +1,9 @@
+target,horizon_hours,fold,validation_origin_start,validation_origin_end_exclusive,train_rows,train_origin_hours,validation_rows,unseen_station_rows_excluded,train_target_max,status,reason
+pm_25,1,1,2025-03-25 00:00:00-05:00,2025-04-01 00:00:00-05:00,27771,1893,2854,0,2025-03-24 23:00:00-05:00,evaluated,exploratory_short_history
+pm_25,24,1,2025-03-24 01:00:00-05:00,2025-03-31 01:00:00-05:00,26122,1824,2855,0,2025-03-24 00:00:00-05:00,evaluated,exploratory_short_history
+pm_25,48,1,2025-03-23 01:00:00-05:00,2025-03-30 01:00:00-05:00,24523,1752,2855,0,2025-03-23 00:00:00-05:00,evaluated,exploratory_short_history
+pm_25,72,1,2025-03-22 01:00:00-05:00,2025-03-29 01:00:00-05:00,23081,1680,2855,0,2025-03-22 00:00:00-05:00,evaluated,exploratory_short_history
+pm_10,1,1,2025-03-25 00:00:00-05:00,2025-04-01 00:00:00-05:00,28869,1941,2966,0,2025-03-24 23:00:00-05:00,evaluated,exploratory_short_history
+pm_10,24,1,2025-03-24 01:00:00-05:00,2025-03-31 01:00:00-05:00,27336,1872,2972,0,2025-03-24 00:00:00-05:00,evaluated,exploratory_short_history
+pm_10,48,1,2025-03-23 01:00:00-05:00,2025-03-30 01:00:00-05:00,25986,1793,2974,0,2025-03-23 00:00:00-05:00,evaluated,exploratory_short_history
+pm_10,72,1,2025-03-22 01:00:00-05:00,2025-03-29 01:00:00-05:00,24682,1728,2970,0,2025-03-22 00:00:00-05:00,evaluated,exploratory_short_history

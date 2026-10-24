@@ -1,0 +1,812 @@
+[
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-01",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-01&id=1",
+    "downloaded_at_utc": "2026-10-24T04:09:35.294890+00:00",
+    "sha256": "5c3431c0c8c0d4ffbfd5e96087f4dc93db6ab9d865dfca128208859d0a453be7",
+    "bytes": 8216652,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-02",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-02&id=1",
+    "downloaded_at_utc": "2026-10-24T04:09:44.788192+00:00",
+    "sha256": "570a03d48489b641114cd9958154774dc5dd301593b01e783d4ede95348b7a5e",
+    "bytes": 8214177,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-03",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-03&id=1",
+    "downloaded_at_utc": "2026-10-24T04:09:55.871037+00:00",
+    "sha256": "fc35943622010303e1ee06b482ac1cfdb09b7df2567616fa9a4f53446d7b45b6",
+    "bytes": 8210508,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-04",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-04&id=1",
+    "downloaded_at_utc": "2026-10-24T04:10:07.836951+00:00",
+    "sha256": "7ed9a0a0d09a674712a69f29bef5b372fe6c90e7cb75a1bbbd4ba10bb6eb610e",
+    "bytes": 8204612,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-05",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-05&id=1",
+    "downloaded_at_utc": "2026-10-24T04:10:20.641633+00:00",
+    "sha256": "364ad6c0dc2c664a8dc1b56a30a71d73c465932d5cf2e273193696c7804d9db8",
+    "bytes": 8203951,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-06",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-06&id=1",
+    "downloaded_at_utc": "2026-10-24T04:10:31.432148+00:00",
+    "sha256": "11719af2470a5bfec74ca6ff2b96d55fa6cfc651f9feec41824089d6ababc881",
+    "bytes": 8200853,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-07",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-07&id=1",
+    "downloaded_at_utc": "2026-10-24T04:10:41.682404+00:00",
+    "sha256": "2bffe3d9571616b7f9eeffd5ff11b654d769a915745ce3bb498196c3ee2297c9",
+    "bytes": 8200842,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-08",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-08&id=1",
+    "downloaded_at_utc": "2026-10-24T04:10:51.742438+00:00",
+    "sha256": "9358c657924dde343eab5f2987751404f4ff5746b448ee5c6e8c8565dcb6f82d",
+    "bytes": 8200182,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-09",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-09&id=1",
+    "downloaded_at_utc": "2026-10-24T04:11:02.559514+00:00",
+    "sha256": "b7d1de85cd4407da67782f3a4238aa444a99fdf717001da2890d146318ba94a2",
+    "bytes": 8199556,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-10",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-10&id=1",
+    "downloaded_at_utc": "2026-10-24T04:11:13.931068+00:00",
+    "sha256": "9202710ed8f5b1e33607bc3a5a33cd698619b37250d13c1e17b6f6f12fcbf0b2",
+    "bytes": 8196202,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-11",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-11&id=1",
+    "downloaded_at_utc": "2026-10-24T04:11:26.215452+00:00",
+    "sha256": "243409d342341754855c4b6595e2ca907f5e352191fd113bdc294768d5201f53",
+    "bytes": 8193770,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-12",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-12&id=1",
+    "downloaded_at_utc": "2026-10-24T04:11:35.850136+00:00",
+    "sha256": "2b2b004816c192a9796eb6f03fe399ad85635e159da17a8ce347bffe959ad28f",
+    "bytes": 8190451,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-13",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-13&id=1",
+    "downloaded_at_utc": "2026-10-24T04:11:45.898182+00:00",
+    "sha256": "0a9837de55a1d6f27158474c94c99306167b33ba90ae290bea06bdb77bde9752",
+    "bytes": 8190328,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-14",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-14&id=1",
+    "downloaded_at_utc": "2026-10-24T04:11:58.792836+00:00",
+    "sha256": "076dcf9f31b2c037fba713cf78dfcadb752fc08227e91422d3762a80e13ee946",
+    "bytes": 8191041,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-15",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-15&id=1",
+    "downloaded_at_utc": "2026-10-24T04:12:09.670218+00:00",
+    "sha256": "8e123c0be26ed0ed88edcbfc79d42d717c2cbe0893463cb93c592a0516433066",
+    "bytes": 8190865,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-16",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-16&id=1",
+    "downloaded_at_utc": "2026-10-24T04:12:19.543181+00:00",
+    "sha256": "c368af76f719d6907b9b1e1820dd74798686697a0f54ac551ebf816f146e45c6",
+    "bytes": 8189278,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-17",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-17&id=1",
+    "downloaded_at_utc": "2026-10-24T04:12:30.281736+00:00",
+    "sha256": "80073e4ab653b47a4cce7d90bb5a9808683886b9e43fea76c13e83691bbd4d0b",
+    "bytes": 8188869,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-18",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-18&id=1",
+    "downloaded_at_utc": "2026-10-24T04:12:41.536261+00:00",
+    "sha256": "1d2c3ecdfa48602648729de7a95f8c57eccdb98887cc623e990cd7102b9d2409",
+    "bytes": 8188409,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-19",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-19&id=1",
+    "downloaded_at_utc": "2026-10-24T04:12:51.037949+00:00",
+    "sha256": "b1f8ceda9c19bbb205888a5fcd3949ee2ec2b3782ad8b806cfeb905e9b43d41f",
+    "bytes": 8186696,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-20",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-20&id=1",
+    "downloaded_at_utc": "2026-10-24T04:13:02.315670+00:00",
+    "sha256": "3b6aee5d8d2b503fd6289d643521f3cae0b1b02c83276fe7a664b3deb4db93d4",
+    "bytes": 8185843,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-21",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-21&id=1",
+    "downloaded_at_utc": "2026-10-24T04:13:13.241905+00:00",
+    "sha256": "61083e79fa6eea3b2b30ec02fdb7b1eba6e9ba0b997db10fd9f2e50695c7884f",
+    "bytes": 8186751,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-22",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-22&id=1",
+    "downloaded_at_utc": "2026-10-24T04:13:26.307270+00:00",
+    "sha256": "18fa3af1f462c33f8e04a996776ad0d46d1fa381ffc56c394a3ac05ef48462c4",
+    "bytes": 8188415,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-23",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-23&id=1",
+    "downloaded_at_utc": "2026-10-24T04:13:35.766627+00:00",
+    "sha256": "323482a34dd7ee4ac873581473df00864a8913ee712d86bd595998a2455dfa5d",
+    "bytes": 8188005,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-24",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-24&id=1",
+    "downloaded_at_utc": "2026-10-24T04:13:46.079349+00:00",
+    "sha256": "6d3eb6aee021d44bb2005b094a1e4800a5f902d59782f61971708b42d226c4bc",
+    "bytes": 8187104,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-25",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-25&id=1",
+    "downloaded_at_utc": "2026-10-24T04:13:55.764344+00:00",
+    "sha256": "8326c3195662b55b1ae341318b50b493a164609bef2e2751a8d9c792bb2cbcaf",
+    "bytes": 8186950,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-26",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-26&id=1",
+    "downloaded_at_utc": "2026-10-24T04:14:07.142155+00:00",
+    "sha256": "a1014ef643f851db332ebf4a66d313b607b60f81df8fc508a4a7897dc0b355ca",
+    "bytes": 8186318,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-27",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-27&id=1",
+    "downloaded_at_utc": "2026-10-24T04:14:20.554830+00:00",
+    "sha256": "5bbbdac9c06fa5f8e155a708fbe1452e54963198884c82aac0420b22a027a691",
+    "bytes": 8186095,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-28",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-28&id=1",
+    "downloaded_at_utc": "2026-10-24T04:14:37.409829+00:00",
+    "sha256": "2ab920c03d7cbad37b105f18968e4cb59e1954c126c46360ac65093b73152ce7",
+    "bytes": 8185394,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-29",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-29&id=1",
+    "downloaded_at_utc": "2026-10-24T04:14:54.920173+00:00",
+    "sha256": "b7f01e20140603b4493a4de90b3eb8ac629e1aaebb9282d10cd12afdeffaccd0",
+    "bytes": 8186245,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-30",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-30&id=1",
+    "downloaded_at_utc": "2026-10-24T04:15:06.738183+00:00",
+    "sha256": "ca59343bc7eeb69227789a8115c4b6668b25996addc254a2473ae3730fc74810",
+    "bytes": 8193966,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-01-31",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-01-31&id=1",
+    "downloaded_at_utc": "2026-10-24T04:15:17.968565+00:00",
+    "sha256": "aa5d374914ffb6dec425f962e5fb394eaea92b9360a04004883c3b2365de05df",
+    "bytes": 8201799,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-01",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-01&id=1",
+    "downloaded_at_utc": "2026-10-24T04:15:30.465029+00:00",
+    "sha256": "79bc57832c6934583dfc5fb0b4504e548b455b72c7010c69ad53382e5d8f1a15",
+    "bytes": 8204725,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-02",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-02&id=1",
+    "downloaded_at_utc": "2026-10-24T04:15:41.810565+00:00",
+    "sha256": "cda9969a446d02bb895c9de5dd3c47c35e34144da4a64bf34d1d03b7c56104d6",
+    "bytes": 8203674,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-03",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-03&id=1",
+    "downloaded_at_utc": "2026-10-23T13:13:24.666956+00:00",
+    "sha256": "d67637001afe354b5d56dc6d86148482364a78674f50656b6e6787d125da3470",
+    "bytes": 8192148,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-04",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-04&id=1",
+    "downloaded_at_utc": "2026-10-23T13:25:50.020566+00:00",
+    "sha256": "df80dac5685f975693907070df213b26ed6fab3ce77e9d76effa4ac00d73eb17",
+    "bytes": 8204409,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-05",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-05&id=1",
+    "downloaded_at_utc": "2026-10-23T13:26:03.401412+00:00",
+    "sha256": "99459a657d0f67dcf8e024f90833abff7162482ec0d5aa8001c285dd1f70e6d8",
+    "bytes": 8224106,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-06",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-06&id=1",
+    "downloaded_at_utc": "2026-10-23T13:26:14.386088+00:00",
+    "sha256": "ba6be9ef05085508dce7e18031aab419b39c73bbbee822b60cafe9e5fe2a6663",
+    "bytes": 8227995,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-07",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-07&id=1",
+    "downloaded_at_utc": "2026-10-23T13:26:25.259279+00:00",
+    "sha256": "0e0f7795ce8b5f21e213a8305e868f904c88e4fe470b7c2120d1b5e013153426",
+    "bytes": 8230740,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-08",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-08&id=1",
+    "downloaded_at_utc": "2026-10-23T13:26:34.926198+00:00",
+    "sha256": "db706c6e9db98d091184acb9eee3c88cc70b063d23393c5861da70e873baf416",
+    "bytes": 8231122,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-09",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-09&id=1",
+    "downloaded_at_utc": "2026-10-23T13:26:46.983909+00:00",
+    "sha256": "a2411600c4b58897660b2361d594475b61aa047887a18a94c20e5dfd9f527c83",
+    "bytes": 8231205,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-10",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-10&id=1",
+    "downloaded_at_utc": "2026-10-24T04:18:37.188391+00:00",
+    "sha256": "f29c38bce45f38ffd5ed57bc63ff094d15b6879e5accd1c5c8b9b4fe9388f336",
+    "bytes": 8228705,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-11",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-11&id=1",
+    "downloaded_at_utc": "2026-10-24T04:18:47.504679+00:00",
+    "sha256": "e0aa92dca4ee711cae98bc56d136c065137e9d321701c06f1800f4a72d22f186",
+    "bytes": 8227984,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-12",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-12&id=1",
+    "downloaded_at_utc": "2026-10-24T04:18:57.398229+00:00",
+    "sha256": "8e140135e13b7c39e3d59276b6b7ee14688d08122095e6e29848605fda88a2ed",
+    "bytes": 8230379,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-13",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-13&id=1",
+    "downloaded_at_utc": "2026-10-24T04:19:10.102560+00:00",
+    "sha256": "3527eab833af2d5d79ebe8da928ae64ce979ad0d29ddbfefe0de254f996ac59d",
+    "bytes": 8228282,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-14",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-14&id=1",
+    "downloaded_at_utc": "2026-10-24T04:19:21.584738+00:00",
+    "sha256": "596ae60789ca600230e8c549f41847a408241db06c7031efb6f8edc5a07cc184",
+    "bytes": 8228070,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-15",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-15&id=1",
+    "downloaded_at_utc": "2026-10-24T04:19:31.656711+00:00",
+    "sha256": "fa2b10905a447f757e110224f9910831e8f2541a8059af63a61513bec866fa97",
+    "bytes": 8229447,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-16",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-16&id=1",
+    "downloaded_at_utc": "2026-10-24T04:19:41.639157+00:00",
+    "sha256": "2bbf45f27dff408fcbe6163ba59363b258abba0db97a960c07ec8cb6bc49c961",
+    "bytes": 8228298,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-17",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-17&id=1",
+    "downloaded_at_utc": "2026-10-24T04:19:52.533235+00:00",
+    "sha256": "9c2e8bc463ea49f01b8b1def751ae9fa54cb4bd0c68dfe20f29bccb64241de1e",
+    "bytes": 8228601,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-18",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-18&id=1",
+    "downloaded_at_utc": "2026-10-24T04:20:06.160045+00:00",
+    "sha256": "1730421714d361344d122d548413849b65b91f426615b00dad22c151de035781",
+    "bytes": 8229092,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-19",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-19&id=1",
+    "downloaded_at_utc": "2026-10-24T04:20:16.400618+00:00",
+    "sha256": "62e1c8f618b0e7ac41ee1bfd1bf5683ab06448acd96b8f4e94a70d34d8272036",
+    "bytes": 8228346,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-20",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-20&id=1",
+    "downloaded_at_utc": "2026-10-24T04:20:27.835433+00:00",
+    "sha256": "b1e32e1dedaef4e3fba3bc70bcdd849cba04d16feb0c4fb0ef75330af594b4eb",
+    "bytes": 8228255,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-21",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-21&id=1",
+    "downloaded_at_utc": "2026-10-24T04:20:37.712313+00:00",
+    "sha256": "3f16e7dc511ec1d9b13a572592f55553c3e2dcb4eb80e725da09252cd91240f6",
+    "bytes": 8229473,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-22",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-22&id=1",
+    "downloaded_at_utc": "2026-10-24T04:20:47.564515+00:00",
+    "sha256": "3afec75b3898c993b73126c2add439adb9e4c928f8aa9b62befb38071ed96a9f",
+    "bytes": 8231410,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-23",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-23&id=1",
+    "downloaded_at_utc": "2026-10-24T04:20:57.500885+00:00",
+    "sha256": "37f17aeeb225be19729bdeae2622e3bda64cb4202ff82ab2d8e290bcb8d4264b",
+    "bytes": 8231232,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-24",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-24&id=1",
+    "downloaded_at_utc": "2026-10-24T04:21:09.338159+00:00",
+    "sha256": "179fc8730eb0bbcf1de81d4f6c4ca5cec32788f1cc18d71ae052028a3c14f108",
+    "bytes": 8229043,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-25",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-25&id=1",
+    "downloaded_at_utc": "2026-10-24T04:21:23.387347+00:00",
+    "sha256": "eda84004847162eb0db9cad4cd377f34727ab2e9d874bc30684faa4f52927b90",
+    "bytes": 8228568,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-26",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-26&id=1",
+    "downloaded_at_utc": "2026-10-24T04:21:33.696043+00:00",
+    "sha256": "988d53cb803e297ff4ea8a231237e73ef386cd419a160dbd307a11843d1c3613",
+    "bytes": 8229908,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-27",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-27&id=1",
+    "downloaded_at_utc": "2026-10-24T04:21:44.093780+00:00",
+    "sha256": "34cfddf86204b98ae7845c8a8bc81ffe820e2f0c3f3834e0ff825cb178e4ecaf",
+    "bytes": 8228926,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-02-28",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-02-28&id=1",
+    "downloaded_at_utc": "2026-10-24T04:21:53.873959+00:00",
+    "sha256": "c847f060f0ed64d1e97b4f0ad9c014fdbc3041de495bc38f1a885cb3a1febccb",
+    "bytes": 8229096,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-01",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-01&id=1",
+    "downloaded_at_utc": "2026-10-24T04:22:04.945855+00:00",
+    "sha256": "ba95171c47160d0336cbfca5754c4957b3228cac11b95b28a660a4cfb848d56f",
+    "bytes": 8230698,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-02",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-02&id=1",
+    "downloaded_at_utc": "2026-10-24T04:22:14.817606+00:00",
+    "sha256": "6b581a446689d45037e70acd026b8cdb1829c3ca2f79315b00ca7eb8a2d4e8a9",
+    "bytes": 8229256,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-03",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-03&id=1",
+    "downloaded_at_utc": "2026-10-24T04:22:24.390101+00:00",
+    "sha256": "0c17ebcb736b75fa20d2a084a5bbe331185b90c8240d2ed81a072963f453b51b",
+    "bytes": 8228879,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-04",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-04&id=1",
+    "downloaded_at_utc": "2026-10-24T04:22:34.102154+00:00",
+    "sha256": "aab59f1d25fe6893e54e9176eba1a8fdea08662d82014137f2c21a9a7a9397ec",
+    "bytes": 8231054,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-05",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-05&id=1",
+    "downloaded_at_utc": "2026-10-24T04:22:45.498353+00:00",
+    "sha256": "9c989c124b8e380d5e89f667949b48531874940895becce34d255bbec6d257e5",
+    "bytes": 8228095,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-06",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-06&id=1",
+    "downloaded_at_utc": "2026-10-24T04:22:57.160445+00:00",
+    "sha256": "9d03c09f3b1df81824936dd1704931a79026fc5faff4973ccd827e6c690b7a21",
+    "bytes": 8229966,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-07",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-07&id=1",
+    "downloaded_at_utc": "2026-10-24T04:23:10.198972+00:00",
+    "sha256": "80b152c9307a443d420a5ecfb9c6a5e205c011388d5420a80220d9d8b6f883fb",
+    "bytes": 8229586,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-08",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-08&id=1",
+    "downloaded_at_utc": "2026-10-24T04:23:21.423122+00:00",
+    "sha256": "5a1b79b2781d51b096320d12c267c71141583a9b519eb2f66e7f871d130df131",
+    "bytes": 8227165,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-09",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-09&id=1",
+    "downloaded_at_utc": "2026-10-24T04:23:31.403150+00:00",
+    "sha256": "41250df26a21fe968782d5ae70fc57a2beada47af1ed30b62e8cf08c5514447b",
+    "bytes": 8226680,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-10",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-10&id=1",
+    "downloaded_at_utc": "2026-10-24T04:23:42.125905+00:00",
+    "sha256": "97c77dd014935397058e6f43634797602212d9ce4fbf17ca0b77411ebae2077a",
+    "bytes": 8224987,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-11",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-11&id=1",
+    "downloaded_at_utc": "2026-10-24T04:23:52.427342+00:00",
+    "sha256": "95e0f0b71bc01e41d62ab84ec5e4c88c23b1284b578c1754aff941b7cd40a8df",
+    "bytes": 8225490,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-12",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-12&id=1",
+    "downloaded_at_utc": "2026-10-24T04:24:04.337754+00:00",
+    "sha256": "4cef9591e362440dc140b48ac2584e713ed03271c620d3b35ba84bf9cc97dd2e",
+    "bytes": 8228648,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-13",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-13&id=1",
+    "downloaded_at_utc": "2026-10-24T04:24:14.800913+00:00",
+    "sha256": "289867120233c8ba318c11dc1e154d980d6bfab9ac86cb223740edac8f4f5572",
+    "bytes": 8230085,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-14",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-14&id=1",
+    "downloaded_at_utc": "2026-10-24T04:24:25.301200+00:00",
+    "sha256": "8c8f0337c312ea781ad8a5ecdb8201ccae22a3842bb878cdf308c69159da567a",
+    "bytes": 8229696,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-15",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-15&id=1",
+    "downloaded_at_utc": "2026-10-24T04:24:35.122633+00:00",
+    "sha256": "f5380096dbd588d5dd2860d376023bd887b95216d59ad952ffbd41110926bd61",
+    "bytes": 8230665,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-16",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-16&id=1",
+    "downloaded_at_utc": "2026-10-24T04:24:45.168533+00:00",
+    "sha256": "8dbe0e5c6ae4a201431668563bb17d5a192d5752ee37cceb765fd9990fe15ae6",
+    "bytes": 8228698,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-17",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-17&id=1",
+    "downloaded_at_utc": "2026-10-24T04:24:55.264495+00:00",
+    "sha256": "70fd65ad02aaa7db851cd3d87bca682d98e32f65bff9af4d5fab3183b42ea89f",
+    "bytes": 8229978,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-18",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-18&id=1",
+    "downloaded_at_utc": "2026-10-24T04:25:07.434306+00:00",
+    "sha256": "750ed7118d538dbfc94658a85bc19a911addd4a41dc055f70ca5c539271df43f",
+    "bytes": 8229164,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-19",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-19&id=1",
+    "downloaded_at_utc": "2026-10-24T04:25:19.715982+00:00",
+    "sha256": "cd30dfb2a3c896ed69b40fc0eeb09cf74a23e829aa53e2b25a2ce4ffd69b83d3",
+    "bytes": 8229334,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-20",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-20&id=1",
+    "downloaded_at_utc": "2026-10-24T04:25:29.498892+00:00",
+    "sha256": "efaabbbbd5be854c3f19882c9ca71d136d64d43bab7f0b970aef6b93eea47d25",
+    "bytes": 8228978,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-21",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-21&id=1",
+    "downloaded_at_utc": "2026-10-24T04:25:39.575343+00:00",
+    "sha256": "f90ff3a6bd6b8dba8a12cf35fb057719e29835cc0d1804f65808cad7e155a323",
+    "bytes": 8228392,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-22",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-22&id=1",
+    "downloaded_at_utc": "2026-10-24T04:25:49.812195+00:00",
+    "sha256": "09e741553d635535ce3450d9603863aefd1edf8dc69f9b820518b22ef48de31e",
+    "bytes": 8228208,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-23",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-23&id=1",
+    "downloaded_at_utc": "2026-10-24T04:26:00.550755+00:00",
+    "sha256": "f8768a7f28f1ee335232e61bdadad95a6078e01c23275c53a7c6499068e931d5",
+    "bytes": 8226708,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-24",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-24&id=1",
+    "downloaded_at_utc": "2026-10-24T04:26:12.729615+00:00",
+    "sha256": "b43dd49bf15bdc4da36782e9e355867e08c656104e518400eed67bd800223ed4",
+    "bytes": 8224049,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-25",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-25&id=1",
+    "downloaded_at_utc": "2026-10-24T04:26:24.119609+00:00",
+    "sha256": "8bf42eb178f38f3a01502ad656b1ea8072adbbee594aa7ee44af77e25b5a24d2",
+    "bytes": 8221792,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-26",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-26&id=1",
+    "downloaded_at_utc": "2026-10-24T04:26:34.173070+00:00",
+    "sha256": "47b190994f071b7071b916cfcb2939d3cd170cf1088d47914ffc28fbff1101cc",
+    "bytes": 8218115,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-27",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-27&id=1",
+    "downloaded_at_utc": "2026-10-24T04:26:44.575048+00:00",
+    "sha256": "55b0e566da64f34490b1573b85dd811d96d9e22f7e17a89af4fa5677ea2a5d80",
+    "bytes": 8218310,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-28",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-28&id=1",
+    "downloaded_at_utc": "2026-10-24T04:26:55.297085+00:00",
+    "sha256": "1f9f6c64e8c8865f00eeb5be5ec20d577b490c44cc7ebafbd50bc70b08a379df",
+    "bytes": 8217018,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-29",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-29&id=1",
+    "downloaded_at_utc": "2026-10-24T04:27:08.634152+00:00",
+    "sha256": "b0d20b195c970c8ec6f830d32e9517b324241d7c9b0545d9a52420d3a4dde63c",
+    "bytes": 8211260,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-30",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-30&id=1",
+    "downloaded_at_utc": "2026-10-24T04:27:22.592331+00:00",
+    "sha256": "7b49aa2a1aa4aeaf50bebc1762cba8647483d9517de70919103a907f4f1b68b1",
+    "bytes": 8211197,
+    "validation_status": "published_quality_not_verified"
+  },
+  {
+    "source": "RMCAB/SDA",
+    "report_date": "2025-03-31",
+    "url": "https://rmcab.ambientebogota.gov.co/Report/HourlyReports?UserDateString=2025-03-31&id=1",
+    "downloaded_at_utc": "2026-10-24T04:27:33.447276+00:00",
+    "sha256": "ea5c89156fdbf048a8af0dafbbf545d2fcf04061804216cd6f472c5f9ce62551",
+    "bytes": 8210969,
+    "validation_status": "published_quality_not_verified"
+  }
+]

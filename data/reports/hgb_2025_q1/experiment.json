@@ -1,0 +1,99 @@
+{
+  "experiment": "hgb_2025_q1_frozen_v1",
+  "started_at_utc": "2026-10-24T04:28:10.010905+00:00",
+  "versions": {
+    "numpy": "1.26.4",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "matplotlib": "3.10.7"
+  },
+  "input_sha256": {
+    "data/samples/rmcab_2025_q1.csv": "45445f32d0d4e95e661306986f80197104bc12a424171857b3c653fcd62b74a5",
+    "data/samples/rmcab_pilot_2015_2025.csv": "c45e73c4d3d186e3b4d13b4abb07a30fd50e0fc1abd29ab0875e7ca7af7e5a5d",
+    "dash2/datasets/final_rutes.csv": "e543bf15d375f9b9605bdb5a4650db9ac9066ed63a0a4f9f250d8a8381b5d6fa"
+  },
+  "source_manifest_sha256": "2723846419465419e2857fee797e77fbc1f3355664fd25c7f441d464c223cd85",
+  "valid_report_dates_without_pm": [
+    "2025-01-27",
+    "2025-01-28"
+  ],
+  "report_days": 90,
+  "station_hours": 41040,
+  "stations": 19,
+  "development_report_end": "2025-03-21",
+  "final_target_report_start": "2025-03-25",
+  "final_target_report_end": "2025-03-31",
+  "base_config": {
+    "targets": [
+      "pm_25",
+      "pm_10"
+    ],
+    "horizons": [
+      1,
+      24,
+      48,
+      72
+    ],
+    "validation_hours": 168,
+    "min_train_hours": 672,
+    "min_train_rows": 2000
+  },
+  "development_methods": [
+    "persistence",
+    "hgb_native_missing",
+    "hgb_train_median"
+  ],
+  "final_methods": [
+    "persistence",
+    "hgb_native_missing"
+  ],
+  "hgb_parameters": {
+    "max_iter": 80,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 20,
+    "learning_rate": 0.05,
+    "l2_regularization": 1.0,
+    "early_stopping": false,
+    "random_state": 42
+  },
+  "feature_columns": {
+    "pm_25": [
+      "station_id",
+      "pm_25",
+      "pm_10",
+      "temperature",
+      "humidity",
+      "pm_25_lag_1h",
+      "pm_25_lag_24h",
+      "hour_sin",
+      "hour_cos",
+      "month_sin",
+      "month_cos",
+      "weekday"
+    ],
+    "pm_10": [
+      "station_id",
+      "pm_25",
+      "pm_10",
+      "temperature",
+      "humidity",
+      "pm_10_lag_1h",
+      "pm_10_lag_24h",
+      "hour_sin",
+      "hour_cos",
+      "month_sin",
+      "month_cos",
+      "weekday"
+    ]
+  },
+  "development_evaluated_folds": 24,
+  "holdout_evaluated_folds": 8,
+  "negative_holdout_hgb_predictions": 0,
+  "synthetic_observations_created": 0,
+  "source_measurements_modified": false,
+  "final_method_fixed_before_evaluation": true,
+  "hyperparameter_search": false,
+  "deployment_ready": false,
+  "artifact_exported": false,
+  "limitation": "One quarter; known-station retrospective point forecasts; published availability assumed; source final QC unverified; no annual/spatial/live validation; holdout now consumed for future changes."
+}

@@ -136,8 +136,8 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 24px;
-  margin: 32px 0 22px;
-  padding-bottom: 22px;
+  margin: 8px 0 18px;
+  padding-bottom: 16px;
   border-bottom: 2px solid #dbd22a;
 }
 .airquality-dashboard .overview-copy { min-width: 0; }
@@ -271,4 +271,287 @@
   .airquality-dashboard .overview-stat-value { grid-column: 2; grid-row: 1 / 3; }
   .airquality-dashboard .overview-intro p.overview-stat-label,
   .airquality-dashboard .overview-intro p.overview-stat-detail { margin: 0; }
+}
+
+/* Sources keep independent filters and their own spatial meaning. */
+.airquality-dashboard .dashboard-source-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.airquality-dashboard .dashboard-source-tabs .dashboard-source-tab {
+  flex: 1 1 240px;
+  padding: 14px 20px;
+  border: 1px solid #d8d8cc !important;
+  border-radius: 10px;
+  background: #fafaf7;
+  color: #596056;
+  font: 400 1.05rem / 1.5 "OSWALD-LIGHT", sans-serif;
+}
+.airquality-dashboard .dashboard-source-tabs .dashboard-source-tab--selected {
+  border-color: #a59d24 !important;
+  background: #f1efcd;
+  color: #56510e;
+}
+.airquality-dashboard .rmcab-panel { min-width: 0; }
+.airquality-dashboard .rmcab-intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+.airquality-dashboard .rmcab-intro p { margin: 0; color: #596056; }
+.airquality-dashboard .rmcab-intro .overview-eyebrow { margin-bottom: 8px; }
+.airquality-dashboard .rmcab-heading {
+  margin: 0 0 10px;
+  font: 400 clamp(1.5rem, 2.5vw, 2rem) / 1.3 "OSWALD-LIGHT", sans-serif;
+}
+.airquality-dashboard .rmcab-intro > .overview-source-tag { flex-shrink: 0; }
+.airquality-dashboard .rmcab-source-note {
+  margin: 16px 0 22px;
+  padding: 13px 16px;
+  border-left: 3px solid #b6ad31;
+  border-radius: 0 8px 8px 0;
+  background: #eeeee5;
+  color: #596056;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+.airquality-dashboard .rmcab-source-note a { color: #5f5911; }
+.airquality-dashboard .rmcab-controls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid #deded5;
+  border-radius: 12px;
+  background: #fafaf7;
+}
+.airquality-dashboard .rmcab-control { min-width: 0; }
+.airquality-dashboard .rmcab-control > label {
+  display: block;
+  margin-bottom: 6px;
+  color: #53534a;
+  font-size: 0.95rem;
+}
+.airquality-dashboard .rmcab-station-control { grid-column: span 3; }
+.airquality-dashboard .rmcab-control .Select-control { background: #fff; }
+.airquality-dashboard .rmcab-control .Select-value { max-width: 100%; }
+.airquality-dashboard .rmcab-control .Select-value-label { white-space: normal; }
+.airquality-dashboard .rmcab-control .Select--multi .Select-value {
+  border-color: #dedbc0;
+  background: #f2f0d9;
+  color: #56510e;
+  font-size: 0.85rem;
+}
+.airquality-dashboard .rmcab-control .Select-menu-outer {
+  background: #fff;
+  color: #2d2d2d;
+  z-index: 30;
+}
+.airquality-dashboard .rmcab-period-summary {
+  margin: 14px 0 20px;
+  color: #596056;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.airquality-dashboard .rmcab-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.airquality-dashboard .rmcab-stat {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #deded5;
+  border-radius: 12px;
+  background: #fafaf7;
+}
+.airquality-dashboard .rmcab-stat p {
+  margin: 0 0 8px;
+  color: #596056;
+  font-size: 0.9rem;
+}
+.airquality-dashboard .rmcab-stat strong {
+  display: block;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+.airquality-dashboard .rmcab-stat small {
+  display: block;
+  margin-top: 8px;
+  color: #687064;
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+.airquality-dashboard .rmcab-charts {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 20px;
+}
+.airquality-dashboard .rmcab-chart-card,
+.airquality-dashboard .rmcab-detail-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #deded5;
+  border-radius: 12px;
+  background: #fafaf7;
+}
+.airquality-dashboard .rmcab-chart-card h3,
+.airquality-dashboard .rmcab-detail-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+.airquality-dashboard .rmcab-chart-card p,
+.airquality-dashboard .rmcab-detail-card p {
+  margin: 0;
+  color: #687064;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.airquality-dashboard .rmcab-chart-card .dash-graph { height: 430px; }
+.airquality-dashboard .rmcab-detail-card { margin-top: 20px; }
+.airquality-dashboard .rmcab-detail-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.airquality-dashboard .rmcab-export-button {
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid #c8bf24;
+  border-radius: 8px;
+  background: #dbd22a;
+  color: #252525;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.airquality-dashboard .rmcab-export-button:disabled { opacity: 0.5; cursor: default; }
+.airquality-dashboard .rmcab-table-scroll {
+  position: relative;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #aaa99d #f4f4ef;
+}
+.airquality-dashboard .rmcab-table-scroll::-webkit-scrollbar { width: 7px; height: 7px; }
+.airquality-dashboard .rmcab-table-scroll table {
+  width: 100%;
+  min-width: 610px;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.airquality-dashboard .rmcab-table-scroll caption {
+  caption-side: top;
+  padding-bottom: 10px;
+  color: #687064;
+  font-size: 0.8rem;
+}
+.airquality-dashboard .rmcab-table-scroll th,
+.airquality-dashboard .rmcab-table-scroll td {
+  padding: 11px 12px;
+  border-bottom: 1px solid #e1e1d8;
+  font-weight: 400;
+  text-align: left;
+}
+.airquality-dashboard .rmcab-table-scroll thead { background: #edede4; }
+.airquality-dashboard .rmcab-detail-card .rmcab-export-note {
+  margin-top: 15px;
+  font-size: 0.8rem;
+}
+.airquality-dashboard .rmcab-help {
+  margin-block: 20px;
+  padding: 16px 20px;
+  border: 1px solid #deded5;
+  border-radius: 10px;
+  color: #596056;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+.airquality-dashboard .rmcab-help summary { cursor: pointer; color: #56510e; }
+.airquality-dashboard .rmcab-help ul { margin: 14px 0 0; padding-left: 20px; }
+.airquality-dashboard .rmcab-help li + li { margin-top: 8px; }
+@media (max-width: 1000px) {
+  .airquality-dashboard .rmcab-charts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .airquality-dashboard .rmcab-controls,
+  .airquality-dashboard .rmcab-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .airquality-dashboard .rmcab-station-control { grid-column: 1 / -1; }
+  .airquality-dashboard .rmcab-intro { flex-direction: column; gap: 12px; }
+}
+@media (max-width: 480px) {
+  .airquality-dashboard .rmcab-controls { grid-template-columns: minmax(0, 1fr); padding: 16px; }
+  .airquality-dashboard .rmcab-station-control { grid-column: auto; }
+  .airquality-dashboard .rmcab-stats { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .airquality-dashboard .rmcab-stat { padding: 16px; }
+  .airquality-dashboard .rmcab-stat strong { font-size: 1.8rem; }
+  .airquality-dashboard .rmcab-chart-card,
+  .airquality-dashboard .rmcab-detail-card { padding: 16px; }
+  .airquality-dashboard .rmcab-export-button { width: 100%; }
+}
+
+
+/* Keep the reading guide close to its heading and align text with its menu. */
+.airquality-dashboard .paragraph_separator { margin: 24px 0 18px; }
+.airquality-dashboard .variables-guide {
+  margin: 20px 0 16px;
+  padding: clamp(18px, 2.2vw, 28px);
+  border: 1px solid #deded5;
+  border-radius: 14px;
+  background: #fafaf7;
+}
+.airquality-dashboard .guide-heading { margin: 0 0 18px; }
+.airquality-dashboard .guide-heading .overview-eyebrow { margin-bottom: 7px; }
+.airquality-dashboard .guide-title {
+  margin: 0 0 7px;
+  color: #2f4134;
+  font: 400 clamp(1.4rem, 2.5vw, 1.85rem) / 1.3 "OSWALD-LIGHT", sans-serif;
+}
+.airquality-dashboard .guide-description {
+  margin: 0;
+  color: #60675d;
+  font: 400 0.83rem / 1.65 system-ui, sans-serif;
+}
+.airquality-dashboard .variables-guide-row { align-items: flex-start; }
+.airquality-dashboard .variables-guide .nav_info_container { background: transparent; padding-right: 20px; }
+.airquality-dashboard .variables-guide .nav_link_info {
+  min-height: 42px;
+  margin: 0 0 6px;
+  padding: 8px 12px;
+  border: 1px solid #e0e2d5;
+  border-radius: 7px;
+  background: #f0f2e8;
+  color: #4c5b3f;
+  text-align: left;
+  font-size: 0.95rem;
+}
+.airquality-dashboard .variables-guide .nav_link_info:hover,
+.airquality-dashboard .variables-guide .nav_link_info:focus-visible { background: #e3e7d3; }
+.airquality-dashboard .variables-guide .container_content { margin: 0; }
+.airquality-dashboard .variables-guide .des_message_card { padding: 0; }
+.airquality-dashboard .variables-guide .des_message_card h3 {
+  margin: 0 0 10px;
+  color: #6c650b;
+  font: 400 1.75rem / 1.3 "OSWALD-LIGHT", sans-serif;
+}
+.airquality-dashboard .variables-guide .des_message_card p {
+  margin: 0;
+  color: #596056;
+  font: 400 0.9rem / 1.8 system-ui, sans-serif;
+  text-align: left;
+}
+@media (max-width: 760px) {
+  .airquality-dashboard .variables-guide .nav_info_container { display: flex; gap: 8px; padding: 0; }
+  .airquality-dashboard .variables-guide .nav_link_info { flex: 1; min-width: 0; text-align: center; }
+  .airquality-dashboard .variables-guide-row > .col { flex: 0 0 100%; width: 100%; }
+  .airquality-dashboard .variables-guide { margin-top: 16px; }
 }
