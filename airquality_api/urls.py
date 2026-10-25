@@ -19,9 +19,13 @@ from dash2 import prediction_views, prediction_dash  # Registra la aplicación P
 from django.contrib import admin
 from dash2.views import *
 from django.urls import path, include
+from rutes import planner_views
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
+    path('api/routes/places/', planner_views.places),
+    path('api/routes/compare/', planner_views.compare),
+    path('api/routes/plotly.js', planner_views.plotly_bundle),
     path('api/maps/geometry/', neighborhood_views.geometry),
     path('api/maps/methodology/', neighborhood_views.methodology),
     path('api/maps/calendar/', neighborhood_views.calendar),

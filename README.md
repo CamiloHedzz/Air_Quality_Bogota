@@ -10,6 +10,54 @@ La polución y contaminación atmosférica representan desafíos significativos 
 
 ![Recopilacion de datos](https://raw.githubusercontent.com/CamiloHedzz/Air_Quality_Bogota/master/airquality_front/src/assets/images/Datos2.png)
 
+## Rutas en bicicleta (experimental)
+
+La pestaña **Rutas** permite buscar dos lugares de Bogotá, elegir día y hora de
+salida y comparar hasta tres recorridos reales para bicicleta. La navegación y
+el Menú siguen el orden Inicio, Predicciones, Rutas, About. El mapa usa Plotly
+Scattermap/MapLibre, con los mismos temas e idiomas del sitio.
+
+El servidor consulta BRouter con el perfil `trekking`; Photon resuelve lugares
+solo al pulsar Buscar. Se conservan los créditos de OpenStreetMap. Las respuestas
+de lugares y geometrías se cachean un día; se limita la búsqueda a una cada dos
+segundos y se serializan las consultas al motor. No se guardan viajes en la base
+de datos. Estos servicios públicos dependen de Internet y no garantizan
+disponibilidad. Para uso con más usuarios, configurar instancias propias con
+`AIRQUALITY_PHOTON_URL` y `AIRQUALITY_BROUTER_URL`, además de un caché Django
+compartido para que los límites se apliquen entre procesos.
+
+La exposición es **histórica y exploratoria, no un pronóstico actual ni una
+medición por calle**. Se verifica el contrato y manifiesto de
+`data/samples/rmcab_2025_q1.csv`, y se calculan medianas por estación, hora y
+laboral/fin de semana, con al menos ocho observaciones por perfil. Cada punto
+usa hasta tres estaciones dentro de 5 km y requiere dos, ponderadas por inverso
+de distancia al cuadrado (piso de 250 m). Las posiciones son las referencias
+oficiales actuales; no se han comprobado todas las reubicaciones históricas.
+
+Se integra concentración × minutos a lo largo del recorrido, con muestras como
+máximo cada 200 m y 60 s, avanzando la hora y el tipo de día en medianoche. El
+indicador se expresa en µg·min/m³; no es dosis inhalada. No se comparan
+exposiciones si alguna alternativa tiene cobertura incompleta (tolerancia
+numérica 1e-6 en la fracción cubierta). Equilibrio minimiza por partes iguales tiempo relativo al mínimo
+y exposición relativa al mínimo entre las alternativas disponibles. Las
+diferencias pequeñas no demuestran una mejora real. El motor no optimiza todas
+las calles con un campo de contaminación ni considera tráfico en vivo.
+
+Endpoints: `/api/routes/places/`, `/api/routes/compare/` y
+`/api/routes/plotly.js`. La biblioteca de Plotly se sirve desde el paquete Python
+ya instalado, sin otra dependencia. La zona inicial es el área urbana de Bogotá;
+se limita la distancia entre extremos a 25 km y el recorrido a 50 km/4 h.
+
+```bash
+python -B manage.py test rutes.test_planner --settings=airquality_api.settings_local
+```
+
+Referencias: [BRouter](https://brouter.de/brouter/),
+[Photon y uso moderado](https://github.com/komoot/photon#demo-server),
+[Plotly](https://plotly.com/python/lines-on-tile-maps/).
+
+## Tecnologías Utilizadas
+
 ## Tecnologías Utilizadas
 
 Este proyecto se desarrolló utilizando las siguientes tecnologías:

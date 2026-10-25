@@ -1,6 +1,9 @@
+import { useLanguage } from "../i18n/useLanguage";
 function ContactForm() {
+  const { localize } = useLanguage();
+
   return (
-    <form className="contact-form" action="https://formsubmit.co/camilohedzz@gmail.com" method="POST">
+    localize(<form className="contact-form" action="https://formsubmit.co/camilohedzz@gmail.com" method="POST">
       <div className="form-group">
         <label htmlFor="name">Nombre:</label>
         <input type="text" id="name" name="name" autoComplete="name" required />
@@ -19,7 +22,7 @@ function ContactForm() {
       </div>
       <button type="submit">Enviar</button>
       <input type="hidden" name="_next" value="http://localhost:5173/About" />
-    </form>
+    </form>)
   );
 }
 

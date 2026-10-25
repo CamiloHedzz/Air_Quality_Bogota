@@ -1,3 +1,4 @@
+import { useLanguage } from "../i18n/useLanguage";
 import { useEffect, useRef } from "react";
 import { Table } from "../components/simple_table";
 import ContactForm from "../components/form";
@@ -6,6 +7,8 @@ import camiloPhoto from "../assets/images/camilo-hernandez.jpeg";
 import "../assets/styles/about_profile.css";
 
 export function About() {
+  const { localize } = useLanguage();
+
   const detailsRef = useRef(null);
 
   useEffect(() => {
@@ -26,7 +29,7 @@ export function About() {
 
 
   return (
-    <main id="about" className="about-layout">
+    localize(<main id="about" className="about-layout">
       <aside
         id="leftContent"
         className="about-column about-profile about-panel about-profile-refresh"
@@ -114,6 +117,6 @@ export function About() {
         </section>
         <Footer />
       </div>
-    </main>
+    </main>)
   );
 }

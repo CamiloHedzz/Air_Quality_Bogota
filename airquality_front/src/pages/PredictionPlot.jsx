@@ -1,10 +1,14 @@
+import { useLanguage } from "../i18n/useLanguage";
 import { useEffect, useRef, useState } from "react";
 
 export function PredictionPlot({ query, showObserved }) {
+  const { localize, language } = useLanguage();
+
   const frame = useRef(null);
   const [height, setHeight] = useState(520);
   const [loaded, setLoaded] = useState(false);
   const params = new URLSearchParams({ ...query, show_observed: showObserved ? "1" : "0" });
+  params.set("lang", language);
   const key = params.toString();
   params.set("frameKey", key);
   const source = `/django_plotly_dash/app/PredictionCharts/?${params}`;
@@ -24,10 +28,10 @@ export function PredictionPlot({ query, showObserved }) {
     setLoaded(true);
     frame.current?.contentWindow?.postMessage({type:"airquality:request-prediction-plot-height"}, window.location.origin);
   }
-  return <div className="prediction-plotly-container">
+  return localize(<div className="prediction-plotly-container">
     {!loaded && <p className="prediction-chart-hint" role="status">Cargando gráfico interactivo de Plotly…</p>}
     <iframe ref={frame} src={source} title="Gráfico interactivo de Dash y Plotly" className="prediction-plotly-frame" style={{height}} onLoad={requestHeight} />
-  </div>;
+  </div>);
 }
 
 PredictionPlot.propTypes = {

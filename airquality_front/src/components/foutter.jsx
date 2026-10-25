@@ -1,10 +1,15 @@
+import { useLanguage } from "../i18n/useLanguage";
 import git from "../assets/figures/github.png";
 import ins from "../assets/figures/instagram.png";
 import mail from "../assets/figures/correo.png";
+import { FooterOrchids } from "./FooterOrchids";
 
 export function Footer() {
+  const { localize } = useLanguage();
+
   return (
-    <footer className="site-footer">
+    localize(<footer className="site-footer">
+      <FooterOrchids />
       <div className="footer-content">
         <img className="footer-logo" src="/airQuality.svg" alt="Air Quality Bogotá" width="90" />
         <p>
@@ -32,6 +37,6 @@ export function Footer() {
           </div>
         </nav>
       </div>
-    </footer>
+    </footer>)
   );
 }

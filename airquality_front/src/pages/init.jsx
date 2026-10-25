@@ -1,3 +1,4 @@
+import { useLanguage } from "../i18n/useLanguage";
 import { SensorHero } from "../components/SensorHero";
 import "../assets/styles/init_style.css";
 
@@ -6,12 +7,14 @@ export function Description() {
 }
 
 export function WhyAirMatters() {
+  const { localize, language } = useLanguage();
+
   return (
-    <section id="why-air-matters" className="air-context" aria-labelledby="air-context-heading">
+    localize(<section id="why-air-matters" className="air-context" aria-labelledby="air-context-heading">
       <div className="air-context-heading">
         <p className="intro-eyebrow">POR QUÉ OBSERVAR EL AIRE</p>
         <h2 id="air-context-heading">Lo que respiramos <br />también cuenta.</h2>
-        <a href="https://www.who.int/es/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health" target="_blank" rel="noopener noreferrer">
+        <a href={"https://www.who.int/" + (language === "en" ? "" : "es/") + "news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health"} target="_blank" rel="noopener noreferrer">
           Calidad del aire y salud · OMS <span aria-hidden="true">↗</span>
         </a>
       </div>
@@ -35,6 +38,6 @@ export function WhyAirMatters() {
             Para comparar, ten en cuenta cuántos registros hay y qué días cubren.</p>
         </article>
       </div>
-    </section>
+    </section>)
   );
 }

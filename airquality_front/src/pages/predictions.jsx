@@ -1,3 +1,4 @@
+import { useLanguage } from "../i18n/useLanguage";
 import { useEffect, useState } from "react";
 import { queryString, usePredictionData } from "./usePredictionData";
 import { PredictionPlot } from "./PredictionPlot";
@@ -6,19 +7,24 @@ import "../assets/styles/predictions.css";
 const views = [{ value: "evolution", label: "Pronóstico HGB" }, { value: "comparison", label: "Comparar estaciones" },
   { value: "relationship", label: "Relación entre variables" }, { value: "hourly", label: "Por día y hora" }, { value: "diagnostics", label: "Evaluar el modelo" }];
 const statistics = { mean: "Promedio", median: "Mediana", max: "Máximo" };
-const fmt = value => value == null ? "Sin dato" : new Intl.NumberFormat("es-CO", { maximumFractionDigits: 2 }).format(value);
-const dateLabel = value => new Intl.DateTimeFormat("es-CO", { timeZone: "America/Bogota", day: "numeric", month: "short", year: "numeric" }).format(new Date(`${value}T12:00:00-05:00`));
-const instantLabel = value => new Intl.DateTimeFormat("es-CO", { timeZone: "America/Bogota", dateStyle: "medium", timeStyle: "short", hour12: false }).format(new Date(value));
+const formatValue = (value, locale) => value == null ? "Sin dato" : new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(value);
+const formatDate = (value, locale) => new Intl.DateTimeFormat(locale, { timeZone: "America/Bogota", day: "numeric", month: "short", year: "numeric" }).format(new Date(`${value}T12:00:00-05:00`));
+const formatInstant = (value, locale) => new Intl.DateTimeFormat(locale, { timeZone: "America/Bogota", dateStyle: "medium", timeStyle: "short", hour12: false }).format(new Date(value));
 
 export function Predictions() {
+  const { localize, locale } = useLanguage();
+  const fmt = value => formatValue(value, locale);
+  const dateLabel = value => formatDate(value, locale);
+  const instantLabel = value => formatInstant(value, locale);
+
   const [view, setView] = useState("evolution");
   const [showObserved, setShowObserved] = useState(true);
   const [page, setPage] = useState(0);
   const { catalog, settings, available, result, applied, busy, error, update, apply, retry } = usePredictionData(view);
   useEffect(() => { setPage(0); }, [result]);
-  if (!catalog || !settings) return <main className="predictions-page"><section className="prediction-panel" aria-live="polite">
+  if (!catalog || !settings) return localize(<main className="predictions-page"><section className="prediction-panel" aria-live="polite">
     <h2>Conectando con los datos del aire</h2>{error ? <><p role="alert">{error}</p><button className="prediction-retry" onClick={retry}>Reintentar conexión</button></> : <p>Cargando estaciones y resultados históricos de HistGradientBoosting…</p>}
-  </section></main>;
+  </section></main>);
 
   const variable = catalog.variables.find(v => v.value === settings.variable);
   const context = applied ? {
@@ -67,7 +73,7 @@ export function Predictions() {
   }
   function submit(event) { event.preventDefault(); apply(); }
 
-  return <main className="predictions-page">
+  return localize(<main className="predictions-page">
     <div className="predictions-intro"><div><p className="predictions-eyebrow">De los datos a una estimación</p><h2>Explora y predice el aire de Bogotá</h2><p>Mediciones reales, pronósticos históricos y más perspectivas para tu análisis.</p></div>
       <span className="predictions-preview-badge"><span aria-hidden="true" />HGB · experimental</span></div>
 
@@ -143,5 +149,5 @@ export function Predictions() {
         </>}
       </div>
     </div>
-  </main>;
+  </main>);
 }

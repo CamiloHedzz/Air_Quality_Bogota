@@ -1,0 +1,96 @@
+.menu-landscape {
+  --menu-scene-far: #d9deca;
+  --menu-scene-far-line: #9da68a;
+  --menu-scene-high: #e5e8d8;
+  --menu-scene-high-light: #f4f4e8;
+  --menu-scene-high-shade: #c1caae;
+  --menu-scene-mid: #94a25d;
+  --menu-scene-mid-shade: #607c53;
+  --menu-scene-left: #829444;
+  --menu-scene-left-lit: #acb66b;
+  --menu-scene-front: #7c8d3e;
+  --menu-scene-front-lit: #b1b959;
+  --menu-scene-shadow: #1f493b;
+  --menu-scene-outline: #234b3b;
+  --menu-scene-water-far: #a8c8ba;
+  --menu-scene-water-near: #77afa8;
+  --menu-scene-water-line: #386e67;
+  --menu-scene-bird: #1b3b30;
+  --menu-scene-mist: #f8f9f1;
+  width: 100%; height: 100%; color: var(--menu-scene-bird); pointer-events: none;
+}
+html[data-theme="dark"] .menu-landscape {
+  --menu-scene-far: #2d4133;
+  --menu-scene-far-line: #4e6246;
+  --menu-scene-high: #3c5140;
+  --menu-scene-high-light: #62704c;
+  --menu-scene-high-shade: #283f31;
+  --menu-scene-mid: #566b38;
+  --menu-scene-mid-shade: #344e34;
+  --menu-scene-left: #687a3b;
+  --menu-scene-left-lit: #8c9c53;
+  --menu-scene-front: #7b8942;
+  --menu-scene-front-lit: #a1ab52;
+  --menu-scene-shadow: #132f26;
+  --menu-scene-outline: #183b2d;
+  --menu-scene-water-far: #628c7c;
+  --menu-scene-water-near: #477d78;
+  --menu-scene-water-line: #a6c0a7;
+  --menu-scene-bird: #d0d6b4;
+  --menu-scene-mist: #101b17;
+}
+.menu-landscape > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.menu-scene-far-ridges { fill: var(--menu-scene-far); stroke: var(--menu-scene-far-line); stroke-width: 1.4; stroke-linejoin: round; }
+.menu-scene-far-ridges .menu-scene-far-crease { fill: none; opacity: .6; }
+.menu-scene-high-ridge { fill: var(--menu-scene-high); stroke: var(--menu-scene-far-line); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.menu-scene-high-ridge .menu-scene-high-light { fill: var(--menu-scene-high-light); stroke: none; }
+.menu-scene-high-ridge .menu-scene-high-shade { fill: var(--menu-scene-high-shade); stroke: none; }
+.menu-scene-high-ridge .menu-scene-high-lines { fill: none; opacity: .65; }
+.menu-scene-mist-top { stop-color: var(--menu-scene-mist); stop-opacity: .55; }
+.menu-scene-mist-bottom { stop-color: var(--menu-scene-mist); stop-opacity: 0; }
+.menu-scene-mist { opacity: .6; }
+.menu-scene-back-right { fill: var(--menu-scene-mid); stroke: var(--menu-scene-outline); stroke-width: 1.8; stroke-linejoin: round; }
+.menu-scene-back-right-shade { fill: var(--menu-scene-mid-shade); stroke: none; }
+.menu-scene-back-right-line { fill: none; stroke-opacity: .5; }
+.menu-scene-middle-left { fill: var(--menu-scene-left); stroke: var(--menu-scene-outline); stroke-width: 2; stroke-linejoin: round; }
+.menu-scene-left-shadow { fill: var(--menu-scene-shadow); stroke: none; opacity: .84; }
+.menu-scene-left-lit { fill: var(--menu-scene-left-lit); stroke: none; }
+.menu-scene-left-lines { fill: none; stroke-width: 2.3; opacity: .8; stroke-linecap: round; }
+.menu-scene-water-far { stop-color: var(--menu-scene-water-far); }
+.menu-scene-water-near { stop-color: var(--menu-scene-water-near); }
+.menu-scene-lake { stroke: none; }
+.menu-scene-water-light { stop-color: var(--menu-scene-high-light); }
+.menu-scene-water-reflection { opacity: .7; }
+.menu-scene-water-contact { fill: none; stroke: var(--menu-scene-shadow); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; opacity: .14; }
+.menu-scene-water-horizon { fill: none; stroke: var(--menu-scene-outline); stroke-width: 1; opacity: .28; }
+.menu-scene-water-shift { stroke: var(--menu-scene-water-line); stroke-width: 1.2; stroke-linecap: round; opacity: .46; animation: menu-scene-water-drift 8.4s ease-in-out infinite alternate; }
+.menu-scene-water-shift-slow { stroke-width: 1; opacity: .28; animation-duration: 11s; animation-direction: alternate-reverse; }
+.menu-scene-front-right { fill: var(--menu-scene-front); stroke: var(--menu-scene-outline); stroke-width: 2.5; stroke-linejoin: round; }
+.menu-scene-front-shadow { fill: var(--menu-scene-shadow); stroke: none; }
+.menu-scene-front-lit { fill: var(--menu-scene-front-lit); stroke: none; }
+.menu-scene-front-lines { fill: none; stroke-width: 3; stroke-linecap: round; opacity: .85; }
+.menu-scene-near-bank { fill: var(--menu-scene-left); stroke: var(--menu-scene-outline); stroke-width: 2; stroke-linejoin: round; }
+.menu-scene-near-grass { fill: none; stroke: var(--menu-scene-shadow); stroke-width: 2.1; stroke-linecap: round; }
+.menu-scene-bird { overflow: visible; }
+.menu-scene-flock { color: var(--menu-scene-bird); transform-box: view-box; transform-origin: 0 0; }
+.menu-scene-flock-near { animation: menu-scene-birds-near 10.2s linear -4.3s infinite; }
+.menu-scene-flock-far { animation: menu-scene-birds-far 13.5s linear -9s infinite; }
+.menu-landscape[data-running="false"] * { animation-play-state: paused !important; }
+@keyframes menu-scene-water-drift { from { transform: translate(-3px, .3px); } to { transform: translate(3px, -.3px); } }
+@keyframes menu-scene-birds-near {
+  0% { transform: translate(1210px, 88px) rotate(4deg); opacity: 0; }
+  7%, 87% { opacity: .85; }
+  48% { transform: translate(540px, 146px) rotate(-4deg); }
+  100% { transform: translate(-290px, 235px) rotate(-7deg); opacity: 0; }
+}
+@keyframes menu-scene-birds-far {
+  0% { transform: translate(-110px, 230px) rotate(-8deg); opacity: 0; }
+  12%, 88% { opacity: .5; }
+  52% { transform: translate(600px, 112px) rotate(-3deg); }
+  100% { transform: translate(1290px, 55px) rotate(4deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-landscape * { animation: none !important; }
+  .menu-scene-flock-near { transform: translate(855px, 115px) rotate(-4deg); opacity: .85; }
+  .menu-scene-flock-far { transform: translate(610px, 210px); opacity: .45; }
+}

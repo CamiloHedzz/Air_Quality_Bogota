@@ -1,15 +1,22 @@
+import { useLanguage } from "../i18n/useLanguage";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ThemeToggle } from "./ThemeToggle";
+import { LanguageToggle } from "./LanguageToggle";
+import { MenuLandscape } from "./MenuLandscape";
+import { lockPageForOverlay } from "./pageOverlayLock";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
 const destinations = [
   { to: "/", label: "Inicio", detail: "Observa tu ciudad", number: "01" },
   { to: "/Predictions", label: "Predicciones", detail: "Explora otras perspectivas", number: "02" },
-  { to: "/About", label: "About", detail: "Ideas, datos y personas", number: "03" },
+  { to: "/Routes", label: "Rutas", detail: "Tu camino, otro aire", number: "03" },
+  { to: "/About", label: "About", detail: "Ideas, datos y personas", number: "04" },
 ];
 
 export function Navegation() {
+  const { localize } = useLanguage();
+
   const { pathname, hash } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const headerRef = useRef(null);
@@ -36,13 +43,11 @@ export function Navegation() {
     if (!menuOpen) return;
     const shell = document.querySelector(".app-shell");
     const trigger = triggerRef.current;
-    const previousInert = shell.inert;
-    const previousOverflow = document.body.style.overflow;
-    shell.inert = true;
-    document.body.style.overflow = "hidden";
+    const unlockPage = lockPageForOverlay(shell, menuRef.current);
     closeRef.current?.focus({ preventScroll: true });
 
     function keys(event) {
+      if (menuRef.current?.inert) return;
       if (event.key === "Escape") { event.preventDefault(); setMenuOpen(false); }
       if (event.key !== "Tab") return;
       const items = Array.from(menuRef.current.querySelectorAll("a[href], button:not([disabled])"));
@@ -53,15 +58,14 @@ export function Navegation() {
     }
     document.addEventListener("keydown", keys);
     return () => {
-      shell.inert = previousInert;
-      document.body.style.overflow = previousOverflow;
+      unlockPage();
       document.removeEventListener("keydown", keys);
       trigger?.focus({ preventScroll: true });
     };
   }, [menuOpen]);
 
   return (
-    <>
+    localize(<>
       <header ref={headerRef} className="site-header editorial-header">
         <div className="site-brand">
           <h1><Link to="/" aria-label="Air Quality Bogotá · inicio">
@@ -84,6 +88,7 @@ export function Navegation() {
             {destinations.map(item => <li key={item.to}><NavLink to={item.to} end={item.to === "/"}>{item.label}</NavLink></li>)}
           </ul></nav>
           <ThemeToggle />
+          {current.to !== "/" && <LanguageToggle />}
           <button ref={triggerRef} className="menu-toggle" type="button" aria-expanded={menuOpen}
             aria-controls="global-menu" aria-label="Abrir menú" onClick={() => setMenuOpen(true)}>
             <span>Menú</span><span className="menu-toggle-icon" aria-hidden="true"><i /><i /></span>
@@ -92,9 +97,10 @@ export function Navegation() {
       </header>
 
       {menuOpen && createPortal(
-        <div id="global-menu" ref={menuRef} className="global-menu" role="dialog" aria-modal="true" aria-labelledby="menu-heading" onWheel={event => event.stopPropagation()}>
-          <div className="global-menu-top"><p>AIR QUALITY BOGOTÁ<span>Una ciudad que respira.</span></p>
-            <div className="global-menu-tools"><ThemeToggle />
+        localize(<div id="global-menu" ref={menuRef} className="global-menu" role="dialog" aria-modal="true" aria-labelledby="menu-heading" onWheel={event => event.stopPropagation()}>
+          <MenuLandscape />
+          <div className="global-menu-top"><p>AIR QUALITY BOGOTÁ</p>
+            <div className="global-menu-tools"><LanguageToggle /><ThemeToggle />
             <button ref={closeRef} type="button" className="menu-close" aria-label="Cerrar menú" onClick={() => setMenuOpen(false)}>
               <span>Cerrar</span><span aria-hidden="true">×</span>
             </button>
@@ -111,18 +117,13 @@ export function Navegation() {
               </NavLink>)}
             </nav>
             <aside className="menu-aside">
-              <div className="menu-art" aria-hidden="true"><span className="menu-art-orbit" /><span className="menu-art-orbit" />
-                <span className="menu-art-node" /><span className="menu-art-node" /><span className="menu-art-node" />
-                <span className="menu-art-label">AIRE<br />TERRITORIO<br />BOGOTÁ.</span><span className="menu-art-coordinate">04° N / 74° O</span>
-              </div>
-              <p>Conecta los datos<br />con tu entorno.</p>
               <Link className="menu-map-link" to="/#dashboard" onClick={() => setMenuOpen(false)}>Explorar el dashboard <span aria-hidden="true">↗</span></Link>
             </aside>
           </div>
-          <div className="global-menu-bottom"><span>BOGOTÁ, COLOMBIA</span><span>DATOS · TERRITORIO · AIRE</span>
+          <div className="global-menu-bottom"><span>BOGOTÁ, COLOMBIA</span>
             <a href="mailto:camilohedzz@gmail.com">Hablemos <span aria-hidden="true">↗</span></a></div>
-        </div>, document.body,
+        </div>), document.body,
       )}
-    </>
+    </>)
   );
 }

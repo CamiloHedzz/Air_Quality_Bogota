@@ -1,0 +1,21 @@
+.bird-silhouette { fill: currentColor; stroke: none; --bird-variant-phase: 0; }
+.bird-silhouette--1 { --bird-variant-phase: -.22; }
+.bird-silhouette--2 { --bird-variant-phase: -.44; }
+.bird-pose > path { stroke: none; }
+.bird-pose {
+  opacity: 0;
+  animation-name: pigeon-flight-pose;
+  animation-duration: var(--bird-flap, 380ms);
+  animation-timing-function: steps(1, end);
+  animation-delay: calc(var(--bird-delay, 0ms) + var(--bird-flap, 380ms) * (var(--bird-pose-phase) + var(--bird-variant-phase, 0)));
+  animation-iteration-count: infinite;
+}
+.bird-pose--0 { opacity: 1; }
+@keyframes pigeon-flight-pose {
+  0% { opacity: 1; }
+  12.5%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bird-pose { animation: none; opacity: 0; }
+  .bird-pose--0 { opacity: 1; }
+}

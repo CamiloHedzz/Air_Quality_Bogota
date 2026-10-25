@@ -136,3 +136,69 @@
   .sensor-landscape .sensor-bogota-hills { top: 30%; left: calc(50% - 610px); width: 900px; height: 70%; }
   .sensor-landscape .sensor-city-bus { left: 14%; bottom: 9%; width: 74%; opacity: .6; }
 }
+
+/* Both phrases reserve the same space; swap only while the yellow mask covers them. */
+#aboutinit.sensor-hero .hero-city-title { position: relative; display: grid; isolation: isolate; }
+.hero-city-title .hero-title-variant { grid-area: 1 / 1; min-width: 0; }
+.hero-city-title .hero-title-opening { visibility: hidden; animation: hero-city-opening 3.2s steps(1, end) both; }
+.hero-city-title .hero-title-final { animation: hero-city-final 3.2s steps(1, end) both; }
+.hero-city-title .hero-title-wipe { position: absolute; z-index: 2; inset: -.035em -.025em -.12em; background: #e4db35; pointer-events: none; transform: scaleX(0); transform-origin: left; animation: hero-city-wipe 3.2s cubic-bezier(.76, 0, .24, 1) both; }
+#intro-heading[data-reveal="pending"] .hero-title-variant,
+#intro-heading[data-reveal="pending"] .hero-title-wipe { animation-play-state: paused; }
+@keyframes hero-city-opening {
+  0%, 75% { visibility: visible; }
+  75.01%, 100% { visibility: hidden; }
+}
+@keyframes hero-city-final {
+  0%, 75% { visibility: hidden; }
+  75.01%, 100% { visibility: visible; }
+}
+@keyframes hero-city-wipe {
+  0%, 61% { transform: scaleX(0); transform-origin: left; }
+  74%, 76% { transform: scaleX(1); transform-origin: left; }
+  76.01%, 78% { transform: scaleX(1); transform-origin: right; }
+  92%, 100% { transform: scaleX(0); transform-origin: right; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-city-title .hero-title-variant, .hero-city-title .hero-title-wipe { animation: none; }
+  .hero-city-title .hero-title-opening { visibility: hidden; }
+  .hero-city-title .hero-title-final { visibility: visible; }
+  .hero-city-title .hero-title-wipe { display: none; }
+}
+
+/* The eastern hills anchor the sunrise; the sun crosses the sky toward the west. */
+.sensor-sky { pointer-events: none; }
+.sensor-sun-travel { transform: translateX(1120px); opacity: .9; }
+.sensor-sun-altitude { transform: translateY(128px); }
+.sensor-sun-halo { fill: #e4db35; fill-opacity: .035; stroke: #e4db35; stroke-width: .7; stroke-opacity: .16; }
+.sensor-sun-disc { fill: #e4db35; fill-opacity: .1; stroke: #e4db35; stroke-width: 1.15; }
+.sensor-sun-rays { fill: none; stroke: #e4db35; stroke-width: .9; stroke-opacity: .7; stroke-linecap: round; }
+.sensor-moon { transform: translate(1120px, 91px); opacity: 0; }
+.sensor-moon-halo { fill: #e1e7c9; fill-opacity: .025; stroke: #d0dcbc; stroke-width: .6; stroke-opacity: .12; }
+.sensor-moon-crescent { fill: #dce5c5; fill-opacity: .1; stroke: #dce5c5; stroke-width: .7; stroke-linecap: round; stroke-linejoin: round; }
+.sensor-moon-stars { fill: none; stroke: #cbdab6; stroke-width: .8; stroke-opacity: .65; stroke-linecap: round; }
+.sensor-sky[data-sky-theme="dark"] .sensor-sun-travel { opacity: 0; }
+.sensor-sky[data-sky-theme="dark"] .sensor-moon { opacity: .9; }
+.sensor-sky[data-sky-transition="sunset"] .sensor-sun-travel { animation: sensor-sun-west 2.4s linear both; }
+.sensor-sky[data-sky-transition="sunset"] .sensor-sun-altitude { animation: sensor-sun-arc 2.4s both; }
+.sensor-sky[data-sky-transition="sunset"] .sensor-moon { animation: sensor-moon-in 800ms ease-out 1.7s both; }
+.sensor-sky[data-sky-transition="sunrise"] .sensor-sun-travel { animation: sensor-sun-in 850ms ease-out both; }
+.sensor-sky[data-sky-transition="sunrise"] .sensor-sun-altitude { animation: sensor-sun-rise 850ms cubic-bezier(.16, 1, .3, 1) both; }
+.sensor-sky[data-sky-transition="sunrise"] .sensor-moon { animation: sensor-moon-out 350ms ease-out both; }
+@keyframes sensor-sun-west {
+  0% { transform: translateX(1120px); opacity: .9; }
+  65% { opacity: .85; }
+  100% { transform: translateX(100px); opacity: 0; }
+}
+@keyframes sensor-sun-arc {
+  0% { transform: translateY(128px); animation-timing-function: cubic-bezier(.33, .65, .68, 1); }
+  45% { transform: translateY(72px); animation-timing-function: cubic-bezier(.33, 0, .68, .35); }
+  100% { transform: translateY(235px); }
+}
+@keyframes sensor-sun-in { from { opacity: 0; } to { opacity: .9; } }
+@keyframes sensor-sun-rise { from { transform: translateY(155px); } to { transform: translateY(128px); } }
+@keyframes sensor-moon-in { from { opacity: 0; transform: translate(1120px, 100px); } to { opacity: .9; transform: translate(1120px, 91px); } }
+@keyframes sensor-moon-out { from { opacity: .9; } to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .sensor-sky .sensor-sun-travel, .sensor-sky .sensor-sun-altitude, .sensor-sky .sensor-moon { animation: none !important; }
+}

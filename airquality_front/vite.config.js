@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   assetsInclude: ['**/*.TTF'],
   server: {
-    proxy: Object.fromEntries(['/api/predictions', '/api/maps', '/django_plotly_dash', '/static'].map(path =>
+    proxy: Object.fromEntries(['/api/predictions', '/api/maps', '/api/routes', '/django_plotly_dash', '/static'].map(path =>
       [path, { target: 'http://127.0.0.1:8000', changeOrigin: true }]))
   },
 })

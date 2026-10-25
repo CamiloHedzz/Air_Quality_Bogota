@@ -1,6 +1,9 @@
-export function Table() {    
+import { useLanguage } from "../i18n/useLanguage";
+export function Table() {
+  const { localize } = useLanguage();
+
     return(
-        <table className="sample-table">
+        localize(<table className="sample-table">
         <caption>Ejemplo de muestras de calidad del aire</caption>
         <thead>
           <tr>
@@ -62,7 +65,7 @@ export function Table() {
             <td>5</td>
           </tr>
         </tbody>
-      </table>
-        
+      </table>)
+
     );
 }

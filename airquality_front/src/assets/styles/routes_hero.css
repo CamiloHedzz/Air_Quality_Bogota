@@ -1,0 +1,31 @@
+.routes-hero { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); align-items: center; gap: clamp(1rem, 3vw, 3rem); min-height: clamp(590px, calc(100svh - 145px), 780px); padding: clamp(1.8rem, 3.5vw, 3.5rem); overflow: hidden; border: 1px solid #405d43; border-radius: 26px; background: radial-gradient(ellipse at 80% 42%, #56724132, transparent 53%), linear-gradient(130deg, #19392b, #173326); color: #f1f3de; }
+.routes-hero::before { position: absolute; z-index: -1; inset: 0; content: ""; background: linear-gradient(115deg, #e1db4305, transparent 42%), repeating-linear-gradient(90deg, transparent 0 89px, #b8c39304 89px 90px); pointer-events: none; }
+html[data-theme="dark"] .routes-hero { background: radial-gradient(ellipse at 80% 42%, #6d804123, transparent 53%), linear-gradient(130deg, #132a21, #10251c); border-color: #354a39; }
+.routes-hero-copy { position: relative; z-index: 1; max-width: 520px; padding-block: 1rem; }
+.routes-hero .routes-hero-kicker { margin-bottom: .85rem; color: #c8cc9d; font-size: .62rem; font-weight: 550; letter-spacing: .16em; text-transform: uppercase; }
+.routes-hero .routes-hero-title { margin: 0 0 1.3rem -.065em; color: #e0d832; font: 550 clamp(4.4rem, 8.8vw, 8.8rem) / .94 system-ui, sans-serif; letter-spacing: -.075em; text-transform: uppercase; }
+.routes-hero .routes-hero-lead { margin-bottom: .7rem; color: #f1f3de; font-size: clamp(1.1rem, 1.7vw, 1.6rem); font-weight: 500; line-height: 1.3; letter-spacing: -.04em; }
+.routes-hero .routes-hero-description { max-width: 410px; color: #c5cfb7; font-size: .86rem; line-height: 1.8; }
+.routes-hero .routes-hero-story { max-width: 440px; margin-top: 1.5rem; padding-left: 1rem; border-left: 1px solid #b9bf6d62; color: #afbea4; font-size: .7rem; line-height: 1.85; }
+.routes-hero .routes-hero-cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 2rem; min-height: 48px; margin-top: 1.75rem; padding: .75rem 1.2rem; border: 1px solid #dbd22a; border-radius: 9px; background: #dbd22a; color: #1e3527; font-size: .78rem; font-weight: 600; text-decoration: none; transition: background 200ms, transform 250ms; }
+.routes-hero .routes-hero-cta:hover { background: #e8df41; transform: translateY(-2px); }
+.routes-hero-cta > span { font-size: 1.25em; }
+.routes-hero + .routes-historical { margin-top: 1.5rem; }
+#route-planner { scroll-margin-top: 120px; }
+.routes-bottom.routes-bottom--method { display: block; }
+@media (max-width: 1000px) and (min-width: 761px) {
+  .routes-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); padding: 1.8rem; gap: .5rem; min-height: 610px; }
+  .routes-hero .routes-hero-title { font-size: 7.8vw; }
+}
+@media (max-width: 760px) {
+  .routes-hero { grid-template-columns: minmax(0, 1fr); gap: .5rem; min-height: 0; padding: 1.6rem 1.25rem 1rem; border-radius: 22px; }
+  .routes-hero-copy { max-width: none; padding-block: .5rem 0; }
+  .routes-hero .routes-hero-title { margin-bottom: 1rem; font-size: clamp(4rem, 18vw, 6rem); }
+  .routes-hero .routes-hero-kicker { font-size: .55rem; }
+  .routes-hero .routes-hero-lead { font-size: 1.2rem; }
+  .routes-hero .routes-hero-description { font-size: .76rem; }
+  .routes-hero .routes-hero-story { margin-top: 1.2rem; font-size: .65rem; }
+  .routes-hero .routes-hero-cta { margin-top: 1.2rem; }
+  #route-planner { scroll-margin-top: 95px; }
+}
+@media (prefers-reduced-motion: reduce) { .routes-hero .routes-hero-cta { transition: none; } }

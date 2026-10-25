@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <script>
+      try { document.documentElement.lang = localStorage.getItem("airquality-language") === "en" ? "en" : "es"; }
+      catch { document.documentElement.lang = "es"; }
       try { document.documentElement.dataset.theme = localStorage.getItem("airquality-theme") === "dark" ? "dark" : "light"; }
       catch { document.documentElement.dataset.theme = "light"; }
     </script>

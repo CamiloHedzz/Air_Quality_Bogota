@@ -23,7 +23,7 @@ app = DjangoDash(
         _asset_url('css/dashboard_light.css'),
         _asset_url('css/frame_theme.css'),
     ],
-    external_scripts=[_asset_url('js/frame_theme.js'), _asset_url('js/frame_cursor.js'), _asset_url('js/embedded_dashboard.js')],
+    external_scripts=[_asset_url('js/frame_language.js'), _asset_url('js/frame_theme.js'), _asset_url('js/frame_cursor.js'), _asset_url('js/embedded_dashboard.js'), _asset_url('js/dashboard_readiness.js')],
 )
 
 app.css.append_css({ "external_url" : _asset_url("css/dash_app.css") })

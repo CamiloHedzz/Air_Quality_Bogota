@@ -1,4 +1,7 @@
+import { useLanguage } from "../i18n/useLanguage";
 import { useEffect, useId, useRef, useState } from "react";
+import { LanguageToggle } from "./LanguageToggle";
+import { SensorSky } from "./SensorSky";
 import "../assets/styles/sensor_hero.css";
 
 const parts = [
@@ -17,6 +20,8 @@ const parts = [
 ];
 
 export function SensorHero() {
+  const { localize } = useLanguage();
+
   const heroRef = useRef(null);
   const [hoveredPart, setHoveredPart] = useState(null);
   const [focusedPart, setFocusedPart] = useState(null);
@@ -131,8 +136,9 @@ export function SensorHero() {
   }, []);
 
   return (
-    <section ref={heroRef} id="aboutinit" className="sensor-hero" aria-labelledby="intro-heading"
+    localize(<section ref={heroRef} id="aboutinit" className="sensor-hero" aria-labelledby="intro-heading"
       onKeyDown={event => { if (event.key === "Escape") { dismissPart(); event.stopPropagation(); } }}>
+      <LanguageToggle className="hero-language-toggle" />
       <div className="sensor-landscape" aria-hidden="true">
         <svg viewBox="0 0 720 620" preserveAspectRatio="none">
           <g className="sensor-terrain-lines">
@@ -149,6 +155,7 @@ export function SensorHero() {
           <path className="sensor-survey-cross" d="M84 92v12m-6-6h12M620 400v12m-6-6h12M570 65v8m-4-4h8" />
         </svg>
         <svg className="sensor-bogota-hills" viewBox="0 0 1440 700" preserveAspectRatio="none">
+          <SensorSky />
           <g className="sensor-hill-contours">
             <path className="sensor-hill-ridge" d="M-40 237 79 213 147 221 230 174 300 191 364 158 421 174 495 143 558 169 636 153 701 177 767 151 829 176 892 147 950 156 985 128 992 124H1040L1079 147 1123 154 1190 188 1255 166 1326 201 1395 179 1480 214" />
             <path d="M-40 263Q95 226 172 249T326 223Q419 178 501 185T680 204Q774 175 845 200T984 160Q1023 141 1060 163T1182 221Q1260 191 1343 225T1480 242" />
@@ -175,9 +182,16 @@ export function SensorHero() {
         </svg>
       </div>
       <div id="leftContentinit" className="intro-copy sensor-copy">
-        <h2 id="intro-heading" aria-label="Conoce el aire de tu ciudad.">
-          <span className="headline-line" aria-hidden="true"><span>Conoce el <em className="headline-accent">aire</em></span></span>
-          <span className="headline-line" aria-hidden="true"><span>de tu ciudad.</span></span>
+        <h2 id="intro-heading" className="hero-city-title" aria-label="Conoce el aire de tu ciudad.">
+          <span className="hero-title-variant hero-title-opening" aria-hidden="true">
+            <span className="headline-line"><span>Conoce el <em className="headline-accent">aire</em></span></span>
+            <span className="headline-line"><span>de Bogotá</span></span>
+          </span>
+          <span className="hero-title-variant hero-title-final" aria-hidden="true">
+            <span className="headline-line"><span>Conoce el <em className="headline-accent">aire</em></span></span>
+            <span className="headline-line"><span>de tu ciudad.</span></span>
+          </span>
+          <span className="hero-title-wipe" aria-hidden="true" />
         </h2>
         <p className="intro-description">
           Lo que no vemos también cuenta. Explora las partículas, la temperatura y la
@@ -288,6 +302,6 @@ export function SensorHero() {
           <a href="https://sensirion.com/products/product-insights/specialist-articles/particulate-matter-sensing-for-air-quality-measurements" target="_blank" rel="noopener noreferrer">Principio de medición <span aria-hidden="true">↗</span></a>
         </div>
       </div>
-    </section>
+    </section>)
   );
 }

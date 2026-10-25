@@ -5,11 +5,16 @@ import { About } from "./pages/about";
 import { Navegation } from "./components/navegator";
 import { Footer } from "./components/foutter";
 import { Predictions } from "./pages/predictions";
+import { RoutesPage } from "./pages/routes";
 import { ContentMotion, EditorialScroll, SquareCursor } from "./components/EditorialMotion";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { LanguageProvider } from "./i18n/LanguageProvider";
+import { NatureAtmosphere } from "./components/NatureAtmosphere";
 import "./index.css";
 import "./assets/styles/editorial_motion.css";
 import "./assets/styles/theme.css";
+import "./assets/styles/language.css";
+import "./assets/styles/nature_atmosphere.css";
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -32,6 +37,7 @@ function AppLayout() {
 
   return (
     <div className={`app-shell${isAbout ? " app-shell--about" : ""}`}>
+      <NatureAtmosphere />
       <ContentMotion />
       <EditorialScroll />
       <SquareCursor />
@@ -40,6 +46,7 @@ function AppLayout() {
         <Route path="/" element={<Index />} />
         <Route path="/About" element={<About />} />
         <Route path="/Predictions" element={<Predictions />} />
+        <Route path="/Routes" element={<RoutesPage />} />
       </Routes>
       {!isAbout && <Footer />}
     </div>
@@ -48,12 +55,14 @@ function AppLayout() {
 
 function App() {
   return (
+    <LanguageProvider>
     <ThemeProvider>
     <BrowserRouter>
       <ScrollToTop />
       <AppLayout />
     </BrowserRouter>
     </ThemeProvider>
+    </LanguageProvider>
   );
 }
 
