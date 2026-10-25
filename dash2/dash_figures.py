@@ -4,6 +4,8 @@ import plotly.graph_objs as go
 
 
 BASEMAPS = {
+    "auto": "https://tiles.openfreemap.org/styles/liberty",
+    "dark": "https://tiles.openfreemap.org/styles/dark",
     "color": "https://tiles.openfreemap.org/styles/liberty",
     "light": "https://tiles.openfreemap.org/styles/positron",
 }
@@ -51,6 +53,7 @@ def get_figure(data, variable, counties, selected_areas=None, basemap="color"):
             style=BASEMAPS.get(basemap, BASEMAPS["color"]),
             zoom=9.5, pitch=0, center=dict(lat=4.67071, lon=-74.08175),
         ),
+        meta={"airqualityAutoBasemap": basemap == "auto"},
         uirevision="bogota-map-view",
         autosize=True, height=510,
         margin=dict(r=0, t=8, l=0, b=0),

@@ -9,7 +9,7 @@
 }
 #airquality-frame-cursor[data-visible="true"] { opacity: 1; }
 #airquality-frame-cursor > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-#airquality-frame-cursor path { fill: none; stroke: #b5a91c; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; opacity: 0.8; }
+#airquality-frame-cursor path { fill: none; stroke: #b5a91c; stroke-width: 1.15; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 0.7px #dbd22a55); }
 .frame-cursor-position { position: absolute; top: 0; left: 0; }
 .frame-cursor-square {
   position: absolute;
@@ -23,7 +23,13 @@
   transition: transform 180ms, background 180ms;
 }
 #airquality-frame-cursor[data-interactive="true"] .frame-cursor-square { transform: scale(1.6); background: #dbd22a80; }
-html.aq-frame-cursor-active, html.aq-frame-cursor-active body, html.aq-frame-cursor-active body * { cursor: none !important; }
 @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
   #airquality-frame-cursor { display: none; }
 }
+
+/* Keep the page's native arrow while its shared follower decorates plot areas. */
+html[data-airquality-cursor-bridge="shared"] :is(
+  .js-plotly-plot .nsewdrag,
+  .mapboxgl-canvas,
+  .mapboxgl-canvas-container
+) { cursor: default !important; }

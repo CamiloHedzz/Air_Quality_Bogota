@@ -15,8 +15,8 @@ def asset(path):
 
 
 app = DjangoDash("PredictionCharts", suppress_callback_exceptions=False,
-    external_stylesheets=[asset("css/prediction_plotly.css"), asset("css/frame_cursor.css")],
-    external_scripts=[asset("js/frame_cursor.js"), asset("js/prediction_plotly.js")])
+    external_stylesheets=[asset("css/prediction_plotly.css"), asset("css/frame_cursor.css"), asset("css/frame_theme.css")],
+    external_scripts=[asset("js/frame_theme.js"), asset("js/frame_cursor.js"), asset("js/prediction_plotly.js")])
 
 app.layout = html.Div([
     dcc.Location(id="prediction-plot-location", refresh=False),

@@ -2,6 +2,10 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      try { document.documentElement.dataset.theme = localStorage.getItem("airquality-theme") === "dark" ? "dark" : "light"; }
+      catch { document.documentElement.dataset.theme = "light"; }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/airQuality.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Air Quality Bogotá</title>

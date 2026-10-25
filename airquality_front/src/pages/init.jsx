@@ -1,65 +1,8 @@
-import { useState } from "react";
-import netGif from "../assets/images/description.gif";
+import { SensorHero } from "../components/SensorHero";
 import "../assets/styles/init_style.css";
 
 export function Description() {
-  const [animationPaused, setAnimationPaused] = useState(false);
-
-  return (
-    <section id="aboutinit" aria-labelledby="intro-heading">
-      <div id="leftContentinit" className="intro-copy">
-        <p className="intro-eyebrow">BOGOTÁ · AIRE Y TERRITORIO</p>
-        <h2 id="intro-heading" aria-label="Conoce el aire de tu ciudad.">
-          <span className="headline-line" aria-hidden="true"><span>Conoce el <em className="headline-accent">aire</em></span></span>
-          <span className="headline-line" aria-hidden="true"><span>de tu ciudad.</span></span>
-        </h2>
-        <p className="intro-description">
-          Explora cómo varían las partículas, la temperatura y la humedad entre los
-          barrios de Bogotá. Conecta el territorio con los datos y encuentra preguntas
-          para entender mejor tu entorno.
-        </p>
-        <div className="intro-actions">
-          <a className="discoverButton" href="#dashboard">
-            Explorar el mapa <span aria-hidden="true">↗</span>
-          </a>
-          <a className="intro-context-link" href="#why-air-matters">¿Por qué importa?</a>
-        </div>
-        <ul className="intro-variables" aria-label="Variables que puedes explorar">
-          <li>PM2.5</li><li>PM10</li><li>Temperatura</li><li>Humedad</li>
-        </ul>
-      </div>
-
-      <div id="rightContentinit" className={`intro-visual${animationPaused ? " is-paused" : ""}`}>
-        <div className="intro-network" aria-hidden="true">
-          <span className="network-orbit network-orbit-one" />
-          <span className="network-orbit network-orbit-two" />
-          <span className="network-cross network-cross-one">+</span>
-          <span className="network-cross network-cross-two">+</span>
-          <img className="network-gif" src={netGif} alt="" />
-          <svg className="network-still" viewBox="0 0 480 480" fill="none">
-            <path d="M84 284 156 148 278 104 366 212 306 350 172 376 84 284M156 148 306 350M278 104 172 376M84 284 366 212" />
-            <g><circle cx="84" cy="284" r="7" /><circle cx="156" cy="148" r="7" />
-              <circle cx="278" cy="104" r="9" /><circle cx="366" cy="212" r="7" />
-              <circle cx="306" cy="350" r="9" /><circle cx="172" cy="376" r="6" /></g>
-          </svg>
-          <div className="network-label network-label-air"><span />AIRE<span className="network-label-detail">PM2.5 · PM10</span></div>
-          <div className="network-label network-label-climate"><span />CLIMA<span className="network-label-detail">Temperatura · Humedad</span></div>
-        </div>
-        <div className="visual-topline" aria-hidden="true"><span>UNA MIRADA CONECTADA</span><span>BOG / CO</span></div>
-        <p className="visual-caption">Una ciudad.<br /><span>Muchas formas de leerla.</span></p>
-        <button
-          type="button"
-          className="animation-toggle"
-          aria-pressed={animationPaused}
-          aria-label={animationPaused ? "Reanudar animación decorativa" : "Pausar animación decorativa"}
-          onClick={() => setAnimationPaused(!animationPaused)}
-        >
-          <span aria-hidden="true">{animationPaused ? "▷" : "Ⅱ"}</span>
-          {animationPaused ? "Reanudar" : "Pausar"}
-        </button>
-      </div>
-    </section>
-  );
+  return <SensorHero />;
 }
 
 export function WhyAirMatters() {

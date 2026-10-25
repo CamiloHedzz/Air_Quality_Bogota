@@ -287,4 +287,5 @@ def figure_update(figure):
         patch['data'][1][key] = payload['data'][1].get(key)
     patch['layout']['annotations'] = payload['layout'].get('annotations', [])
     patch['layout']['mapbox']['style'] = payload['layout']['mapbox']['style']
+    patch['layout']['meta'] = payload['layout'].get('meta', {})
     return patch

@@ -1,0 +1,58 @@
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --frame-page: #101b17;
+  --frame-panel: #192720;
+  --frame-raised: #22332a;
+  --frame-ink: #e8eddf;
+  --frame-muted: #b2bfae;
+  --frame-border: #37483b;
+  --frame-accent: #e0d854;
+  background: var(--frame-page);
+}
+html[data-theme="dark"] body { background: var(--frame-page); color: var(--frame-ink); }
+html[data-theme="dark"] .airquality-dashboard {
+  --dashboard-surface: var(--frame-page);
+  --dashboard-ink: var(--frame-ink);
+  --dashboard-accent-ink: var(--frame-accent);
+  color-scheme: dark;
+}
+html[data-theme="dark"] a { color: var(--frame-accent); }
+html[data-theme="dark"] .airquality-dashboard :is(.map-controls, .overview-stat, .overview-help, .rmcab-controls, .rmcab-stat, .rmcab-chart-card, .rmcab-detail-card, .rmcab-help, .variables-guide) {
+  background: var(--frame-panel); border-color: var(--frame-border); color: var(--frame-ink);
+}
+html[data-theme="dark"] .airquality-dashboard :is(.overview-title, .overview-stat-value, .guide-title, .rmcab-heading, .overview-map-reading strong, .overview-steps strong) { color: var(--frame-ink); }
+html[data-theme="dark"] .airquality-dashboard :is(.overview-description, .overview-stat-label, .overview-stat-detail, .overview-map-reading, .overview-source-note, .guide-description, .map-control > label, .map-period-summary, .map-attribution, .rmcab-intro p, .rmcab-control > label, .rmcab-period-summary, .rmcab-stat p, .rmcab-stat small, .rmcab-chart-card p, .rmcab-detail-card p, .rmcab-table-scroll caption, .rmcab-help, .variables-guide .des_message_card p) { color: var(--frame-muted); }
+html[data-theme="dark"] .airquality-dashboard :is(.overview-eyebrow, .overview-help summary, .rmcab-help summary, .variables-guide .des_message_card h3, .map-history-source > label) { color: var(--frame-accent); }
+html[data-theme="dark"] .airquality-dashboard :is(.overview-source-tag, .map-history-source, .rmcab-source-note) { background: #283323; color: var(--frame-muted); border-color: var(--frame-border); }
+html[data-theme="dark"] .airquality-dashboard .map-history-note { color: var(--frame-muted); }
+html[data-theme="dark"] .airquality-dashboard .dashboard-source-tabs .dashboard-source-tab { background: var(--frame-panel); color: var(--frame-muted); border-color: var(--frame-border) !important; }
+html[data-theme="dark"] .airquality-dashboard .dashboard-source-tabs .dashboard-source-tab--selected { background: #373d23; color: var(--frame-accent); border-color: #8e893a !important; }
+html[data-theme="dark"] .airquality-dashboard .variables-guide .nav_link_info { background: var(--frame-raised); border-color: var(--frame-border); color: var(--frame-ink); }
+html[data-theme="dark"] .airquality-dashboard .variables-guide .nav_link_info:hover { background: #374833; }
+html[data-theme="dark"] .airquality-dashboard .rmcab-table-scroll :is(th, td) { border-color: var(--frame-border); color: var(--frame-ink); }
+html[data-theme="dark"] .airquality-dashboard .rmcab-table-scroll thead { background: var(--frame-raised); }
+html[data-theme="dark"] .airquality-dashboard .Select-control,
+html[data-theme="dark"] .airquality-dashboard .Select-menu-outer { background: var(--frame-page); color: var(--frame-ink); border-color: #52634a; }
+html[data-theme="dark"] .airquality-dashboard :is(.Select-value-label, .Select input, .Select-placeholder) { color: var(--frame-ink) !important; }
+html[data-theme="dark"] .airquality-dashboard .Select-option,
+html[data-theme="dark"] .airquality-dashboard .VirtualizedSelectOption { background: var(--frame-page); color: var(--frame-ink); }
+html[data-theme="dark"] .airquality-dashboard :is(.Select-option.is-focused, .VirtualizedSelectFocusedOption) { background: var(--frame-raised); color: var(--frame-ink); }
+html[data-theme="dark"] .airquality-dashboard .Select--multi .Select-value { background: #373d23; border-color: #66683a; color: var(--frame-accent); }
+html[data-theme="dark"] .airquality-dashboard .Select--multi .Select-value-icon { border-color: #66683a; }
+html[data-theme="dark"] .airquality-dashboard .Select-arrow { border-top-color: var(--frame-muted); }
+html[data-theme="dark"] :focus-visible { outline-color: var(--frame-accent); }
+html[data-theme="dark"] .airquality-dashboard input { accent-color: var(--frame-accent); }
+html[data-theme="dark"] .airquality-dashboard .rmcab-export-button { color: #252b1e; }
+html[data-theme="dark"] .airquality-dashboard .mapboxgl-ctrl-attrib { background: #192720dd; color: var(--frame-muted); }
+html[data-theme="dark"] .airquality-dashboard .mapboxgl-ctrl-attrib a { color: var(--frame-muted); }
+html[data-theme="dark"] .modebar { background: transparent !important; }
+html[data-theme="dark"] .modebar-btn path { fill: #b2bfae; }
+html[data-theme="dark"] .modebar-btn:hover path { fill: #e0d854; }
+html[data-theme="dark"] .Select-menu-outer { z-index: 100; }
+html[data-theme="dark"]:has(#prediction-plot-root), html[data-theme="dark"]:has(#prediction-plot-root) body { background: var(--frame-panel); }
+html[data-theme="dark"] :is(.plot-caption, .plot-diagnostic-label) { color: var(--frame-muted); }
+html[data-theme="dark"] .plot-diagnostic-option { border-color: var(--frame-border); color: var(--frame-ink); }
+html[data-theme="dark"] .plot-diagnostic-option:has(input:checked) { background: #373d23; border-color: #8e893a; color: var(--frame-accent); }
+html[data-theme="dark"] .plot-diagnostic-input { accent-color: var(--frame-accent); }
+
+html[data-theme="dark"] .airquality-dashboard a:not(.rmcab-export-button) { color: var(--frame-accent); }

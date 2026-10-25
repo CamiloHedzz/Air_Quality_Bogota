@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { ThemeToggle } from "./ThemeToggle";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
 const destinations = [
   { to: "/", label: "Inicio", detail: "Observa tu ciudad", number: "01" },
-  { to: "/About", label: "El proyecto", detail: "Ideas, datos y personas", number: "02" },
-  { to: "/Predictions", label: "Predicciones", detail: "Explora otras perspectivas", number: "03" },
+  { to: "/Predictions", label: "Predicciones", detail: "Explora otras perspectivas", number: "02" },
+  { to: "/About", label: "About", detail: "Ideas, datos y personas", number: "03" },
 ];
 
 export function Navegation() {
@@ -77,11 +78,12 @@ export function Navegation() {
             <span>Air Quality<span className="brand-city">Bogotá</span></span>
           </Link></h1>
         </div>
-        <p className="header-location"><span className="header-location-dot" />{current.detail}</p>
+        {current.to !== "/" && <p className="header-location"><span className="header-location-dot" />{current.detail}</p>}
         <div className="header-actions">
           <nav className="site-navigation" aria-label="Navegación principal"><ul>
             {destinations.map(item => <li key={item.to}><NavLink to={item.to} end={item.to === "/"}>{item.label}</NavLink></li>)}
           </ul></nav>
+          <ThemeToggle />
           <button ref={triggerRef} className="menu-toggle" type="button" aria-expanded={menuOpen}
             aria-controls="global-menu" aria-label="Abrir menú" onClick={() => setMenuOpen(true)}>
             <span>Menú</span><span className="menu-toggle-icon" aria-hidden="true"><i /><i /></span>
@@ -92,9 +94,11 @@ export function Navegation() {
       {menuOpen && createPortal(
         <div id="global-menu" ref={menuRef} className="global-menu" role="dialog" aria-modal="true" aria-labelledby="menu-heading" onWheel={event => event.stopPropagation()}>
           <div className="global-menu-top"><p>AIR QUALITY BOGOTÁ<span>Una ciudad que respira.</span></p>
+            <div className="global-menu-tools"><ThemeToggle />
             <button ref={closeRef} type="button" className="menu-close" aria-label="Cerrar menú" onClick={() => setMenuOpen(false)}>
               <span>Cerrar</span><span aria-hidden="true">×</span>
             </button>
+            </div>
           </div>
           <h2 id="menu-heading" className="motion-sr-only">Explora Air Quality Bogotá</h2>
           <div className="global-menu-body">

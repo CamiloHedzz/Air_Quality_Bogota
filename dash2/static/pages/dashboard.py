@@ -29,6 +29,11 @@ DATA_DIR = Path(__file__).resolve().parents[2] / "datasets"
 with (DATA_DIR / "bogota_cadastral.json").open(encoding="utf-8") as file:
     counties = json.load(file)
 neighborhoods = {feature["properties"]["DISPLAY_NAME"] for feature in counties["features"]}
+DEFAULT_NEIGHBORHOODS = (
+    "EL MADRIGAL, 005635 (299)",
+    "LAS DELICIAS, 004544 (502)",
+    "POLO CLUB, 007401 (813)",
+)
 samples = valid_samples(pd.read_csv(DATA_DIR / "final_rutes.csv"), neighborhoods)
 years = list(range(2015, 2026))
 default_year = 2025
@@ -44,7 +49,7 @@ def add_loading_overlay(elements):
         )
 
 bogota_map_div = html.Div([
-    dcc.Store(id="selected-neighborhoods", data=None),
+    dcc.Store(id="selected-neighborhoods", data=list(DEFAULT_NEIGHBORHOODS)),
     dcc.Store(id="map-geometry-ready", data=None),
     html.Div([
         html.Label("Datos del mapa", htmlFor="map-data-mode"),
@@ -69,11 +74,13 @@ bogota_map_div = html.Div([
             dcc.Dropdown(
                 id="map-basemap",
                 options=[
+                    {"label": "Automático · tema del sitio", "value": "auto"},
                     {"label": "Liberty", "value": "color"},
                     {"label": "Positron", "value": "light"},
+                    {"label": "Dark", "value": "dark"},
                 ],
-                value="color", clearable=False, searchable=False,
-                persistence=True, persistence_type="session",
+                value="auto", clearable=False, searchable=False,
+                persistence="site-theme-v1", persistence_type="session",
             ),
         ], className="map-control"),
         html.Div([
@@ -307,12 +314,10 @@ def update_map_on_click(click_data, variable, year, month, basemap, mode, select
     if mode == "legacy":
         period = filter_period(samples, year, month)
         aggregates = aggregate_neighborhoods(period)
-        initial = period.neighborhood.value_counts().head(1).index.tolist()
     else:
         if year not in range(2015, 2026): year = 2025
         aggregates, info = history.aggregates(year, month, mode)
-        initial = aggregates.sort_values("nearest_station_km").head(1).neighborhood.tolist()
-    selected = initial if selected_areas is None else list(selected_areas)
+    selected = list(DEFAULT_NEIGHBORHOODS) if selected_areas is None else list(selected_areas)
     triggered = dash.callback_context.triggered
     if triggered and triggered[0]["prop_id"] == "bogota_map.clickData" and click_data:
         name = click_data["points"][0].get("location")

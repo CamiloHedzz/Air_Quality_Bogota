@@ -6,8 +6,10 @@ import { Navegation } from "./components/navegator";
 import { Footer } from "./components/foutter";
 import { Predictions } from "./pages/predictions";
 import { ContentMotion, EditorialScroll, SquareCursor } from "./components/EditorialMotion";
+import { ThemeProvider } from "./components/ThemeProvider";
 import "./index.css";
 import "./assets/styles/editorial_motion.css";
+import "./assets/styles/theme.css";
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -46,10 +48,12 @@ function AppLayout() {
 
 function App() {
   return (
+    <ThemeProvider>
     <BrowserRouter>
       <ScrollToTop />
       <AppLayout />
     </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
