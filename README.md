@@ -166,7 +166,7 @@ Los registros de calidad del aire proceden de **[SISAIRE / IDEAM](https://sisair
 
 Los mapas y recorridos utilizan **OpenStreetMap**, **OpenFreeMap**, **OpenMapTiles**, **Photon** y **BRouter**, con sus atribuciones correspondientes en la interfaz. El [documento de datos](data/README.md#fuentes) amplía la procedencia y el tratamiento.
 
-Autores del proyecto: **Camilo Hernández y Juan Arias**.
+Autor del proyecto: **Camilo Hernández**.
 
 ---
 
