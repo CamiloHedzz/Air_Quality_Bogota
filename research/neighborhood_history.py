@@ -18,7 +18,9 @@ import pandas as pd
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.neighbors import KNeighborsRegressor
 
-from dash2.rmcab_data import VARIABLES, load_samples
+from dash2.rmcab_data import VARIABLES
+from dash2.history_data import load_observations, source_paths
+from dash2.weather_data import daily_station_weather
 from dash2.map_scenarios import fill_short_gaps, SHORT_GAP_DAYS, SIMULATION_SEED, AR_COEFFICIENT
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -110,12 +112,7 @@ def station_locations(*, network=False, root=ROOT):
 
 
 def observations(root=ROOT):
-    frames = pd.concat([load_samples(root/path) for path in INPUTS], ignore_index=True)
-    duplicated = frames.loc[frames.duplicated(['station_id', 'datetime'], keep=False)]
-    for _, group in duplicated.groupby(['station_id', 'datetime']):
-        if any(group[column].nunique(dropna=False) > 1 for column in [*VARIABLES, 'source_sha256']):
-            raise ValueError('Las fuentes solapadas no coinciden.')
-    return frames.drop_duplicates(['station_id', 'datetime']).sort_values(['report_date', 'station_id', 'datetime'])
+    return load_observations(root)
 
 
 def daily_observations(raw, locations):
@@ -221,6 +218,13 @@ def build(*, network=False, root=ROOT):
     raw = observations(root)
     daily = daily_observations(raw, location)
     completed = complete_calendar(daily)
+    weather = daily_station_weather(root).rename(columns={v: f'{v}_era5' for v in ['temperature', 'humidity']})
+    completed = completed.merge(weather, on=['station_id', 'report_date'], how='left', validate='one_to_one')
+    for var in ['temperature', 'humidity']:
+        use = completed[f'{var}_origin'].ne('observed_daily_aggregate') & completed[f'{var}_era5'].notna()
+        completed.loc[use, var] = completed.loc[use, f'{var}_era5']
+        completed.loc[use, f'{var}_origin'] = 'weather_reanalysis'
+    completed = completed.drop(columns=['temperature_era5', 'humidity_era5'])
     target = root/'data/maps'
     target.mkdir(parents=True, exist_ok=True)
     csv = completed.to_csv(index=False, float_format='%.8f', lineterminator='\n').encode('utf-8')
@@ -265,7 +269,9 @@ def build(*, network=False, root=ROOT):
                 'spatial_distance_floor_km': 0.1, 'far_station_flag_km': 10,
                 'uses_future_observations_for_reconstruction': True, 'used_to_train_forecast_model': False,
                 'intervals_available': False, 'station_positions_scope': location['position_scope'],
-                'limitations': ['Most years have one source day; annual seasonality is not validated.',
+                'reanalysis': {'source': 'Open-Meteo / ECMWF ERA5', 'resolution_degrees': .25, 'variables': ['temperature', 'humidity'], 'synthetic_noise_applied': False},
+                'limitations': ['Published PM hours have sensor gaps; consult observed coverage by year.',
+                               'ERA5 weather is retrospective coarse-grid reanalysis, not a station measurement.',
                                'Original mode preserves gaps; treated mode includes estimated and synthetic gap values.',
                                'Random variation is a user-selected scenario amplitude, not calibrated uncertainty.',
                                'KNN has no weekday features; annual/calendar features remain an unvalidated simulation baseline.',
@@ -273,7 +279,7 @@ def build(*, network=False, root=ROOT):
                                'No terrain/emissions model or historical station relocation validation.',
                                'Days and sensors with few source hours remain partial daily aggregates.'],
                 'coverage': coverage, 'temporal_check': temporal_check(daily),
-                'input_sha256': {path: hashlib.sha256((root/path).read_bytes()).hexdigest() for path in [*INPUTS, 'data/references/rmcab_station_locations.json', 'dash2/datasets/bogota_cadastral.json']},
+                'input_sha256': {path: hashlib.sha256((root/path).read_bytes()).hexdigest() for path in [*source_paths(root), 'data/weather/era5_hourly_2015_2025.csv.gz', 'data/weather/station_grids.csv', 'data/weather/era5_manifest.json', 'data/references/rmcab_station_locations.json', 'dash2/datasets/bogota_cadastral.json']},
                 'output_sha256': {name: hashlib.sha256((target/name).read_bytes()).hexdigest() for name in ['station_daily_2015_2025.csv.gz', 'neighborhood_centroids.csv']}}
     (target/'history_manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8')
     return manifest

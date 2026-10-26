@@ -49,12 +49,13 @@ def export(request):
         writer = csv.writer(response)
         if kind == "observations":
             fields = ["datetime", "report_date", "station_id", "station_name", *prediction_data.VARIABLES,
-                      *[f"{key}_origin" for key in prediction_data.VARIABLES], "source_url", "source_sha256", "validation_status"]
+                      *[f"{key}_origin" for key in prediction_data.VARIABLES], "source_url", "source_sha256", "validation_status", "record_type",
+                      *[f"{v}_source_{kind}" for v in prediction_data.VARIABLES for kind in ("url", "sha256")]]
             writer.writerow(fields + [f"{key}_unit" for key in prediction_data.VARIABLES])
             frame = query["primary"]
             if query["view"] == "comparison":
                 frame = query["period"].loc[query["period"].station_id.isin([query["station"], query["comparison"]])]
-            for row in frame[fields].fillna("").itertuples(index=False, name=None):
+            for row in frame[fields].astype(object).fillna("").itertuples(index=False, name=None):
                 writer.writerow([*row, *[meta[1] for meta in prediction_data.VARIABLES.values()]])
         elif kind == "evaluation":
             if query["variable"] not in {"pm_25", "pm_10"}:

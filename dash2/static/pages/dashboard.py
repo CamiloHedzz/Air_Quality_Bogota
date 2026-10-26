@@ -341,9 +341,9 @@ def update_map_on_click(click_data, variable, year, month, basemap, mode, select
                f"{counts['source_days']} días con mediciones de origen · {counts['days_added']} días rellenados.")
     if mode in {"estimated", "simulated"}:
         note = ("Datos con tratamiento · calendario completo con huecos rellenados. "
-                "Conserva las mediciones e incluye estimaciones y variación sintética reproducible en los días añadidos.")
+                "Conserva las mediciones; completa clima con reanálisis ERA5 y PM sin cobertura con estimaciones identificadas. ")
     else:
-        note = "Datos originales RMCAB · solo mediciones disponibles, sin relleno temporal. El mapa estima valores por sector a partir de estaciones."
+        note = "Datos originales SDA/RMCAB y SISAIRE · solo mediciones disponibles, sin relleno temporal. El mapa estima valores por sector a partir de estaciones."
     source_dates = f"Fuentes: {counts['source_start']} – {counts['source_end']}" if counts['source_start'] else "Sin días de origen para esta variable"
     return (figure, selected, summary, f"{aggregates[variable].notna().sum():,}", f"{counts['observed_hours']:,}",
             f"{counts['source_days']} / {info['calendar_days']}", source_dates, note, {"loaded": True})

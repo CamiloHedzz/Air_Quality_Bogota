@@ -4,8 +4,8 @@
   "calendar_start": "2015-01-01",
   "calendar_end": "2025-12-31",
   "neighborhoods": 1160,
-  "station_days": 60634,
-  "source_reports": 100,
+  "station_days": 62828,
+  "source_reports": 4013,
   "units": {
     "pm_25": "µg/m³",
     "pm_10": "µg/m³",
@@ -15,15 +15,15 @@
   "color_ranges": {
     "pm_25": [
       0,
-      80.0
+      90.0
     ],
     "pm_10": [
       0,
-      140.0
+      180.0
     ],
     "temperature": [
-      11.0,
-      18.0
+      10.0,
+      21.0
     ],
     "humidity": [
       0,
@@ -61,8 +61,8 @@
     "variation_percent_max": 30,
     "scale": "P95_minus_P5_observed_station_daily_means",
     "scale_by_variable": {
-      "pm_25": 27.35541666666664,
-      "pm_10": 55.23840410685807,
+      "pm_25": 30.888560606060608,
+      "pm_10": 63.39664855072463,
       "temperature": 3.4000000000000004,
       "humidity": 31.95833333333333
     },
@@ -79,8 +79,18 @@
   "used_to_train_forecast_model": false,
   "intervals_available": false,
   "station_positions_scope": "fixed_reference_positions_historical_relocations_not_verified",
+  "reanalysis": {
+    "source": "Open-Meteo / ECMWF ERA5",
+    "resolution_degrees": 0.25,
+    "variables": [
+      "temperature",
+      "humidity"
+    ],
+    "synthetic_noise_applied": false
+  },
   "limitations": [
-    "Most years have one source day; annual seasonality is not validated.",
+    "Published PM hours have sensor gaps; consult observed coverage by year.",
+    "ERA5 weather is retrospective coarse-grid reanalysis, not a station measurement.",
     "Original mode preserves gaps; treated mode includes estimated and synthetic gap values.",
     "Random variation is a user-selected scenario amplitude, not calibrated uncertainty.",
     "KNN has no weekday features; annual/calendar features remain an unvalidated simulation baseline.",
@@ -94,16 +104,16 @@
       "calendar_days": 365,
       "reference_stations": 11,
       "pm_25": {
-        "observed_hours": 203,
-        "source_days": 1,
-        "station_days_observed": 9,
-        "station_days_reconstructed": 4006
+        "observed_hours": 79108,
+        "source_days": 365,
+        "station_days_observed": 3502,
+        "station_days_reconstructed": 513
       },
       "pm_10": {
-        "observed_hours": 262,
-        "source_days": 1,
-        "station_days_observed": 11,
-        "station_days_reconstructed": 4004
+        "observed_hours": 92727,
+        "source_days": 365,
+        "station_days_observed": 3954,
+        "station_days_reconstructed": 61
       },
       "temperature": {
         "observed_hours": 168,
@@ -123,16 +133,16 @@
       "calendar_days": 366,
       "reference_stations": 12,
       "pm_25": {
-        "observed_hours": 260,
-        "source_days": 1,
-        "station_days_observed": 11,
-        "station_days_reconstructed": 4381
+        "observed_hours": 75039,
+        "source_days": 366,
+        "station_days_observed": 3364,
+        "station_days_reconstructed": 1028
       },
       "pm_10": {
-        "observed_hours": 284,
-        "source_days": 1,
-        "station_days_observed": 12,
-        "station_days_reconstructed": 4380
+        "observed_hours": 87506,
+        "source_days": 366,
+        "station_days_observed": 3782,
+        "station_days_reconstructed": 610
       },
       "temperature": {
         "observed_hours": 168,
@@ -152,16 +162,16 @@
       "calendar_days": 365,
       "reference_stations": 12,
       "pm_25": {
-        "observed_hours": 286,
-        "source_days": 1,
-        "station_days_observed": 12,
-        "station_days_reconstructed": 4368
+        "observed_hours": 84424,
+        "source_days": 365,
+        "station_days_observed": 3739,
+        "station_days_reconstructed": 641
       },
       "pm_10": {
-        "observed_hours": 284,
-        "source_days": 1,
-        "station_days_observed": 12,
-        "station_days_reconstructed": 4368
+        "observed_hours": 87081,
+        "source_days": 365,
+        "station_days_observed": 3790,
+        "station_days_reconstructed": 590
       },
       "temperature": {
         "observed_hours": 168,
@@ -179,30 +189,30 @@
     {
       "year": 2018,
       "calendar_days": 365,
-      "reference_stations": 11,
+      "reference_stations": 12,
       "pm_25": {
-        "observed_hours": 262,
-        "source_days": 1,
-        "station_days_observed": 11,
-        "station_days_reconstructed": 4004
+        "observed_hours": 86747,
+        "source_days": 365,
+        "station_days_observed": 3839,
+        "station_days_reconstructed": 541
       },
       "pm_10": {
-        "observed_hours": 259,
-        "source_days": 1,
-        "station_days_observed": 11,
-        "station_days_reconstructed": 4004
+        "observed_hours": 88812,
+        "source_days": 365,
+        "station_days_observed": 3844,
+        "station_days_reconstructed": 536
       },
       "temperature": {
         "observed_hours": 168,
         "source_days": 1,
         "station_days_observed": 7,
-        "station_days_reconstructed": 4008
+        "station_days_reconstructed": 4373
       },
       "humidity": {
         "observed_hours": 168,
         "source_days": 1,
         "station_days_observed": 7,
-        "station_days_reconstructed": 4008
+        "station_days_reconstructed": 4373
       }
     },
     {
@@ -210,16 +220,16 @@
       "calendar_days": 365,
       "reference_stations": 13,
       "pm_25": {
-        "observed_hours": 285,
-        "source_days": 1,
-        "station_days_observed": 12,
-        "station_days_reconstructed": 4733
+        "observed_hours": 92777,
+        "source_days": 365,
+        "station_days_observed": 4092,
+        "station_days_reconstructed": 653
       },
       "pm_10": {
-        "observed_hours": 312,
-        "source_days": 1,
-        "station_days_observed": 13,
-        "station_days_reconstructed": 4732
+        "observed_hours": 98690,
+        "source_days": 365,
+        "station_days_observed": 4226,
+        "station_days_reconstructed": 519
       },
       "temperature": {
         "observed_hours": 216,
@@ -237,59 +247,59 @@
     {
       "year": 2020,
       "calendar_days": 366,
-      "reference_stations": 13,
+      "reference_stations": 17,
       "pm_25": {
-        "observed_hours": 306,
-        "source_days": 1,
-        "station_days_observed": 13,
-        "station_days_reconstructed": 4745
+        "observed_hours": 105393,
+        "source_days": 361,
+        "station_days_observed": 4597,
+        "station_days_reconstructed": 1625
       },
       "pm_10": {
-        "observed_hours": 273,
-        "source_days": 1,
-        "station_days_observed": 12,
-        "station_days_reconstructed": 4746
+        "observed_hours": 99885,
+        "source_days": 361,
+        "station_days_observed": 4409,
+        "station_days_reconstructed": 1813
       },
       "temperature": {
         "observed_hours": 216,
         "source_days": 1,
         "station_days_observed": 9,
-        "station_days_reconstructed": 4749
+        "station_days_reconstructed": 6213
       },
       "humidity": {
         "observed_hours": 192,
         "source_days": 1,
         "station_days_observed": 8,
-        "station_days_reconstructed": 4750
+        "station_days_reconstructed": 6214
       }
     },
     {
       "year": 2021,
       "calendar_days": 365,
-      "reference_stations": 18,
+      "reference_stations": 19,
       "pm_25": {
-        "observed_hours": 400,
-        "source_days": 1,
-        "station_days_observed": 18,
-        "station_days_reconstructed": 6552
+        "observed_hours": 138113,
+        "source_days": 365,
+        "station_days_observed": 6091,
+        "station_days_reconstructed": 844
       },
       "pm_10": {
-        "observed_hours": 383,
-        "source_days": 1,
-        "station_days_observed": 18,
-        "station_days_reconstructed": 6552
+        "observed_hours": 137014,
+        "source_days": 365,
+        "station_days_observed": 6049,
+        "station_days_reconstructed": 886
       },
       "temperature": {
         "observed_hours": 310,
         "source_days": 1,
         "station_days_observed": 13,
-        "station_days_reconstructed": 6557
+        "station_days_reconstructed": 6922
       },
       "humidity": {
         "observed_hours": 206,
         "source_days": 1,
         "station_days_observed": 9,
-        "station_days_reconstructed": 6561
+        "station_days_reconstructed": 6926
       }
     },
     {
@@ -297,16 +307,16 @@
       "calendar_days": 365,
       "reference_stations": 19,
       "pm_25": {
-        "observed_hours": 417,
-        "source_days": 1,
-        "station_days_observed": 18,
-        "station_days_reconstructed": 6917
+        "observed_hours": 139554,
+        "source_days": 365,
+        "station_days_observed": 6036,
+        "station_days_reconstructed": 899
       },
       "pm_10": {
-        "observed_hours": 383,
-        "source_days": 1,
-        "station_days_observed": 17,
-        "station_days_reconstructed": 6918
+        "observed_hours": 133200,
+        "source_days": 365,
+        "station_days_observed": 5853,
+        "station_days_reconstructed": 1082
       },
       "temperature": {
         "observed_hours": 336,
@@ -326,16 +336,16 @@
       "calendar_days": 365,
       "reference_stations": 19,
       "pm_25": {
-        "observed_hours": 378,
-        "source_days": 1,
-        "station_days_observed": 17,
-        "station_days_reconstructed": 6918
+        "observed_hours": 139346,
+        "source_days": 365,
+        "station_days_observed": 6009,
+        "station_days_reconstructed": 926
       },
       "pm_10": {
-        "observed_hours": 372,
-        "source_days": 1,
-        "station_days_observed": 17,
-        "station_days_reconstructed": 6918
+        "observed_hours": 135835,
+        "source_days": 365,
+        "station_days_observed": 5998,
+        "station_days_reconstructed": 937
       },
       "temperature": {
         "observed_hours": 311,
@@ -355,16 +365,16 @@
       "calendar_days": 366,
       "reference_stations": 19,
       "pm_25": {
-        "observed_hours": 432,
-        "source_days": 1,
-        "station_days_observed": 18,
-        "station_days_reconstructed": 6936
+        "observed_hours": 146395,
+        "source_days": 366,
+        "station_days_observed": 6305,
+        "station_days_reconstructed": 649
       },
       "pm_10": {
-        "observed_hours": 444,
-        "source_days": 1,
-        "station_days_observed": 19,
-        "station_days_reconstructed": 6935
+        "observed_hours": 149459,
+        "source_days": 366,
+        "station_days_observed": 6442,
+        "station_days_reconstructed": 512
       },
       "temperature": {
         "observed_hours": 312,
@@ -384,16 +394,16 @@
       "calendar_days": 365,
       "reference_stations": 19,
       "pm_25": {
-        "observed_hours": 30777,
-        "source_days": 86,
-        "station_days_observed": 1309,
-        "station_days_reconstructed": 5626
+        "observed_hours": 140349,
+        "source_days": 361,
+        "station_days_observed": 5999,
+        "station_days_reconstructed": 936
       },
       "pm_10": {
-        "observed_hours": 32275,
-        "source_days": 88,
-        "station_days_observed": 1380,
-        "station_days_reconstructed": 5555
+        "observed_hours": 142215,
+        "source_days": 363,
+        "station_days_observed": 6144,
+        "station_days_reconstructed": 791
       },
       "temperature": {
         "observed_hours": 32137,
@@ -456,13 +466,16 @@
     }
   ],
   "input_sha256": {
-    "data/samples/rmcab_pilot_2015_2025.csv": "c45e73c4d3d186e3b4d13b4abb07a30fd50e0fc1abd29ab0875e7ca7af7e5a5d",
-    "data/samples/rmcab_2025_q1.csv": "45445f32d0d4e95e661306986f80197104bc12a424171857b3c653fcd62b74a5",
+    "data/history/observations.csv.gz": "9af50233c7b89ec119b7c693e50604e3aed621a180793493cb40e3ac522fff32",
+    "data/history/observations_manifest.json": "35f2ccc8944299a7fb66ea8dd35b7d18ebf9cba6703fcd956b99a75712104a9a",
+    "data/weather/era5_hourly_2015_2025.csv.gz": "9ba6b0b858e8638335dd1805e94a3b36ce832c33f15389af41bee148347a5c1a",
+    "data/weather/station_grids.csv": "cbb84227aaf4f127e34ecb90b1d1bba61a7b87c88311e755d97ef0060bd140ee",
+    "data/weather/era5_manifest.json": "50b056670b6dac10d4161f8bf839af1e5c08efced506e2ff5e5dee34c42ed358",
     "data/references/rmcab_station_locations.json": "4527b95727038eb1f7b97c8cc4e63d3c58805defe52d1ec07c46573cd8420b03",
     "dash2/datasets/bogota_cadastral.json": "0e08b91f6c20b741255e6d926bb2414c9cb08aa343320a93fdd5b4827d884aec"
   },
   "output_sha256": {
-    "station_daily_2015_2025.csv.gz": "4147b96936f2ff3d6d380d239c432be647c99fa23ea191fcb1457f86cbf8e936",
+    "station_daily_2015_2025.csv.gz": "04b89c7d6b58af169a291e6e1c7916b0afc8cdb0fe894811013037bd6b0ab07b",
     "neighborhood_centroids.csv": "40bdd27233d7d9b4f5eb3f9a5263eb9b8333c143fdefbe5fd4e91d62aa40effa"
   }
 }

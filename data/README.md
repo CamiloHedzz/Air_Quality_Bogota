@@ -1,4 +1,63 @@
-# Datos para investigación: objetivo 2015–2025
+# Datos y procedencia · 2015–2025
+
+## Histórico integrado 2015–2025
+
+El notebook vigente es [`05_integracion_historica_2015_2025.ipynb`](../notebooks/05_integracion_historica_2015_2025.ipynb).
+La colección consolidada contiene **1.323.391 filas de estación/hora y 4.013 fechas**,
+entre el 1 de enero de 2015 y el 31 de diciembre de 2025. Cinco fechas de 2020
+no tienen mediciones utilizables; los sensores también conservan ausencias horarias.
+Los registros de PM proceden de 22 exportaciones públicas SISAIRE/SDA, con sus
+CSV originales comprimidos y metadatos en `data/history/source_exports/`.
+Las lecturas válidas de las muestras RMCAB previas se conservan en los solapamientos.
+
+Open-Meteo/ERA5 aporta 385.728 registros horarios de cuatro celdas de 0,25°
+para los 4.018 días calendario. Es reanálisis meteorológico, sin ajuste de elevación,
+no medición de barrio. Se conserva separado en `data/weather/` y se identifica al
+completar temperatura y humedad; lluvia y viento sirven como predictores adicionales.
+
+El mapa conserva 1.160 sectores y las opciones **Datos originales** / **Datos con tratamiento**.
+Predicciones ofrece las mismas opciones para el contexto meteorológico. El relleno
+no modifica los objetivos de PM ni las lecturas válidas y ERA5 no recibe ruido sintético.
+
+HGB usa desarrollo con entrenamiento 2015–2023 y cuatro semanas de 2024;
+el ajuste final usa 2015–2024 y se prueba en las semanas 15–21 de enero,
+abril, julio y octubre de 2025, a 24/48/72 h, sobre estaciones conocidas.
+Los parámetros se fijan antes de puntuar. Las etiquetas y los rezagos de PM
+siempre están observados. El mapa/KNN no participa en el entrenamiento.
+ERA5 en el origen es contexto retrospectivo: sus demoras y revisiones no acreditan
+un pronóstico operativo en tiempo real. Se compara con persistencia y se publican
+MAE/RMSE, sin intervalos de incertidumbre calibrados.
+
+Para reproducir, usar el entorno de `requirements-research.txt` desde la raíz:
+
+```bash
+python -B -m research.collect_sisaire --network
+python -B -m research.weather_history --network
+python -B -m research.build_observed_history
+python -B -m research.train_history
+python -B -m research.publish_predictions
+python -B -m research.neighborhood_history
+```
+
+El recolector es secuencial y reanudable. Sin `--network` no descarga.
+La consolidación también puede leer los originales versionados de
+`data/history/source_exports/` si no existe caché local. Se verifican SHA256,
+unidades, fechas y origen por variable. Los intervalos desalineados y duplicados
+contradictorios se excluyen, sin inventar valores; los duplicados idénticos se
+conservan una sola vez. Estaciones sin correspondencia segura se excluyen del
+paquete espacial, pero sus filas permanecen en las exportaciones originales.
+Las posiciones son referencias fijas: no se han validado reubicaciones históricas.
+La condición de publicado no certifica aquí la validación final de cada sensor.
+Reiniciar Django después de reconstruir los paquetes.
+
+Fuentes: [SISAIRE](https://sisaire.ideam.gov.co/ideam-sisaire-web/consultas.xhtml),
+[RMCAB/SDA](https://www.ambientebogota.gov.co/es/red-de-monitoreo-de-calidad-del-aire-de-bogota-rmcab),
+[Open-Meteo/ERA5](https://open-meteo.com/en/docs/historical-weather-api).
+
+Los notebooks 01–04 y sus secciones de investigación describen las muestras y
+experimentos anteriores. El notebook 05 y los manifiestos de `data/history/`,
+`data/weather/`, `data/maps/` y `data/forecasts/` describen esta integración.
+
 
 ## Fuentes
 
@@ -7,7 +66,7 @@
 | RMCAB / Secretaría Distrital de Ambiente | PM2.5, PM10, temperatura ambiental y HR | Estación; reporte horario | https://rmcab.ambientebogota.gov.co/Report/HourlyReports |
 | Guía RMCAB | Descarga oficial por estación, variable y periodo | Guía de consulta/exportación | https://rmcab.ambientebogota.gov.co/home/text/1516 |
 | Catálogo oficial de estaciones | Identidad, coordenadas y posterior cruce geográfico | Fotografía del catálogo, no historial de reubicaciones | https://datosabiertos.bogota.gov.co/dataset/estaciones-calidad-del-aire-bogota-d-c |
-| Open-Meteo / ERA5 | Opción para completar covariables meteorológicas | Reanálisis en rejilla, no sensor de barrio | https://open-meteo.com/en/docs/historical-weather-api |
+| Open-Meteo / ERA5 | Contexto meteorológico retrospectivo de la integración vigente | Reanálisis en rejilla, no sensor de barrio | https://open-meteo.com/en/docs/historical-weather-api |
 
 Las capas de promedio anual son útiles para contexto espacial y contraste; no
 permiten reconstruir variaciones horarias ni son etiquetas de pronóstico horario.
@@ -17,7 +76,11 @@ consultar su atribución y condiciones antes de integrarla en un servicio comerc
 
 ## Carpetas
 
-- `samples/`: muestra pequeña, publicada y trazable para ejecutar el notebook sin red.
+- `history/`: histórico observado consolidado, cobertura y exportaciones originales.
+- `weather/`: reanálisis ERA5 y correspondencia entre estaciones y celdas.
+- `maps/`: calendario diario y fuentes del tratamiento del mapa.
+- `forecasts/`: paquete de backtests históricos publicado para la web.
+- `samples/`: muestras piloto y trimestral anteriores, preservadas y trazables.
 - `processed/`: salidas regenerables y lotes mensuales; no se versionan automáticamente.
 - `reports/`: informes y gráficos pequeños que documentan la investigación.
 - Los HTML originales comprimidos y sus manifiestos se guardan en
@@ -100,37 +163,33 @@ Referencias metodológicas: [imputación en scikit-learn](https://scikit-learn.o
 [rezagos y evaluación temporal](https://scikit-learn.org/stable/auto_examples/applications/plot_time_series_lagged_features.html).
 
 
-## Consumo desde Dash
+## Consumo desde Dash y Predicciones
 
-La pestaña RMCAB es la vista inicial del dashboard y consume la muestra tratada,
-sin depender del entorno Jupyter ni de scikit-learn en el servidor web:
+El dashboard abre **Mapa por sectores**. La pestaña **Históricos RMCAB · estaciones**
+consulta el histórico consolidado mediante `dash2/history_data.py`; no ejecuta
+Jupyter ni entrena modelos al abrir la web.
 
-`reportes RMCAB → recolección/caché → notebook y contrato → CSV + manifiesto → Dash`
+`exportaciones SISAIRE/SDA + muestras RMCAB → contrato y consolidación → CSV.gz + manifiesto → Dash / API`
 
-El adaptador `dash2/rmcab_data.py` valida columnas, estación/hora única, fecha del
-reporte, origen observado de los valores y correspondencia con el manifiesto.
-Los filtros de año/mes usan `report_date`; el eje temporal utiliza la hora local
-real, de modo que la hora 24 del reporte puede verse al inicio del día siguiente.
-Los cálculos excluyen ausencias y no sustituyen valores por cero.
+El adaptador verifica el hash de `data/history/observations.csv.gz`, las claves de
+estación/hora y la procedencia por variable. Si el manifiesto integrado no existe,
+conserva una vía de compatibilidad que une las dos muestras anteriores; ese caso
+no tiene la cobertura del paquete vigente.
 
-El CSV descargado desde la web contiene registros del periodo y estaciones
-seleccionados, conserva las cuatro variables y sus metadatos e incluye unidades.
-Las gráficas y la tabla comparan una variable por vez; no mezclan porcentajes,
-temperatura y concentraciones en el mismo eje.
+Los filtros de año/mes usan `report_date`; el eje temporal usa la hora local real.
+El CSV conserva las cuatro variables, ausencias, unidades y procedencia. Una
+medición ausente no se convierte en cero y cada variable conserva su propio eje.
 
-Para actualizar el piloto, regenerar el CSV y su manifiesto juntos con el
-recolector, revisar los resultados y ejecutar las pruebas de `dash2.test_rmcab`.
-Después reiniciar Django para cargar el nuevo lote; el navegador no ejecuta la
-recolección. Si se usa otro archivo tratado, configurar `DATA_PATH` en
-`dash2/rmcab_data.py` y mantener su `.sources.json` con el mismo nombre base.
-Una historia completa de gran tamaño requiere particionar o consultar por periodo
-en la base de datos; el adaptador actual está destinado a la muestra local.
+En Predicciones, Datos originales conserva observaciones y ausencias. Datos con
+tratamiento completa solo temperatura y humedad ausentes con ERA5, con marca
+`weather_reanalysis`. No completa objetivos de PM ni modifica lecturas válidas.
+Las estimaciones del mapa son otro producto y no se usan como objetivos HGB.
 
-Los datos de estación no alimentan los polígonos del mapa anterior. Ese paso
-requiere georreferenciación histórica e interpolación validadas, documentadas en
-el notebook. Tampoco se presentan las observaciones como pronósticos.
+Para actualizar, reconstruir CSV y manifiestos juntos con el notebook 05, revisar
+las comprobaciones y reiniciar Django para renovar los datos cargados en memoria.
+Las secciones del piloto y el trimestre que siguen documentan las etapas anteriores.
 
-## Experimento HGB del piloto
+## Experimento HGB del piloto · etapa anterior
 
 El notebook `02_histgradientboosting_pronostico.ipynb` registra un primer
 entrenamiento histórico con parámetros fijos en `research/forecast_experiment.py`.
@@ -167,7 +226,7 @@ latencia, revisión histórica del portal ni calidad final de las observaciones.
 Antes de elegir y desplegar un modelo, ampliar meses/temporadas, volver a evaluar
 y reservar un periodo final independiente de selección y ajuste.
 
-## Lote continuo enero–marzo de 2025
+## Lote continuo enero–marzo de 2025 · etapa anterior
 
 `data/samples/rmcab_2025_q1.csv` contiene los 90 reportes diarios del trimestre,
 con el mismo contrato por variable. Su `.sources.json` conserva las 90 URLs, horas
@@ -210,7 +269,9 @@ continúa usando su dataset piloto. El panel React de predicciones consulta la u
 del piloto y el trimestre para análisis y el paquete evaluado para pronósticos históricos.
 
 
-## Paquete de resultados para Haz tus predicciones
+## Primer paquete de resultados · etapa anterior
+
+> Esta sección conserva la publicación del notebook 03. El paquete vigente es el del notebook 05, con entrenamiento 2015–2024 y cuatro semanas de prueba en 2025. `research.publish_predictions` selecciona el informe multianual cuando está presente.
 
 `data/forecasts/hgb_historical.csv.gz` conserva las estimaciones HGB y la referencia
 de persistencia de la semana final del notebook 03 a 24/48/72 h. No se generan
@@ -234,9 +295,11 @@ e identifica corte de entrenamiento, versión y fuente.
 
 ## Mapa por sectores · datos originales y datos con tratamiento
 
+> El mecanismo del notebook 04 se conserva. El notebook 05 amplió las fuentes a 4.013 fechas e incorporó ERA5 para clima; la muestra de 100 fechas descrita en los experimentos anteriores no es la cobertura actual del mapa.
+
 El selector tiene dos opciones y abre por defecto en **Datos con tratamiento**:
 
-- **Datos originales**: utiliza únicamente las fechas con mediciones RMCAB,
+- **Datos originales**: utiliza únicamente las fechas con mediciones consolidadas SDA/RMCAB y SISAIRE,
   sin rellenar huecos temporales. Si solo hay un mes disponible, la gráfica
   mensual muestra un punto por sector.
 - **Datos con tratamiento**: conserva esas mediciones y completa el calendario
@@ -244,12 +307,13 @@ El selector tiene dos opciones y abre por defecto en **Datos con tratamiento**:
   el resto usa una base KNN de cinco vecinos, ubicación, año y ciclo anual,
   sin atributos de día de la semana. Los rellenos largos incluyen variación
   sintética suave, reproducible y distinta por sector (amplitud fija 10 % del
-  rango P95–P5 observado). No hay que activar otro modo para ver las curvas completas.
+  rango P95–P5 observado). Temperatura y humedad pueden completarse con ERA5, con procedencia diferenciada
+y sin aplicar ruido sintético al reanálisis. No hay que activar otro modo para ver las curvas completas.
 
 El tratamiento conserva la prioridad de las mediciones. Sus valores añadidos son
 estimaciones exploratorias; no son nuevas observaciones ni promedios anuales
-oficiales. Las fuentes descargadas tienen 100 fechas distintas: antes de 2025
-predomina un día por año; 2025 aporta el primer trimestre. Completar el calendario
+oficiales. Las fuentes vigentes abarcan 4.013 fechas de 2015–2025; cinco fechas de 2020
+carecen de mediciones utilizables y persisten huecos por sensor. Completar el calendario
 no demuestra cómo fue la variación real durante los periodos ausentes.
 
 La variación interna usa PCG64 con semilla 20251024 y SHA256 por sector/variable.
@@ -283,8 +347,10 @@ No alimenta el HGB de pronósticos. Sus fuentes y artefactos, y los recorridos
 originales de 2024, permanecen conservados. La comprobación temporal limitada
 de KNN (25–31 de marzo de 2025) no valida meses/años ausentes ni precisión espacial.
 
-El procedimiento y las comprobaciones están ejecutados en
-`notebooks/04_mapa_historico_barrios.ipynb`. Reproducir con el entorno de investigación:
+El notebook 04 documenta la base del procedimiento y sus comprobaciones; el
+notebook 05 reproduce la integración vigente y amplía las fuentes del mapa.
+La siguiente orden reconstruye el paquete del mapa con las fuentes locales
+disponibles en el entorno de investigación:
 
 ```bash
 python -B -m research.neighborhood_history

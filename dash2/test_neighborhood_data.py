@@ -8,6 +8,7 @@ import pandas as pd
 
 from dash2 import neighborhood_data as maps
 from dash2.rmcab_data import VARIABLES, load_samples
+from dash2.history_data import load_observations
 
 
 class SpatialInterpolationTests(unittest.TestCase):
@@ -40,10 +41,12 @@ class MapHistoryTests(unittest.TestCase):
             self.assertFalse(self.frame[var].isna().any())
             observed=self.frame[f'{var}_hours'].gt(0)
             self.assertTrue(self.frame.loc[observed,f'{var}_origin'].eq('observed_daily_aggregate').all())
-            self.assertTrue(self.frame.loc[~observed,f'{var}_origin'].eq('knn_scenario_baseline').all())
+            self.assertTrue(self.frame.loc[~observed,f'{var}_origin'].isin(['knn_scenario_baseline','weather_reanalysis']).all())
+            if var in {'pm_25','pm_10'}:
+                self.assertFalse(self.frame[f'{var}_origin'].eq('weather_reanalysis').any())
 
     def test_every_published_daily_aggregate_is_preserved(self):
-        raw=pd.concat([load_samples(maps.ROOT/path) for path in ['data/samples/rmcab_pilot_2015_2025.csv','data/samples/rmcab_2025_q1.csv']]).drop_duplicates(['station_id','datetime'])
+        raw=load_observations(maps.ROOT)
         original=raw.groupby(['station_id','report_date'])[list(VARIABLES)].mean()
         actual=self.frame.set_index(['station_id','report_date'])
         for var in VARIABLES:
@@ -56,7 +59,7 @@ class MapHistoryTests(unittest.TestCase):
         data,info=maps.aggregates(2015,'all','estimated')
         self.assertEqual(len(data),1160)
         self.assertTrue(data.pm_25_mean.notna().all())
-        self.assertEqual(info['pm_25']['source_days'],1)
+        self.assertGreater(info['pm_25']['source_days'],300)
         self.assertEqual(info['pm_25']['represented_days'],365)
         name=data.neighborhood.iloc[0]
         figure=maps.map_figure(data,'pm_25_mean',geo,[name],mode='estimated')
@@ -66,11 +69,11 @@ class MapHistoryTests(unittest.TestCase):
 
     def test_observed_only_does_not_fill_missing_months_or_hide_boundaries(self):
         data,info=maps.aggregates(2015,12,'observed')
-        self.assertTrue(data.pm_25_mean.isna().all())
-        self.assertEqual(info['pm_25']['represented_days'],0)
-        self.assertEqual(info['pm_25']['days_added'],0)
+        self.assertTrue(data.temperature_mean.isna().all())
+        self.assertEqual(info['temperature']['represented_days'],0)
+        self.assertEqual(info['temperature']['days_added'],0)
         geo=json.loads((maps.ROOT/'dash2/datasets/bogota_cadastral.json').read_text(encoding='utf-8'))
-        figure=maps.map_figure(data,'pm_25_mean',geo,mode='observed')
+        figure=maps.map_figure(data,'temperature_mean',geo,mode='observed')
         self.assertEqual(len(figure.data[0].locations),1160)
         self.assertTrue(figure.layout.annotations)
 
@@ -89,8 +92,8 @@ class MapHistoryTests(unittest.TestCase):
     def test_export_has_units_scope_and_observed_coverage(self):
         exported=maps.export_aggregates(2016,7,'estimated')
         self.assertTrue(exported.dataset_mode.eq('estimated').all())
-        self.assertTrue(exported.pm_25_source_days.eq(0).all())
-        self.assertTrue(exported.pm_25_temporal_days_added.eq(31).all())
+        self.assertTrue(exported.pm_25_source_days.gt(0).all())
+        self.assertTrue((exported.pm_25_source_days+exported.pm_25_temporal_days_added).eq(31).all())
         self.assertTrue(exported.pm_25_unit.eq('µg/m³').all())
         self.assertTrue(exported.value_scope.str.contains('not_neighborhood_measurement').all())
 

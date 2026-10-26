@@ -80,7 +80,7 @@ class PredictionFigureTests(SimpleTestCase):
         figure, _ = plots.render(params)
         self.assertEqual(figure.data[0].type, 'heatmap')
         self.assertEqual(sum(value is None for row in figure.data[0].z for value in row), sum(p['value'] is None for p in result['heatmap']))
-        params = self.params | {'view': 'relationship'}
+        params = self.params | {'view': 'relationship', 'mode': 'estimated'}
         result = data.query_result(params)
         figure, _ = plots.render(params)
         self.assertEqual(len(figure.data[0].x), len(result['scatter']))

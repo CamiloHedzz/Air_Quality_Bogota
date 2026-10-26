@@ -87,7 +87,7 @@ def month_options(data, year, variable):
 
 
 def station_options(period, variable):
-    counts = period.loc[period[variable].notna()].groupby(["station_id", "station_label"])[variable].count()
+    counts = period.loc[period[variable].notna()].groupby(["station_id", "station_label"], observed=True)[variable].count()
     return [{"label": f"{name} · {int(count)} mediciones", "value": station} for (station, name), count in counts.sort_values(ascending=False).items()]
 
 
@@ -126,7 +126,7 @@ def time_series(period, variable, frequency="hour", statistic="mean"):
 def station_summary(period, variable, statistic="mean"):
     if period.empty:
         return pd.DataFrame(columns=["station_id", "station_label", "value", "observations", "slots", "presence_pct"])
-    result = period.groupby(["station_id", "station_label"], as_index=False).agg(
+    result = period.groupby(["station_id", "station_label"], as_index=False, observed=True).agg(
         value=(variable, statistic), observations=(variable, "count"), slots=(variable, "size"))
     result["presence_pct"] = 100 * result.observations / result.slots
     return result

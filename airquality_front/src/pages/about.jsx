@@ -106,7 +106,7 @@ export function About() {
             Explora el proyecto en GitHub <span aria-hidden="true">↗</span>
           </a>
         </section>
-        <section className="about-panel" aria-labelledby="contact-heading">
+        <section id="contact" className="about-panel" aria-labelledby="contact-heading">
           <p className="about-eyebrow">Sigamos la conversación</p>
           <h2 id="contact-heading" className="section-heading">Hablemos</h2>
           <p>

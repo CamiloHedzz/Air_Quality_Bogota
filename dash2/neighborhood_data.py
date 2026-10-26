@@ -19,9 +19,10 @@ MODES = {'observed': 'Datos originales', 'estimated': 'Datos con tratamiento'}
 # Aceptar peticiones de pestañas anteriores hasta que se recarguen; no son
 # opciones adicionales del selector.
 HISTORICAL_MODES = {*MODES, 'simulated'}
-ORIGINS = {1: 'observed_spatial', 2: 'short_gap', 3: 'simulated'}
+ORIGINS = {1: 'observed_spatial', 2: 'short_gap', 3: 'simulated', 4: 'weather_reanalysis'}
 ORIGIN_LABELS = {'observed_spatial': 'Con mediciones de origen',
                  'short_gap': 'Relleno de hueco corto',
+                 'weather_reanalysis': 'Reanálisis meteorológico ERA5',
                  'simulated': 'Relleno estimado con variación sintética',
                  'mixed': 'Mediciones y/o rellenos agregados', 'missing': 'Sin datos'}
 COLORS = ['#526cc5', '#b74b74', '#648f39', '#a27621', '#7b55a3', '#258c91']
@@ -46,7 +47,7 @@ def load_history():
         raise ValueError('Hay claves duplicadas en el mapa.')
     for var in VARIABLES:
         if not np.isfinite(frame[var]).all(): raise ValueError('Base de simulación no finita.')
-        if not frame[f'{var}_origin'].isin(['observed_daily_aggregate', 'knn_scenario_baseline']).all():
+        if not frame[f'{var}_origin'].isin(['observed_daily_aggregate', 'knn_scenario_baseline', 'weather_reanalysis']).all():
             raise ValueError('Procedencia desconocida en el calendario.')
         observed = frame[f'{var}_hours'].gt(0)
         if not observed.eq(frame[f'{var}_origin'].eq('observed_daily_aggregate')).all():
@@ -118,6 +119,12 @@ def sector_values(part, stations, dates, points, variable, mode, variation=DEFAU
         short = interpolate(short_stations, distances)
         added = (kinds == 0) & np.isfinite(short).any(axis=1)
         values[added], kinds[added] = short[added], 2
+    if mode in {'estimated', 'simulated'} and variable in {'temperature', 'humidity'}:
+        weather = part.pivot(index='report_date', columns='station_id', values=variable).reindex(index=dates, columns=stations.index)
+        origin = part.pivot(index='report_date', columns='station_id', values=f'{variable}_origin').reindex(index=dates, columns=stations.index)
+        weather_values = interpolate(weather.where(origin.eq('weather_reanalysis')).to_numpy(dtype=float), distances)
+        added = (kinds == 0) & np.isfinite(weather_values).any(axis=1)
+        values[added], kinds[added] = weather_values[added], 4
     if mode in {'estimated', 'simulated'}:
         rate = variation_rate(variation)
         baseline = interpolate(variable_daily(part, stations, dates, variable, 'simulated'), distances)
@@ -150,7 +157,8 @@ def aggregates(year, month='all', mode='estimated', variation=DEFAULT_VARIATION)
         source_days = int((kinds == 1).sum())
         short_days, sim_days = int((kinds == 2).sum()), int((kinds == 3).sum())
         info[var] = {'source_days': source_days, 'observed_hours': int(actual[f'{var}_hours'].sum()),
-                     'represented_days': int((kinds > 0).sum()), 'days_added': short_days + sim_days,
+                     'represented_days': int((kinds > 0).sum()), 'days_added': short_days + sim_days + int((kinds == 4).sum()),
+                     'reanalysis_days': int((kinds == 4).sum()),
                      'short_gap_days': short_days, 'simulated_days': sim_days,
                      'source_start': str(actual.report_date.min().date()) if len(actual) else None,
                      'source_end': str(actual.report_date.max().date()) if len(actual) else None}
@@ -237,7 +245,7 @@ def charts(year, month, mode, selected, variable, extras, frequency, variation=D
                 line={'color': color}, marker={'color': color, 'size': 4},
                 name=name.split(',')[0], legendgroup=name, showlegend=row==1,
                 customdata=details, hovertemplate='%{x|%d/%m/%Y}<br>%{y:.2f} '+VARIABLES[var][1]
-                +'<br>%{customdata[3]}<br>Días de origen: %{customdata[0]}<br>Relleno corto: %{customdata[1]}<br>Relleno con variación sintética: %{customdata[2]}<extra>%{fullData.name}</extra>'), row=row, col=1)
+                +'<br>%{customdata[4]}<br>Días de origen: %{customdata[0]}<br>Relleno corto: %{customdata[1]}<br>Relleno con variación sintética: %{customdata[2]}<br>Reanálisis ERA5: %{customdata[3]}<extra>%{fullData.name}</extra>'), row=row, col=1)
         figure.update_yaxes(title_text=VARIABLES[var][1], row=row, col=1)
     figure.update_xaxes(tickformat='%d/%m', title_text='Día del reporte', row=len(variables), col=1)
     aggregate, _ = aggregates(year, month, mode, variation)
@@ -270,6 +278,7 @@ def export_aggregates(year, month, mode, variation=DEFAULT_VARIATION):
         result[f'{var}_temporal_days_added'] = info[var]['days_added']
         result[f'{var}_short_gap_days'] = info[var]['short_gap_days']
         result[f'{var}_simulated_days'] = info[var]['simulated_days']
+        result[f'{var}_reanalysis_days'] = info[var]['reanalysis_days']
         result[f'{var}_simulation_scale'] = load_history()[2]['simulation']['scale_by_variable'][var] if mode in {'estimated', 'simulated'} else 0
     result['value_scope'] = ('treated_with_estimated_and_synthetic_gaps_not_neighborhood_measurement' if mode in {'estimated', 'simulated'}
                              else 'exploratory_centroid_estimate_not_neighborhood_measurement')

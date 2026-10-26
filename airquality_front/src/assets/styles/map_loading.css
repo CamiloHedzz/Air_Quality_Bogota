@@ -4,6 +4,7 @@
   --loading-muted: #73806b;
   --loading-line: #d6ddca;
   position: fixed;
+  isolation: isolate;
   inset: 0;
   z-index: 1800;
   display: grid;
@@ -29,7 +30,8 @@ html[data-theme="dark"] .map-loading-screen {
 
 .map-loading-screen:focus { outline: none; }
 .map-loading-screen--finishing { opacity: 0; visibility: hidden; pointer-events: none; }
-.map-loading-content { width: min(100%, 38rem); margin-top: -1.5rem; }
+.map-loading-screen > .nature-atmosphere { z-index: 0; color: var(--loading-ink); opacity: .65; }
+.map-loading-content { position: relative; z-index: 1; width: min(100%, 38rem); margin-top: -1.5rem; }
 .map-loading-logo { width: clamp(136px, 15vw, 174px); margin-inline: auto; }
 .map-loading-logo svg { display: block; width: 100%; height: auto; overflow: visible; }
 .map-loading-letter { fill: var(--loading-ink); font: 40px / 1 "ELEPHNT", Elephant, Georgia, serif; letter-spacing: normal; }
@@ -39,7 +41,7 @@ html[data-theme="dark"] .map-loading-screen {
 .map-loading-label { margin: .25rem 0 0; color: var(--loading-muted); font: 500 .64rem / 1.5 system-ui, sans-serif; letter-spacing: .17em; text-transform: uppercase; }
 .map-loading-phrase-region { display: grid; place-items: start center; min-height: 5.6rem; margin-top: 1.75rem; }
 .map-loading-phrase { max-width: 34rem; margin: 0; color: var(--loading-ink); font: 400 clamp(.88rem, 1.35vw, 1.05rem) / 1.75 system-ui, sans-serif; text-wrap: balance; animation: map-loading-phrase-in 380ms ease both; }
-.map-loading-signature { position: absolute; inset-inline: 1.5rem; bottom: 1.8rem; margin: 0; color: var(--loading-muted); font: 500 .53rem / 1.5 system-ui, sans-serif; letter-spacing: .12em; }
+.map-loading-signature { position: absolute; z-index: 1; inset-inline: 1.5rem; bottom: 1.8rem; margin: 0; color: var(--loading-muted); font: 500 .53rem / 1.5 system-ui, sans-serif; letter-spacing: .12em; }
 .map-loading-help { max-width: 28rem; margin: .25rem auto 0; padding-top: 1.1rem; border-top: 1px solid var(--loading-line); }
 .map-loading-hint { margin: 0; color: var(--loading-muted); font: 400 .74rem / 1.7 system-ui, sans-serif; text-wrap: balance; }
 .map-loading-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; margin-top: 1.1rem; }

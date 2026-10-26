@@ -1,21 +1,60 @@
 {
   "schema_version": 1,
   "model": "HistGradientBoostingRegressor",
-  "model_version": "hgb_2025_q1_frozen_v1",
+  "model_version": "hgb_2015_2024_era5_holdout_2025_v1",
   "serving_mode": "precomputed_historical_backtest",
-  "forecast_sha256": "af44b2314c0b68324cd486cae99e1be18fd2df33f9d490bd7cac70f14983bc66",
-  "forecast_rows": 17481,
+  "forecast_sha256": "0f6d2543232ba47e660de8c4979d7638e671d40914642d521f8f0d08a4b9deb7",
+  "forecast_rows": 57933,
   "input_sha256": {
-    "data/samples/rmcab_2025_q1.csv": "45445f32d0d4e95e661306986f80197104bc12a424171857b3c653fcd62b74a5",
-    "data/samples/rmcab_pilot_2015_2025.csv": "c45e73c4d3d186e3b4d13b4abb07a30fd50e0fc1abd29ab0875e7ca7af7e5a5d",
-    "dash2/datasets/final_rutes.csv": "e543bf15d375f9b9605bdb5a4650db9ac9066ed63a0a4f9f250d8a8381b5d6fa"
+    "data/history/observations.csv.gz": "9af50233c7b89ec119b7c693e50604e3aed621a180793493cb40e3ac522fff32",
+    "data/history/observations_manifest.json": "35f2ccc8944299a7fb66ea8dd35b7d18ebf9cba6703fcd956b99a75712104a9a",
+    "data/weather/era5_hourly_2015_2025.csv.gz": "9ba6b0b858e8638335dd1805e94a3b36ce832c33f15389af41bee148347a5c1a",
+    "data/weather/station_grids.csv": "cbb84227aaf4f127e34ecb90b1d1bba61a7b87c88311e755d97ef0060bd140ee",
+    "data/weather/era5_manifest.json": "50b056670b6dac10d4161f8bf839af1e5c08efced506e2ff5e5dee34c42ed358"
   },
   "training_years": [
-    2025
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
   ],
-  "training_scope": "Reportes de enero–marzo de 2025; corte temporal específico por horizonte",
-  "target_report_start": "2025-03-25",
-  "target_report_end": "2025-03-31",
+  "training_scope": "Mediciones publicadas de 2015–2024; prueba final en cuatro semanas de 2025",
+  "target_report_start": "2025-01-15",
+  "target_report_end": "2025-10-21",
+  "evaluation_label": "cuatro semanas de 2025 (enero, abril, julio y octubre)",
+  "evaluation_periods": [
+    {
+      "start": "2025-01-15",
+      "end": "2025-01-21"
+    },
+    {
+      "start": "2025-04-15",
+      "end": "2025-04-21"
+    },
+    {
+      "start": "2025-07-15",
+      "end": "2025-07-21"
+    },
+    {
+      "start": "2025-10-15",
+      "end": "2025-10-21"
+    }
+  ],
+  "weather_features": [
+    "weather_temperature",
+    "weather_humidity",
+    "weather_precipitation",
+    "weather_wind_speed",
+    "weather_wind_sin",
+    "weather_wind_cos"
+  ],
+  "predictor_scope": "ERA5 retrospectivo en el origen; disponibilidad operativa histórica no verificada",
   "full_history_collected": false,
   "target_years": [
     2015,
@@ -33,2965 +72,2285 @@
   "scores": [
     {
       "target": "pm_10",
-      "horizon_hours": 1,
-      "method": "hgb_native_missing",
-      "n": 2966,
-      "MAE_ug_m3": 7.330072415859545,
-      "RMSE_ug_m3": 10.56169226826899,
-      "baseline_MAE": 8.065643964935939,
-      "MAE_skill_vs_persistence": 0.0911981178780231
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "method": "persistence",
-      "n": 2966,
-      "MAE_ug_m3": 8.065643964935939,
-      "RMSE_ug_m3": 11.570474929217909,
-      "baseline_MAE": 8.065643964935939,
-      "MAE_skill_vs_persistence": 0.0
-    },
-    {
-      "target": "pm_10",
       "horizon_hours": 24,
       "method": "hgb_native_missing",
-      "n": 2972,
-      "MAE_ug_m3": 12.365821255411722,
-      "RMSE_ug_m3": 17.519633241422994,
-      "baseline_MAE": 15.42378869448183,
-      "MAE_skill_vs_persistence": 0.1982630532382848
+      "n": 9692,
+      "MAE_ug_m3": 13.272357677096846,
+      "RMSE_ug_m3": 18.23626486020781,
+      "baseline_MAE": 15.73882583574082,
+      "MAE_skill_vs_persistence": 0.1567123357476226
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "method": "persistence",
-      "n": 2972,
-      "MAE_ug_m3": 15.42378869448183,
-      "RMSE_ug_m3": 21.692587085336605,
-      "baseline_MAE": 15.42378869448183,
+      "n": 9692,
+      "MAE_ug_m3": 15.73882583574082,
+      "RMSE_ug_m3": 23.31876521569017,
+      "baseline_MAE": 15.73882583574082,
       "MAE_skill_vs_persistence": 0.0
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "method": "hgb_native_missing",
-      "n": 2974,
-      "MAE_ug_m3": 13.788976545901976,
-      "RMSE_ug_m3": 19.10782483760321,
-      "baseline_MAE": 19.26785474108944,
-      "MAE_skill_vs_persistence": 0.2843533060016041
+      "n": 9640,
+      "MAE_ug_m3": 14.177183105774729,
+      "RMSE_ug_m3": 19.139318953640608,
+      "baseline_MAE": 16.633921161825725,
+      "MAE_skill_vs_persistence": 0.1476944631485404
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "method": "persistence",
-      "n": 2974,
-      "MAE_ug_m3": 19.26785474108944,
-      "RMSE_ug_m3": 26.506101745150627,
-      "baseline_MAE": 19.26785474108944,
+      "n": 9640,
+      "MAE_ug_m3": 16.633921161825725,
+      "RMSE_ug_m3": 24.438219208675708,
+      "baseline_MAE": 16.633921161825725,
       "MAE_skill_vs_persistence": 0.0
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "method": "hgb_native_missing",
-      "n": 2970,
-      "MAE_ug_m3": 14.202880776914917,
-      "RMSE_ug_m3": 19.901651856853423,
-      "baseline_MAE": 20.44794612794613,
-      "MAE_skill_vs_persistence": 0.3054128425395304
+      "n": 9620,
+      "MAE_ug_m3": 14.498331135012316,
+      "RMSE_ug_m3": 19.21960564355366,
+      "baseline_MAE": 19.15093555093555,
+      "MAE_skill_vs_persistence": 0.2429439754287068
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "method": "persistence",
-      "n": 2970,
-      "MAE_ug_m3": 20.44794612794613,
-      "RMSE_ug_m3": 27.90213126793237,
-      "baseline_MAE": 20.44794612794613,
-      "MAE_skill_vs_persistence": 0.0
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "method": "hgb_native_missing",
-      "n": 2854,
-      "MAE_ug_m3": 4.18012553883969,
-      "RMSE_ug_m3": 5.55681927665644,
-      "baseline_MAE": 4.892011212333568,
-      "MAE_skill_vs_persistence": 0.1455200412662785
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "method": "persistence",
-      "n": 2854,
-      "MAE_ug_m3": 4.892011212333568,
-      "RMSE_ug_m3": 6.557549664574696,
-      "baseline_MAE": 4.892011212333568,
+      "n": 9620,
+      "MAE_ug_m3": 19.15093555093555,
+      "RMSE_ug_m3": 27.34533075947545,
+      "baseline_MAE": 19.15093555093555,
       "MAE_skill_vs_persistence": 0.0
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "method": "hgb_native_missing",
-      "n": 2855,
-      "MAE_ug_m3": 6.486687629069799,
-      "RMSE_ug_m3": 8.445112587654158,
-      "baseline_MAE": 7.999929947460595,
-      "MAE_skill_vs_persistence": 0.1891569461644027
+      "n": 9692,
+      "MAE_ug_m3": 6.088667744960585,
+      "RMSE_ug_m3": 8.014275833969677,
+      "baseline_MAE": 6.778652496904663,
+      "MAE_skill_vs_persistence": 0.1017878925434142
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "method": "persistence",
-      "n": 2855,
-      "MAE_ug_m3": 7.999929947460595,
-      "RMSE_ug_m3": 10.432669957965643,
-      "baseline_MAE": 7.999929947460595,
+      "n": 9692,
+      "MAE_ug_m3": 6.778652496904663,
+      "RMSE_ug_m3": 9.844677516424484,
+      "baseline_MAE": 6.778652496904663,
       "MAE_skill_vs_persistence": 0.0
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "method": "hgb_native_missing",
-      "n": 2855,
-      "MAE_ug_m3": 7.382344130893798,
-      "RMSE_ug_m3": 9.558373304639709,
-      "baseline_MAE": 9.40707530647986,
-      "MAE_skill_vs_persistence": 0.2152349279261504
+      "n": 9654,
+      "MAE_ug_m3": 6.5509860320149,
+      "RMSE_ug_m3": 8.433700863532511,
+      "baseline_MAE": 7.380495131551688,
+      "MAE_skill_vs_persistence": 0.1123920664876031
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "method": "persistence",
-      "n": 2855,
-      "MAE_ug_m3": 9.40707530647986,
-      "RMSE_ug_m3": 12.082416338979607,
-      "baseline_MAE": 9.40707530647986,
+      "n": 9654,
+      "MAE_ug_m3": 7.380495131551688,
+      "RMSE_ug_m3": 10.6092072090773,
+      "baseline_MAE": 7.380495131551688,
       "MAE_skill_vs_persistence": 0.0
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "method": "hgb_native_missing",
-      "n": 2855,
-      "MAE_ug_m3": 7.613358405689868,
-      "RMSE_ug_m3": 9.921788410505927,
-      "baseline_MAE": 9.398879159369526,
-      "MAE_skill_vs_persistence": 0.1899716682600087
+      "n": 9635,
+      "MAE_ug_m3": 6.712205550432343,
+      "RMSE_ug_m3": 8.514059634811133,
+      "baseline_MAE": 7.938629994810586,
+      "MAE_skill_vs_persistence": 0.1544881730449644
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "method": "persistence",
-      "n": 2855,
-      "MAE_ug_m3": 9.398879159369526,
-      "RMSE_ug_m3": 12.260791379594568,
-      "baseline_MAE": 9.398879159369526,
+      "n": 9635,
+      "MAE_ug_m3": 7.938629994810586,
+      "RMSE_ug_m3": 11.34058886874859,
+      "baseline_MAE": 7.938629994810586,
       "MAE_skill_vs_persistence": 0.0
     }
   ],
   "station_scores": [
     {
       "target": "pm_10",
-      "horizon_hours": 1,
+      "horizon_hours": 24,
       "station_id": "1",
-      "station_name": "usaquen",
+      "station_name": "Usaquén",
       "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 8.108981954585088,
-      "RMSE_ug_m3": 10.142688235213992
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "1",
-      "station_name": "usaquen",
-      "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 8.775301204819277,
-      "RMSE_ug_m3": 10.880121699354794
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "11",
-      "station_name": "suba",
-      "method": "hgb_native_missing",
-      "n": 157,
-      "MAE_ug_m3": 7.359761315312681,
-      "RMSE_ug_m3": 10.499681905470746
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "11",
-      "station_name": "suba",
-      "method": "persistence",
-      "n": 157,
-      "MAE_ug_m3": 8.924840764331211,
-      "RMSE_ug_m3": 12.269142069996498
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "13",
-      "station_name": "puente aranda",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.854614117921973,
-      "RMSE_ug_m3": 9.995322030208444
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "13",
-      "station_name": "puente aranda",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 7.945833333333334,
-      "RMSE_ug_m3": 11.304710880656703
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "17",
-      "station_name": "minambiente",
-      "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 9.37363283291472,
-      "RMSE_ug_m3": 14.109422056476602
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "17",
-      "station_name": "minambiente",
-      "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 10.873493975903614,
-      "RMSE_ug_m3": 15.670361864483391
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "24",
-      "station_name": "san cristobal",
-      "method": "hgb_native_missing",
-      "n": 160,
-      "MAE_ug_m3": 8.250282931559568,
-      "RMSE_ug_m3": 12.986745730302628
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "24",
-      "station_name": "san cristobal",
-      "method": "persistence",
-      "n": 160,
-      "MAE_ug_m3": 9.31875,
-      "RMSE_ug_m3": 14.31192684441896
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "26",
-      "station_name": "movil 7ma",
-      "method": "hgb_native_missing",
-      "n": 161,
-      "MAE_ug_m3": 10.485439846595234,
-      "RMSE_ug_m3": 13.97628425151508
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "26",
-      "station_name": "movil 7ma",
-      "method": "persistence",
-      "n": 161,
-      "MAE_ug_m3": 11.737888198757762,
-      "RMSE_ug_m3": 15.704412482756922
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "27",
-      "station_name": "bolivia",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.21616454081939,
-      "RMSE_ug_m3": 8.06105961626041
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "27",
-      "station_name": "bolivia",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 6.710714285714286,
-      "RMSE_ug_m3": 8.624701513123581
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "30",
-      "station_name": "fontibon",
-      "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 6.206645691737837,
-      "RMSE_ug_m3": 8.171935862383558
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "30",
-      "station_name": "fontibon",
-      "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 6.743975903614457,
-      "RMSE_ug_m3": 9.002252060938678
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "32",
-      "station_name": "usme",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 11.049260441644403,
-      "RMSE_ug_m3": 14.284664769567348
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "32",
-      "station_name": "usme",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 11.339880952380952,
-      "RMSE_ug_m3": 15.002120881808043
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "34",
-      "station_name": "jazmin",
-      "method": "hgb_native_missing",
-      "n": 164,
-      "MAE_ug_m3": 5.793298418603584,
-      "RMSE_ug_m3": 8.442619101422537
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "34",
-      "station_name": "jazmin",
-      "method": "persistence",
-      "n": 164,
-      "MAE_ug_m3": 6.383536585365854,
-      "RMSE_ug_m3": 9.278124679102756
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "37",
-      "station_name": "ciudad bolivar",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.260416069736176,
-      "RMSE_ug_m3": 8.245872022904095
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "37",
-      "station_name": "ciudad bolivar",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 6.289880952380951,
-      "RMSE_ug_m3": 8.900511622533681
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "38",
-      "station_name": "colina",
-      "method": "hgb_native_missing",
-      "n": 156,
-      "MAE_ug_m3": 4.036533515699763,
-      "RMSE_ug_m3": 5.128902673687222
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "38",
-      "station_name": "colina",
-      "method": "persistence",
-      "n": 156,
-      "MAE_ug_m3": 4.41474358974359,
-      "RMSE_ug_m3": 5.5968569476365655
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "39",
-      "station_name": "movil fontibon",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 8.20749858238481,
-      "RMSE_ug_m3": 10.75871057636507
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "39",
-      "station_name": "movil fontibon",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 8.626190476190475,
-      "RMSE_ug_m3": 11.560034807988458
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "4",
-      "station_name": "tunal",
-      "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 11.767702779723344,
-      "RMSE_ug_m3": 17.03257130495857
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "4",
-      "station_name": "tunal",
-      "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 12.72289156626506,
-      "RMSE_ug_m3": 17.9416725657847
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "5",
-      "station_name": "centro de alto rendimiento",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 5.012974994979198,
-      "RMSE_ug_m3": 6.187709779499666
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "5",
-      "station_name": "centro de alto rendimiento",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 5.377380952380952,
-      "RMSE_ug_m3": 6.801199123964063
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "6",
-      "station_name": "las ferias",
-      "method": "hgb_native_missing",
-      "n": 164,
-      "MAE_ug_m3": 4.474413476456204,
-      "RMSE_ug_m3": 5.858419817162664
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "6",
-      "station_name": "las ferias",
-      "method": "persistence",
-      "n": 164,
-      "MAE_ug_m3": 4.842682926829268,
-      "RMSE_ug_m3": 6.346508546571675
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "8",
-      "station_name": "guaymaral",
-      "method": "hgb_native_missing",
-      "n": 164,
-      "MAE_ug_m3": 6.438137644884772,
-      "RMSE_ug_m3": 9.197215724148446
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "8",
-      "station_name": "guaymaral",
-      "method": "persistence",
-      "n": 164,
-      "MAE_ug_m3": 7.5,
-      "RMSE_ug_m3": 10.896967579974916
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "9",
-      "station_name": "kennedy",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 5.934766017968583,
-      "RMSE_ug_m3": 8.15338951749792
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 1,
-      "station_id": "9",
-      "station_name": "kennedy",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 6.613095238095238,
-      "RMSE_ug_m3": 8.886908509551724
+      "n": 568,
+      "MAE_ug_m3": 10.856996217785312,
+      "RMSE_ug_m3": 14.19066189068463
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "1",
-      "station_name": "usaquen",
-      "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 11.501300472139851,
-      "RMSE_ug_m3": 15.150098570366367
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 24,
-      "station_id": "1",
-      "station_name": "usaquen",
+      "station_name": "Usaquén",
       "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 13.35421686746988,
-      "RMSE_ug_m3": 17.77693781482877
+      "n": 568,
+      "MAE_ug_m3": 12.444014084507044,
+      "RMSE_ug_m3": 19.28068890856165
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "hgb_native_missing",
-      "n": 157,
-      "MAE_ug_m3": 13.62616309594478,
-      "RMSE_ug_m3": 18.46029888977863
+      "n": 484,
+      "MAE_ug_m3": 12.093993067530496,
+      "RMSE_ug_m3": 15.411482116742862
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "persistence",
-      "n": 157,
-      "MAE_ug_m3": 14.58407643312102,
-      "RMSE_ug_m3": 19.099683193424227
+      "n": 484,
+      "MAE_ug_m3": 13.142768595041325,
+      "RMSE_ug_m3": 17.41926061851845
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 12.22745973602045,
-      "RMSE_ug_m3": 18.32645792923654
+      "n": 435,
+      "MAE_ug_m3": 15.764069404377352,
+      "RMSE_ug_m3": 21.18354707282115
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 16.064071856287423,
-      "RMSE_ug_m3": 22.80490413693096
+      "n": 435,
+      "MAE_ug_m3": 18.312183908045974,
+      "RMSE_ug_m3": 26.689904243098123
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 13.122184412942069,
-      "RMSE_ug_m3": 18.35599710651295
+      "n": 657,
+      "MAE_ug_m3": 11.731510896761398,
+      "RMSE_ug_m3": 15.881067876572246
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 16.107784431137723,
-      "RMSE_ug_m3": 23.076026391300044
+      "n": 657,
+      "MAE_ug_m3": 13.729071537290716,
+      "RMSE_ug_m3": 20.109593188425205
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "hgb_native_missing",
-      "n": 162,
-      "MAE_ug_m3": 12.18597038464975,
-      "RMSE_ug_m3": 18.219620649945806
+      "n": 482,
+      "MAE_ug_m3": 8.837866556711829,
+      "RMSE_ug_m3": 11.380097168164903
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "persistence",
-      "n": 162,
-      "MAE_ug_m3": 14.339506172839506,
-      "RMSE_ug_m3": 23.10029127067716
+      "n": 482,
+      "MAE_ug_m3": 9.53941908713693,
+      "RMSE_ug_m3": 14.37739696775688
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "hgb_native_missing",
-      "n": 159,
-      "MAE_ug_m3": 13.95401676260276,
-      "RMSE_ug_m3": 18.070529931311583
+      "n": 631,
+      "MAE_ug_m3": 13.925155838179473,
+      "RMSE_ug_m3": 17.597237010851135
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "persistence",
-      "n": 159,
-      "MAE_ug_m3": 17.71509433962264,
-      "RMSE_ug_m3": 23.412076924355723
+      "n": 631,
+      "MAE_ug_m3": 16.856418383518225,
+      "RMSE_ug_m3": 22.569142924828387
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 12.557534412392584,
-      "RMSE_ug_m3": 15.27549702265746
+      "n": 662,
+      "MAE_ug_m3": 14.47358653940914,
+      "RMSE_ug_m3": 19.39805519878259
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 14.642261904761902,
-      "RMSE_ug_m3": 18.54173381475268
+      "n": 662,
+      "MAE_ug_m3": 17.703172205438065,
+      "RMSE_ug_m3": 24.94154949554399
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 10.348649509952606,
-      "RMSE_ug_m3": 13.123587295156907
+      "n": 523,
+      "MAE_ug_m3": 23.24661480243444,
+      "RMSE_ug_m3": 32.96683094722677
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 13.51987951807229,
-      "RMSE_ug_m3": 16.92740879977496
+      "n": 523,
+      "MAE_ug_m3": 30.54684512428298,
+      "RMSE_ug_m3": 44.09398098039922
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "32",
-      "station_name": "usme",
+      "station_name": "Usme",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 16.502977821362386,
-      "RMSE_ug_m3": 22.222677683753897
+      "n": 495,
+      "MAE_ug_m3": 13.055653161171646,
+      "RMSE_ug_m3": 18.321478489412264
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "32",
-      "station_name": "usme",
+      "station_name": "Usme",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 20.966666666666665,
-      "RMSE_ug_m3": 26.927882080351832
+      "n": 495,
+      "MAE_ug_m3": 15.24161616161616,
+      "RMSE_ug_m3": 22.1948242214761
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "hgb_native_missing",
-      "n": 165,
-      "MAE_ug_m3": 11.589024882422969,
-      "RMSE_ug_m3": 17.811888175770033
+      "n": 593,
+      "MAE_ug_m3": 11.494548260133962,
+      "RMSE_ug_m3": 15.287149981523434
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "persistence",
-      "n": 165,
-      "MAE_ug_m3": 14.89212121212121,
-      "RMSE_ug_m3": 21.877219367934472
+      "n": 593,
+      "MAE_ug_m3": 14.656661045531196,
+      "RMSE_ug_m3": 20.57831255772543
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 15.265983935408611,
-      "RMSE_ug_m3": 22.362983844618448
+      "n": 525,
+      "MAE_ug_m3": 14.186049088120727,
+      "RMSE_ug_m3": 19.007372278345088
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 19.549404761904764,
-      "RMSE_ug_m3": 28.52182017667309
+      "n": 525,
+      "MAE_ug_m3": 17.049904761904763,
+      "RMSE_ug_m3": 24.74687012436888
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "hgb_native_missing",
-      "n": 159,
-      "MAE_ug_m3": 6.388858029631089,
-      "RMSE_ug_m3": 7.977565245004864
+      "n": 364,
+      "MAE_ug_m3": 7.662361497774522,
+      "RMSE_ug_m3": 9.36886467045693
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "persistence",
-      "n": 159,
-      "MAE_ug_m3": 7.317610062893082,
-      "RMSE_ug_m3": 9.594387117004578
+      "n": 364,
+      "MAE_ug_m3": 6.872252747252747,
+      "RMSE_ug_m3": 9.480464297528012
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 16.38105368445553,
-      "RMSE_ug_m3": 21.85648668877011
+      "n": 590,
+      "MAE_ug_m3": 20.667357813516578,
+      "RMSE_ug_m3": 26.222894232493477
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 22.44345238095238,
-      "RMSE_ug_m3": 28.028245744673526
+      "n": 590,
+      "MAE_ug_m3": 25.912711864406777,
+      "RMSE_ug_m3": 33.57067500570972
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 16.56124034747625,
-      "RMSE_ug_m3": 24.88744384149462
+      "n": 626,
+      "MAE_ug_m3": 15.10697531877864,
+      "RMSE_ug_m3": 19.5458722211507
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 21.98795180722892,
-      "RMSE_ug_m3": 32.866286238094155
+      "n": 626,
+      "MAE_ug_m3": 17.636421725239614,
+      "RMSE_ug_m3": 25.16698798714395
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 8.187966113513667,
-      "RMSE_ug_m3": 10.343959510971452
+      "n": 472,
+      "MAE_ug_m3": 10.64984696161543,
+      "RMSE_ug_m3": 12.93123453345599
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 11.229166666666666,
-      "RMSE_ug_m3": 14.116528222180518
+      "n": 472,
+      "MAE_ug_m3": 12.173305084745763,
+      "RMSE_ug_m3": 16.38098189354381
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "hgb_native_missing",
-      "n": 165,
-      "MAE_ug_m3": 9.979780391612772,
-      "RMSE_ug_m3": 12.472487810559397
+      "n": 525,
+      "MAE_ug_m3": 10.110548436430276,
+      "RMSE_ug_m3": 12.763156869579324
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "persistence",
-      "n": 165,
-      "MAE_ug_m3": 11.562424242424244,
-      "RMSE_ug_m3": 14.230496488282842
+      "n": 525,
+      "MAE_ug_m3": 11.663428571428572,
+      "RMSE_ug_m3": 15.701271407421878
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "hgb_native_missing",
-      "n": 165,
-      "MAE_ug_m3": 9.081746303141289,
-      "RMSE_ug_m3": 11.405239364935774
+      "n": 478,
+      "MAE_ug_m3": 9.567575142908389,
+      "RMSE_ug_m3": 12.95020366696334
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "persistence",
-      "n": 165,
-      "MAE_ug_m3": 11.036363636363635,
-      "RMSE_ug_m3": 14.016224365161449
+      "n": 478,
+      "MAE_ug_m3": 11.552301255230123,
+      "RMSE_ug_m3": 16.60657227358567
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "9",
-      "station_name": "kennedy",
+      "station_name": "Kennedy",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 12.868053633596457,
-      "RMSE_ug_m3": 18.441970475893253
+      "n": 582,
+      "MAE_ug_m3": 12.353895794896076,
+      "RMSE_ug_m3": 15.607869675813308
     },
     {
       "target": "pm_10",
       "horizon_hours": 24,
       "station_id": "9",
-      "station_name": "kennedy",
+      "station_name": "Kennedy",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 15.79285714285714,
-      "RMSE_ug_m3": 20.616411631790545
+      "n": 582,
+      "MAE_ug_m3": 13.379725085910652,
+      "RMSE_ug_m3": 17.990319084330153
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "1",
-      "station_name": "usaquen",
+      "station_name": "Usaquén",
       "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 12.41940874178588,
-      "RMSE_ug_m3": 16.584272279655192
+      "n": 569,
+      "MAE_ug_m3": 11.276898920938708,
+      "RMSE_ug_m3": 14.500264345167611
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "1",
-      "station_name": "usaquen",
+      "station_name": "Usaquén",
       "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 16.654819277108434,
-      "RMSE_ug_m3": 21.578147413138424
+      "n": 569,
+      "MAE_ug_m3": 12.889103690685412,
+      "RMSE_ug_m3": 20.06476815001569
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "hgb_native_missing",
-      "n": 158,
-      "MAE_ug_m3": 15.328047186415512,
-      "RMSE_ug_m3": 19.948529487073277
+      "n": 483,
+      "MAE_ug_m3": 13.644459291326184,
+      "RMSE_ug_m3": 17.375594803008056
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "persistence",
-      "n": 158,
-      "MAE_ug_m3": 17.34683544303798,
-      "RMSE_ug_m3": 23.823177736573147
+      "n": 483,
+      "MAE_ug_m3": 15.925465838509318,
+      "RMSE_ug_m3": 21.1503902141587
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 13.70038971791412,
-      "RMSE_ug_m3": 21.086342450704507
+      "n": 435,
+      "MAE_ug_m3": 16.40052461081282,
+      "RMSE_ug_m3": 21.12805376266008
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 21.457831325301203,
-      "RMSE_ug_m3": 29.730709043696955
+      "n": 435,
+      "MAE_ug_m3": 18.442758620689656,
+      "RMSE_ug_m3": 26.9347316696295
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 14.471146439179408,
-      "RMSE_ug_m3": 19.643135563167554
+      "n": 657,
+      "MAE_ug_m3": 12.351627712726469,
+      "RMSE_ug_m3": 16.212067212010695
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 19.688622754491018,
-      "RMSE_ug_m3": 26.77316558066268
+      "n": 657,
+      "MAE_ug_m3": 14.884322678843226,
+      "RMSE_ug_m3": 21.562023382772047
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "hgb_native_missing",
-      "n": 162,
-      "MAE_ug_m3": 13.667973469735132,
-      "RMSE_ug_m3": 19.433060647429212
+      "n": 483,
+      "MAE_ug_m3": 9.572836871785244,
+      "RMSE_ug_m3": 11.76554243648616
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "persistence",
-      "n": 162,
-      "MAE_ug_m3": 16.679012345679013,
-      "RMSE_ug_m3": 25.916056322454654
+      "n": 483,
+      "MAE_ug_m3": 10.184265010351966,
+      "RMSE_ug_m3": 14.855201736548056
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "hgb_native_missing",
-      "n": 158,
-      "MAE_ug_m3": 14.740278803517905,
-      "RMSE_ug_m3": 18.99657058974657
+      "n": 631,
+      "MAE_ug_m3": 14.428064856517592,
+      "RMSE_ug_m3": 18.02771651220193
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "persistence",
-      "n": 158,
-      "MAE_ug_m3": 20.178481012658228,
-      "RMSE_ug_m3": 26.38238288294441
+      "n": 631,
+      "MAE_ug_m3": 17.449603803486532,
+      "RMSE_ug_m3": 23.199799510035938
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 14.59136299588234,
-      "RMSE_ug_m3": 17.51870026954732
+      "n": 662,
+      "MAE_ug_m3": 14.895597173843893,
+      "RMSE_ug_m3": 19.86822695908845
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 19.195238095238096,
-      "RMSE_ug_m3": 23.179740230271285
+      "n": 662,
+      "MAE_ug_m3": 18.28912386706949,
+      "RMSE_ug_m3": 25.810218941587628
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 11.468231773252343,
-      "RMSE_ug_m3": 14.780851224367815
+      "n": 499,
+      "MAE_ug_m3": 25.30145502276158,
+      "RMSE_ug_m3": 35.45649828264521
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 15.988023952095809,
-      "RMSE_ug_m3": 19.669746367345173
+      "n": 499,
+      "MAE_ug_m3": 31.705410821643287,
+      "RMSE_ug_m3": 45.22043537551471
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "32",
-      "station_name": "usme",
+      "station_name": "Usme",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 18.249925167753407,
-      "RMSE_ug_m3": 24.253231266599677
+      "n": 495,
+      "MAE_ug_m3": 13.648639413727068,
+      "RMSE_ug_m3": 18.879298406195044
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "32",
-      "station_name": "usme",
+      "station_name": "Usme",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 23.25,
-      "RMSE_ug_m3": 31.1780867796293
+      "n": 495,
+      "MAE_ug_m3": 15.78181818181818,
+      "RMSE_ug_m3": 22.838507266049906
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "hgb_native_missing",
-      "n": 165,
-      "MAE_ug_m3": 12.781234441084608,
-      "RMSE_ug_m3": 20.005282221133797
+      "n": 593,
+      "MAE_ug_m3": 11.766901742374984,
+      "RMSE_ug_m3": 15.611183263955784
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "persistence",
-      "n": 165,
-      "MAE_ug_m3": 20.1,
-      "RMSE_ug_m3": 29.308496027499253
+      "n": 593,
+      "MAE_ug_m3": 14.940809443507591,
+      "RMSE_ug_m3": 20.638625602958385
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 17.030487675580183,
-      "RMSE_ug_m3": 23.89375608719355
+      "n": 525,
+      "MAE_ug_m3": 15.091926764006542,
+      "RMSE_ug_m3": 19.42618872668317
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 25.851190476190474,
-      "RMSE_ug_m3": 35.60140112277551
+      "n": 525,
+      "MAE_ug_m3": 15.986666666666666,
+      "RMSE_ug_m3": 22.511785696343487
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "hgb_native_missing",
-      "n": 161,
-      "MAE_ug_m3": 7.6045648821997265,
-      "RMSE_ug_m3": 9.680939645624685
+      "n": 363,
+      "MAE_ug_m3": 8.962583290098415,
+      "RMSE_ug_m3": 11.086300183896569
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "persistence",
-      "n": 161,
-      "MAE_ug_m3": 10.47329192546584,
-      "RMSE_ug_m3": 13.04071979113145
+      "n": 363,
+      "MAE_ug_m3": 7.981267217630854,
+      "RMSE_ug_m3": 11.538926811273344
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 18.29798032261957,
-      "RMSE_ug_m3": 23.897182497938392
+      "n": 590,
+      "MAE_ug_m3": 22.61453406522787,
+      "RMSE_ug_m3": 28.563281868916995
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 28.28988095238096,
-      "RMSE_ug_m3": 35.13667616472512
+      "n": 590,
+      "MAE_ug_m3": 29.02338983050848,
+      "RMSE_ug_m3": 38.33525438566385
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 18.015358523548755,
-      "RMSE_ug_m3": 25.498665649733574
+      "n": 626,
+      "MAE_ug_m3": 15.953177283628174,
+      "RMSE_ug_m3": 19.62410660891987
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 25.940119760479043,
-      "RMSE_ug_m3": 37.65793091075294
+      "n": 626,
+      "MAE_ug_m3": 18.74121405750799,
+      "RMSE_ug_m3": 25.70659529252262
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 9.880506918500227,
-      "RMSE_ug_m3": 12.281286898925082
+      "n": 467,
+      "MAE_ug_m3": 10.846295841923242,
+      "RMSE_ug_m3": 12.845475629005389
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 14.244642857142855,
-      "RMSE_ug_m3": 17.4877252870202
+      "n": 467,
+      "MAE_ug_m3": 11.1186295503212,
+      "RMSE_ug_m3": 15.247452133844387
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "hgb_native_missing",
-      "n": 164,
-      "MAE_ug_m3": 12.172912316526606,
-      "RMSE_ug_m3": 15.036796035898664
+      "n": 507,
+      "MAE_ug_m3": 11.3339204401102,
+      "RMSE_ug_m3": 13.821385972617168
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "persistence",
-      "n": 164,
-      "MAE_ug_m3": 16.351829268292683,
-      "RMSE_ug_m3": 19.56182974383606
+      "n": 507,
+      "MAE_ug_m3": 12.818145956607497,
+      "RMSE_ug_m3": 17.3916210073221
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "hgb_native_missing",
-      "n": 165,
-      "MAE_ug_m3": 9.903804393589626,
-      "RMSE_ug_m3": 12.58741691365576
+      "n": 474,
+      "MAE_ug_m3": 9.75305992594024,
+      "RMSE_ug_m3": 13.070607678774396
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "persistence",
-      "n": 165,
-      "MAE_ug_m3": 12.2,
-      "RMSE_ug_m3": 16.222505878245105
+      "n": 474,
+      "MAE_ug_m3": 12.58649789029536,
+      "RMSE_ug_m3": 17.67486474861566
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "9",
-      "station_name": "kennedy",
+      "station_name": "Kennedy",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 13.636388622766589,
-      "RMSE_ug_m3": 19.49854663071747
+      "n": 581,
+      "MAE_ug_m3": 14.67057977852581,
+      "RMSE_ug_m3": 18.430096848395184
     },
     {
       "target": "pm_10",
       "horizon_hours": 48,
       "station_id": "9",
-      "station_name": "kennedy",
+      "station_name": "Kennedy",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 22.249404761904763,
-      "RMSE_ug_m3": 28.37328241078048
+      "n": 581,
+      "MAE_ug_m3": 15.818072289156625,
+      "RMSE_ug_m3": 21.459758200664357
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "1",
-      "station_name": "usaquen",
+      "station_name": "Usaquén",
       "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 12.464053602426672,
-      "RMSE_ug_m3": 16.587779284182595
+      "n": 575,
+      "MAE_ug_m3": 11.769185760268185,
+      "RMSE_ug_m3": 15.037783705152911
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "1",
-      "station_name": "usaquen",
+      "station_name": "Usaquén",
       "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 16.33952095808383,
-      "RMSE_ug_m3": 22.14462668499887
+      "n": 575,
+      "MAE_ug_m3": 14.49391304347826,
+      "RMSE_ug_m3": 21.500340947751624
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "hgb_native_missing",
-      "n": 153,
-      "MAE_ug_m3": 17.095107992360724,
-      "RMSE_ug_m3": 22.070839428374715
+      "n": 484,
+      "MAE_ug_m3": 14.42687954623546,
+      "RMSE_ug_m3": 18.12413137914076
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "persistence",
-      "n": 153,
-      "MAE_ug_m3": 20.759477124183007,
-      "RMSE_ug_m3": 26.300396378632826
+      "n": 484,
+      "MAE_ug_m3": 18.72913223140496,
+      "RMSE_ug_m3": 24.28113278022484
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 14.285448963753629,
-      "RMSE_ug_m3": 22.4858253819935
+      "n": 439,
+      "MAE_ug_m3": 16.319756251289864,
+      "RMSE_ug_m3": 20.28712098887744
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 21.72590361445783,
-      "RMSE_ug_m3": 30.834651334035968
+      "n": 439,
+      "MAE_ug_m3": 21.91867881548975,
+      "RMSE_ug_m3": 29.184395696399285
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 13.846896352034932,
-      "RMSE_ug_m3": 19.41929536236886
+      "n": 656,
+      "MAE_ug_m3": 12.69687190483814,
+      "RMSE_ug_m3": 16.145151879878398
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 18.40119760479042,
-      "RMSE_ug_m3": 25.11828305662182
+      "n": 656,
+      "MAE_ug_m3": 16.278963414634145,
+      "RMSE_ug_m3": 22.816106046430253
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "hgb_native_missing",
-      "n": 162,
-      "MAE_ug_m3": 13.40053703467778,
-      "RMSE_ug_m3": 19.47299344565033
+      "n": 482,
+      "MAE_ug_m3": 9.87976448754738,
+      "RMSE_ug_m3": 11.919816568723643
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "persistence",
-      "n": 162,
-      "MAE_ug_m3": 16.02469135802469,
-      "RMSE_ug_m3": 25.09488167773965
+      "n": 482,
+      "MAE_ug_m3": 11.064315352697095,
+      "RMSE_ug_m3": 15.73358329032287
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "hgb_native_missing",
-      "n": 156,
-      "MAE_ug_m3": 14.830461243511444,
-      "RMSE_ug_m3": 19.74806448063735
+      "n": 631,
+      "MAE_ug_m3": 14.47621434669962,
+      "RMSE_ug_m3": 17.847377787748286
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "persistence",
-      "n": 156,
-      "MAE_ug_m3": 19.32884615384615,
-      "RMSE_ug_m3": 25.912190230933827
+      "n": 631,
+      "MAE_ug_m3": 18.76038034865293,
+      "RMSE_ug_m3": 24.20871999122036
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 15.955807019586954,
-      "RMSE_ug_m3": 19.76340944184439
+      "n": 662,
+      "MAE_ug_m3": 15.149637482546334,
+      "RMSE_ug_m3": 20.06124208127733
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 21.642857142857142,
-      "RMSE_ug_m3": 26.619416472442317
+      "n": 662,
+      "MAE_ug_m3": 20.625528700906347,
+      "RMSE_ug_m3": 28.611278225410395
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 11.627927920748135,
-      "RMSE_ug_m3": 15.80632994873618
+      "n": 473,
+      "MAE_ug_m3": 26.211118775557917,
+      "RMSE_ug_m3": 36.31434194869311
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 17.7874251497006,
-      "RMSE_ug_m3": 22.311414602326003
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "32",
-      "station_name": "usme",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 19.357279439958383,
-      "RMSE_ug_m3": 25.96086989049366
+      "n": 473,
+      "MAE_ug_m3": 39.17758985200846,
+      "RMSE_ug_m3": 54.428085493486336
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
       "station_id": "32",
-      "station_name": "usme",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 26.745833333333334,
-      "RMSE_ug_m3": 33.59665250473341
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "Usme",
       "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 13.25650328417061,
-      "RMSE_ug_m3": 20.559967409979272
+      "n": 495,
+      "MAE_ug_m3": 13.773436913474706,
+      "RMSE_ug_m3": 19.090585180849484
     },
     {
       "target": "pm_10",
       "horizon_hours": 72,
-      "station_id": "34",
-      "station_name": "jazmin",
-      "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 19.51385542168675,
-      "RMSE_ug_m3": 28.968375985355404
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "37",
-      "station_name": "ciudad bolivar",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 16.80671807963473,
-      "RMSE_ug_m3": 24.39550137894387
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "37",
-      "station_name": "ciudad bolivar",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 28.910714285714285,
-      "RMSE_ug_m3": 38.75407198267164
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "38",
-      "station_name": "colina",
-      "method": "hgb_native_missing",
-      "n": 161,
-      "MAE_ug_m3": 8.483726277981921,
-      "RMSE_ug_m3": 10.703592613578415
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "38",
-      "station_name": "colina",
-      "method": "persistence",
-      "n": 161,
-      "MAE_ug_m3": 11.853416149068323,
-      "RMSE_ug_m3": 14.734419078812104
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "39",
-      "station_name": "movil fontibon",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 18.0745817239857,
-      "RMSE_ug_m3": 23.60975783595181
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "39",
-      "station_name": "movil fontibon",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 31.660714285714285,
-      "RMSE_ug_m3": 38.56522921962094
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "4",
-      "station_name": "tunal",
-      "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 18.20035043520757,
-      "RMSE_ug_m3": 26.52323157376056
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "4",
-      "station_name": "tunal",
-      "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 26.610778443113773,
-      "RMSE_ug_m3": 37.48548621328936
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "5",
-      "station_name": "centro de alto rendimiento",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 10.38617825444403,
-      "RMSE_ug_m3": 12.927526929503188
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "5",
-      "station_name": "centro de alto rendimiento",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 14.501785714285711,
-      "RMSE_ug_m3": 18.77771126831464
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "6",
-      "station_name": "las ferias",
-      "method": "hgb_native_missing",
-      "n": 164,
-      "MAE_ug_m3": 12.707303890057098,
-      "RMSE_ug_m3": 16.436643861241144
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "6",
-      "station_name": "las ferias",
-      "method": "persistence",
-      "n": 164,
-      "MAE_ug_m3": 18.87134146341463,
-      "RMSE_ug_m3": 23.04794710714294
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "8",
-      "station_name": "guaymaral",
-      "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 10.22912354193123,
-      "RMSE_ug_m3": 13.141329686978375
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "8",
-      "station_name": "guaymaral",
-      "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 12.210843373493976,
-      "RMSE_ug_m3": 16.214860059432766
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "9",
-      "station_name": "kennedy",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 14.58275663310667,
-      "RMSE_ug_m3": 19.72142207998728
-    },
-    {
-      "target": "pm_10",
-      "horizon_hours": 72,
-      "station_id": "9",
-      "station_name": "kennedy",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 24.45833333333333,
-      "RMSE_ug_m3": 31.01910125804974
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "11",
-      "station_name": "suba",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 5.311214085758243,
-      "RMSE_ug_m3": 6.7593478074839455
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "11",
-      "station_name": "suba",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 5.607142857142857,
-      "RMSE_ug_m3": 7.164728420068226
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "13",
-      "station_name": "puente aranda",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 3.992575848284401,
-      "RMSE_ug_m3": 5.226580500168777
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "13",
-      "station_name": "puente aranda",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 4.723809523809524,
-      "RMSE_ug_m3": 6.2091330581115205
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "17",
-      "station_name": "minambiente",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 4.012543696479104,
-      "RMSE_ug_m3": 5.102247738656311
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "17",
-      "station_name": "minambiente",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 5.333333333333333,
-      "RMSE_ug_m3": 7.4017372478165075
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "24",
-      "station_name": "san cristobal",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 3.4659275984307034,
-      "RMSE_ug_m3": 4.955217966402248
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "24",
-      "station_name": "san cristobal",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 5.434523809523809,
-      "RMSE_ug_m3": 7.835739245521735
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "26",
-      "station_name": "movil 7ma",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 4.032211875560135,
-      "RMSE_ug_m3": 5.289367679850908
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "26",
-      "station_name": "movil 7ma",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 4.641666666666667,
-      "RMSE_ug_m3": 5.744168885963938
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "27",
-      "station_name": "bolivia",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 3.2207794045766733,
-      "RMSE_ug_m3": 3.986355595753408
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "27",
-      "station_name": "bolivia",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 3.6750000000000007,
-      "RMSE_ug_m3": 4.563637333781653
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "30",
-      "station_name": "fontibon",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 4.5133548394284615,
-      "RMSE_ug_m3": 5.975770698664758
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "30",
-      "station_name": "fontibon",
-      "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 5.339880952380952,
-      "RMSE_ug_m3": 6.986360010082231
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
       "station_id": "32",
-      "station_name": "usme",
-      "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 4.01560747951722,
-      "RMSE_ug_m3": 4.8292766778813325
-    },
-    {
-      "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "32",
-      "station_name": "usme",
+      "station_name": "Usme",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 4.307142857142857,
-      "RMSE_ug_m3": 5.348475528240779
+      "n": 495,
+      "MAE_ug_m3": 18.086666666666662,
+      "RMSE_ug_m3": 25.64329317479494
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 4.03140115364058,
-      "RMSE_ug_m3": 5.234523921415002
+      "n": 597,
+      "MAE_ug_m3": 11.817205644506716,
+      "RMSE_ug_m3": 15.160887887232226
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 4.681547619047619,
-      "RMSE_ug_m3": 5.985344203811109
+      "n": 597,
+      "MAE_ug_m3": 17.525460636515913,
+      "RMSE_ug_m3": 23.5600963644786
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 3.335827233121226,
-      "RMSE_ug_m3": 4.353239846489807
+      "n": 525,
+      "MAE_ug_m3": 15.758281931572665,
+      "RMSE_ug_m3": 19.905336404794028
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 3.3779761904761907,
-      "RMSE_ug_m3": 4.413473688604023
+      "n": 525,
+      "MAE_ug_m3": 21.25409523809524,
+      "RMSE_ug_m3": 28.61203210106512
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 3.679554475258757,
-      "RMSE_ug_m3": 4.526063594761261
+      "n": 357,
+      "MAE_ug_m3": 9.26953017648406,
+      "RMSE_ug_m3": 11.2427749733285
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 4.089880952380952,
-      "RMSE_ug_m3": 5.00208884938511
+      "n": 357,
+      "MAE_ug_m3": 9.050420168067228,
+      "RMSE_ug_m3": 12.603234212099766
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 3.4890092498686025,
-      "RMSE_ug_m3": 4.364839255243532
+      "n": 590,
+      "MAE_ug_m3": 22.890335198142807,
+      "RMSE_ug_m3": 28.62602342539248
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 4.147619047619048,
-      "RMSE_ug_m3": 5.039144390715173
+      "n": 590,
+      "MAE_ug_m3": 32.40711864406779,
+      "RMSE_ug_m3": 41.63073791062381
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "hgb_native_missing",
-      "n": 166,
-      "MAE_ug_m3": 6.253416328112636,
-      "RMSE_ug_m3": 8.61616111294037
+      "n": 633,
+      "MAE_ug_m3": 16.1060953282444,
+      "RMSE_ug_m3": 19.306988353372155
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "persistence",
-      "n": 166,
-      "MAE_ug_m3": 7.349397590361446,
-      "RMSE_ug_m3": 10.01324424155148
+      "n": 633,
+      "MAE_ug_m3": 19.55608214849921,
+      "RMSE_ug_m3": 26.48569258170127
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 4.266966284517384,
-      "RMSE_ug_m3": 5.682141437856349
+      "n": 467,
+      "MAE_ug_m3": 11.355306307654825,
+      "RMSE_ug_m3": 13.329894857033144
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 4.983928571428571,
-      "RMSE_ug_m3": 6.540510210184204
+      "n": 467,
+      "MAE_ug_m3": 13.601070663811564,
+      "RMSE_ug_m3": 18.30722058319609
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 4.714154684748582,
-      "RMSE_ug_m3": 6.627766754444117
+      "n": 501,
+      "MAE_ug_m3": 12.159666853944287,
+      "RMSE_ug_m3": 14.52153279153733
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 5.553571428571429,
-      "RMSE_ug_m3": 8.06631738716474
+      "n": 501,
+      "MAE_ug_m3": 14.319560878243514,
+      "RMSE_ug_m3": 19.229546772138864
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 4.474838159640177,
-      "RMSE_ug_m3": 5.671019798549307
+      "n": 473,
+      "MAE_ug_m3": 9.964148926280764,
+      "RMSE_ug_m3": 13.052663663127417
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 5.005952380952381,
-      "RMSE_ug_m3": 6.302399391917184
+      "n": 473,
+      "MAE_ug_m3": 14.359408033826638,
+      "RMSE_ug_m3": 18.803422836265955
     },
     {
-      "target": "pm_25",
-      "horizon_hours": 1,
+      "target": "pm_10",
+      "horizon_hours": 72,
       "station_id": "9",
-      "station_name": "kennedy",
+      "station_name": "Kennedy",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 4.277433796537469,
-      "RMSE_ug_m3": 5.518361368395104
+      "n": 580,
+      "MAE_ug_m3": 14.902781193121989,
+      "RMSE_ug_m3": 18.279561934027672
+    },
+    {
+      "target": "pm_10",
+      "horizon_hours": 72,
+      "station_id": "9",
+      "station_name": "Kennedy",
+      "method": "persistence",
+      "n": 580,
+      "MAE_ug_m3": 19.92051724137931,
+      "RMSE_ug_m3": 25.451761337330147
     },
     {
       "target": "pm_25",
-      "horizon_hours": 1,
-      "station_id": "9",
-      "station_name": "kennedy",
+      "horizon_hours": 24,
+      "station_id": "1",
+      "station_name": "Usaquén",
+      "method": "hgb_native_missing",
+      "n": 574,
+      "MAE_ug_m3": 4.926790552845813,
+      "RMSE_ug_m3": 6.058213130147882
+    },
+    {
+      "target": "pm_25",
+      "horizon_hours": 24,
+      "station_id": "1",
+      "station_name": "Usaquén",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 4.941071428571429,
-      "RMSE_ug_m3": 6.391526198245389
+      "n": 574,
+      "MAE_ug_m3": 5.035714285714286,
+      "RMSE_ug_m3": 6.8974784565979945
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.067237001316954,
-      "RMSE_ug_m3": 9.094872323235151
+      "n": 405,
+      "MAE_ug_m3": 5.584413548646331,
+      "RMSE_ug_m3": 7.298686552125401
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 7.720238095238095,
-      "RMSE_ug_m3": 9.892577785294147
+      "n": 405,
+      "MAE_ug_m3": 6.814814814814815,
+      "RMSE_ug_m3": 9.273392177037255
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.899304291386913,
-      "RMSE_ug_m3": 8.977566878038516
+      "n": 477,
+      "MAE_ug_m3": 6.248036495424071,
+      "RMSE_ug_m3": 7.666985809116163
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 8.90595238095238,
-      "RMSE_ug_m3": 11.327873334642929
+      "n": 477,
+      "MAE_ug_m3": 6.376939203354298,
+      "RMSE_ug_m3": 8.930587205815241
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.395312333421965,
-      "RMSE_ug_m3": 9.79677432545202
+      "n": 476,
+      "MAE_ug_m3": 5.513692770441345,
+      "RMSE_ug_m3": 7.279016026621564
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.226190476190476,
-      "RMSE_ug_m3": 12.146918088454331
+      "n": 476,
+      "MAE_ug_m3": 6.445378151260504,
+      "RMSE_ug_m3": 9.10858861485257
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.083884932091358,
-      "RMSE_ug_m3": 9.590424478392272
+      "n": 490,
+      "MAE_ug_m3": 4.4793248817841285,
+      "RMSE_ug_m3": 5.796992297155466
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 8.142857142857142,
-      "RMSE_ug_m3": 11.36515141415488
+      "n": 490,
+      "MAE_ug_m3": 4.984285714285715,
+      "RMSE_ug_m3": 7.204512474831312
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.723004422094453,
-      "RMSE_ug_m3": 8.252770880511171
+      "n": 672,
+      "MAE_ug_m3": 6.230690544200237,
+      "RMSE_ug_m3": 7.579277051909356
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 8.386904761904763,
-      "RMSE_ug_m3": 10.587936756606773
+      "n": 672,
+      "MAE_ug_m3": 6.063392857142857,
+      "RMSE_ug_m3": 8.706895529515947
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 5.112269564260579,
-      "RMSE_ug_m3": 6.417350598896075
+      "n": 498,
+      "MAE_ug_m3": 5.903214499040804,
+      "RMSE_ug_m3": 7.608382834580068
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 6.277976190476189,
-      "RMSE_ug_m3": 8.138243785041212
+      "n": 498,
+      "MAE_ug_m3": 6.132329317269076,
+      "RMSE_ug_m3": 9.483523018126826
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.43481276419548,
-      "RMSE_ug_m3": 7.99606197173858
+      "n": 538,
+      "MAE_ug_m3": 9.654449018229538,
+      "RMSE_ug_m3": 13.17718171851678
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 8.569642857142858,
-      "RMSE_ug_m3": 10.314567253115742
+      "n": 538,
+      "MAE_ug_m3": 12.178438661710038,
+      "RMSE_ug_m3": 16.831330318706176
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "32",
-      "station_name": "usme",
+      "station_name": "Usme",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.29506053235239,
-      "RMSE_ug_m3": 7.688915475326814
+      "n": 495,
+      "MAE_ug_m3": 4.6005749036936585,
+      "RMSE_ug_m3": 6.144997513270333
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "32",
-      "station_name": "usme",
+      "station_name": "Usme",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 7.6916666666666655,
-      "RMSE_ug_m3": 9.646538979640018
+      "n": 495,
+      "MAE_ug_m3": 4.452323232323232,
+      "RMSE_ug_m3": 7.0417442168941085
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.979354671698063,
-      "RMSE_ug_m3": 9.073497770115438
+      "n": 616,
+      "MAE_ug_m3": 5.849183909518853,
+      "RMSE_ug_m3": 7.271359184854802
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 8.49642857142857,
-      "RMSE_ug_m3": 10.910081619877138
+      "n": 616,
+      "MAE_ug_m3": 6.875,
+      "RMSE_ug_m3": 9.282522678277024
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.765875950336801,
-      "RMSE_ug_m3": 8.886572098805544
+      "n": 525,
+      "MAE_ug_m3": 5.8886154895144704,
+      "RMSE_ug_m3": 7.473903534096946
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.04345238095238,
-      "RMSE_ug_m3": 11.913630149259014
+      "n": 525,
+      "MAE_ug_m3": 6.148,
+      "RMSE_ug_m3": 8.974907878556271
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 5.052334926237369,
-      "RMSE_ug_m3": 6.174544896822551
+      "n": 380,
+      "MAE_ug_m3": 4.153975893562256,
+      "RMSE_ug_m3": 5.416530524995079
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 5.231547619047618,
-      "RMSE_ug_m3": 6.512766766312222
+      "n": 380,
+      "MAE_ug_m3": 3.7884210526315782,
+      "RMSE_ug_m3": 6.040294520529346
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 4.830773840094087,
-      "RMSE_ug_m3": 5.91075024035424
+      "n": 588,
+      "MAE_ug_m3": 6.661657260235059,
+      "RMSE_ug_m3": 8.019016838691226
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 6.6797619047619055,
-      "RMSE_ug_m3": 8.361682731079798
+      "n": 588,
+      "MAE_ug_m3": 6.579931972789115,
+      "RMSE_ug_m3": 8.388178026976115
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 8.647681696466671,
-      "RMSE_ug_m3": 11.631640053752037
+      "n": 665,
+      "MAE_ug_m3": 6.964418301613967,
+      "RMSE_ug_m3": 9.50084687792388
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 10.574850299401197,
-      "RMSE_ug_m3": 14.568853661355378
+      "n": 665,
+      "MAE_ug_m3": 8.353533834586466,
+      "RMSE_ug_m3": 12.139950204899671
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.458039261519172,
-      "RMSE_ug_m3": 8.21561847059982
+      "n": 620,
+      "MAE_ug_m3": 6.00064212002206,
+      "RMSE_ug_m3": 7.643133055838722
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 8.266666666666667,
-      "RMSE_ug_m3": 10.15351803915414
+      "n": 620,
+      "MAE_ug_m3": 7.09016129032258,
+      "RMSE_ug_m3": 10.044676812026584
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.245546434251061,
-      "RMSE_ug_m3": 8.19319722716563
+      "n": 613,
+      "MAE_ug_m3": 6.633162723491259,
+      "RMSE_ug_m3": 8.957537363596714
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 7.422619047619047,
-      "RMSE_ug_m3": 9.94179489399604
+      "n": 613,
+      "MAE_ug_m3": 8.104404567699836,
+      "RMSE_ug_m3": 11.32005107234889
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.306636092366608,
-      "RMSE_ug_m3": 7.821446951186575
+      "n": 493,
+      "MAE_ug_m3": 5.473428315640407,
+      "RMSE_ug_m3": 7.234580946748482
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 7.583333333333333,
-      "RMSE_ug_m3": 9.265912953246586
+      "n": 493,
+      "MAE_ug_m3": 6.630831643002028,
+      "RMSE_ug_m3": 9.277882705934095
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "9",
-      "station_name": "kennedy",
+      "station_name": "Kennedy",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 5.989424040021629,
-      "RMSE_ug_m3": 7.984336242111253
+      "n": 567,
+      "MAE_ug_m3": 7.438003919245157,
+      "RMSE_ug_m3": 9.249194767270524
     },
     {
       "target": "pm_25",
       "horizon_hours": 24,
       "station_id": "9",
-      "station_name": "kennedy",
+      "station_name": "Kennedy",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 7.794047619047619,
-      "RMSE_ug_m3": 9.843072255580136
+      "n": 567,
+      "MAE_ug_m3": 8.205291005291006,
+      "RMSE_ug_m3": 11.061544999582011
+    },
+    {
+      "target": "pm_25",
+      "horizon_hours": 48,
+      "station_id": "1",
+      "station_name": "Usaquén",
+      "method": "hgb_native_missing",
+      "n": 576,
+      "MAE_ug_m3": 5.4004948977590415,
+      "RMSE_ug_m3": 6.470921182817974
+    },
+    {
+      "target": "pm_25",
+      "horizon_hours": 48,
+      "station_id": "1",
+      "station_name": "Usaquén",
+      "method": "persistence",
+      "n": 576,
+      "MAE_ug_m3": 5.281597222222222,
+      "RMSE_ug_m3": 6.966943276007858
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.873306623183287,
-      "RMSE_ug_m3": 9.997374728448866
+      "n": 401,
+      "MAE_ug_m3": 5.482974935677571,
+      "RMSE_ug_m3": 7.211386918983425
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.11904761904762,
-      "RMSE_ug_m3": 11.764049351429003
+      "n": 401,
+      "MAE_ug_m3": 7.2351620947630915,
+      "RMSE_ug_m3": 9.71069929500471
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.9760814219166365,
-      "RMSE_ug_m3": 10.621450249464075
+      "n": 483,
+      "MAE_ug_m3": 6.6865891991793065,
+      "RMSE_ug_m3": 8.108725305401798
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 11.371428571428572,
-      "RMSE_ug_m3": 14.057014009281732
+      "n": 483,
+      "MAE_ug_m3": 6.743892339544514,
+      "RMSE_ug_m3": 9.623923133542332
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 8.536405292253628,
-      "RMSE_ug_m3": 11.008570018696062
+      "n": 486,
+      "MAE_ug_m3": 5.541133352764968,
+      "RMSE_ug_m3": 7.08267428904488
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 10.523809523809524,
-      "RMSE_ug_m3": 13.28398606271046
+      "n": 486,
+      "MAE_ug_m3": 6.504115226337449,
+      "RMSE_ug_m3": 8.995998195814328
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 8.513078581069406,
-      "RMSE_ug_m3": 10.90427251677993
+      "n": 492,
+      "MAE_ug_m3": 4.940097542709314,
+      "RMSE_ug_m3": 6.259656279177808
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.654761904761903,
-      "RMSE_ug_m3": 12.811824895105971
+      "n": 492,
+      "MAE_ug_m3": 5.616666666666667,
+      "RMSE_ug_m3": 7.825188638989628
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.4860522295974095,
-      "RMSE_ug_m3": 9.268044702424422
+      "n": 672,
+      "MAE_ug_m3": 7.09882511252335,
+      "RMSE_ug_m3": 8.320887462432353
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.511904761904765,
-      "RMSE_ug_m3": 11.769350833738413
+      "n": 672,
+      "MAE_ug_m3": 6.854761904761904,
+      "RMSE_ug_m3": 9.682224754181044
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.030268983373249,
-      "RMSE_ug_m3": 7.486408174885207
+      "n": 498,
+      "MAE_ug_m3": 6.306864984064408,
+      "RMSE_ug_m3": 7.788498462924969
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 7.447023809523809,
-      "RMSE_ug_m3": 9.358269197931442
+      "n": 498,
+      "MAE_ug_m3": 6.781124497991968,
+      "RMSE_ug_m3": 10.487314961438011
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.410175994482756,
-      "RMSE_ug_m3": 9.232091683190726
+      "n": 514,
+      "MAE_ug_m3": 10.60528904618302,
+      "RMSE_ug_m3": 14.44146135131274
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.577976190476187,
-      "RMSE_ug_m3": 11.819231201329304
+      "n": 514,
+      "MAE_ug_m3": 13.280155642023349,
+      "RMSE_ug_m3": 18.330727323331573
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "32",
-      "station_name": "usme",
+      "station_name": "Usme",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.828945378633575,
-      "RMSE_ug_m3": 9.23652981696464
+      "n": 495,
+      "MAE_ug_m3": 5.308780771401912,
+      "RMSE_ug_m3": 6.749937607423787
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "32",
-      "station_name": "usme",
+      "station_name": "Usme",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 7.761309523809524,
-      "RMSE_ug_m3": 9.731456725485655
+      "n": 495,
+      "MAE_ug_m3": 5.565252525252526,
+      "RMSE_ug_m3": 8.38162010327094
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.85986627635759,
-      "RMSE_ug_m3": 10.360238481698222
+      "n": 616,
+      "MAE_ug_m3": 6.167676064303235,
+      "RMSE_ug_m3": 7.557434460034231
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 11.15059523809524,
-      "RMSE_ug_m3": 14.004843974921846
+      "n": 616,
+      "MAE_ug_m3": 7.398051948051949,
+      "RMSE_ug_m3": 9.989275092974308
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.574938038264388,
-      "RMSE_ug_m3": 9.771382453250697
+      "n": 525,
+      "MAE_ug_m3": 6.613489605478985,
+      "RMSE_ug_m3": 8.126143878642809
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 11.276190476190475,
-      "RMSE_ug_m3": 14.1651777929104
+      "n": 525,
+      "MAE_ug_m3": 7.206476190476191,
+      "RMSE_ug_m3": 10.169723506097704
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 5.842736868635547,
-      "RMSE_ug_m3": 7.50581248836338
+      "n": 360,
+      "MAE_ug_m3": 4.79214246903159,
+      "RMSE_ug_m3": 6.13583946042866
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 6.752380952380953,
-      "RMSE_ug_m3": 8.438305517104723
+      "n": 360,
+      "MAE_ug_m3": 4.15888888888889,
+      "RMSE_ug_m3": 7.210755854971099
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 5.55146293140237,
-      "RMSE_ug_m3": 6.778232473140185
+      "n": 588,
+      "MAE_ug_m3": 7.485324018607998,
+      "RMSE_ug_m3": 9.015089787534508
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 7.641071428571427,
-      "RMSE_ug_m3": 9.587078978152483
+      "n": 588,
+      "MAE_ug_m3": 7.726190476190476,
+      "RMSE_ug_m3": 9.923335378491124
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 9.807074337643373,
-      "RMSE_ug_m3": 12.77753923540851
+      "n": 666,
+      "MAE_ug_m3": 7.189196059929231,
+      "RMSE_ug_m3": 9.391048447724849
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 11.862275449101796,
-      "RMSE_ug_m3": 15.739077573805
+      "n": 666,
+      "MAE_ug_m3": 8.855855855855856,
+      "RMSE_ug_m3": 12.42218663201937
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.17731524903666,
-      "RMSE_ug_m3": 9.271562189374023
+      "n": 620,
+      "MAE_ug_m3": 6.112372539450856,
+      "RMSE_ug_m3": 7.385638871305998
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.79047619047619,
-      "RMSE_ug_m3": 12.198384943839706
+      "n": 620,
+      "MAE_ug_m3": 6.805645161290323,
+      "RMSE_ug_m3": 9.731257419662782
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.73285316899842,
-      "RMSE_ug_m3": 9.089845378318074
+      "n": 611,
+      "MAE_ug_m3": 6.837967913413496,
+      "RMSE_ug_m3": 9.152804885982029
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.5,
-      "RMSE_ug_m3": 12.08747876346192
+      "n": 611,
+      "MAE_ug_m3": 8.777414075286416,
+      "RMSE_ug_m3": 12.341366576230666
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.953485571496921,
-      "RMSE_ug_m3": 8.580487046273035
+      "n": 493,
+      "MAE_ug_m3": 5.636705143945035,
+      "RMSE_ug_m3": 7.351568277102747
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 7.886904761904762,
-      "RMSE_ug_m3": 10.249564450676498
+      "n": 493,
+      "MAE_ug_m3": 7.298174442190669,
+      "RMSE_ug_m3": 10.117564507423026
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "9",
-      "station_name": "kennedy",
+      "station_name": "Kennedy",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.360236196746676,
-      "RMSE_ug_m3": 8.813315153669405
+      "n": 558,
+      "MAE_ug_m3": 8.347748347886556,
+      "RMSE_ug_m3": 10.21366990436172
     },
     {
       "target": "pm_25",
       "horizon_hours": 48,
       "station_id": "9",
-      "station_name": "kennedy",
+      "station_name": "Kennedy",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.107738095238096,
-      "RMSE_ug_m3": 11.733374763184433
+      "n": 558,
+      "MAE_ug_m3": 9.144444444444446,
+      "RMSE_ug_m3": 12.268862297656334
+    },
+    {
+      "target": "pm_25",
+      "horizon_hours": 72,
+      "station_id": "1",
+      "station_name": "Usaquén",
+      "method": "hgb_native_missing",
+      "n": 579,
+      "MAE_ug_m3": 5.696405723403649,
+      "RMSE_ug_m3": 6.866038679803885
+    },
+    {
+      "target": "pm_25",
+      "horizon_hours": 72,
+      "station_id": "1",
+      "station_name": "Usaquén",
+      "method": "persistence",
+      "n": 579,
+      "MAE_ug_m3": 5.544214162348878,
+      "RMSE_ug_m3": 7.733915840726063
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 8.312620342032965,
-      "RMSE_ug_m3": 10.51090001595963
+      "n": 401,
+      "MAE_ug_m3": 5.515840795401674,
+      "RMSE_ug_m3": 7.180692202181204
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "11",
-      "station_name": "suba",
+      "station_name": "Suba",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.392857142857142,
-      "RMSE_ug_m3": 11.757976016304848
+      "n": 401,
+      "MAE_ug_m3": 7.02568578553616,
+      "RMSE_ug_m3": 9.538394653639497
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 8.37987533982234,
-      "RMSE_ug_m3": 11.477572369191355
+      "n": 483,
+      "MAE_ug_m3": 6.865399622296109,
+      "RMSE_ug_m3": 8.152416591808773
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "13",
-      "station_name": "puente aranda",
+      "station_name": "Puente Aranda",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 10.22202380952381,
-      "RMSE_ug_m3": 14.235454146668618
+      "n": 483,
+      "MAE_ug_m3": 7.93623188405797,
+      "RMSE_ug_m3": 10.900880356493408
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 8.551073244053926,
-      "RMSE_ug_m3": 10.942663034340097
+      "n": 472,
+      "MAE_ug_m3": 5.767185217590177,
+      "RMSE_ug_m3": 7.189965139423151
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "17",
-      "station_name": "minambiente",
+      "station_name": "MinAmbiente",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.55952380952381,
-      "RMSE_ug_m3": 12.374609180937892
+      "n": 472,
+      "MAE_ug_m3": 6.457627118644068,
+      "RMSE_ug_m3": 8.849734267771519
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 8.449173614638898,
-      "RMSE_ug_m3": 10.894434033614276
+      "n": 492,
+      "MAE_ug_m3": 5.140210458636289,
+      "RMSE_ug_m3": 6.384876769997047
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "24",
-      "station_name": "san cristobal",
+      "station_name": "San Cristóbal",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.095238095238097,
-      "RMSE_ug_m3": 12.014871737024198
+      "n": 492,
+      "MAE_ug_m3": 5.861382113821138,
+      "RMSE_ug_m3": 8.196707647596234
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.836772879447913,
-      "RMSE_ug_m3": 9.69849935288169
+      "n": 672,
+      "MAE_ug_m3": 7.433887145997013,
+      "RMSE_ug_m3": 8.581678745725863
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "26",
-      "station_name": "movil 7ma",
+      "station_name": "Estación móvil 7ma",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 8.688095238095238,
-      "RMSE_ug_m3": 11.051788262970106
+      "n": 672,
+      "MAE_ug_m3": 7.383779761904761,
+      "RMSE_ug_m3": 10.155680295376808
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.215608957829919,
-      "RMSE_ug_m3": 7.781365169758599
+      "n": 498,
+      "MAE_ug_m3": 6.431117486007794,
+      "RMSE_ug_m3": 7.69128034011072
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "27",
-      "station_name": "bolivia",
+      "station_name": "Bolivia",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 8.261904761904763,
-      "RMSE_ug_m3": 10.19894368946865
+      "n": 498,
+      "MAE_ug_m3": 7.3532128514056225,
+      "RMSE_ug_m3": 10.91158976339647
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.56446934679442,
-      "RMSE_ug_m3": 9.799100140423374
+      "n": 491,
+      "MAE_ug_m3": 10.942961365293945,
+      "RMSE_ug_m3": 14.739157926806058
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
-      "station_id": "30",
-      "station_name": "fontibon",
+      "station_id": "3",
+      "station_name": "Carvajal-Sevillana",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.77797619047619,
-      "RMSE_ug_m3": 12.773878200676345
+      "n": 491,
+      "MAE_ug_m3": 15.311608961303463,
+      "RMSE_ug_m3": 20.99820572297837
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "32",
-      "station_name": "usme",
+      "station_name": "Usme",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 8.448763365510919,
-      "RMSE_ug_m3": 10.138238456521584
+      "n": 495,
+      "MAE_ug_m3": 5.4164194606973926,
+      "RMSE_ug_m3": 6.740706439519957
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "32",
-      "station_name": "usme",
+      "station_name": "Usme",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.322619047619048,
-      "RMSE_ug_m3": 11.34225139320526
+      "n": 495,
+      "MAE_ug_m3": 5.949090909090909,
+      "RMSE_ug_m3": 8.953958551242783
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.862189537964422,
-      "RMSE_ug_m3": 10.509102020393966
+      "n": 616,
+      "MAE_ug_m3": 6.238066568647081,
+      "RMSE_ug_m3": 7.575255693620861
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "34",
-      "station_name": "jazmin",
+      "station_name": "El Jazmín",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.331547619047615,
-      "RMSE_ug_m3": 12.875310907018166
+      "n": 616,
+      "MAE_ug_m3": 7.690584415584415,
+      "RMSE_ug_m3": 10.601477782310878
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.45450582778802,
-      "RMSE_ug_m3": 9.81854495732225
+      "n": 525,
+      "MAE_ug_m3": 6.962897777609364,
+      "RMSE_ug_m3": 8.4518846873863
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "37",
-      "station_name": "ciudad bolivar",
+      "station_name": "Ciudad Bolívar",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 10.242261904761904,
-      "RMSE_ug_m3": 14.113778728604188
+      "n": 525,
+      "MAE_ug_m3": 7.7438095238095235,
+      "RMSE_ug_m3": 11.108362358408836
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.0613955698723645,
-      "RMSE_ug_m3": 7.896078408510601
+      "n": 380,
+      "MAE_ug_m3": 4.946743385266935,
+      "RMSE_ug_m3": 6.107805234945848
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "38",
-      "station_name": "colina",
+      "station_name": "Colina",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 7.698214285714287,
-      "RMSE_ug_m3": 9.856038154108278
+      "n": 380,
+      "MAE_ug_m3": 4.723684210526316,
+      "RMSE_ug_m3": 7.258077170334187
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 5.924723249038701,
-      "RMSE_ug_m3": 7.31708505557454
+      "n": 588,
+      "MAE_ug_m3": 7.731121112593192,
+      "RMSE_ug_m3": 9.215079521940726
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "39",
-      "station_name": "movil fontibon",
+      "station_name": "Móvil Fontibón",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 8.72857142857143,
-      "RMSE_ug_m3": 10.66648065313998
+      "n": 588,
+      "MAE_ug_m3": 8.427210884353741,
+      "RMSE_ug_m3": 10.746299790331252
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "hgb_native_missing",
-      "n": 167,
-      "MAE_ug_m3": 10.265184343009846,
-      "RMSE_ug_m3": 13.229608344654702
+      "n": 666,
+      "MAE_ug_m3": 7.247938348135469,
+      "RMSE_ug_m3": 9.272256464280863
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "4",
-      "station_name": "tunal",
+      "station_name": "Tunal",
       "method": "persistence",
-      "n": 167,
-      "MAE_ug_m3": 12.0,
-      "RMSE_ug_m3": 15.841656600000372
+      "n": 666,
+      "MAE_ug_m3": 8.932432432432432,
+      "RMSE_ug_m3": 12.173514054883432
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.309664041625415,
-      "RMSE_ug_m3": 9.48129218995477
+      "n": 620,
+      "MAE_ug_m3": 6.307126131236083,
+      "RMSE_ug_m3": 7.588332877666205
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "5",
-      "station_name": "centro de alto rendimiento",
+      "station_name": "Centro de alto rendimiento",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.804761904761907,
-      "RMSE_ug_m3": 12.424284975114553
+      "n": 620,
+      "MAE_ug_m3": 7.469838709677421,
+      "RMSE_ug_m3": 10.645264735567762
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.951435438062428,
-      "RMSE_ug_m3": 9.455536092222262
+      "n": 608,
+      "MAE_ug_m3": 6.944553439180284,
+      "RMSE_ug_m3": 9.32758543906341
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "6",
-      "station_name": "las ferias",
+      "station_name": "Las Ferias",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.636904761904765,
-      "RMSE_ug_m3": 12.41950271222836
+      "n": 608,
+      "MAE_ug_m3": 9.53453947368421,
+      "RMSE_ug_m3": 13.380501819713952
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 7.205476566555901,
-      "RMSE_ug_m3": 8.956486030716494
+      "n": 490,
+      "MAE_ug_m3": 5.708753851257828,
+      "RMSE_ug_m3": 7.287962199818638
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "8",
-      "station_name": "guaymaral",
+      "station_name": "Guaymaral",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 8.648809523809524,
-      "RMSE_ug_m3": 10.525196525707342
+      "n": 490,
+      "MAE_ug_m3": 7.853061224489796,
+      "RMSE_ug_m3": 10.336975438903286
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "9",
-      "station_name": "kennedy",
+      "station_name": "Kennedy",
       "method": "hgb_native_missing",
-      "n": 168,
-      "MAE_ug_m3": 6.649945910877705,
-      "RMSE_ug_m3": 9.090147140244753
+      "n": 559,
+      "MAE_ug_m3": 8.339178938535765,
+      "RMSE_ug_m3": 10.093639924252107
     },
     {
       "target": "pm_25",
       "horizon_hours": 72,
       "station_id": "9",
-      "station_name": "kennedy",
+      "station_name": "Kennedy",
       "method": "persistence",
-      "n": 168,
-      "MAE_ug_m3": 9.385119047619048,
-      "RMSE_ug_m3": 12.391944868302458
+      "n": 559,
+      "MAE_ug_m3": 10.431663685152056,
+      "RMSE_ug_m3": 13.621919487311011
     }
   ],
   "source_quality": "published_quality_not_verified",

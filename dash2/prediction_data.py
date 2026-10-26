@@ -8,7 +8,9 @@ import re
 import numpy as np
 import pandas as pd
 
-from .rmcab_data import VARIABLES, load_samples
+from .rmcab_data import VARIABLES
+from .history_data import load_observations, source_paths, observation_metadata
+from .weather_data import load_weather, analysis_period
 
 ROOT = Path(__file__).resolve().parents[1]
 VIEWS = {"evolution", "comparison", "relationship", "hourly", "diagnostics"}
@@ -21,13 +23,8 @@ def number(value):
 
 @lru_cache(maxsize=1)
 def store():
-    paths = [ROOT / "data/samples/rmcab_pilot_2015_2025.csv", ROOT / "data/samples/rmcab_2025_q1.csv"]
-    observations = pd.concat([load_samples(path) for path in paths], ignore_index=True)
-    duplicated = observations.loc[observations.duplicated(["station_id", "datetime"], keep=False)]
-    for _, group in duplicated.groupby(["station_id", "datetime"]):
-        if any(group[column].nunique(dropna=False) > 1 for column in [*VARIABLES, "source_sha256"]):
-            raise ValueError("Hay fuentes incompatibles para la misma estación y hora.")
-    observations = observations.drop_duplicates(["station_id", "datetime"], keep="last").sort_values("datetime")
+    paths = [ROOT / p for p in source_paths(ROOT)]
+    observations = load_observations(ROOT)
     package = ROOT / "data/forecasts/hgb_historical.csv.gz"
     metadata = json.loads(package.with_name("hgb_historical.json").read_text(encoding="utf-8"))
     if hashlib.sha256(package.read_bytes()).hexdigest() != metadata["forecast_sha256"]:
@@ -48,7 +45,8 @@ def store():
     if not forecasts.train_target_max.lt(forecasts.datetime).all():
         raise ValueError("El entrenamiento alcanza el origen de validación.")
     for target in ["pm_25", "pm_10"]:
-        truth = observations[["station_id", "datetime", target, "source_sha256"]].rename(columns={"datetime": "target_datetime"})
+        truth_hash = f"{target}_source_sha256" if f"{target}_source_sha256" in observations else "source_sha256"
+        truth = observations[["station_id", "datetime", target, truth_hash]].rename(columns={"datetime": "target_datetime", truth_hash: "source_sha256"})
         joined = forecasts.loc[forecasts.target.eq(target)].merge(truth, on=["station_id", "target_datetime"], validate="many_to_one", how="left")
         if not np.allclose(joined.y_true, joined[target]) or not joined.target_source_sha256.eq(joined.source_sha256).all():
             raise ValueError("La observación objetivo no coincide con la fuente publicada.")
@@ -57,7 +55,7 @@ def store():
 
 def catalog():
     data, forecasts, model = store()
-    stations = data.sort_values("datetime").drop_duplicates("station_id", keep="last")
+    stations = data.drop_duplicates("station_id", keep="last")
     years = []
     for year, part in data.groupby(data.report_date.dt.year):
         years.append({"year": int(year), "report_days": int(part.report_date.nunique()),
@@ -66,18 +64,24 @@ def catalog():
             "stations": [{"value": row.station_id, "label": row.station_label,
                           "forecast": bool(forecasts.station_id.eq(row.station_id).any())} for row in stations.sort_values("station_label").itertuples()],
             "coverage": {"years": years, "report_days": int(data.report_date.nunique()), "rows": len(data),
-                         "start": str(data.report_date.min().date()), "end": str(data.report_date.max().date()), "complete": False},
+                         "start": str(data.report_date.min().date()), "end": str(data.report_date.max().date()), "complete": False,
+                         "calendar_complete": bool((observation_metadata(ROOT) or {}).get("source_calendar_complete", False)),
+                         "source": "SDA/RMCAB y SISAIRE", "weather_source": "Open-Meteo / ERA5 (reanálisis)"},
             "model": {"name": model["model"], "version": model["model_version"], "training_scope": model["training_scope"],
                       "evaluation_start": model["target_report_start"], "evaluation_end": model["target_report_end"],
+                      "evaluation_label": model.get("evaluation_label", "25–31 de marzo de 2025"), "evaluation_periods": model.get("evaluation_periods", []),
+                      "weather_features": model.get("weather_features", []), "predictor_scope": model.get("predictor_scope", ""),
                       "mode": model["serving_mode"], "iterations": model["parameters"]["max_iter"], "intervals_available": False},
-            "defaults": {"station": "5", "variable": "pm_25", "horizon": "24", "history": "7", "aggregation": "hour", "statistic": "mean"}}
+            "defaults": {"station": "5", "variable": "pm_25", "horizon": "24", "history": "7", "aggregation": "hour", "statistic": "mean", "mode": "estimated"}}
 
 
 def selection(params):
     data, _, _ = store()
     station, variable = params.get("station", "5"), params.get("variable", "pm_25")
     view = params.get("view", "evolution")
-    if station not in set(data.station_id) or variable not in VARIABLES or view not in VIEWS:
+    if params.get("mode", "observed") not in {"observed", "estimated"}:
+        raise ValueError("Selecciona datos originales o datos con tratamiento.")
+    if station not in set(data.station_id.unique()) or variable not in VARIABLES or view not in VIEWS:
         raise ValueError("Selecciona una estación, variable y vista disponibles.")
     if view == "diagnostics" and variable not in {"pm_25", "pm_10"}:
         raise ValueError("La evaluación de HGB está disponible para PM2.5 y PM10.")
@@ -89,15 +93,28 @@ def selection(params):
 
 def options(params):
     station, variable, view, horizon = selection(params)
-    data, forecasts, _ = store()
     predicting = view in {"evolution", "diagnostics"} and variable in ["pm_25", "pm_10"]
+    mode = params.get("mode", "observed") if variable in {"temperature", "humidity"} and not predicting else "observed"
+    return _date_options(station, variable, horizon if predicting else 0, predicting, mode)
+
+
+@lru_cache(maxsize=8)
+def _date_options(station, variable, horizon, predicting, mode):
+    data, forecasts, _ = store()
     if predicting:
         part = forecasts.loc[forecasts.station_id.eq(station) & forecasts.target.eq(variable) & forecasts.horizon_hours.eq(horizon)]
+    elif mode == "estimated" and variable in {"temperature", "humidity"}:
+        weather, mapping, _ = load_weather(ROOT)
+        grid = mapping.loc[mapping.station_id.eq(station), "grid_id"].iloc[0]
+        part = weather.loc[weather.grid_id.eq(grid) & weather[variable].notna()]
     else:
         part = data.loc[data.station_id.eq(station) & data[variable].notna()]
-    times = {}
-    for instant in part.datetime.sort_values().drop_duplicates():
-        times.setdefault(instant.strftime("%Y-%m-%d"), []).append(instant.strftime("%H:%M"))
+    instants = part.datetime.sort_values().drop_duplicates().dt.tz_localize(None)
+    # Agrupar horas numéricas evita dos strftime por cada una de las 96.432 horas.
+    hours = pd.Series(instants.dt.hour.to_numpy(), index=pd.DatetimeIndex(instants.dt.normalize()))
+    labels = [f"{hour:02d}:00" for hour in range(24)]
+    times = {day.strftime("%Y-%m-%d"): [labels[int(hour)] for hour in group.to_numpy()]
+             for day, group in hours.groupby(level=0, sort=True)}
     return {"dates": list(times), "hours": times, "predicting": predicting}
 
 
@@ -116,16 +133,19 @@ def parse_query(params):
     data, forecasts, model = store()
     comparison = params.get("comparison", "11")
     related = params.get("related", "humidity")
-    if comparison not in set(data.station_id) or related not in VARIABLES or related == variable:
+    if comparison not in set(data.station_id.unique()) or related not in VARIABLES or related == variable:
         raise ValueError("Selecciona otra estación o una variable relacionada diferente.")
     if view == "comparison" and comparison == station:
         raise ValueError("Elige dos estaciones distintas para comparar.")
     part = data.loc[data.datetime.between(origin - pd.Timedelta(days=int(history)), origin)].copy()
+    mode = params.get("mode", "observed")
+    if mode == "estimated":
+        part = analysis_period(data, origin - pd.Timedelta(days=int(history)), origin, list(dict.fromkeys([station, comparison])), ROOT)
     primary = part.loc[part.station_id.eq(station)].copy()
     return {"station": station, "variable": variable, "view": view, "horizon": horizon,
             "origin": origin, "history": int(history), "statistic": statistic, "aggregation": aggregation,
             "comparison": comparison, "related": related, "period": part, "primary": primary,
-            "forecasts": forecasts, "model": model, "predicting": available["predicting"]}
+            "forecasts": forecasts, "model": model, "data_mode": mode, "predicting": available["predicting"]}
 
 
 def series(frame, variable, query):
@@ -177,14 +197,17 @@ def query_result(params):
               "series": series(primary, variable, query), "comparison_series": series(secondary, variable, query),
               "scatter": [{"time": row.datetime.isoformat(), "x": float(row[query["related"]]), "y": float(row[variable])} for _, row in related.iterrows()],
               "heatmap": cells, "forecast": forecast(query),
-              "metrics": {"observed": observed, "expected_hours": expected, "coverage_pct": 100 * observed / expected,
+              "data_mode": query["data_mode"],
+              "metrics": {"measured": int(primary[f"{variable}_origin"].eq("observed").sum()),
+                          "reanalysis": int(primary[f"{variable}_origin"].eq("weather_reanalysis").sum()), "observed": observed, "expected_hours": expected, "coverage_pct": 100 * observed / expected,
                           "statistic": scalar(primary[variable], query["statistic"]), "max": number(primary[variable].max()),
                           "correlation": correlation, "paired_values": len(related), "comparison_pairs": len(pairs),
                           "comparison_difference": scalar(pairs[f"{variable}_a"] - pairs[f"{variable}_b"], query["statistic"]) if len(pairs) else None},
               "record_count": len(primary), "rows": []}
     for row in primary.sort_values("datetime", ascending=False).head(120).itertuples():
         result["rows"].append({"time": row.datetime.isoformat(), "station": row.station_label,
-                               **{key: number(getattr(row, key)) for key in VARIABLES}, "source_url": row.source_url})
+                               **{key: number(getattr(row, key)) for key in VARIABLES},
+                               "origins": {key: getattr(row, f"{key}_origin") for key in VARIABLES}, "source_url": getattr(row, f"{variable}_source_url") or row.source_url})
     if query["view"] == "diagnostics":
         evaluated = query["forecasts"]
         evaluated = evaluated.loc[evaluated.station_id.eq(query["station"]) & evaluated.target.eq(variable) & evaluated.horizon_hours.eq(query["horizon"])]

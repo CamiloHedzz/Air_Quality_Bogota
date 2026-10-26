@@ -14,7 +14,8 @@
   --menu-scene-outline: #234b3b;
   --menu-scene-water-far: #a8c8ba;
   --menu-scene-water-near: #77afa8;
-  --menu-scene-water-line: #386e67;
+  --menu-scene-water-line: #315f54;
+  --menu-scene-water-glint: #d0d8b5;
   --menu-scene-bird: #1b3b30;
   --menu-scene-mist: #f8f9f1;
   width: 100%; height: 100%; color: var(--menu-scene-bird); pointer-events: none;
@@ -35,7 +36,8 @@ html[data-theme="dark"] .menu-landscape {
   --menu-scene-outline: #183b2d;
   --menu-scene-water-far: #628c7c;
   --menu-scene-water-near: #477d78;
-  --menu-scene-water-line: #a6c0a7;
+  --menu-scene-water-line: #234d41;
+  --menu-scene-water-glint: #aebf9e;
   --menu-scene-bird: #d0d6b4;
   --menu-scene-mist: #101b17;
 }
@@ -61,10 +63,12 @@ html[data-theme="dark"] .menu-landscape {
 .menu-scene-lake { stroke: none; }
 .menu-scene-water-light { stop-color: var(--menu-scene-high-light); }
 .menu-scene-water-reflection { opacity: .7; }
+.menu-scene-water-bank-reflection { fill: var(--menu-scene-shadow); opacity: .11; }
 .menu-scene-water-contact { fill: none; stroke: var(--menu-scene-shadow); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; opacity: .14; }
-.menu-scene-water-horizon { fill: none; stroke: var(--menu-scene-outline); stroke-width: 1; opacity: .28; }
-.menu-scene-water-shift { stroke: var(--menu-scene-water-line); stroke-width: 1.2; stroke-linecap: round; opacity: .46; animation: menu-scene-water-drift 8.4s ease-in-out infinite alternate; }
-.menu-scene-water-shift-slow { stroke-width: 1; opacity: .28; animation-duration: 11s; animation-direction: alternate-reverse; }
+.menu-scene-water-horizon { fill: none; stroke: var(--menu-scene-outline); stroke-width: 1; opacity: .2; }
+.menu-scene-water-shift { stroke: var(--menu-scene-water-line); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; opacity: .67; animation: menu-scene-water-drift 8.4s ease-in-out infinite alternate; }
+.menu-scene-water-ripples-far { stroke-width: 1.3; opacity: .48; animation-delay: -2.5s; }
+.menu-scene-water-shift-slow { stroke: var(--menu-scene-water-glint); stroke-width: 1.4; opacity: .55; animation-duration: 11s; animation-direction: alternate-reverse; }
 .menu-scene-front-right { fill: var(--menu-scene-front); stroke: var(--menu-scene-outline); stroke-width: 2.5; stroke-linejoin: round; }
 .menu-scene-front-shadow { fill: var(--menu-scene-shadow); stroke: none; }
 .menu-scene-front-lit { fill: var(--menu-scene-front-lit); stroke: none; }
@@ -76,7 +80,7 @@ html[data-theme="dark"] .menu-landscape {
 .menu-scene-flock-near { animation: menu-scene-birds-near 10.2s linear -4.3s infinite; }
 .menu-scene-flock-far { animation: menu-scene-birds-far 13.5s linear -9s infinite; }
 .menu-landscape[data-running="false"] * { animation-play-state: paused !important; }
-@keyframes menu-scene-water-drift { from { transform: translate(-3px, .3px); } to { transform: translate(3px, -.3px); } }
+@keyframes menu-scene-water-drift { from { transform: translate(-1.5px, .5px); } to { transform: translate(1.5px, -.5px); } }
 @keyframes menu-scene-birds-near {
   0% { transform: translate(1210px, 88px) rotate(4deg); opacity: 0; }
   7%, 87% { opacity: .85; }

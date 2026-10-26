@@ -39,7 +39,7 @@ def timeline(result, params):
     label, unit = VARIABLES[params["variable"]]
     figure = go.Figure()
     data, _, _ = store()
-    names = data.sort_values("datetime").drop_duplicates("station_id", keep="last").set_index("station_id").station_label
+    names = data.drop_duplicates("station_id", keep="last").set_index("station_id").station_label
     for points, name, color, dash in [
         (result["series"], names[params["station"]], INK, "solid"),
         (result["comparison_series"], names[params["comparison"]], SECONDARY, "dash"),
@@ -75,7 +75,7 @@ def relationship(result, params):
         customdata=[local_time(p["time"]).strftime("%d/%m/%Y %H:%M") for p in result["scatter"]], mode="markers",
         marker=dict(color=ACCENT, opacity=0.6, size=7),
         hovertemplate="%{customdata}<br>" + related + ": %{x:.2f} " + related_unit + "<br>" + label + ": %{y:.2f} " + unit + "<extra></extra>"))
-    return style(figure, x_title=f"{related} ({related_unit})", y_title=f"{label} ({unit})", key=str(params)), "Cada punto une dos mediciones de la misma estación y hora. Una correlación no demuestra causalidad."
+    return style(figure, x_title=f"{related} ({related_unit})", y_title=f"{label} ({unit})", key=str(params)), "Cada punto une valores del mismo lugar y hora. En datos con tratamiento, el clima puede proceder de ERA5; una correlación no demuestra causalidad."
 
 
 def heatmap(result, params):
@@ -88,7 +88,7 @@ def heatmap(result, params):
         hovertemplate="%{y} · %{x} h<br>%{z:.2f} " + unit + "<br>%{customdata} mediciones<extra></extra>"))
     figure = style(figure, x_title="Bloque horario · Bogotá", y_title="Día de la semana", key=str(params))
     figure.update_layout(yaxis_autorange="reversed", margin=dict(l=42, r=65, t=20, b=60))
-    return figure, "El color muestra el agregado de mediciones presentes por bloque de tres horas. Las celdas vacías no representan ceros."
+    return figure, "El color muestra el agregado de valores presentes por bloque de tres horas. En datos con tratamiento, el clima puede proceder de ERA5. Las celdas vacías no representan ceros."
 
 
 def evaluation(station, variable, horizon):
@@ -103,7 +103,7 @@ def diagnostic(params, kind):
     unit = VARIABLES[params["variable"]][1]
     error = part.y_pred - part.y_true
     dates = part.target_datetime.dt.tz_localize(None).dt.strftime("%d/%m/%Y %H:%M")
-    scope = f"{len(part)} pronósticos · estación seleccionada · reportes del 25–31 de marzo de 2025. "
+    scope = f"{len(part)} pronósticos · estación seleccionada · {store()[2].get('evaluation_label', 'evaluación histórica')}. "
     if kind == "residual":
         figure = go.Figure(go.Histogram(x=error, nbinsx=20, name="Error firmado", marker_color=ACCENT,
             hovertemplate="Error: %{x:.2f} " + unit + "<br>%{y} pronósticos<extra></extra>"))

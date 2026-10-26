@@ -26,7 +26,7 @@ class PredictionApiTests(SimpleTestCase):
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertFalse(data['coverage']['complete'])
-        self.assertEqual(data['coverage']['report_days'], 100)
+        self.assertGreater(data['coverage']['report_days'], 3650)
         self.assertEqual([y['year'] for y in data['coverage']['years']], list(range(2015, 2026)))
         self.assertIn('2025', data['model']['training_scope'])
         self.assertFalse(data['model']['intervals_available'])
@@ -64,7 +64,7 @@ class PredictionApiTests(SimpleTestCase):
         self.assertTrue(any(p['value'] is None for p in result['series']))
 
     def test_relationship_heatmap_and_pairwise_comparison_are_calculated(self):
-        params = self.base | {'view': 'relationship'}
+        params = self.base | {'view': 'relationship', 'mode': 'estimated'}
         result = self.client.get('/api/predictions/query/', params).json()
         raw = prediction_data.parse_query(params)['primary'][['pm_25', 'humidity']].dropna()
         self.assertEqual(result['metrics']['paired_values'], len(raw))

@@ -67,6 +67,8 @@ export function Navegation() {
   return (
     localize(<>
       <header ref={headerRef} className="site-header editorial-header">
+        <div className="header-inner">
+        <div className="header-identity">
         <div className="site-brand">
           <h1><Link to="/" aria-label="Air Quality Bogotá · inicio">
             <span className="brand-mark" aria-hidden="true">
@@ -83,16 +85,18 @@ export function Navegation() {
           </Link></h1>
         </div>
         {current.to !== "/" && <p className="header-location"><span className="header-location-dot" />{current.detail}</p>}
-        <div className="header-actions">
+        </div>
           <nav className="site-navigation" aria-label="Navegación principal"><ul>
             {destinations.map(item => <li key={item.to}><NavLink to={item.to} end={item.to === "/"}>{item.label}</NavLink></li>)}
           </ul></nav>
+        <div className="header-actions">
           <ThemeToggle />
           {current.to !== "/" && <LanguageToggle />}
           <button ref={triggerRef} className="menu-toggle" type="button" aria-expanded={menuOpen}
             aria-controls="global-menu" aria-label="Abrir menú" onClick={() => setMenuOpen(true)}>
             <span>Menú</span><span className="menu-toggle-icon" aria-hidden="true"><i /><i /></span>
           </button>
+        </div>
         </div>
       </header>
 
@@ -112,16 +116,13 @@ export function Navegation() {
               {destinations.map(item => <NavLink key={item.to} to={item.to} end={item.to === "/"}
                 className="menu-destination" onClick={() => setMenuOpen(false)}>
                 <span className="menu-destination-number">{item.number}</span>
-                <span className="menu-destination-name">{item.label}<span aria-hidden="true">↗</span></span>
+                <span className="menu-destination-name">{item.label}<span className="menu-destination-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false"><path d="M5 19 19 5M5 5h14v14" /></svg>
+                </span></span>
                 <span className="menu-destination-detail">{item.detail}</span>
               </NavLink>)}
             </nav>
-            <aside className="menu-aside">
-              <Link className="menu-map-link" to="/#dashboard" onClick={() => setMenuOpen(false)}>Explorar el dashboard <span aria-hidden="true">↗</span></Link>
-            </aside>
           </div>
-          <div className="global-menu-bottom"><span>BOGOTÁ, COLOMBIA</span>
-            <a href="mailto:camilohedzz@gmail.com">Hablemos <span aria-hidden="true">↗</span></a></div>
         </div>), document.body,
       )}
     </>)

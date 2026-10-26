@@ -1,4 +1,5 @@
 /* Personal profile: a larger portrait, a clear qualification and room to read. */
+.about-layout #contact { scroll-margin-top: 1rem; }
 .app-shell .about-layout .about-profile-refresh { justify-content: flex-start; gap: 1.25rem; }
 .app-shell .about-layout .about-profile-refresh .author-card { grid-template-columns: 128px minmax(0, 1fr); gap: 1.2rem; align-items: center; }
 .about-profile-refresh .author-portrait {

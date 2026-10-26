@@ -1,5 +1,14 @@
 {
   "messages": {
+    "Una idea crece": "An idea grows",
+    "cuando la compartimos.": "when we share it.",
+    "¿Tienes una idea, datos o ganas de aportar? Hagamos crecer este proyecto para Bogotá.": "Have an idea, data or a desire to contribute? Let's grow this project for Bogotá together.",
+    "Envíame un email": "Send me an email",
+    "Redes y contacto": "Social media and contact",
+    "Conectemos": "Let's connect",
+    "Hagamos algo increíble.": "Let's make something incredible.",
+    "Hagamos que esto crezca.": "Let's help this grow.",
+    "Hecho con amor para mi Bogotá": "Made with love for my Bogotá",
     "%{customdata[0]}<br>Promedio original: %{z:.2f}<br>Recorridos 2024 · unidades en revisión<extra></extra>": "%{customdata[0]}<br>Original average: %{z:.2f}<br>2024 routes · units under review<extra></extra>",
     "%{customdata[0]}<br>Promedio: %{z:.2f}": "%{customdata[0]}<br>Average: %{z:.2f}",
     "(tabla de mediciones)": "(measurement table)",
@@ -577,7 +586,18 @@
     "¿Qué tan cerca estuvo el modelo?": "How close was the model?",
     "¿Tienes una idea, una pregunta sobre los datos o ganas de colaborar? Cuéntame. Este espacio también se construye con nuevas conversaciones.": "Have an idea, a question about the data, or an interest in collaborating? Tell me. New conversations help build this project too.",
     "Últimos": "Last",
-    "✓ Lugar seleccionado": "✓ Place selected"
+    "✓ Lugar seleccionado": "✓ Place selected",
+    "Datos para el análisis": "Data for analysis",
+    "El tratamiento conserva las mediciones y completa clima con ERA5. Los objetivos de PM del modelo siempre son mediciones.": "Treatment preserves measurements and supplements weather with ERA5. Model PM targets always come from measurements.",
+    "Mediciones publicadas de 2015–2024; prueba final en cuatro semanas de 2025": "Published measurements from 2015–2024; final evaluation on four weeks of 2025",
+    "cuatro semanas de 2025 (enero, abril, julio y octubre)": "four weeks of 2025 (January, April, July and October)",
+    "PM procede de las estaciones publicadas por SDA/RMCAB y SISAIRE. ERA5 aporta contexto meteorológico retrospectivo; no es una medición de barrio.": "PM comes from station records published by SDA/RMCAB and SISAIRE. ERA5 provides retrospective weather context; it is not a neighborhood measurement.",
+    "La tabla muestra los días descargados y la presencia real de cada contaminante.": "The table shows downloaded dates and actual availability for each pollutant.",
+    "Reanálisis meteorológico ERA5": "ERA5 weather reanalysis",
+    "Fuente ↗": "Source ↗",
+    "Valores emparejados": "Paired values",
+    "Pares horarios coincidentes": "Matching hourly pairs",
+    "Elige una estación y un momento disponible. En «Evaluar el modelo», los gráficos resumen los periodos de prueba y el origen destaca un punto.": "Choose a station and an available time. Under Evaluate the model, charts summarize the evaluation periods and highlight the selected origin."
   },
   "patterns": [
     {

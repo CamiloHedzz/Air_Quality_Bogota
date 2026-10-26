@@ -10,7 +10,9 @@ from ...rmcab_data import (DATA_PATH, FREQUENCIES, STATISTICS, VARIABLES, export
 from ...rmcab_figures import figures
 
 
-samples = load_samples()
+from ...history_data import load_observations
+
+samples = load_observations()
 initial_years = year_options(samples, "pm_25")
 initial_year = initial_years[-1]["value"] if initial_years else None
 
@@ -28,11 +30,11 @@ panel = html.Section([
         html.Div([html.P("MEDICIONES POR ESTACIÓN", className="overview-eyebrow"),
                   html.H2("Históricos RMCAB", className="rmcab-heading"),
                   html.P("Compara partículas y clima con registros publicados por la Red de Monitoreo de Calidad del Aire de Bogotá.")]),
-        html.Span("Muestra piloto", className="overview-source-tag"),
+        html.Span("Histórico publicado", className="overview-source-tag"),
     ], className="rmcab-intro"),
     html.P([
-        f"Esta muestra reúne {samples.report_date.nunique()} reportes de {samples.report_date.dt.year.min()}–{samples.report_date.dt.year.max()}. ",
-        "Contiene fechas aisladas y una semana de 2025; no representa once años completos. ",
+        f"Esta colección reúne {samples.report_date.nunique()} reportes de {samples.report_date.dt.year.min()}–{samples.report_date.dt.year.max()}. ",
+        "PM2.5 y PM10 incorporan las exportaciones horarias de SISAIRE/SDA. Los huecos de sensores se conservan. ",
         html.A("Fuente: RMCAB / SDA", href="https://rmcab.ambientebogota.gov.co/home/text/1516", target="_blank", rel="noopener noreferrer"),
         ". Validación final de las mediciones pendiente de comprobar.",
     ], className="rmcab-source-note"),
@@ -146,4 +148,4 @@ def download_records(clicks, year, month, stations):
     period = filter_period(samples, year, month, stations or [])
     if period.empty:
         return no_update
-    return dcc.send_data_frame(export_records(period).to_csv, f"rmcab_piloto_{year}_{month}.csv", index=False)
+    return dcc.send_data_frame(export_records(period).to_csv, f"rmcab_historico_{year}_{month}.csv", index=False)

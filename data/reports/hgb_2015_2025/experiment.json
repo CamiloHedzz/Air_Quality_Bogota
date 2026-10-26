@@ -1,0 +1,72 @@
+{
+  "experiment": "hgb_2015_2024_era5_holdout_2025_v1",
+  "hgb_parameters": {
+    "max_iter": 80,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 20,
+    "learning_rate": 0.05,
+    "l2_regularization": 1.0,
+    "early_stopping": false,
+    "random_state": 42
+  },
+  "input_sha256": {
+    "data/history/observations.csv.gz": "9af50233c7b89ec119b7c693e50604e3aed621a180793493cb40e3ac522fff32",
+    "data/history/observations_manifest.json": "35f2ccc8944299a7fb66ea8dd35b7d18ebf9cba6703fcd956b99a75712104a9a",
+    "data/weather/era5_hourly_2015_2025.csv.gz": "9ba6b0b858e8638335dd1805e94a3b36ce832c33f15389af41bee148347a5c1a",
+    "data/weather/station_grids.csv": "cbb84227aaf4f127e34ecb90b1d1bba61a7b87c88311e755d97ef0060bd140ee",
+    "data/weather/era5_manifest.json": "50b056670b6dac10d4161f8bf839af1e5c08efced506e2ff5e5dee34c42ed358"
+  },
+  "training_years": [
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "training_scope": "Mediciones publicadas de 2015–2024; prueba final en cuatro semanas de 2025",
+  "development_scope": "Entrenamiento 2015–2023; cuatro semanas de desarrollo en 2024",
+  "evaluation_label": "cuatro semanas de 2025 (enero, abril, julio y octubre)",
+  "evaluation_periods": [
+    {
+      "start": "2025-01-15",
+      "end": "2025-01-21"
+    },
+    {
+      "start": "2025-04-15",
+      "end": "2025-04-21"
+    },
+    {
+      "start": "2025-07-15",
+      "end": "2025-07-21"
+    },
+    {
+      "start": "2025-10-15",
+      "end": "2025-10-21"
+    }
+  ],
+  "target_report_start": "2025-01-15",
+  "target_report_end": "2025-10-21",
+  "full_history_collected": false,
+  "holdout_predictions_path": "data/processed/hgb_2015_2025_holdout_predictions.csv",
+  "weather_features": [
+    "weather_temperature",
+    "weather_humidity",
+    "weather_precipitation",
+    "weather_wind_speed",
+    "weather_wind_sin",
+    "weather_wind_cos"
+  ],
+  "predictor_scope": "ERA5 retrospectivo en el origen; disponibilidad operativa histórica no verificada",
+  "future_weather_used": false,
+  "synthetic_targets_used": false,
+  "maps_used_for_training": false,
+  "station_scope": "Known stations only; historical relocations not verified",
+  "sklearn_version": "1.7.2",
+  "live_forecast": false,
+  "deployment_ready": false
+}

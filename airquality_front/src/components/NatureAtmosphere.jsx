@@ -4,11 +4,11 @@ import { createNatureFlight } from "./natureFlight";
 import cartography from "../assets/illustrations/bogota-cartography.svg";
 import { BirdSilhouette } from "./BirdSilhouette";
 
-export function NatureAtmosphere() {
+export function NatureAtmosphere({ loadingScreen = false }) {
   const { pathname } = useLocation();
   const [flights, setFlights] = useState([]);
   const sequence = useRef(0);
-  const about = pathname.toLowerCase() === "/about";
+  const about = !loadingScreen && pathname.toLowerCase() === "/about";
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -29,7 +29,9 @@ export function NatureAtmosphere() {
     function restart() {
       window.clearTimeout(timer);
       setFlights([]);
-      if (!reduced.matches && !document.hidden) schedule(1600 + Math.random() * 1400);
+      if (!reduced.matches && !document.hidden) {
+        schedule(loadingScreen ? 3500 + Math.random() * 2000 : 1600 + Math.random() * 1400);
+      }
     }
     restart();
     reduced.addEventListener("change", restart);
@@ -42,7 +44,7 @@ export function NatureAtmosphere() {
       document.removeEventListener("visibilitychange", restart);
       window.removeEventListener("resize", restart);
     };
-  }, []);
+  }, [loadingScreen]);
 
   return <div className="nature-atmosphere" aria-hidden="true">
     {about && <div className="about-cartography"><img src={cartography} alt="" width="1600" height="1000" /></div>}
@@ -56,3 +58,5 @@ export function NatureAtmosphere() {
     </div>)}
   </div>;
 }
+
+NatureAtmosphere.propTypes = { loadingScreen: () => null };

@@ -15,19 +15,21 @@ import "./assets/styles/editorial_motion.css";
 import "./assets/styles/theme.css";
 import "./assets/styles/language.css";
 import "./assets/styles/nature_atmosphere.css";
+import "./assets/styles/site_header.css";
+import "./assets/styles/site_footer.css";
 
 function ScrollToTop() {
-  const { pathname, hash } = useLocation();
+  const { pathname, hash, key } = useLocation();
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
       let target;
       try { target = hash && document.getElementById(decodeURIComponent(hash.slice(1))); }
       catch { target = null; }
-      if (target) target.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+      if (target) target.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
       else window.scrollTo({ top: 0, behavior: "instant" });
     });
     return () => cancelAnimationFrame(frame);
-  }, [pathname, hash]);
+  }, [pathname, hash, key]);
   return null;
 }
 

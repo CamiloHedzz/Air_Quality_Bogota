@@ -14,12 +14,12 @@ import pandas as pd
 
 def publish(root):
     root = Path(root)
-    reports = root / "data/reports/hgb_2025_q1"
+    reports = root / ("data/reports/hgb_2015_2025" if (root / "data/reports/hgb_2015_2025/experiment.json").exists() else "data/reports/hgb_2025_q1")
     metadata = json.loads((reports / "experiment.json").read_text(encoding="utf-8"))
     for relative, expected in metadata["input_sha256"].items():
         if hashlib.sha256((root / relative).read_bytes()).hexdigest() != expected:
             raise ValueError("El dataset cambió: repetir el notebook antes de publicar resultados.")
-    predictions = pd.read_csv(root / "data/processed/hgb_2025_q1_holdout_predictions.csv", dtype={"station_id": "string"})
+    predictions = pd.read_csv(root / metadata.get("holdout_predictions_path", "data/processed/hgb_2025_q1_holdout_predictions.csv"), dtype={"station_id": "string"})
     predictions = predictions.loc[predictions.horizon_hours.isin([24, 48, 72])].copy()
     keys = ["target", "horizon_hours", "fold", "station_id", "datetime", "target_datetime"]
     native = predictions.loc[predictions.method.eq("hgb_native_missing")].copy()
@@ -44,10 +44,14 @@ def publish(root):
         "schema_version": 1, "model": "HistGradientBoostingRegressor",
         "model_version": metadata["experiment"], "serving_mode": "precomputed_historical_backtest",
         "forecast_sha256": hashlib.sha256(content).hexdigest(), "forecast_rows": len(native),
-        "input_sha256": metadata["input_sha256"], "training_years": [2025],
-        "training_scope": "Reportes de enero–marzo de 2025; corte temporal específico por horizonte",
-        "target_report_start": "2025-03-25", "target_report_end": "2025-03-31",
-        "full_history_collected": False, "target_years": [2015, 2025],
+        "input_sha256": metadata["input_sha256"], "training_years": metadata.get("training_years", [2025]),
+        "training_scope": metadata.get("training_scope", "Reportes de enero–marzo de 2025; corte temporal específico por horizonte"),
+        "target_report_start": metadata.get("target_report_start", "2025-03-25"), "target_report_end": metadata.get("target_report_end", "2025-03-31"),
+        "evaluation_label": metadata.get("evaluation_label", "25–31 de marzo de 2025"),
+        "evaluation_periods": metadata.get("evaluation_periods", []),
+        "weather_features": metadata.get("weather_features", []),
+        "predictor_scope": metadata.get("predictor_scope", "published_station_observations"),
+        "full_history_collected": metadata.get("full_history_collected", False), "target_years": [2015, 2025],
         "parameters": metadata["hgb_parameters"],
         "scores": pd.read_csv(reports / "holdout_scores.csv").to_dict("records"),
         "station_scores": pd.read_csv(reports / "holdout_per_station.csv", dtype={"station_id": "string"}).to_dict("records"),

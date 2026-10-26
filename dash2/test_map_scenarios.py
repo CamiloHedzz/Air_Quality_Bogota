@@ -52,8 +52,11 @@ class ScenarioIntegrationTests(unittest.TestCase):
             supported = low[f'{var}_origin'].ne('simulated')
             np.testing.assert_allclose(low.loc[supported, var], high.loc[supported, var])
             simulated = high[f'{var}_origin'].eq('simulated')
-            self.assertTrue(simulated.any())
-            self.assertFalse(np.allclose(low.loc[simulated, var], high.loc[simulated, var]))
+            if simulated.any():
+                self.assertFalse(np.allclose(low.loc[simulated, var], high.loc[simulated, var]))
+            if var in {'temperature','humidity'}:
+                self.assertFalse(simulated.any())
+                self.assertTrue(high[f'{var}_origin'].eq('weather_reanalysis').any())
         self.assertTrue(high.humidity.between(0, 100).all())
         self.assertTrue(high[['pm_25', 'pm_10']].ge(0).all().all())
 
@@ -87,7 +90,7 @@ class ScenarioIntegrationTests(unittest.TestCase):
             for name, group in monthly.groupby('neighborhood'):
                 self.assertAlmostEqual(np.average(group[var], weights=group.datetime.dt.days_in_month), expected[name])
             counts = info[var]
-            self.assertEqual(counts['represented_days'], counts['source_days']+counts['short_gap_days']+counts['simulated_days'])
+            self.assertEqual(counts['represented_days'], counts['source_days']+counts['short_gap_days']+counts['simulated_days']+counts['reanalysis_days'])
             self.assertTrue(exported[f'{var}_simulated_days'].eq(counts['simulated_days']).all())
         self.assertTrue(exported.variation_percent.eq(20).all())
         self.assertTrue(exported.simulation_seed.eq(maps.SIMULATION_SEED).all())
@@ -103,7 +106,7 @@ class ScenarioIntegrationTests(unittest.TestCase):
         self.assertTrue(all(np.isfinite(t.y).all() and len(t.y) == 12 for t in treated.data))
         self.assertEqual(sum(bool(t.showlegend) for t in treated.data), len(self.names))
         self.assertTrue(all('customdata[3]' in t.hovertemplate for t in treated.data))
-        self.assertTrue(any('sintética' in row[3] for t in treated.data for row in t.customdata))
+        self.assertTrue(any('ERA5' in row[4] for t in treated.data for row in t.customdata))
 
 
 if __name__ == '__main__': unittest.main()

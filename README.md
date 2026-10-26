@@ -1,415 +1,173 @@
-# Air Quality Bogotá
+<p align="center">
+  <img src="docs/assets/cover.svg" alt="Air Quality Bogotá · Conoce el aire. Encuentra tu camino." width="100%" />
+</p>
 
-En este proyecto, nos hemos propuesto abordar los desafíos relacionados con la polución y la contaminación del aire en la ciudad, identificando las zonas con mayor contaminación y desarrollando un modelo para estimar la concentración de partículas contaminantes.
+<p align="center">
+  <strong>Datos para conocer el aire que respiramos y pensar cómo recorremos Bogotá.</strong>
+</p>
 
-## Descripción del Proyecto
+<p align="center">
+  <a href="#el-proyecto">El proyecto</a> ·
+  <a href="#explora">Explora</a> ·
+  <a href="#inicio-local">Inicio local</a> ·
+  <a href="#datos-y-alcance">Datos y alcance</a> ·
+  <a href="#contribuir">Contribuir</a>
+</p>
 
-La polución y contaminación atmosférica representan desafíos significativos en las grandes ciudades, y Bogotá no es una excepción. El objetivo principal de este proyecto de investigación es identificar las zonas con mayor contaminación en la ciudad y desarrollar un modelo que estime la concentración de partículas contaminantes en función de la hora y la ubicación. Además, se busca determinar el impacto en la salud asociado con la exposición prolongada a estas zonas.
+---
 
-![Pagina principal](https://raw.githubusercontent.com/CamiloHedzz/Air_Quality_Bogota/master/airquality_front/src/assets/images/front1.png)
+## El proyecto
 
-![Recopilacion de datos](https://raw.githubusercontent.com/CamiloHedzz/Air_Quality_Bogota/master/airquality_front/src/assets/images/Datos2.png)
+**Air Quality Bogotá nació montando bicicleta.** Entre el tráfico y el humo apareció una pregunta: ¿podemos entender mejor el aire de la ciudad y tener más información al elegir por dónde pedalear?
 
-## Rutas en bicicleta (experimental)
+El proyecto reúne un explorador ambiental, resultados históricos de modelos de predicción y un comparador experimental de rutas en bicicleta. Una forma de conectar los datos con el territorio y con los recorridos de todos los días.
 
-La pestaña **Rutas** permite buscar dos lugares de Bogotá, elegir día y hora de
-salida y comparar hasta tres recorridos reales para bicicleta. La navegación y
-el Menú siguen el orden Inicio, Predicciones, Rutas, About. El mapa usa Plotly
-Scattermap/MapLibre, con los mismos temas e idiomas del sitio.
+<img src="docs/assets/inicio.png" alt="Inicio de Air Quality Bogotá: paisaje de los cerros, sensor ilustrado y acceso al explorador ambiental" width="100%" />
 
-El servidor consulta BRouter con el perfil `trekking`; Photon resuelve lugares
-solo al pulsar Buscar. Se conservan los créditos de OpenStreetMap. Las respuestas
-de lugares y geometrías se cachean un día; se limita la búsqueda a una cada dos
-segundos y se serializan las consultas al motor. No se guardan viajes en la base
-de datos. Estos servicios públicos dependen de Internet y no garantizan
-disponibilidad. Para uso con más usuarios, configurar instancias propias con
-`AIRQUALITY_PHOTON_URL` y `AIRQUALITY_BROUTER_URL`, además de un caché Django
-compartido para que los límites se apliquen entre procesos.
+## Explora
 
-La exposición es **histórica y exploratoria, no un pronóstico actual ni una
-medición por calle**. Se verifica el contrato y manifiesto de
-`data/samples/rmcab_2025_q1.csv`, y se calculan medianas por estación, hora y
-laboral/fin de semana, con al menos ocho observaciones por perfil. Cada punto
-usa hasta tres estaciones dentro de 5 km y requiere dos, ponderadas por inverso
-de distancia al cuadrado (piso de 250 m). Las posiciones son las referencias
-oficiales actuales; no se han comprobado todas las reubicaciones históricas.
+| Sección | Qué puedes hacer |
+|:---|:---|
+| **Inicio** | Conocer cómo funciona un sensor óptico y explorar PM2.5, PM10, temperatura y humedad en mapas, series y comparaciones. |
+| **Predicciones** | Recrear pronósticos históricos de PM2.5 y PM10 a **24, 48 y 72 horas**, comparar estaciones y examinar los errores del modelo. |
+| **Rutas** | Elegir origen, destino, día y hora; comparar hasta tres alternativas en bicicleta por **tiempo, exposición estimada y equilibrio entre ambos**. |
+| **About** | Conocer el contexto del proyecto, su creador, el trabajo con los datos y las formas de contacto. |
 
-Se integra concentración × minutos a lo largo del recorrido, con muestras como
-máximo cada 200 m y 60 s, avanzando la hora y el tipo de día en medianoche. El
-indicador se expresa en µg·min/m³; no es dosis inhalada. No se comparan
-exposiciones si alguna alternativa tiene cobertura incompleta (tolerancia
-numérica 1e-6 en la fracción cubierta). Equilibrio minimiza por partes iguales tiempo relativo al mínimo
-y exposición relativa al mínimo entre las alternativas disponibles. Las
-diferencias pequeñas no demuestran una mejora real. El motor no optimiza todas
-las calles con un campo de contaminación ni considera tráfico en vivo.
+<table>
+  <tr>
+    <td width="50%">
+      <img src="docs/assets/predicciones.png" alt="Pantalla de predicciones históricas y filtros por estación, variable y horizonte" width="100%" />
+      <p><strong>Del histórico a una estimación.</strong><br />Explora el resultado y el contexto del modelo.</p>
+    </td>
+    <td width="50%">
+      <img src="docs/assets/rutas.png" alt="Sección Rutas con su circuito animado y acceso al planificador en bicicleta" width="100%" />
+      <p><strong>Tu camino, otro aire.</strong><br />Compara alternativas para tu próximo recorrido.</p>
+    </td>
+  </tr>
+</table>
 
-Endpoints: `/api/routes/places/`, `/api/routes/compare/` y
-`/api/routes/plotly.js`. La biblioteca de Plotly se sirve desde el paquete Python
-ya instalado, sin otra dependencia. La zona inicial es el área urbana de Bogotá;
-se limita la distancia entre extremos a 25 km y el recorrido a 50 km/4 h.
+La interfaz tiene **español e inglés**, temas **claro y oscuro**, adaptación a móvil y animaciones que respetan la preferencia de movimiento reducido. El verde de los cerros, el amarillo de la marca y los detalles de Bogotá acompañan la exploración.
 
-```bash
-python -B manage.py test rutes.test_planner --settings=airquality_api.settings_local
-```
+<details>
+  <summary><strong>Ver el explorador ambiental</strong></summary>
+  <br />
+  <img src="docs/assets/explorador.png" alt="Mapa del explorador ambiental de Bogotá, con filtros y escala de concentración de partículas" width="100%" />
+  <p>Mapa por sectores, históricos por estación, filtros temporales y descargas para continuar el análisis.</p>
+</details>
 
-Referencias: [BRouter](https://brouter.de/brouter/),
-[Photon y uso moderado](https://github.com/komoot/photon#demo-server),
-[Plotly](https://plotly.com/python/lines-on-tile-maps/).
+## Datos y alcance
 
-## Tecnologías Utilizadas
+Las variables ambientales son **PM2.5 y PM10** en µg/m³, **temperatura** en °C y **humedad relativa** en %.
 
-## Tecnologías Utilizadas
+| Capa del proyecto | Cómo se debe interpretar |
+|:---|:---|
+| **Observaciones del aire** | Histórico SISAIRE/SDA y muestras RMCAB: **1.323.391 filas de estación/hora y 4.013 fechas entre 2015 y 2025**. Conserva los vacíos de medición y la procedencia de los registros. |
+| **Contexto meteorológico** | Reanálisis **Open-Meteo/ERA5** en cuatro celdas de 0,25°. Completa temperatura y humedad ausentes; lluvia y viento aportan contexto al modelo. Es una estimación meteorológica, no una medición por barrio. |
+| **Mapa por sectores** | Estimaciones espaciales para **1.160 sectores**. Puedes comparar **Datos originales** y **Datos con tratamiento**; este último incorpora relleno temporal y variación sintética identificada. ERA5 conserva su procedencia y no recibe ruido sintético. |
+| **Predicciones HGB** | Resultados históricos precalculados: ajuste final con datos de **2015–2024** y prueba en cuatro semanas de **2025**, a **24, 48 y 72 horas**. Los objetivos de PM son observados; el mapa no participa en el entrenamiento. |
+| **Rutas experimentales** | Compara recorridos de BRouter con perfiles históricos de **enero–marzo de 2025**. El indicador combina concentración y tiempo; no es una medición personal ni dosis inhalada. |
 
-Este proyecto se desarrolló utilizando las siguientes tecnologías:
+> **Cada capa muestra su alcance.** El histórico conserva ausencias horarias y cinco fechas de 2020 sin mediciones utilizables. Las predicciones son una evaluación retrospectiva; la web no genera pronósticos actuales. Las rutas usan perfiles históricos, sin tráfico ni contaminación en tiempo real.
 
-- Django
-- React
-- Dash
+Consulta el [contrato y la procedencia de los datos](data/README.md) y la [metodología de mapas, modelos y rutas](docs/METODOLOGIA.md).
 
-## Instalación y ejecución local en Windows (Git Bash)
+## Inicio local
 
-El entorno local utiliza Python 3.11, Node.js y npm. Django sirve la API y el
-dashboard Dash en el puerto 8000; React/Vite sirve la web en el puerto 5173.
+Necesitas **Python 3.11**, **Node.js compatible con Vite 5** y **npm**. El entorno Python del servidor está validado con 3.11.9. Los comandos siguientes usan **PowerShell en Windows**; la [guía de desarrollo](docs/DESARROLLO.md) incluye Git Bash y más detalles.
 
-### Preparación inicial
+### 1. Prepara el proyecto
 
-```bash
+```powershell
 git clone https://github.com/CamiloHedzz/Air_Quality_Bogota.git
 cd Air_Quality_Bogota
+
 py -3.11 -m venv .venv
-source .venv/Scripts/activate
-export PYTHONUTF8=1
-export PYTHONDONTWRITEBYTECODE=1
-python -m pip install --upgrade pip
-python -m pip install -r requirements-local.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-local.txt
 npm --prefix airquality_front ci
 ```
 
-Si ya tienes el repositorio y el entorno, empieza por activar `.venv`.
-Las versiones de las dependencias mantienen la compatibilidad con el código
-original de Dash.
-
-### Terminal 1: Django y Dash
+### 2. Inicia Django y Dash
 
 Desde la raíz del repositorio:
 
-```bash
-source .venv/Scripts/activate
-export PYTHONUTF8=1
-export PYTHONDONTWRITEBYTECODE=1
-python -B manage.py migrate --settings=airquality_api.settings_local
-python -B manage.py runserver 127.0.0.1:8000 --settings=airquality_api.settings_local
+```powershell
+$env:PYTHONUTF8 = "1"
+$env:PYTHONDONTWRITEBYTECODE = "1"
+
+.\.venv\Scripts\python.exe -B manage.py migrate --settings=airquality_api.settings_local
+.\.venv\Scripts\python.exe -B manage.py runserver 127.0.0.1:8000 --settings=airquality_api.settings_local
 ```
 
-La configuración local crea `.local/db.sqlite3`, una base SQLite independiente
-que no requiere contraseña. La API comienza sin registros; el dashboard obtiene
-las mediciones por barrios de `dash2/datasets/` y la muestra de estaciones
-de `data/samples/`.
+### 3. Abre otra terminal e inicia React
 
-El archivo `db.sqlite3` incluido en el repositorio tiene un esquema antiguo.
-La configuración local utiliza su propia base y las migraciones actuales.
+También desde la raíz del repositorio:
 
-### Terminal 2: React
-
-Desde la raíz del repositorio:
-
-```bash
-cd airquality_front
-npm run dev -- --port 5173 --strictPort
+```powershell
+npm --prefix airquality_front run dev -- --port 5173 --strictPort
 ```
 
-Abre <http://localhost:5173>. Puedes comprobar el dashboard directamente en
-<http://127.0.0.1:8000/dashv1/>. Detén cada servidor con `Ctrl+C` en su terminal.
+Abre **[http://localhost:5173](http://localhost:5173)**. El servidor de datos y Dash se ejecuta en el puerto **8000**; la interfaz, en el **5173**.
 
-### Históricos RMCAB en el dashboard
+La configuración local usa una base SQLite independiente en `.local/db.sqlite3`, sin configurar PostgreSQL. Las muestras y los paquetes históricos están incluidos: **no necesitas ejecutar notebooks ni entrenar modelos para explorar la web**. Los fondos de mapa y los servicios de búsqueda y rutas requieren conexión a Internet.
 
-En Inicio, la pestaña **Históricos RMCAB · estaciones** muestra datos reales
-de la muestra local, con filtros de variable, año, mes del reporte, estaciones,
-frecuencia y estadística. Incluye series, comparación, disponibilidad y descarga
-CSV con las cuatro variables, unidades, tratamiento y procedencia.
-Los contadores distinguen días consultados y datos presentes; el piloto no
-representa once años completos. La pestaña **Mapa por barrios** conserva el
-conjunto de trabajo anterior y sus filtros independientes.
+## Cómo está construido
 
-Dash lee `data/samples/rmcab_pilot_2015_2025.csv` y comprueba su manifiesto
-`.sources.json` al iniciar el proceso. No ejecuta el notebook, descarga históricos
-ni entrena modelos al abrir la web. Para el contrato y la actualización del lote,
-consulta [`data/README.md`](data/README.md).
+| Parte | Tecnología |
+|:---|:---|
+| Interfaz | React 18, Vite y React Router |
+| API y servidor | Django, Django REST Framework y SQLite en desarrollo local |
+| Mapas y gráficos | Dash, Plotly y MapLibre |
+| Datos e investigación | pandas, NumPy, scikit-learn y Jupyter |
+| Lugares y recorridos | Photon, BRouter y datos de OpenStreetMap |
 
-```bash
-python -B -m unittest dash2.test_rmcab dash2.test_dashboard_filters dash2.test_dashboard_overview -v
+```text
+Air_Quality_Bogota/
+├── airquality_front/       Interfaz, idiomas, temas y animaciones
+├── airquality_api/         Configuración y rutas de Django
+├── dash2/                  Explorador, gráficos y API de mapas/predicciones
+├── rutes/                  Búsqueda y comparación de recorridos
+├── data/                   Muestras, manifiestos, mapas e informes
+├── research/               Recolección, tratamiento y experimentos
+├── notebooks/              Investigación reproducible
+└── docs/                   Guías y recursos del README
 ```
 
-### Mapa de fondo
+## Documentación
 
-El dashboard usa el estilo claro Positron de [OpenFreeMap](https://openfreemap.org/)
-para mostrar calles, ríos y localidades alrededor de Bogotá. La capa tiene cobertura
-mundial y no requiere una clave de API. Las mediciones coloreadas corresponden
-únicamente a los barrios del conjunto de datos de Bogotá. Se necesita conexión a
-Internet para cargar el fondo; sus créditos permanecen visibles en el mapa.
+| Guía | Contenido |
+|:---|:---|
+| [Desarrollo local](docs/DESARROLLO.md) | Entornos, instalación, comprobaciones, API y configuración del servidor. |
+| [Datos y procedencia](data/README.md) | Fuentes, unidades, cobertura, calidad y contrato de los archivos. |
+| [Metodología](docs/METODOLOGIA.md) | Exposición en rutas, tratamiento del mapa, experimentos HGB y reproducción de resultados. |
+| [Histórico integrado · notebook 05](notebooks/05_integracion_historica_2015_2025.ipynb) | Integración 2015–2025, contexto ERA5 y evaluación histórica del modelo vigente. |
+| [Notebooks anteriores](notebooks/) | Auditorías y experimentos 01–04 que documentan la evolución del proyecto. |
 
-### PostgreSQL
+Para comprobar el frontend:
 
-`airquality_api/settings.py` contiene la configuración original de PostgreSQL.
-Para utilizarla, configura allí la base `AirQuality_DB` y tus credenciales, y
-ejecuta los comandos de Django sin `--settings=airquality_api.settings_local`.
-
-Si aparece `password authentication failed for user "postgres"`, la contraseña
-configurada no coincide con la del servidor. El modo local anterior permite
-ejecutar el proyecto con SQLite.
-
-## Investigación del dataset histórico (2015–2025)
-
-El trabajo reproducible de datos se encuentra en
-[`notebooks/01_dataset_historico.ipynb`](notebooks/01_dataset_historico.ipynb).
-Incluye auditoría del CSV existente, fuentes oficiales, una muestra real de
-RMCAB de varios años, cobertura por variable, comparación de imputación con
-scikit-learn y preparación de observaciones para modelado temporal.
-La muestra piloto **no equivale a once años completos** y el CSV del dashboard
-se conserva. Los detalles del contrato, fuentes y recolección están en
-[`data/README.md`](data/README.md).
-
-Usa un entorno independiente del servidor web, desde la raíz del repositorio:
-
-```bash
-py -3.11 -m venv .venv-research
-source .venv-research/Scripts/activate
-export PYTHONUTF8=1
-export PYTHONDONTWRITEBYTECODE=1
-python -m pip install -r requirements-research.txt
-python -B -m unittest research.test_air_quality -v
-python -m jupyterlab notebooks/01_dataset_historico.ipynb
+```powershell
+npm --prefix airquality_front run build
 ```
 
-En Jupyter, usa el kernel Python del entorno `.venv-research`. El notebook puede
-ejecutarse sin red con los datos de `data/samples/`. Para ampliar los históricos,
-consulta los comandos de `research.collect_rmcab` en la guía de datos.
+Las comprobaciones del backend y los experimentos están en la [guía de desarrollo](docs/DESARROLLO.md#comprobaciones).
 
-## Primer experimento HistGradientBoosting
+## Contribuir
 
-[`notebooks/02_histgradientboosting_pronostico.ipynb`](notebooks/02_histgradientboosting_pronostico.ipynb)
-entrena y evalúa PM2.5 y PM10 sobre la semana continua del 3 al 9 de febrero de
-2025. Compara persistencia, HGB con NaN nativos y HGB con medianas ajustadas
-exclusivamente en entrenamiento. No completa años con valores inventados ni
-modifica los datos del dashboard. Usa el mismo entorno `requirements-research.txt`.
+**Hagamos algo increíble. Hagamos que esto crezca.**
 
-```bash
-python -B -m unittest research.test_air_quality research.test_forecast_experiment -v
-python -m jupyterlab notebooks/02_histgradientboosting_pronostico.ipynb
-```
+Puedes aportar mejoras de accesibilidad y visualización, datos con procedencia verificable, pruebas del modelo o ideas para comparar recorridos. En los cambios de datos, conserva la distinción entre observaciones, estimaciones y resultados históricos.
 
-Ejecuta todas las celdas para regenerar los informes de `data/reports/hgb_pilot/`
-y el detalle de predicciones en `data/processed/hgb_pilot_predictions.csv`.
-El experimento conserva los objetivos observados y purga el entrenamiento para
-que sus etiquetas precedan a los orígenes de validación. A 1 y 24 horas se evalúan
-tres ventanas diarias; a 48 horas solo una; a 72 horas no hay entrenamiento previo
-suficiente y se omiten todas las ventanas. Son horizontes puntuales, no una curva
-completa emitida desde un mismo origen.
+- [Comparte una idea o reporta un problema](https://github.com/CamiloHedzz/Air_Quality_Bogota/issues).
+- [Envíame un email](mailto:camilohedzz@gmail.com).
+- [Conoce el proyecto en GitHub](https://github.com/CamiloHedzz/Air_Quality_Bogota).
 
-Resultados exploratorios a 24 h (MAE en µg/m³):
+## Fuentes y créditos
 
-| Variable | Persistencia | HGB con NaN | HGB con mediana |
-|---|---:|---:|---:|
-| PM2.5 | 8.31 | 6.40 | 6.43 |
-| PM10 | 13.27 | 11.62 | 11.56 |
+Los registros de calidad del aire proceden de **[SISAIRE / IDEAM](https://sisaire.ideam.gov.co/ideam-sisaire-web/consultas.xhtml)** y de **[RMCAB / Secretaría Distrital de Ambiente de Bogotá](https://www.ambientebogota.gov.co/es/red-de-monitoreo-de-calidad-del-aire-de-bogota-rmcab)**. El contexto meteorológico utiliza **[Open-Meteo / ERA5](https://open-meteo.com/en/docs/historical-weather-api)**.
 
-Una semana y estaciones conocidas no prueban generalización anual o espacial.
-El experimento presupone disponibilidad de las lecturas publicadas en el origen;
-no contamos con un archivo de latencias o revisiones del portal. No se exporta
-ni despliega un modelo. Para un pronóstico actual hacen falta lecturas recientes,
-históricos continuos más amplios y una evaluación final separada.
+Los mapas y recorridos utilizan **OpenStreetMap**, **OpenFreeMap**, **OpenMapTiles**, **Photon** y **BRouter**, con sus atribuciones correspondientes en la interfaz. El [documento de datos](data/README.md#fuentes) amplía la procedencia y el tratamiento.
 
-## HistGradientBoosting con un trimestre
+Autores del proyecto: **Camilo Hernández y Juan Arias**.
 
-[`notebooks/03_histgradientboosting_trimestre.ipynb`](notebooks/03_histgradientboosting_trimestre.ipynb)
-amplía la investigación a **90 reportes diarios**, de enero a marzo de 2025:
-41,040 filas de estación/hora y 19 estaciones listadas.
-Los reportes pueden tener sensores ausentes; la disponibilidad diaria y por estación
-se conserva en los informes. No equivale a un dataset completo de 2015–2025.
+---
 
-Se mantienen los hiperparámetros del experimento inicial. La comparación de
-variantes usa tres semanas de desarrollo hasta el 21 de marzo. La evaluación final
-usa objetivos de los reportes del **25 al 31 de marzo**, con HGB nativo elegido antes
-de ver los resultados finales y persistencia como referencia. Los cortes purgan
-etiquetas que alcanzarían los orígenes de validación.
-
-Resultados de la semana final (MAE en µg/m³; menor es mejor):
-
-| Variable | Horizonte | Persistencia MAE | HGB MAE |
-|---|---:|---:|---:|
-| PM2.5 | 1 h | 4.89 | 4.18 |
-| PM2.5 | 24 h | 8.00 | 6.49 |
-| PM2.5 | 48 h | 9.41 | 7.38 |
-| PM2.5 | 72 h | 9.40 | 7.61 |
-| PM10 | 1 h | 8.07 | 7.33 |
-| PM10 | 24 h | 15.42 | 12.37 |
-| PM10 | 48 h | 19.27 | 13.79 |
-| PM10 | 72 h | 20.45 | 14.20 |
-
-Los resultados varían por estación y horizonte; revisar `holdout_per_station.csv`.
-No se han ajustado parámetros con la semana final. Tras consultar sus resultados,
-los cambios futuros necesitarán un periodo de prueba distinto. Un trimestre sigue
-sin acreditar comportamiento anual, por barrios o con datos en tiempo real.
-
-Para reconstruir las descargas secuenciales y reanudables:
-
-```bash
-python -B -m research.collect_rmcab_period --start 2025-01-01 --end 2025-03-31 --network --output data/samples/rmcab_2025_q1.csv
-python -B -m unittest research.test_air_quality research.test_forecast_experiment research.test_collect_period -v
-python -m jupyterlab notebooks/03_histgradientboosting_trimestre.ipynb
-```
-
-El recolector admite hasta 92 días por lote. Con caché completa, omitir `--network`.
-El notebook funciona sin red con el CSV y su manifiesto. Las métricas y metadatos
-están en `data/reports/hgb_2025_q1/`; las predicciones detalladas son regenerables
-en `data/processed/`. Se conservan los CSV anteriores y el dataset de la web.
-Los resultados históricos evaluados se conectan a la web mediante el paquete descrito en la siguiente sección; no se despliega inferencia en tiempo real.
-
-## Predicciones históricas conectadas a la web
-
-En **Haz tus predicciones** se consultan 17.481 estimaciones históricas reales
-de HistGradientBoosting para PM2.5 y PM10 a 24, 48 y 72 horas. El usuario selecciona
-estación, fecha y hora entre los orígenes disponibles. Se muestran el histórico,
-la estimación puntual, persistencia, la observación posterior opcional y el MAE
-histórico por estación. No se dibuja una trayectoria ni un intervalo no calculados.
-
-Las otras vistas calculan comparación emparejada entre estaciones, correlación
-y dispersión de variables coincidentes, y agregados por día/hora. Humedad y
-temperatura tienen análisis histórico; no tienen un modelo de pronóstico activado.
-Los filtros de histórico, agrupación y estadística se aplican a los datos reales.
-La tabla y los CSV conservan ausencias, las cuatro variables, unidades y procedencia.
-
-El catálogo une el piloto y el trimestre sin duplicar observaciones: 100 reportes
-distribuidos entre 2015–2025, con fechas aisladas antes de 2025. La cobertura parcial
-y el entrenamiento actual de enero–marzo de 2025 están visibles en la pantalla.
-No equivale a once años completos ni a un pronóstico emitido para hoy.
-
-Flujo reproducible:
-
-`notebook 03 → research.publish_predictions → CSV.gz + manifiesto → API Django + DjangoDash → React`
-
-Después de ejecutar todas las celdas del notebook 03, desde la raíz del repositorio:
-
-```bash
-python -B -m research.publish_predictions
-python -B manage.py test dash2.test_predictions dash2.test_prediction_figures --settings=airquality_api.settings_local
-```
-
-El exportador usa las predicciones del test final en `data/processed/` y verifica
-los hashes de entrada y la separación temporal. El paquete pequeño de
-`data/forecasts/` se versiona para que un clon pueda consultar resultados sin
-Jupyter ni scikit-learn en el servidor web. Es una reproducción de backtests
-precalculados, no inferencia nueva ni entrenamiento por petición.
-Para actualizarlo hay que repetir el notebook y exportar el paquete junto con sus
-metadatos. Reiniciar Django tras reemplazarlo, porque se carga en memoria.
-
-API GET:
-
-- `/api/predictions/catalog/`: estaciones, variables, cobertura y alcance del modelo.
-- `/api/predictions/options/`: fechas/horas válidas para la selección.
-- `/api/predictions/query/`: series, análisis, métricas y resultado histórico.
-- `/api/predictions/export/`: CSV de observaciones o del pronóstico seleccionado.
-
-La página conserva los filtros y la tabla en React. Las figuras se renderizan con
-**Dash y Plotly** en la aplicación `PredictionCharts`, integrada mediante un iframe
-que ajusta su altura al contenido. Mantienen Oswald y el tema claro. Se puede usar
-zoom, consultar puntos, ocultar series con la leyenda y descargar PNG desde la
-barra de Plotly. El pie de página permanece fuera del iframe.
-
-La pestaña **Evaluar el modelo** añade cuatro perspectivas:
-
-- Real frente a estimado: la diagonal indica coincidencia y el rombo la consulta.
-- Histograma del error firmado: positivo significa sobreestimación.
-- MAE por horizonte: HGB frente a persistencia, con los mismos objetivos observados
-  disponibles a 24/48/72 h, para evitar comparar muestras distintas.
-- Cajas del error: mediana, cuartiles y valores alejados de errores pasados; no son
-  intervalos de predicción.
-
-Estos gráficos usan la estación y el contaminante seleccionados, en la semana de
-prueba del 25–31 de marzo de 2025; no cambian su periodo con la ventana del histórico.
-Las métricas de MAE y sesgo corresponden al horizonte seleccionado. La descarga
-`kind=evaluation` incluye los tres horizontes, objetivos, errores, cortes y fuentes.
-El panel «Así aprende el modelo» explica entradas, árboles sucesivos, MAE y la
-comparación temporal, con el alcance real del modelo visible.
-
-Vite reenvía `/api/predictions`, `/django_plotly_dash` y `/static` a
-`127.0.0.1:8000` durante desarrollo. En despliegue, servir las dos primeras rutas
-con Django bajo el mismo origen de React y los estáticos recogidos con
-`collectstatic`, o configurar el proxy correspondiente.
-No usar `vite preview` como sustituto del servidor de API.
-
-## Autores
-Este proyecto fue desarrollado con ❤️ por :
-
-Camilo Hernández 
-
-Juan Arias 
-
-¡Gracias por su interés en nuestro proyecto! Si tiene alguna pregunta o sugerencia, no dude en contactarnos.
-
-¡Feliz exploración! 🌎🍃
-
-
-
-## Mapa por sectores · datos originales y datos con tratamiento
-
-El selector tiene dos opciones y abre por defecto en **Datos con tratamiento**:
-
-- **Datos originales**: utiliza únicamente las fechas con mediciones RMCAB,
-  sin rellenar huecos temporales. Si solo hay un mes disponible, la gráfica
-  mensual muestra un punto por sector.
-- **Datos con tratamiento**: conserva esas mediciones y completa el calendario
-  2015–2025. Primero interpola linealmente huecos internos de hasta tres días;
-  el resto usa una base KNN de cinco vecinos, ubicación, año y ciclo anual,
-  sin atributos de día de la semana. Los rellenos largos incluyen variación
-  sintética suave, reproducible y distinta por sector (amplitud fija 10 % del
-  rango P95–P5 observado). No hay que activar otro modo para ver las curvas completas.
-
-El tratamiento conserva la prioridad de las mediciones. Sus valores añadidos son
-estimaciones exploratorias; no son nuevas observaciones ni promedios anuales
-oficiales. Las fuentes descargadas tienen 100 fechas distintas: antes de 2025
-predomina un día por año; 2025 aporta el primer trimestre. Completar el calendario
-no demuestra cómo fue la variación real durante los periodos ausentes.
-
-La variación interna usa PCG64 con semilla 20251024 y SHA256 por sector/variable.
-Combina un componente común (peso 0,5) y uno local (sqrt(0,75)), con filtro AR(1)
-aproximado (coeficiente 0,65, ventana 21 días). No representa precisión ni
-incertidumbre calibrada, y no valida relaciones físicas entre variables ni la
-estacionalidad anual. PM se limita a valores no negativos y humedad a 0–100 %.
-No se aplica ruido a mediciones ni huecos cortos. El calendario absoluto conserva
-los resultados al cambiar mes, año, orden o selección de sectores.
-
-Se conservan los 1.160 polígonos y cada sector vuelve a tener una sola curva por
-variable. El hover identifica mediciones, rellenos cortos y rellenos con variación
-sintética; las agregaciones mensuales o semanales pueden mezclar orígenes. Mapa,
-barras, series y CSV comparten filtros y valores. Los CSV indican el modo,
-fuentes, días añadidos, semilla y variación, sin presentar los añadidos como medidos.
-
-IDW combina las cuatro estaciones disponibles más cercanas al centroide
-(haversine, potencia 2, piso 0,1 km). Ambos modos muestran estimaciones espaciales,
-no mediciones directas del barrio ni promedios de toda su área. Los límites
-permanecen en gris si no hay valor. Las ubicaciones provienen de la SDA; los
-traslados históricos de estaciones no están verificados.
-
-El paquete compacto está en `data/maps/`. Su calendario por estación conserva
-`*_hours`, `*_origin`, `*_neighbor_gap_days` y `*_short_gap`. La etiqueta interna
-`knn_scenario_baseline` identifica la base determinista de relleno; la variación
-por sector se genera al consultar y no modifica el archivo. El manifiesto
-documenta hashes, cobertura, las dos opciones y su opción inicial.
-
-El tratamiento es retrospectivo y puede usar fuentes posteriores a una fecha.
-No alimenta el HGB de pronósticos. Sus fuentes y artefactos, y los recorridos
-originales de 2024, permanecen conservados. La comprobación temporal limitada
-de KNN (25–31 de marzo de 2025) no valida meses/años ausentes ni precisión espacial.
-
-El procedimiento y las comprobaciones están ejecutados en
-`notebooks/04_mapa_historico_barrios.ipynb`. Reproducir con el entorno de investigación:
-
-```bash
-python -B -m research.neighborhood_history
-python -B -m unittest dash2.test_neighborhood_data dash2.test_map_scenarios -v
-```
-
-La primera referencia de estaciones se obtiene con `--network`; después funciona
-sin red. Reiniciar Django tras reconstruir. Descargas GET:
-`/api/maps/calendar/`, `/api/maps/methodology/` y `/api/maps/manifest/`.
+<p align="center"><strong>Hecho con amor para mi Bogotá.</strong> 💛</p>

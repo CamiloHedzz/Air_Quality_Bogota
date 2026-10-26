@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="420" viewBox="0 0 1400 420" role="img" aria-labelledby="cover-title cover-description">
+  <title id="cover-title">Air Quality Bogotá</title>
+  <desc id="cover-description">Conoce el aire. Encuentra tu camino. Portada en verde bosque y amarillo con el monograma B, los cerros de Bogotá y una ruta en bicicleta.</desc>
+  <defs>
+    <linearGradient id="background" x2="1" y2="1"><stop stop-color="#17382b"/><stop offset="1" stop-color="#101b17"/></linearGradient>
+    <linearGradient id="terrain-fade"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".24" stop-color="#fff" stop-opacity=".65"/><stop offset="1" stop-color="#fff"/></linearGradient>
+    <mask id="terrain-mask"><rect x="610" width="790" height="420" fill="url(#terrain-fade)"/></mask>
+    <pattern id="grid" width="46" height="46" patternUnits="userSpaceOnUse"><path d="M46 0H0V46" fill="none" stroke="#b4c497" stroke-width=".6"/></pattern>
+    <path id="monogram-b" fill-rule="evenodd" d="M47.8 58.691C50.6 58.158 52.467 56.524 53.4 53.791C54.333 51.058 54.8 47.591 54.8 43.391C54.8 39.991 54.183 36.708 52.95 33.541C51.717 30.374 50.183 28.558 48.35 28.091C46.517 27.624 44.817 27.358 43.25 27.291C41.683 27.224 40.3 27.158 39.1 27.091L39.1 59.391C40.367 59.391 41.65 59.374 42.95 59.341C44.25 59.308 45.867 59.091 47.8 58.691ZM51.4 98.291L2.5 98.191L2.5 96.591L5.6 96.591C7 96.391 8.367 96.208 9.7 96.042C11.033 95.876 12.083 95.376 12.85 94.544C13.617 93.712 14.1 92.231 14.3 90.1L14.5 85.507L14.5 38.175L14.3 33.582C14.1 31.451 13.6 29.954 12.8 29.088C12 28.222 10.883 27.69 9.45 27.49C8.017 27.291 6.717 27.174 5.55 27.141C4.383 27.108 3.333 27.058 2.4 26.991L2.4 25.391L48.6 25.291C54.867 25.291 59.767 25.524 63.3 25.991C66.833 26.458 69.783 27.491 72.15 29.091C74.517 30.691 76.367 32.674 77.7 35.041C79.033 37.408 79.7 40.224 79.7 43.491C79.7 48.358 78.283 51.858 75.45 53.991C72.617 56.124 69.783 57.541 66.95 58.241C64.117 58.941 60.633 59.291 56.5 59.291L56.5 60.091C61.367 60.091 65.017 60.274 67.45 60.639C69.883 61.005 72.317 61.687 74.75 62.684C77.183 63.681 79.333 65.56 81.2 68.319C83.067 71.079 84 74.619 84 78.941C84 83.131 83.033 86.622 81.1 89.414C79.167 92.207 76.7 94.285 73.7 95.648C70.7 97.011 67.033 97.792 62.7 97.992C58.367 98.191 54.6 98.291 51.4 98.291ZM51.5 95.394C53.7 94.862 55.283 92.768 56.25 89.111C57.217 85.455 57.7 81.633 57.7 77.644C57.7 74.055 56.95 70.548 55.45 67.124C53.95 63.7 52.133 61.855 50 61.589C47.867 61.324 46.217 61.174 45.05 61.141C43.883 61.108 43 61.091 42.4 61.091L39.1 61.091L39.1 96.391L40.3 96.391C42.7 96.391 44.7 96.341 46.3 96.242C47.9 96.142 49.633 95.86 51.5 95.394Z"/>
+    <path id="bird" d="M27 36C36 31 47 31 56 34C61 36 65 35 68 30C70 26 74 25 78 27C81 28 82 31 81 33L86 34L80 36C77 38 74 37 72 40C67 46 59 48 49 46C40 45 34 42 28 42L16 46L10 44L14 41L10 38L13 34L21 35ZM58 35C55 29 49 26 46 20C43 14 38 7 32 3L32 9L35 16L32 12L35 21L32 18L36 28C40 35 45 39 49 41Q54 42 58 35ZM52 35C56 28 60 21 64 16C66 12 69 7 72 5L73 10L72 17L75 12L75 21L76 18L72 29C68 35 61 38 56 39Q52 39 52 35Z"/>
+  </defs>
+  <rect width="1400" height="420" rx="24" fill="url(#background)"/>
+  <g mask="url(#terrain-mask)">
+    <rect x="610" width="790" height="420" fill="url(#grid)" opacity=".09"/>
+    <path d="M610 267 696 243 752 254 822 219 875 229 927 190 971 207 1030 151 1076 165 1131 102 1182 129 1232 124 1276 157 1337 150 1400 176V420H610Z" fill="#254936" stroke="#74866a" stroke-width="1.2" opacity=".46"/>
+    <path d="M610 350 688 329 734 290 775 304 828 276 873 297 928 245 972 259 1030 194 1080 211 1128 147 1170 168 1215 160 1253 218 1300 249 1340 274 1400 258V420H610Z" fill="#17382b" stroke="#8c9d72" stroke-width="1.4" opacity=".76"/>
+    <g fill="none" stroke="#8c9d72" stroke-linecap="round" opacity=".25">
+      <path d="m1030 194-12 42-30 26-21 33m161-148-18 50-35 35-9 47m104-111-13 47 21 35m37-90 10 67 33 45"/>
+      <path d="M617 396C731 358 800 377 888 364S1068 340 1140 353s170 30 260-2M667 420C778 383 834 401 942 385s173-15 245 4 151 10 213-1"/>
+    </g>
+    <g transform="translate(1115 72)" stroke="#c1cbaa" stroke-width="1.2" fill="none" stroke-linejoin="round" opacity=".5">
+      <path d="M0 30V10l5-6 5 6v20m14 0V10l5-6 5 6v20M0 30h34M10 30V19l7-7 7 7v11M14 30v-8a3 3 0 0 1 6 0v8M2 13h6v6H2Zm24 0h6v6h-6Z"/>
+      <path d="M5 0v6M2 2h6m21-2v6m-3-4h6M17 8v7m-3-4h6"/>
+    </g>
+    <path d="M678 356C742 340 750 324 804 330S868 356 906 326S980 292 1025 310S1095 329 1146 294S1235 266 1295 288" fill="none" stroke="#dbd22a" stroke-width="13" opacity=".04"/>
+    <path d="M678 356C742 340 750 324 804 330S868 356 906 326S980 292 1025 310S1095 329 1146 294S1235 266 1295 288" fill="none" stroke="#dbd22a" stroke-width="2.6" stroke-linecap="round"/>
+    <rect x="673" y="351" width="10" height="10" fill="#dbd22a"/>
+    <circle cx="1295" cy="288" r="5" fill="#dbd22a"/>
+    <g transform="translate(1244 275)" fill="none" stroke="#d2d8bc" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity=".88">
+      <circle cx="0" cy="0" r="11"/><circle cx="36" cy="0" r="11"/>
+      <path d="m0 0 12-20 12 20H0m12-20h16l8 20M24 0l-7-28m-5 0h10m6 8 3-6h7"/>
+    </g>
+    <g fill="#c6d0b4" opacity=".4"><use href="#bird" transform="translate(1266 62) scale(.34)"/><use href="#bird" transform="translate(1211 47) scale(.25)"/><use href="#bird" transform="translate(1310 38) scale(.28)"/></g>
+  </g>
+  <rect x="73" y="45" width="45" height="5" fill="#dbd22a"/>
+  <g transform="translate(73 88)">
+    <rect width="25" height="95" fill="#dbd22a"/>
+    <use href="#monogram-b" transform="translate(32 0) scale(1.30137) translate(-2.4 -25.291)" fill="#f0f2e4"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#f0f2e4">
+    <text x="244" y="125" font-size="48" font-weight="700" letter-spacing="-2">Air Quality</text>
+    <text x="244" y="184" font-size="58" font-weight="400" letter-spacing="-2.5">Bogotá</text>
+    <text x="73" y="268" font-size="29" font-weight="500" letter-spacing="-.7">Conoce el aire.</text>
+    <text x="73" y="307" font-size="29" font-weight="400" letter-spacing="-.7" fill="#b9c6a8">Encuentra tu camino.</text>
+    <text x="74" y="370" font-size="14" font-weight="400" letter-spacing=".4" fill="#8ea387">Una mirada al aire que compartimos.</text>
+  </g>
+  <rect x=".75" y=".75" width="1398.5" height="418.5" rx="23.25" fill="none" stroke="#83906c" stroke-opacity=".28" stroke-width="1.5"/>
+</svg>

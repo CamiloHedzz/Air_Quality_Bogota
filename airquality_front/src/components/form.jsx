@@ -1,6 +1,7 @@
 import { useLanguage } from "../i18n/useLanguage";
 function ContactForm() {
   const { localize } = useLanguage();
+  const returnUrl = new URL("/About#contact", window.location.origin).href;
 
   return (
     localize(<form className="contact-form" action="https://formsubmit.co/camilohedzz@gmail.com" method="POST">
@@ -14,14 +15,15 @@ function ContactForm() {
       </div>
       <div className="form-group">
         <label htmlFor="subject">Asunto:</label>
-        <input type="text" id="subject" name="subject" required />
+        <input type="text" id="subject" name="_subject" required />
       </div>
       <div className="form-group">
         <label htmlFor="comments">Comentarios:</label>
         <textarea id="comments" name="comments" required />
       </div>
       <button type="submit">Enviar</button>
-      <input type="hidden" name="_next" value="http://localhost:5173/About" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_next" value={returnUrl} />
     </form>)
   );
 }

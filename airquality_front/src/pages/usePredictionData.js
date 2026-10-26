@@ -45,15 +45,15 @@ export function usePredictionData(view) {
     return () => controller.abort();
   }, [attempt]);
 
-  const station = settings?.station, variable = settings?.variable, horizon = settings?.horizon;
+  const station = settings?.station, variable = settings?.variable, horizon = settings?.horizon, mode = settings?.mode || "estimated";
   useEffect(() => {
     if (!catalog || !station) return;
     const controller = new AbortController();
     ++sequence.current;
     setOptionsBusy(true); setResult(null); setAvailable(null); setError(""); setBusy(false);
-    getJSON(`options/?${new URLSearchParams({ station, variable, horizon, view })}`, controller.signal).then(payload => {
+    getJSON(`options/?${new URLSearchParams({ station, variable, horizon, view, mode })}`, controller.signal).then(payload => {
       if (controller.signal.aborted) return;
-      setAvailable({ ...payload, key: `${station}|${variable}|${horizon}|${view}` });
+      setAvailable({ ...payload, key: `${station}|${variable}|${horizon}|${view}|${mode}` });
       if (!payload.dates.length) { setOptionsBusy(false); return; }
       setSettings(current => {
         const date = payload.dates.includes(current.date) ? current.date : payload.dates.at(-1);
@@ -65,16 +65,16 @@ export function usePredictionData(view) {
       if (!controller.signal.aborted) setOptionsBusy(false);
     });
     return () => { controller.abort(); ++sequence.current; };
-  }, [catalog, station, variable, horizon, view]);
+  }, [catalog, station, variable, horizon, view, mode]);
 
   // Cargar al entrar o cambiar de estación/variable/vista; fecha e histórico se aplican con el botón.
   useEffect(() => {
-    if (available?.key === `${station}|${variable}|${horizon}|${view}` && settings?.date && available.hours[settings.date]?.includes(settings.hour) && !optionsBusy && !result && !busy && !error) {
+    if (available?.key === `${station}|${variable}|${horizon}|${view}|${mode}` && settings?.date && available.hours[settings.date]?.includes(settings.hour) && !optionsBusy && !result && !busy && !error) {
       manual.current?.abort();
       manual.current = new AbortController();
       load(settings, view, manual.current.signal);
     }
-  }, [available, settings, optionsBusy, result, busy, error, view, load, station, variable, horizon]);
+  }, [available, settings, optionsBusy, result, busy, error, view, load, station, variable, horizon, mode]);
 
   useEffect(() => () => { sequence.current = -1; manual.current?.abort(); }, []);
 

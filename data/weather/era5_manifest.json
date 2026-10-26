@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "source": "Open-Meteo / ECMWF ERA5",
+  "documentation": "https://open-meteo.com/en/docs/historical-weather-api",
+  "record_type": "weather_reanalysis",
+  "timezone": "America/Bogota",
+  "grid_resolution_degrees": 0.25,
+  "elevation_downscaling": false,
+  "station_coordinates_scope": "fixed_reference_positions",
+  "report_start": "2015-01-01",
+  "report_end": "2025-12-31",
+  "rows": 385728,
+  "grid_cells": [
+    {
+      "grid_id": "era5_4.50_-74.00",
+      "grid_latitude": 4.5,
+      "grid_longitude": -74.0
+    },
+    {
+      "grid_id": "era5_4.50_-74.25",
+      "grid_latitude": 4.5,
+      "grid_longitude": -74.25
+    },
+    {
+      "grid_id": "era5_4.75_-74.00",
+      "grid_latitude": 4.75,
+      "grid_longitude": -74.0
+    },
+    {
+      "grid_id": "era5_4.75_-74.25",
+      "grid_latitude": 4.75,
+      "grid_longitude": -74.25
+    }
+  ],
+  "station_count": 19,
+  "hours_per_grid": 96432,
+  "units": {
+    "temperature": "°C",
+    "humidity": "%",
+    "precipitation": "mm",
+    "wind_speed": "m/s",
+    "wind_direction": "°"
+  },
+  "output_sha256": {
+    "era5_hourly_2015_2025.csv.gz": "9ba6b0b858e8638335dd1805e94a3b36ce832c33f15389af41bee148347a5c1a",
+    "station_grids.csv": "cbb84227aaf4f127e34ecb90b1d1bba61a7b87c88311e755d97ef0060bd140ee"
+  },
+  "reference_sha256": "4527b95727038eb1f7b97c8cc4e63d3c58805defe52d1ec07c46573cd8420b03",
+  "sources": [
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2015-01-01&end_date=2015-12-31&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",
+      "sha256": "29fe5ba7b89738126c7f5d3ab4e27ca7ce3e37a77e42c12ae51aabb249e9f821",
+      "year": 2015,
+      "downloaded_at_utc": "2026-10-25T06:03:17.490699+00:00",
+      "bytes": 1432706
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2016-01-01&end_date=2016-12-31&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",
+      "sha256": "2d9532e91fabf79348aa57876d3d9c96d500dd6b767a0e5c5d07780ea50c2ac5",
+      "year": 2016,
+      "downloaded_at_utc": "2026-10-25T06:03:26.458147+00:00",
+      "bytes": 1436286
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2017-01-01&end_date=2017-12-31&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",
+      "sha256": "46bb656f1b9d52817858e6af9e770a0aca477c43ccd28f07d47eb476c2415bff",
+      "year": 2017,
+      "downloaded_at_utc": "2026-10-25T06:03:38.289738+00:00",
+      "bytes": 1430410
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2018-01-01&end_date=2018-12-31&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",
+      "sha256": "9ab90c47d696710cf24d67ee8d07093bce31a4d5864cc57bd47c626a2d607342",
+      "year": 2018,
+      "downloaded_at_utc": "2026-10-25T06:03:48.040369+00:00",
+      "bytes": 1430357
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2019-01-01&end_date=2019-12-31&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",
+      "sha256": "aa15ececcebc9b7bc04f3e2fa0601ce311dff3259534be806c0232988914da50",
+      "year": 2019,
+      "downloaded_at_utc": "2026-10-25T06:03:56.970914+00:00",
+      "bytes": 1431489
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2020-01-01&end_date=2020-12-31&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",
+      "sha256": "1bb4e94bb74f63c6cd9f6fcef1c9e0b4b07cbab756b2487ce16c7895abf87588",
+      "year": 2020,
+      "downloaded_at_utc": "2026-10-25T06:04:05.786955+00:00",
+      "bytes": 1434760
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2021-01-01&end_date=2021-12-31&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",
+      "sha256": "eaa2c5f07909507e9880d7d341051dcc515da53ed0f8d1b08dead425e268b8c5",
+      "year": 2021,
+      "downloaded_at_utc": "2026-10-25T06:04:15.083389+00:00",
+      "bytes": 1431719
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2022-01-01&end_date=2022-12-31&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",
+      "sha256": "0aeb77f4d7a45e0d6458087245f368496f713ec06fca28eb63d2eba4bd5e91ea",
+      "year": 2022,
+      "downloaded_at_utc": "2026-10-25T06:04:24.413331+00:00",
+      "bytes": 1432494
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2023-01-01&end_date=2023-12-31&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",
+      "sha256": "6c8a08ad4028680a7a9b87f09471f5c67dbf883cf455f2d1f52e1df4aa3898d4",
+      "year": 2023,
+      "downloaded_at_utc": "2026-10-25T06:04:37.958453+00:00",
+      "bytes": 1433784
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2024-01-01&end_date=2024-12-31&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",
+      "sha256": "3a44332b946066f442ec27b65fbe99202df05f60cbdfdc89ed6542af3d8496ec",
+      "year": 2024,
+      "downloaded_at_utc": "2026-10-25T06:04:50.092861+00:00",
+      "bytes": 1436077
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2025-01-01&end_date=2026-01-01&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",
+      "sha256": "097908d8da156f9930945f67402fb7f6c01abfec781d9c0a9ac5021ae29a3111",
+      "year": 2025,
+      "downloaded_at_utc": "2026-10-25T06:04:59.799023+00:00",
+      "bytes": 1434828
+    }
+  ],
+  "limitations": [
+    "Reanalysis on a coarse grid, not a measured neighborhood or station value.",
+    "Retrospective data with publication delay; not archived live weather forecasts.",
+    "No historical station relocation validation."
+  ],
+  "attribution": "Weather data by Open-Meteo.com; ERA5 by ECMWF / Copernicus Climate Change Service."
+}

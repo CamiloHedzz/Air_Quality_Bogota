@@ -1,0 +1,68 @@
+:root {
+  --site-gutter: clamp(1rem, 4vw, 3rem);
+  --site-content-width: 1440px;
+}
+
+/* Keep the page gutters on the content, so the header fills the real viewport. */
+body { padding-inline: 0; }
+.app-shell { max-width: none; }
+.app-shell > main,
+.app-shell > .site-footer {
+  width: calc(100% - 2 * var(--site-gutter));
+  max-width: var(--site-content-width);
+  margin-inline: auto;
+}
+
+.app-shell .editorial-header {
+  display: block;
+  position: sticky;
+  top: 0;
+  width: 100%;
+}
+.header-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  width: calc(100% - 2 * var(--site-gutter));
+  max-width: var(--site-content-width);
+  min-height: calc(100px - 2.2rem);
+  margin-inline: auto;
+}
+.header-identity {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+  gap: clamp(.75rem, 1.5vw, 1.5rem);
+  min-width: 0;
+}
+.header-identity .site-brand { flex: 0 0 auto; }
+.header-identity .header-location { min-width: 0; margin: 0; white-space: nowrap; }
+.header-inner > .site-navigation { justify-self: center; width: max-content; }
+.header-inner > .site-navigation ul { justify-content: center; flex-wrap: nowrap; }
+.editorial-header .header-actions {
+  justify-self: end;
+  gap: clamp(.75rem, 1.8vw, 1.65rem);
+  margin-left: 0;
+}
+
+@media (min-width: 961px) {
+  .app-shell--about { width: 100%; max-width: none; }
+}
+@media (max-width: 1120px) {
+  .editorial-header .header-actions { gap: .75rem; }
+  .editorial-header .header-actions .theme-toggle { width: 40px; padding: 8px; }
+  .editorial-header .header-actions .theme-toggle > span { display: none; }
+}
+@media (max-width: 900px) {
+  .header-inner { grid-template-columns: minmax(0, 1fr) auto; }
+  .editorial-header .header-inner > .site-navigation { display: none; }
+}
+@media (max-width: 760px) {
+  .header-inner { min-height: calc(82px - 2rem); gap: .65rem; }
+  .editorial-header .header-actions { gap: .35rem; }
+}
+@media (max-width: 480px) {
+  .editorial-header .menu-toggle { gap: 0; min-width: 38px; }
+  .editorial-header .menu-toggle > span:first-child { display: none; }
+}

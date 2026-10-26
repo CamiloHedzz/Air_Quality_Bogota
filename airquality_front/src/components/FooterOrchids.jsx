@@ -32,17 +32,30 @@ function OrchidDrawing() {
 
 export function FooterOrchids() {
   const layer = useRef(null);
+  const revealPoint = useRef(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     if (!window.IntersectionObserver) { setVisible(true); return; }
+    const footer = layer.current.closest("footer");
+    const point = revealPoint.current;
     const observer = new IntersectionObserver(entries => {
-      // Track exits too: async dashboard loading may move the footer offscreen.
-      setVisible(entries.some(entry => entry.isIntersecting));
-    }, { threshold: .08 });
-    observer.observe(layer.current.closest("footer"));
+      entries.forEach(entry => {
+        if (entry.target === footer) {
+          // Reset only after leaving the footer, including dashboard layout shifts.
+          if (!entry.isIntersecting) setVisible(false);
+          else if (point.getBoundingClientRect().top <= (entry.rootBounds?.bottom ?? window.innerHeight)) setVisible(true);
+        } else if (entry.isIntersecting) {
+          // The artwork must reach the viewport before its entrance starts.
+          setVisible(true);
+        }
+      });
+    }, { threshold: 0, rootMargin: "0px 0px -24px 0px" });
+    observer.observe(footer);
+    observer.observe(point);
     return () => observer.disconnect();
   }, []);
   return <div ref={layer} className="footer-orchids" data-visible={visible} aria-hidden="true">
+    <span ref={revealPoint} className="footer-orchid-reveal-point" />
     <div className="footer-orchid footer-orchid-left"><OrchidDrawing /></div>
     <div className="footer-orchid footer-orchid-right"><OrchidDrawing /></div>
   </div>;

@@ -288,7 +288,10 @@ def build_forecast_table(data, *, target="pm_25", horizon_hours=24):
         history = frame[keys + [target]].rename(columns={target: f"{target}_lag_{lag}h"})
         history["datetime"] += pd.Timedelta(hours=lag)
         frame = frame.merge(history, on=keys, how="left", validate="one_to_one")
-    future = data.loc[data[f"{target}_origin"].eq("observed"), keys + [target, "source_url", "source_sha256"]].copy()
+    source_url = f"{target}_source_url" if f"{target}_source_url" in data else "source_url"
+    source_hash = f"{target}_source_sha256" if f"{target}_source_sha256" in data else "source_sha256"
+    future = data.loc[data[f"{target}_origin"].eq("observed"), keys + [target, source_url, source_hash]].copy()
+    future = future.rename(columns={source_url: "source_url", source_hash: "source_sha256"})
     future = future.rename(columns={"datetime": "target_datetime", target: "target_value", "source_url": "target_source_url", "source_sha256": "target_source_sha256"})
     frame["target_datetime"] = frame["datetime"] + pd.Timedelta(hours=horizon_hours)
     frame = frame.merge(future, on=["station_id", "target_datetime"], how="inner", validate="one_to_one")

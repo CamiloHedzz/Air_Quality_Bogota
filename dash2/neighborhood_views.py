@@ -6,7 +6,7 @@ from . import neighborhood_data
 
 @require_GET
 def methodology(request):
-    path=neighborhood_data.ROOT/'notebooks/04_mapa_historico_barrios.ipynb'
+    path=neighborhood_data.ROOT/'notebooks/05_integracion_historica_2015_2025.ipynb'
     return FileResponse(path.open('rb'),as_attachment=True,filename=path.name,content_type='application/x-ipynb+json')
 
 

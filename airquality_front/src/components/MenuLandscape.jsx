@@ -27,8 +27,8 @@ export function MenuLandscape() {
           <stop className="menu-scene-water-far" offset="0" />
           <stop className="menu-scene-water-near" offset="1" />
         </linearGradient>
-        <radialGradient id={`${unique}-water-light`} cx="50%" cy="42%" r="55%">
-          <stop className="menu-scene-water-light" offset="0" stopOpacity=".2" />
+        <radialGradient id={`${unique}-water-light`} cx="42%" cy="38%" r="65%">
+          <stop className="menu-scene-water-light" offset="0" stopOpacity=".34" />
           <stop className="menu-scene-water-light" offset="1" stopOpacity="0" />
         </radialGradient>
         <linearGradient id={`${unique}-mist`} x1="0" y1="0" x2="1" y2="1">
@@ -60,13 +60,17 @@ export function MenuLandscape() {
       <path className="menu-scene-lake" d={lake} fill={`url(#${unique}-water)`} />
       <g clipPath={`url(#${unique}-lake)`}>
         <ellipse className="menu-scene-water-reflection" cx="757" cy="654" rx="196" ry="102" fill={`url(#${unique}-water-light)`} />
+        <path className="menu-scene-water-bank-reflection" d="M925 552C896 566 906 579 884 592C865 604 888 612 868 626C842 642 857 650 837 665C820 680 843 691 818 712L787 749 823 774H968V536ZM686 561C710 574 669 588 680 599C691 609 648 617 654 628C661 638 623 649 631 660C639 672 596 681 604 691L549 723 466 760 443 776H415L471 697 569 650 622 583Z" />
         <path className="menu-scene-water-contact" d={lakeBanks} />
         <path className="menu-scene-water-horizon" d="M684 554C754 547 854 543 940 542" />
+        <g className="menu-scene-water-shift menu-scene-water-ripples-far" fill="none">
+          <path d="M753 560c9-2 14 2 23 0s12-1 18 0M829 565l11-1 9 1 13-2M709 576c10-3 15 1 24 0l10-2M784 584l13-2 10 2 18-1M848 594c9-3 14 1 21-1M704 605l16-2 12 3 15-2M772 613c10-3 15 2 26 0l12-2" />
+        </g>
         <g className="menu-scene-water-shift" fill="none">
-          <path d="M723 563q24-1 48 0m49 2q16-1 32 0M717 579q35-2 70 0m60-1q19-1 38 0M690 601q40-3 80 0m48 4q20-2 40 0M657 627q27-2 54 0m54 4q43-3 86 0M615 659q50-4 100 0m68 0q27-2 54 0M572 696q40-3 80 0m64-3q51-4 102 0M516 738q62-4 124 0m80-1q39-3 78 0" />
+          <path d="M658 628c14-5 21 2 34-1l17-3M811 637l17-3 13 2 16-2M710 653c14-4 22 4 34 1l20-4M607 674c14-4 23 2 36 0l19-4M759 686l19-4 17 3 24-2M651 708c16-5 25 3 41 0l20-4M552 733l19-3 19 4 26-4M730 744c17-5 27 4 42 0l24-3M621 766l20-4 15 3 20-2" />
         </g>
         <g className="menu-scene-water-shift menu-scene-water-shift-slow" fill="none">
-          <path d="M779 570q15-1 30 0M753 590q22-1 44 0M669 613q23-2 46 0m109 6q28-2 56 0M708 644q37-3 74 0M641 678q43-3 86 0m51-5q27-2 54 0M600 717q62-4 124 0M478 762q77-5 154 0m75-4q43-3 86 0" />
+          <path d="M778 573l10-1 8 1 12-1M739 594l12-2 8 1M750 634c12-3 18 2 27-1M670 653l15-2 11 1M776 664l18-2 12 2 15-2M692 690c13-3 20 2 31 0M586 711l14-2 11 2 17-3M655 737l19-3 14 3 20-2M526 759c14-3 23 3 39-1" />
         </g>
       </g>
 

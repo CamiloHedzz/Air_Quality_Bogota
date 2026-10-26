@@ -1,6 +1,7 @@
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 import { useLanguage } from "../i18n/useLanguage";
+import { NatureAtmosphere } from "./NatureAtmosphere";
 import "../assets/styles/map_loading.css";
 
 const phrases = {
@@ -36,6 +37,17 @@ const phrases = {
   ],
 };
 
+function shuffledPhraseOrder(previous = -1) {
+  const order = Array.from({ length: phrases.es.length }, (_, index) => index);
+  for (let index = order.length - 1; index > 0; index -= 1) {
+    const swap = Math.floor(Math.random() * (index + 1));
+    [order[index], order[swap]] = [order[swap], order[index]];
+  }
+  // A fresh round must not immediately repeat the last phrase of the old one.
+  if (order[0] === previous) [order[0], order[1]] = [order[1], order[0]];
+  return order;
+}
+
 const copy = {
   es: {
     title: "Cargando el mapa",
@@ -61,7 +73,8 @@ export function MapLoadingScreen({ progress = 0, stage = "connecting", slow = fa
   const { language } = useLanguage();
   const locale = language === "en" ? "en" : "es";
   const text = copy[locale];
-  const [phrase, setPhrase] = useState(0);
+  const [sequence, setSequence] = useState(() => ({ order: shuffledPhraseOrder(), position: 0 }));
+  const phrase = sequence.order[sequence.position];
   const labelId = useId();
   const phraseId = useId();
   const hintId = useId();
@@ -70,15 +83,20 @@ export function MapLoadingScreen({ progress = 0, stage = "connecting", slow = fa
   useEffect(() => {
     if (finishing || error) return;
     const timer = window.setInterval(() => {
-      if (!document.hidden) setPhrase(current => (current + 1) % phrases.es.length);
-    }, 3200);
+      if (document.hidden) return;
+      const position = sequence.position + 1;
+      setSequence(position < sequence.order.length
+        ? { ...sequence, position }
+        : { order: shuffledPhraseOrder(sequence.order[sequence.position]), position: 0 });
+    }, 4200);
     return () => window.clearInterval(timer);
-  }, [finishing, error]);
+  }, [finishing, error, sequence]);
 
   return createPortal(
     <section id="map-loading-screen" className={`map-loading-screen${finishing ? " map-loading-screen--finishing" : ""}`}
       role="dialog" aria-modal="true" aria-labelledby={labelId} aria-describedby={`${phraseId}${slow || error ? ` ${hintId}` : ""}`}
       tabIndex={-1} data-stage={stage} data-finishing={finishing}>
+      <NatureAtmosphere loadingScreen />
       <div className="map-loading-content">
         <div className="map-loading-logo" role="progressbar" aria-label={text.title} aria-valuetext={text.stages[stage] || text.stages.connecting}>
           <svg viewBox="0 0 45.46 46.82" focusable="false" aria-hidden="true">
