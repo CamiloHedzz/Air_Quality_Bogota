@@ -360,3 +360,17 @@ python -B -m unittest dash2.test_neighborhood_data dash2.test_map_scenarios -v
 La primera referencia de estaciones se obtiene con `--network`; después funciona
 sin red. Reiniciar Django tras reconstruir. Descargas GET:
 `/api/maps/calendar/`, `/api/maps/methodology/` y `/api/maps/manifest/`.
+
+## Integridad entre Windows y Linux
+
+Los CSV y JSON versionados usan saltos de línea LF, fijados en `.gitattributes`.
+Los generadores escriben LF explícitamente antes de calcular SHA-256; los archivos
+comprimidos y los hashes de las fuentes originales se conservan byte a byte.
+Cambiar el formato de un manifiesto exige actualizar las referencias de los
+paquetes dependientes. No omitas las comprobaciones de integridad al publicar.
+
+Comprueba los manifiestos y el formato sin descargar datos ni reentrenar:
+
+```bash
+python -m unittest research.test_data_portability
+```

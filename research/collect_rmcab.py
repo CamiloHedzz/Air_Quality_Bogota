@@ -30,10 +30,10 @@ def main():
     data, manifests = collect_reports(dates, args.cache, allow_network=args.network)
     data = clean_measurements(data)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    data.to_csv(args.output, index=False)
-    args.output.with_suffix(".sources.json").write_text(json.dumps(manifests, ensure_ascii=False, indent=2), encoding="utf-8")
+    data.to_csv(args.output, index=False, lineterminator="\n")
+    args.output.with_suffix(".sources.json").write_text(json.dumps(manifests, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
     coverage = coverage_by_year(data)
-    coverage.to_csv(args.output.with_suffix(".coverage.csv"), index=False)
+    coverage.to_csv(args.output.with_suffix(".coverage.csv"), index=False, lineterminator="\n")
     print(coverage.to_string(index=False))
     print(f"Guardado: {args.output}. No se cambió el dataset del dashboard.")
 

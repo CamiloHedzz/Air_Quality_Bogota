@@ -93,14 +93,14 @@ def build(root):
                          'Station mapping by official names; historical relocations not verified.',
                          'Unmapped/ambiguous stations excluded rather than assigned invented coordinates.',
                          'Source files can contain missing hours; complete calendar does not mean complete sensors.']}
-    (target/'observations_manifest.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8')
+    (target/'observations_manifest.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8', newline="\n")
     from dash2.history_data import load_observations
     load_observations.cache_clear();data=load_observations(root)
-    coverage=coverage_by_year(data);coverage.to_csv(target/'coverage_by_year.csv',index=False)
+    coverage=coverage_by_year(data);coverage.to_csv(target/'coverage_by_year.csv',index=False, lineterminator="\n")
     meta['coverage']=coverage.to_dict('records');meta['report_days']=int(data.report_date.nunique())
     meta['report_start']=str(data.report_date.min().date());meta['report_end']=str(data.report_date.max().date())
     meta['source_calendar_complete']=meta['report_days']==4018
-    (target/'observations_manifest.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8')
+    (target/'observations_manifest.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8', newline="\n")
     return meta
 
 

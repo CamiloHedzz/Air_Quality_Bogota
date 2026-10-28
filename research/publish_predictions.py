@@ -38,7 +38,7 @@ def publish(root):
     native = native[columns].sort_values(["target", "horizon_hours", "station_id", "datetime"])
     destination = root / "data/forecasts"
     destination.mkdir(parents=True, exist_ok=True)
-    content = gzip.compress(native.to_csv(index=False).encode("utf-8"), mtime=0)
+    content = gzip.compress(native.to_csv(index=False, lineterminator="\n").encode("utf-8"), mtime=0)
     (destination / "hgb_historical.csv.gz").write_bytes(content)
     package = {
         "schema_version": 1, "model": "HistGradientBoostingRegressor",
@@ -58,7 +58,7 @@ def publish(root):
         "source_quality": "published_quality_not_verified", "live_forecast": False,
         "intervals_available": False,
     }
-    (destination / "hgb_historical.json").write_text(json.dumps(package, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+    (destination / "hgb_historical.json").write_text(json.dumps(package, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8", newline="\n")
     return package
 
 

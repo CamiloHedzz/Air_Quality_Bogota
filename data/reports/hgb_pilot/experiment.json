@@ -1,7 +1,7 @@
 {
   "experiment": "historical_hgb_pilot_v1",
-  "dataset_sha256": "c45e73c4d3d186e3b4d13b4abb07a30fd50e0fc1abd29ab0875e7ca7af7e5a5d",
-  "source_manifest_sha256": "6fc3a8651c9fa001d2b087391f9c7f830d99854ad1c9403bb2315369441fc483",
+  "dataset_sha256": "ac6b4aee1e385da6305b10930aba64d1357b87f96d333d246bed84edfc5ff6a6",
+  "source_manifest_sha256": "775770a600ca231ac5d4328bda830b535bfc7b51694e82a8e53cf306c74ee5ec",
   "cohort_report_dates": [
     "2025-02-03",
     "2025-02-04",

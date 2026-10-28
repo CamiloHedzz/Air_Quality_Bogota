@@ -11,10 +11,10 @@
   },
   "input_sha256": {
     "data/history/observations.csv.gz": "9af50233c7b89ec119b7c693e50604e3aed621a180793493cb40e3ac522fff32",
-    "data/history/observations_manifest.json": "35f2ccc8944299a7fb66ea8dd35b7d18ebf9cba6703fcd956b99a75712104a9a",
+    "data/history/observations_manifest.json": "49e961438ed47d6aa59e8b12d203de495aae056d0d37799e49af644ccaef0fb2",
     "data/weather/era5_hourly_2015_2025.csv.gz": "9ba6b0b858e8638335dd1805e94a3b36ce832c33f15389af41bee148347a5c1a",
-    "data/weather/station_grids.csv": "cbb84227aaf4f127e34ecb90b1d1bba61a7b87c88311e755d97ef0060bd140ee",
-    "data/weather/era5_manifest.json": "50b056670b6dac10d4161f8bf839af1e5c08efced506e2ff5e5dee34c42ed358"
+    "data/weather/station_grids.csv": "3fcb391bc37b568429d904a4819df1440373eba8be58f94b8096aeaf5d6d4bdc",
+    "data/weather/era5_manifest.json": "730ab9dac87d71a25ab1dc9cc301ab429c0620fb0836bdeeb57490b5c2ba7e90"
   },
   "training_years": [
     2015,

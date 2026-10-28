@@ -170,7 +170,7 @@ def fetch_report(day, cache_dir, *, allow_network=False):
         parse_hourly_report(raw, day)
         manifest = {"source": "RMCAB/SDA", "report_date": day, "url": report_url(day), "downloaded_at_utc": datetime.now(timezone.utc).isoformat(), "sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw), "validation_status": "published_quality_not_verified"}
         content_path.write_bytes(gzip.compress(raw, mtime=0))
-        manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+        manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
         time.sleep(2)  # Sin paralelismo contra el servicio público.
     return parse_hourly_report(raw, day), manifest
 

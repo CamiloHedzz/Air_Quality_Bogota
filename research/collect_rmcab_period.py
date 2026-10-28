@@ -58,9 +58,9 @@ def main():
     data, sources = collect_period(args.start, args.end, cache=args.cache, allow_network=args.network,
                                    progress=lambda message: print(message, flush=True))
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    data.to_csv(args.output, index=False)
-    args.output.with_suffix(".sources.json").write_text(json.dumps(sources, ensure_ascii=False, indent=2), encoding="utf-8")
-    coverage_by_year(data).to_csv(args.output.with_suffix(".coverage.csv"), index=False)
+    data.to_csv(args.output, index=False, lineterminator="\n")
+    args.output.with_suffix(".sources.json").write_text(json.dumps(sources, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
+    coverage_by_year(data).to_csv(args.output.with_suffix(".coverage.csv"), index=False, lineterminator="\n")
     print(f"Guardado: {args.output}; {data.report_date.nunique()} reportes. Ausencias de sensores conservadas.")
 
 

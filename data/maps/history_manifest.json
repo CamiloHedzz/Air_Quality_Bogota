@@ -467,15 +467,15 @@
   ],
   "input_sha256": {
     "data/history/observations.csv.gz": "9af50233c7b89ec119b7c693e50604e3aed621a180793493cb40e3ac522fff32",
-    "data/history/observations_manifest.json": "35f2ccc8944299a7fb66ea8dd35b7d18ebf9cba6703fcd956b99a75712104a9a",
+    "data/history/observations_manifest.json": "49e961438ed47d6aa59e8b12d203de495aae056d0d37799e49af644ccaef0fb2",
     "data/weather/era5_hourly_2015_2025.csv.gz": "9ba6b0b858e8638335dd1805e94a3b36ce832c33f15389af41bee148347a5c1a",
-    "data/weather/station_grids.csv": "cbb84227aaf4f127e34ecb90b1d1bba61a7b87c88311e755d97ef0060bd140ee",
-    "data/weather/era5_manifest.json": "50b056670b6dac10d4161f8bf839af1e5c08efced506e2ff5e5dee34c42ed358",
-    "data/references/rmcab_station_locations.json": "4527b95727038eb1f7b97c8cc4e63d3c58805defe52d1ec07c46573cd8420b03",
+    "data/weather/station_grids.csv": "3fcb391bc37b568429d904a4819df1440373eba8be58f94b8096aeaf5d6d4bdc",
+    "data/weather/era5_manifest.json": "730ab9dac87d71a25ab1dc9cc301ab429c0620fb0836bdeeb57490b5c2ba7e90",
+    "data/references/rmcab_station_locations.json": "099d72c6a5bfc1bdbd23e4bd56860e2762f542658210b19811cfa5130197c07d",
     "dash2/datasets/bogota_cadastral.json": "0e08b91f6c20b741255e6d926bb2414c9cb08aa343320a93fdd5b4827d884aec"
   },
   "output_sha256": {
     "station_daily_2015_2025.csv.gz": "04b89c7d6b58af169a291e6e1c7916b0afc8cdb0fe894811013037bd6b0ab07b",
-    "neighborhood_centroids.csv": "40bdd27233d7d9b4f5eb3f9a5263eb9b8333c143fdefbe5fd4e91d62aa40effa"
+    "neighborhood_centroids.csv": "35ea43c8e0c90cf42ecd45e09a18730f926d672f0d4279589aaaf85e4137001d"
   }
 }

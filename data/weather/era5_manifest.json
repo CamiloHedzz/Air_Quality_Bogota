@@ -43,9 +43,9 @@
   },
   "output_sha256": {
     "era5_hourly_2015_2025.csv.gz": "9ba6b0b858e8638335dd1805e94a3b36ce832c33f15389af41bee148347a5c1a",
-    "station_grids.csv": "cbb84227aaf4f127e34ecb90b1d1bba61a7b87c88311e755d97ef0060bd140ee"
+    "station_grids.csv": "3fcb391bc37b568429d904a4819df1440373eba8be58f94b8096aeaf5d6d4bdc"
   },
-  "reference_sha256": "4527b95727038eb1f7b97c8cc4e63d3c58805defe52d1ec07c46573cd8420b03",
+  "reference_sha256": "099d72c6a5bfc1bdbd23e4bd56860e2762f542658210b19811cfa5130197c07d",
   "sources": [
     {
       "url": "https://archive-api.open-meteo.com/v1/archive?latitude=4.5%2C4.5%2C4.75%2C4.75&longitude=-74.0%2C-74.25%2C-74.0%2C-74.25&start_date=2015-01-01&end_date=2015-12-31&hourly=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cwind_direction_10m&models=era5&timezone=America%2FBogota&wind_speed_unit=ms&elevation=nan%2Cnan%2Cnan%2Cnan&cell_selection=nearest",

@@ -143,7 +143,7 @@ def collect(root, *, years=range(2015,2026), variables=('PM2.5','PM10'), network
                       'source_days':int(pd.to_datetime(data['Fecha inicial']).dt.normalize().nunique()),
                       'downloaded_at_utc':datetime.now(timezone.utc).isoformat(),
                       'validation_status':'published_quality_not_verified'}
-                path.write_bytes(gzip.compress(raw,mtime=0));manifest.write_text(json.dumps(meta,ensure_ascii=False,indent=2),encoding='utf-8')
+                path.write_bytes(gzip.compress(raw,mtime=0));manifest.write_text(json.dumps(meta,ensure_ascii=False,indent=2),encoding='utf-8', newline="\n")
             data=validate_export(raw,start,end,variable)
             print(f'SISAIRE {year} {variable}: {len(data):,} registros, {data.Estacion.nunique()} estaciones',flush=True)
 

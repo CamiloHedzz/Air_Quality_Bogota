@@ -104,7 +104,7 @@ def station_locations(*, network=False, root=ROOT):
                'position_scope': 'fixed_reference_positions_historical_relocations_not_verified',
                'stations': sorted(stations, key=lambda p: int(p['station_id']))}
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding='utf-8')
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding='utf-8', newline="\n")
     cache = root / '.local/research/station_locations.html.gz'
     cache.parent.mkdir(parents=True, exist_ok=True)
     cache.write_bytes(gzip.compress(raw, mtime=0))
@@ -236,7 +236,7 @@ def build(*, network=False, root=ROOT):
         longitude, latitude = geometry_centroid(feature['geometry'])
         centroids.append({'neighborhood': feature['properties']['DISPLAY_NAME'],
                           'sector_code': feature['properties']['scacodigo'], 'longitude': longitude, 'latitude': latitude})
-    pd.DataFrame(centroids).to_csv(target/'neighborhood_centroids.csv', index=False, float_format='%.8f')
+    pd.DataFrame(centroids).to_csv(target/'neighborhood_centroids.csv', index=False, float_format='%.8f', lineterminator="\n")
     coverage = []
     for year, group in completed.groupby(completed.report_date.dt.year):
         item = {'year': int(year), 'calendar_days': int(group.report_date.nunique()), 'reference_stations': int(group.station_id.nunique())}
@@ -281,7 +281,7 @@ def build(*, network=False, root=ROOT):
                 'coverage': coverage, 'temporal_check': temporal_check(daily),
                 'input_sha256': {path: hashlib.sha256((root/path).read_bytes()).hexdigest() for path in [*source_paths(root), 'data/weather/era5_hourly_2015_2025.csv.gz', 'data/weather/station_grids.csv', 'data/weather/era5_manifest.json', 'data/references/rmcab_station_locations.json', 'dash2/datasets/bogota_cadastral.json']},
                 'output_sha256': {name: hashlib.sha256((target/name).read_bytes()).hexdigest() for name in ['station_daily_2015_2025.csv.gz', 'neighborhood_centroids.csv']}}
-    (target/'history_manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8')
+    (target/'history_manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8', newline="\n")
     return manifest
 
 

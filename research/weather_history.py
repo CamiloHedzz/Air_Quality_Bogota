@@ -86,7 +86,7 @@ def collect_year(year, grids, cache, *, network=False):
         meta = {'url': url, 'sha256': hashlib.sha256(raw).hexdigest(), 'year': year,
                 'downloaded_at_utc': datetime.now(timezone.utc).isoformat(), 'bytes': len(raw)}
         content.write_bytes(gzip.compress(raw, mtime=0))
-        manifest.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding='utf-8')
+        manifest.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding='utf-8', newline="\n")
         time.sleep(2)
     return parse_weather(raw, grids, start, end), meta
 
@@ -107,7 +107,7 @@ def build(root, *, network=False, progress=print):
     target = root / 'data/weather'; target.mkdir(parents=True, exist_ok=True)
     blob = gzip.compress(data.to_csv(index=False, float_format='%.3f', lineterminator='\n').encode('utf-8'), mtime=0)
     (target / 'era5_hourly_2015_2025.csv.gz').write_bytes(blob)
-    mapping[['station_id', 'grid_id', 'grid_latitude', 'grid_longitude']].to_csv(target / 'station_grids.csv', index=False)
+    mapping[['station_id', 'grid_id', 'grid_latitude', 'grid_longitude']].to_csv(target / 'station_grids.csv', index=False, lineterminator="\n")
     meta = {'schema_version': 1, 'source': 'Open-Meteo / ECMWF ERA5', 'documentation': DOCS,
             'record_type': 'weather_reanalysis', 'timezone': ZONE, 'grid_resolution_degrees': .25,
             'elevation_downscaling': False, 'station_coordinates_scope': 'fixed_reference_positions',
@@ -121,7 +121,7 @@ def build(root, *, network=False, progress=print):
                             'Retrospective data with publication delay; not archived live weather forecasts.',
                             'No historical station relocation validation.'],
             'attribution': 'Weather data by Open-Meteo.com; ERA5 by ECMWF / Copernicus Climate Change Service.'}
-    (target / 'era5_manifest.json').write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding='utf-8')
+    (target / 'era5_manifest.json').write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding='utf-8', newline="\n")
     return meta
 
 

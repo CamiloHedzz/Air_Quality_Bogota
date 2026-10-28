@@ -79,14 +79,14 @@ def train(root):
             del frame
     for phase,parts in outputs.items():
         predictions=pd.concat(parts,ignore_index=True)
-        predictions.to_csv(processed/f'hgb_2015_2025_{phase}_predictions.csv',index=False)
+        predictions.to_csv(processed/f'hgb_2015_2025_{phase}_predictions.csv',index=False, lineterminator="\n")
         scores=summarize_predictions(predictions,['target','horizon_hours','method'])
         baseline=scores.loc[scores.method.eq('persistence'),['target','horizon_hours','MAE_ug_m3']].rename(columns={'MAE_ug_m3':'baseline_MAE'})
         scores=scores.merge(baseline,on=['target','horizon_hours'],validate='many_to_one')
         scores['MAE_skill_vs_persistence']=1-scores.MAE_ug_m3/scores.baseline_MAE
-        scores.to_csv(report/f'{phase}_scores.csv',index=False)
-        summarize_predictions(predictions,['target','horizon_hours','station_id','station_name','method']).to_csv(report/f'{phase}_per_station.csv',index=False)
-        pd.DataFrame(folds[phase]).to_csv(report/f'{phase}_folds.csv',index=False)
+        scores.to_csv(report/f'{phase}_scores.csv',index=False, lineterminator="\n")
+        summarize_predictions(predictions,['target','horizon_hours','station_id','station_name','method']).to_csv(report/f'{phase}_per_station.csv',index=False, lineterminator="\n")
+        pd.DataFrame(folds[phase]).to_csv(report/f'{phase}_folds.csv',index=False, lineterminator="\n")
     inputs=source_paths(root)+['data/weather/era5_hourly_2015_2025.csv.gz','data/weather/station_grids.csv','data/weather/era5_manifest.json']
     metadata={'experiment':'hgb_2015_2024_era5_holdout_2025_v1','hgb_parameters':MODEL_PARAMS,
               'input_sha256':{p:hashlib.sha256((root/p).read_bytes()).hexdigest() for p in inputs},
@@ -101,7 +101,7 @@ def train(root):
               'future_weather_used':False,'synthetic_targets_used':False,'maps_used_for_training':False,
               'station_scope':'Known stations only; historical relocations not verified',
               'sklearn_version':sklearn.__version__,'live_forecast':False,'deployment_ready':False}
-    (report/'experiment.json').write_text(json.dumps(metadata,ensure_ascii=False,indent=2),encoding='utf-8')
+    (report/'experiment.json').write_text(json.dumps(metadata,ensure_ascii=False,indent=2),encoding='utf-8', newline="\n")
     print('Experimento multianual completado.',flush=True)
     return metadata
 

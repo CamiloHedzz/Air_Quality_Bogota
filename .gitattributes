@@ -1,0 +1,5 @@
+# Hashed datasets and manifests must have identical bytes on every platform.
+/data/**/*.csv text eol=lf
+/data/**/*.json text eol=lf
+/dash2/datasets/final_rutes.csv text eol=lf
+/dash2/datasets/bogota_cadastral.json text eol=lf
