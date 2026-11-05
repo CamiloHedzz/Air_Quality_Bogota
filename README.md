@@ -22,37 +22,59 @@
 
 El proyecto reúne un explorador ambiental, resultados históricos de modelos de predicción y un comparador experimental de rutas en bicicleta. Una forma de conectar los datos con el territorio y con los recorridos de todos los días.
 
-<img src="docs/assets/inicio.png" alt="Inicio de Air Quality Bogotá: paisaje de los cerros, sensor ilustrado y acceso al explorador ambiental" width="100%" />
+<img src="docs/assets/inicio.jpg" alt="Inicio actual de Air Quality Bogotá: Bogotá, en el aire, sobre una interpretación artística de la ciudad y los cerros" width="100%" />
+
+Al desplazarte, una interpretación artística de Bogotá se transforma en partículas y una vista simplificada del territorio. El recorrido pasa por **La ciudad**, **Lo invisible** y **El territorio**, y conecta la introducción con el explorador ambiental.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/assets/inicio-particulas.jpg" alt="Segunda etapa del inicio: Lo invisible deja huella, con partículas y las variables ambientales" width="100%" />
+      <p><strong>Lo invisible deja huella.</strong><br />Partículas, temperatura y humedad como punto de partida para entender el entorno.</p>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/assets/inicio-territorio.jpg" alt="Tercera etapa del inicio: Cada lugar, otra historia, con una geometría simplificada de Bogotá formada por partículas" width="100%" />
+      <p><strong>Cada lugar, otra historia.</strong><br />Del paisaje al territorio y de allí a los registros ambientales.</p>
+    </td>
+  </tr>
+</table>
+
+La introducción es una representación visual del proyecto. Las mediciones, estimaciones y su procedencia se consultan en las herramientas de análisis.
 
 ## Explora
 
 | Sección | Qué puedes hacer |
 |:---|:---|
-| **Inicio** | Conocer cómo funciona un sensor óptico y explorar PM2.5, PM10, temperatura y humedad en mapas, series y comparaciones. |
+| **Inicio** | Recorrer una introducción visual de Bogotá, sus partículas y su territorio, y explorar PM2.5, PM10, temperatura y humedad en mapas, series y comparaciones. |
 | **Predicciones** | Recrear pronósticos históricos de PM2.5 y PM10 a **24, 48 y 72 horas**, comparar estaciones y examinar los errores del modelo. |
 | **Rutas** | Elegir origen, destino, día y hora; comparar hasta tres alternativas en bicicleta por **tiempo, exposición estimada y equilibrio entre ambos**. |
 | **About** | Conocer el contexto del proyecto, su creador, el trabajo con los datos y las formas de contacto. |
 
-<table>
-  <tr>
-    <td width="50%">
-      <img src="docs/assets/predicciones.png" alt="Pantalla de predicciones históricas y filtros por estación, variable y horizonte" width="100%" />
-      <p><strong>Del histórico a una estimación.</strong><br />Explora el resultado y el contexto del modelo.</p>
-    </td>
-    <td width="50%">
-      <img src="docs/assets/rutas.png" alt="Sección Rutas con su circuito animado y acceso al planificador en bicicleta" width="100%" />
-      <p><strong>Tu camino, otro aire.</strong><br />Compara alternativas para tu próximo recorrido.</p>
-    </td>
-  </tr>
-</table>
+<img src="docs/assets/rutas.jpg" alt="Sección Rutas actual: presentación del planificador en bicicleta y pista animada con una flecha que recorre el circuito" width="100%" />
+
+**Tu camino, otro aire.** Una iniciativa que nació al pedalear por Bogotá y respirar el humo del tráfico.
 
 La interfaz tiene **español e inglés**, temas **claro y oscuro**, adaptación a móvil y animaciones que respetan la preferencia de movimiento reducido. El verde de los cerros, el amarillo de la marca y los detalles de Bogotá acompañan la exploración.
+
+<details>
+  <summary><strong>Ver las predicciones históricas</strong></summary>
+  <br />
+  <img src="docs/assets/predicciones.jpg" alt="Predicción histórica de PM2.5 a 24 horas en Centro de Alto Rendimiento, con filtros, serie observada y comparación del modelo" width="100%" />
+  <p>Elige estación, variable, fecha y horizonte. Compara la estimación con la observación posterior y revisa el contexto y los errores del modelo.</p>
+</details>
 
 <details>
   <summary><strong>Ver el explorador ambiental</strong></summary>
   <br />
   <img src="docs/assets/explorador.png" alt="Mapa del explorador ambiental de Bogotá, con filtros y escala de concentración de partículas" width="100%" />
   <p>Mapa por sectores, históricos por estación, filtros temporales y descargas para continuar el análisis.</p>
+</details>
+
+<details>
+  <summary><strong>Ver About y el espacio de contacto</strong></summary>
+  <br />
+  <img src="docs/assets/about.jpg" alt="About de Air Quality Bogotá: presentación de Camilo Hernández y formulario de contacto sobre un mapa de fondo" width="100%" />
+  <p>El origen del proyecto, las tecnologías que lo hacen posible y un espacio para compartir preguntas e ideas.</p>
 </details>
 
 ## Datos y alcance
