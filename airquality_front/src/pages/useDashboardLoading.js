@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { lockPageForOverlay } from "../components/pageOverlayLock";
 
-const initial = () => ({ progress: 4, stage: "connecting", visible: true, finishing: false, ready: false, slow: false, error: false });
+const initial = (blocking = true) => ({ progress: 4, stage: "connecting", visible: blocking, finishing: false, ready: false, slow: false, error: false });
 const milestones = { dashboard: 25, data: 58, map: 82 };
 
-export function useDashboardLoading(frameRef, origin, language) {
+export function useDashboardLoading(frameRef, origin, language, blocking = true) {
   const [attempt, setAttempt] = useState(0);
-  const [loading, setLoading] = useState(initial);
+  const [loading, setLoading] = useState(() => initial(blocking));
   const dismissed = useRef(false);
   const progressTimer = useRef(0);
   const loadedFrame = useRef(null);
@@ -14,8 +14,8 @@ export function useDashboardLoading(frameRef, origin, language) {
   useEffect(() => {
     let settled = false;
     let finishTimer = 0;
-    dismissed.current = false;
-    setLoading(initial());
+    dismissed.current = !blocking;
+    setLoading(initial(blocking));
 
     // Smooth the bar between observed milestones, without completing on a timer.
     progressTimer.current = window.setInterval(() => {
@@ -58,7 +58,7 @@ export function useDashboardLoading(frameRef, origin, language) {
       window.clearTimeout(slowTimer);
       window.clearTimeout(finishTimer);
     };
-  }, [attempt, language, frameRef, origin]);
+  }, [attempt, language, frameRef, origin, blocking]);
 
   useEffect(() => {
     if (!loading.visible) return;
@@ -90,7 +90,7 @@ export function useDashboardLoading(frameRef, origin, language) {
     loadedFrame.current?.postMessage({ type: "airquality:request-dashboard-state" }, origin);
     setLoading(current => current.ready ? current : { ...current, progress: Math.max(14, current.progress) });
   }, [frameRef, origin]);
-  const retry = useCallback(() => { setLoading(initial()); setAttempt(current => current + 1); }, []);
+  const retry = useCallback(() => { setLoading(initial(blocking)); setAttempt(current => current + 1); }, [blocking]);
   const continueLoading = useCallback(() => {
     dismissed.current = true;
     window.clearInterval(progressTimer.current);
